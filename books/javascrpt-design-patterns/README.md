@@ -37,3 +37,9 @@
   - ビルダーパターン
 6. jQuery プラグインのデザインパターン
 7. おわりに
+
+## リンク
+
+- [JavaScript デザインパターン](https://www.oreilly.co.jp/books/9784873116181/)
+- [Amazon](http://www.amazon.co.jp/dp/487311618X)
+- [Learning JavaScript Design Patterns](http://addyosmani.com/resources/essentialjsdesignpatterns/book/)
