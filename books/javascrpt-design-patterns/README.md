@@ -21,7 +21,7 @@
   - 擬古典的デコレータ
   - jQueryを使ったデコレータ
   - フライウェイトパターン
-3. [JavaScript の MV*パターン](03/README.md)
+3. JavaScript の MV*パターン
   - MVC
   - MVP
   - MVVM
