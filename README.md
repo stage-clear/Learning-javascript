@@ -32,3 +32,4 @@ JavaScript の学習や情報収集のまとめ
 
 - [javascript-society/javascript-path](https://github.com/javascript-society/javascript-path)
 - [airbnb/javascript](https://github.com/airbnb/javascript)
+- [Jam3/math-as-code](https://github.com/Jam3/math-as-code) - 数式を関数で書く
