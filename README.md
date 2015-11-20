@@ -10,6 +10,12 @@ JavaScript の学習や情報収集のまとめ
 
 - [AllThingsSmitty/jquery-tips-everyone-should-know](https://github.com/AllThingsSmitty/jquery-tips-everyone-should-know)
 
+## 関数型 JavaScript
+
+- [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
+- [bilby.js](https://github.com/puffnfresh/bilby.js) - 関数ライブラリ
+- [lemonad](https://github.com/fogus/lemonad) - 関数ライブラリ
+
 
 ## 書籍リスト
 
