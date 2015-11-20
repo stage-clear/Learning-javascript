@@ -12,7 +12,9 @@ JavaScript の学習や情報収集のまとめ
 
 ## 関数型 JavaScript
 
+- [Underscore.js](http://underscorejs.org/)
 - [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
+- [lodash.js](https://lodash.com/) - 関数ライブラリ
 - [bilby.js](https://github.com/puffnfresh/bilby.js) - 関数ライブラリ
 - [lemonad](https://github.com/fogus/lemonad) - 関数ライブラリ
 
