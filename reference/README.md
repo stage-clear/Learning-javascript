@@ -1,4 +1,5 @@
-# Reference
+# リファレンス
+
 
 - [JavaScriptのクロージャは内部でどう機能するのか](http://postd.cc/how-do-javascript-closures-work-under-the-hood/)
 - [Javadoc ドキュメンテーションコメントの書き方](http://qiita.com/maku77/items/6410c67ce95e08d8d1bd)
@@ -12,7 +13,7 @@
 - [lodash.js](https://lodash.com/) - 関数ライブラリ
 - [bilby.js](https://github.com/puffnfresh/bilby.js) - 関数ライブラリ
 - [lemonad](https://github.com/fogus/lemonad) - 関数ライブラリ
-- 
+
 
 ## オンラインのドキュメント
 
