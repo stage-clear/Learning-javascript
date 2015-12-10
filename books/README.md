@@ -1,6 +1,12 @@
 # 書籍
 
-## ためになる書籍
+## 注釈付き書籍リスト
+
+- [JavaScript デザインパターン](javascript-design-pattern/)
+- [JavaScript で学ぶ関数型プログラミング](functional-javascript/)
+
+
+## 良書
 
 - [JavaScript 第6版](http://www.amazon.co.jp/dp/4873115736)
 - [JavaScript The Good Parts](http://www.amazon.co.jp/dp/4873113911)
