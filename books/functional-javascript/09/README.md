@@ -347,13 +347,15 @@ var Hole = function(val) {
 
 __拡張プロトコル (mixin 拡張の際必須メソッド・プロパティ)__  
 
-notify
-validate
+- `notify`
+- `validate`
+
 
 __インターフェイスプロトコル__  
 
-コンストラクタ
-setValue
+- コンストラクタ
+- `setValue`
+
 
 ```js
 /*
@@ -506,6 +508,7 @@ h.snapshot();
 //=> 99
 ```
 
+
 ### 9.2.6 `Mixin` の混ぜ込みによる新しい型
 
 ```js
@@ -603,4 +606,3 @@ snapshot(y);
 
 
 ## 9.3 `}).call('Finis');`
-
