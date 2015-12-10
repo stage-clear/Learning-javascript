@@ -3,7 +3,7 @@
 ## 目次
 
 1. デザインパターンとは?
-2. [JavaScript デザインパターン](02/README.md)
+2. [JavaScript デザインパターン](02/)
   - コンストラクタパターン
   - モジュールパターン
   - リビーリングモジュールパターン
@@ -25,8 +25,8 @@
   - MVC
   - MVP
   - MVVM
-4. [モダンなモジュラー](04/README.md)
-5. [jQuery のデザインパターン](05/README.md)
+4. [モダンなモジュラー](04/)
+5. [jQuery のデザインパターン](05/)
   - コンポジットパターン
   - アダプタパターン
   - ファサードパターン
@@ -38,8 +38,9 @@
 6. jQuery プラグインのデザインパターン
 7. おわりに
 
-## リンク
 
-- [JavaScript デザインパターン](https://www.oreilly.co.jp/books/9784873116181/)
-- [Amazon](http://www.amazon.co.jp/dp/487311618X)
+## 外部リンク
+
+- [JavaScript デザインパターン](https://www.oreilly.co.jp/books/9784873116181/) - O'REILLY Books
+- [JavaScript デザインパターン](http://www.amazon.co.jp/dp/487311618X) - Amazon
 - [Learning JavaScript Design Patterns](http://addyosmani.com/resources/essentialjsdesignpatterns/book/)
