@@ -473,3 +473,44 @@ console.log(s.toUpperCase()); // HELLO
 // 数値についても同様です
 (22 / 7).toPrecision(3); // 3.14
 ```
+
+値を拡張して状態を永続化したいときは、ラッパーオブジェクトを使うべきです。
+プリミティブはオブジェクトではないので、プロパティを拡張することはできません。
+
+```js
+// プリミティブ文字列
+var greet = 'Hello there';
+
+// split() メソッドを使うので
+// プリミティブはオブジェクトに変換される
+greet.split(' ')[0]; // Hello
+
+// プリミティブを拡張しようとしてもエラーになりません
+greet.smile = true;
+
+// しかし実際には動作しません
+typeof gree.smile; // undefined;
+
+
+## 3.8 エラーオブジェクト
+
+JavaScript には `Error()` `SyntaxError()` `TypeError()` など、組み込みのエラーコンストラクタがあり、
+これらは `throw` 文と一緒に使われます。
+
+```js
+try {
+  // なにか以上が発生したのでエラーを投げます
+  throw {
+    name: 'MyErrorType' ,
+    message: 'oops',
+    extra: 'this was rather embarrassing' ,
+    remedy: genericErrorHandler // これを処理するハンドラー
+  };
+} catch (e) {
+  // ユーザーに通知
+  alert(e.message); // oops
+  
+  // エラーを優雅二処理
+  e.remedy();
+}
+```
