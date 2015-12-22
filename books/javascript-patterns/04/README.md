@@ -209,3 +209,134 @@ findNodes(function(node) {
 
 ### 4.2.2 コールバックとスコープ
 
+`myapp` というオブジェクトの `paint()` メソッドをコールバックとして使う状況を想定してみます。
+
+```js
+var myapp = {};
+myapp.color = 'green';
+myapp.paint = function(node) {
+  node.style.color = this.color;
+};
+
+// findeNodes()
+var findNodes = function(callback) {
+  // ...
+  if (typeof callback === 'function') {
+    callback(found);
+  }
+  // ...
+};
+```
+
+これは期待通りに動作しません。`this.color` が定義されていないからです。
+この問題は、コールバック関数と一緒にこのコールバックが属しているオブジェクトを渡せば解決します。
+
+```js
+findNodes(myapp.paint, myapp);
+
+var findNodes = function(callback, callback_obj) {
+  if (typeof callback === 'function') {
+    callback.call(callback_obj, found);
+  }
+};
+```
+
+メソッドを文字列で渡すやり方もあります。そうすれば、オブジェクトを二度書かずにすみます。
+
+```js
+findNodes('paint', myapp);
+
+var findNodes = function(callback, callback_obj) {
+  if (typeof callback === 'string') {
+    callback = callback_obj[callback];
+  }
+  
+  // ...
+  
+  if (typeof callback === 'function') {
+    callback.call(callback_obj, found);
+  }
+};
+```
+
+### 4.2.3 非同期イベントリスナ
+
+コールバックパターンは日常的に頻繁に使われています。
+
+```js
+document.addEventListener('click', console.log, false);
+```
+
+クライアント側でのプログラムングのほとんどはイベント駆動です。
+JavaScript はコールバックパターンが使えるので、イベント駆動プログラミングに最適です。
+コールバックを使うと、プログラムを__非同期__に実行させることができます。
+
+### 4.2.4 タイムアウト
+
+ブラウザの `window` オブジェクトが提供するタイムアウトメソッドはコールバックパターンのもうひとつの例です。
+
+```js
+var thePlotThickens = function() {
+  console.log('after 500ms');
+};
+setTimeout(thePlotThickens, 500);
+```
+
+### 4.2.5 ライブラリで使うコールバック
+
+コールバックは簡潔で強力なパターンなので、ライブラリを設計するときにも役立ちます。
+
+コア機能に焦点を絞り、コールバックにおける「フック」を提供することで、ライブラリメソッドの組み立て、拡張、カスタマイズが
+簡単にできるようにするのです。
+
+
+## 4.3 関数を返す
+
+関数はオブジェクトなので、戻り値として使うことができます。
+
+```js
+var setup = function() {
+  alert(1);
+  return function() {
+    alert(2);
+  };
+};
+
+// setup 関数を使う
+var my = setup(); // アラートで 1 が表示される
+my(); // アラートで 2 が表示される
+```
+
+```js
+var setupt = function() {
+  var count = 0;
+  return function() {
+    return (count += 1);
+  };
+};
+
+var next = setup();
+next(); // 1 が返る
+next(); // 2
+next(); // 3
+```
+
+## 4.4 自己定義関数
+
+関数の定義を動的に行い、変数に代入することができます。
+新しい関数を作成し、すでに別の関数を保持している変数にこの関数を代入すれば、古い関数は新しい関数で上書きされます。
+
+```js
+var scareMe = function() {
+  alert('Boo!');
+  
+  scareMe = function() {
+    alert('Double boo!');
+  };
+};
+
+// 自己定義関数を使う
+scareMe(); // Boo
+scareMe(); // Double Boo
+```
+
