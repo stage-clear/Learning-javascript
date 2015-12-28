@@ -4,6 +4,7 @@
 
 - [JavaScript デザインパターン](javascript-design-patterns/)
 - [JavaScript で学ぶ関数型プログラミング](functional-javascript/)
+- [JavaScript パターン](javascript-patterns/)
 
 
 ## 良書
