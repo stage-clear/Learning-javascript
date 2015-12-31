@@ -1,6 +1,6 @@
 # 関数
 
-## 記述のしかた
+## さまざまな構文
 
 ### 関数宣言
 
@@ -72,7 +72,7 @@ scareMe(); // Double Boo! 1
 scareMe(); // Double Boo! 2
 ```
 
-## 使い方のバリエーション
+## さまざまな使い方
 
 ### コールバック関数
 
@@ -117,7 +117,7 @@ var add = function(x, y) {
 
   return x + y;　// 完全適用
 };
-console.log(typeof add(4)); // function 
+console.log(typeof add(4)); // function
 console.log(add(4)(5)); // 9
 ```
 
