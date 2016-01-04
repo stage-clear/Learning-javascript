@@ -4,6 +4,7 @@
  * @param {Function} func
  * @param {Number} wait
  * @param {Boolean} immediate
+ * @see https://davidwalsh.name/essential-javascript-functions
  */
 
 function debounce(func, wait, immediate) {
