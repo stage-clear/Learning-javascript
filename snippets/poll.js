@@ -1,7 +1,11 @@
 
 /**
  * poll
- 
+ * @param {Function} fn
+ * @param {Function} callback
+ * @param {Function} errback
+ * @param {Number} timeout(ms)
+ * @param {Number} interval(ms)
  * @see https://davidwalsh.name/essential-javascript-functions
  */
 
