@@ -22,4 +22,6 @@ var canOnlyFireOnce = once(function() {
   console.log('Fired!');
 });
 
-canOnlyFireOnce();
+canOnlyFireOnce(); // Fired!
+canOnlyFireOnce(); // ..
+canOnlyFireOnce(); // ..
