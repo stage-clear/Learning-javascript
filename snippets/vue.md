@@ -84,11 +84,19 @@ setTimeout(function() {
 ## データバインディング構文
 
 ```html
-<div id="app">
-  {{ message }}<br>
-  {{ flags.ok ? 'Yes' : 'No' }}<br>
-  {{{ html }}}
+<div id="app" data-item="{{ id }}" v-bind:style="style">
+  Message: {{ message }} {{* message }}<br>
+  {{ flags.ok ? 'YES' : 'NO'}}<br>
+  {{{ html }}}<br>
   <p v-if="flags.greeting">Greeting</p>
-  <button v-bind:click="clicked">Click me</button>
+  <p><a v-bind:href="link">[link]</a></p>
+  <button v-on:click="clicked">Click me</button>
+  <p>computed {{b}}</p>
+  <ul>
+    <li v-for="(index, item) in items">
+      {{ index }} - {{ item.title }}
+    </li>
+  </ul>
+  <div is="my-component"></div>
 </div>
 ```
