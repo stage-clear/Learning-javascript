@@ -7,8 +7,12 @@
 var data = {
   id: 1,
   message: 'Hello vue.js',
-  param: {
-    prop: 'value'
+  flags: {
+    ok: true,
+    greeting: false
+  },
+  clicked: function() {
+    alert(data.message);
   }
 };
 
@@ -53,6 +57,9 @@ setTimeout(function() {
 ```html
 <div id="app">
   {{ message }}<br>
-  {{ param.prop }}
+  {{ flags.ok ? 'Yes' : 'No' }}<br>
+  {{{ html }}}
+  <p v-if="flags.greeting">Greeting</p>
+  <button v-bind:click="clicked">Click me</button>
 </div>
 ```
