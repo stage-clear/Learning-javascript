@@ -2,7 +2,8 @@
 
 ## コード
 
-- [debounce](debounce.js) - イベントの発生頻度の調整する
+- [debounce](debounce.js) - 連続したイベントの最後に1度だけ処理する
+- [throggle](throttle.js) - 連続したイベントの発生頻度を一定に保つ
 - [poll](poll.js) - ポーリング処理
 - [once](once.js) - 関数を一度だけ処理
 - [getAbsoluteUrl](getAbsoluteUrl.js) - 絶対パスを取得
