@@ -2,31 +2,39 @@
 /**
  * throttle function calls
  * 
+ * @param {Function} func
+ * @param {Number} wait(ms)
+ * @param {Object} scope
  */
-function throttle(fn, threshhold, scope) {
-  threshhold || (threshhold = 250);
+function throttle(func, wait, scope) {
+  wait || (wait = 250);
   var last;
-  var deferTimer;
+  var timeout;
   
   return function() {
     var context = scope || this;
     var now = +new Date();
     var args = arguments;
 
-    if (last && now < last + threshhold) {
-      clearTimeout(deferTimer);
-      deferTimer = setTimeout(function() {
+    if (last && now < last + wait) {
+      // function remaind
+      clearTimeout(timeout);
+      timeout = setTimeout(function() {
         last = now;
-        fn.apply(context, args);
-      }, threshhold);
+        func.apply(context, args);
+      }, wait);
     } else {
+      // function call
       last = now;
-      fn.apply(context, args);
+      func.apply(context, args);
     }
   }
 }
 
+
 // usage:
-window.addEventListener('scroll', throttle(function(e) {
+var test = throttle(function(e) {
   console.log('tick');
-}, 250));
+}, 250)
+
+window.addEventListener('scroll', test);
