@@ -868,14 +868,14 @@ JavaScript をもっとクラス的にしようとする試み（JavaScript を�
 ```js
 var Person = function(name) {
   this.name = name;
-}.
-  method('getName', function() {
-    return this.name;
-  }).
-  method('setName', function(name) {
-    this.name = name;
-    return this;
-  });
+}
+.method('getName', function() {
+  return this.name;
+})
+.method('setName', function(name) {
+  this.name = name;
+  return this;
+});
 
 
 // test
