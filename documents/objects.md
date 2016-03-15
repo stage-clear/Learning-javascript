@@ -18,10 +18,24 @@ var Constructor = function() {};
 function Constructor() {}
 // prototype method
 Constructor.prototype.method = function() {
-  /* do something */
+  // do something...
 };
 
 var object = new Constructor();
+```
+
+__関数式の中でコンストラクターを定義する__
+
+```js
+var Constructor = function() {
+  function Constructor() {}
+  // prototype method
+  Constructor.prototype.method = function() {
+    // do something...
+  };
+  
+  return Constructor;
+};
 ```
 
 ### 即時関数
