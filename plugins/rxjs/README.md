@@ -1,6 +1,11 @@
 # Learning RxJS
 
 
+## CDN
+
+https://npmcdn.com/@reactivex/rxjs@5.0.0-beta.2/dist/global/Rx.umd.js
+
+
 ## References
 
 - [ReactiveX](http://reactivex.io/)
