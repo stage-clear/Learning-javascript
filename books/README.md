@@ -2,9 +2,9 @@
 
 ## 注釈付き書籍リスト
 
-- [JavaScript デザインパターン](javascript-design-patterns/)
-- [JavaScript で学ぶ関数型プログラミング](functional-javascript/)
-- [JavaScript パターン](javascript-patterns/)
+- [JavaScript デザインパターン](978-4-87311-618-1/)
+- [JavaScript で学ぶ関数型プログラミング](978-4-87311-660-0/)
+- [JavaScript パターン](978-4-87311-488-0/)
 
 
 ## 良書
