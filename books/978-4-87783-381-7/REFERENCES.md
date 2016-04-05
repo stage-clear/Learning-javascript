@@ -29,7 +29,7 @@ triangle();
 /**
  * angleMode(mode);
  * 弧度法と度数方を切り替える
- * @param {String} mode- RADIAN, DEGREE
+ * @param {String} mode - RADIAN, DEGREE
  */
 ```
 
