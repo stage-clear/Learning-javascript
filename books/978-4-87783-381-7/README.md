@@ -4,7 +4,7 @@
 
 1. [x] [p5.js って何?](01/)
 2. [x] [p5.js と JavaScript 入門](02/)
-3. [ ] [2次元グラフックス](03/)
+3. [x] [2次元グラフックス](03/)
 4. [ ] [マウスとキーボードを扱う](04/)
 5. [ ] [スマートフォンで使う](05/)
 6. [ ] [UI部品](06/)
@@ -29,7 +29,6 @@
 https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/p5.min.js
 https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/addons/p5.dom.min.js
 https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/addons/p5.sound.min.js
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/p5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/addons/p5.dom.min.js"></script>
