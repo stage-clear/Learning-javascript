@@ -6,7 +6,7 @@
 2. [x] [p5.js と JavaScript 入門](02/)
 3. [x] [2次元グラフックス](03/)
 4. [x] [マウスとキーボードを扱う](04/)
-5. [ ] [スマートフォンで使う](05/)
+5. [x] [スマートフォンで使う](05/)
 6. [ ] [UI部品](06/)
 7. [ ] [画像を扱う](07/)
 8. [ ] [動画を扱う](08/)
@@ -21,6 +21,7 @@
 ## 外部リンク
 
 - [p5.js プログラミングガイド](http://www.cutt.co.jp/book/978-4-87783-381-7.html) - CUTT System
+- [p5.js プログラミングガイド サンプル](http://www.cutt.jp/books/978-4-87783-381-7/) 
 - [p5.js | Get Started](https://p5js.org/get-started/)
 - [p5.js | reference](https://p5js.org/reference/)
 
