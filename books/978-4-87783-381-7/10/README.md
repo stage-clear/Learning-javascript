@@ -553,3 +553,268 @@ var res = map(mouseY, 0, height, 0, 10);
 
 
 ## 10.7 音を発生させる
+
+- `p5.Oscillaator` - オシレーターは任意の周波数の音を発生させることができます
+
+
+### 10.7.1 オシレーター
+
+```js
+// Oscillator 
+var osc ; // オシレーターオブジェクトの管理変数
+var freq = 20;
+
+function setup() {
+  createCanvas(800, 200);
+  fill(100, 200, 100);
+  noStroke();
+  
+  osc = new p5.Oscillator(); // オシレーターオブジェクトの作成
+  osc.start();
+}
+
+function draw() {
+  osc.freq(freq); // 発生する周波数を設定
+  freq = freq < 15000 ? freq + 10 : 20;
+  background(230);
+  var x = map(freq, 10, 15000, 0, width);
+  ellipse(x, height / 2, 50, 50);
+}
+```
+
+オシレーターオブジェクトは周波数だけではなく、発生する波形の種類も設定できます
+
+
+### 10.7.2 波形を選択する
+
+```js
+// OscillatorFFT
+
+var osc; // オシレーターオブジェクトの管理変数
+var fft_spec, fft_wave; // FFTオブジェクトを保存する変数
+
+function setup() {
+  var cnv = createCanvas(512, 256);
+  cnv.position(0, 30);
+  noFill();
+  
+  osc = new p5.Oscillator(); // オシレーターオブジェクトの生成
+  // 波形の切り替えボタン
+  var sin_osc = createButton('sine');
+  sin_osc.mousePressed(function() { 
+    osc.setType('sine');
+  });
+  var tri_osc = createButton('triangle');
+  tri_osc.mousePressed(function() { 
+    osc.setType('triangle');
+  });
+  var squ_osc = createButton('square');
+  squ_osc.mousePressed(function() { 
+    osc.setType('square');
+  });
+  var saw_osc = createButton('sawtooth');
+  saw_osc.mousePressed(function() {
+    osc.setType('sawtooth');
+  });
+  
+  fft_spec = new p5.FFT(0.8, 64); // 周波数解析用のFFTオブジェクト
+  fft_spec.setInput(osc);
+  
+  fft_wave = new p5.FFT(0.8, 512); // 波形解析用のFFTオブジェクト
+  fft_wave.setInput(osc);
+  
+  osc.start(); // オシレータースタート
+}
+
+function draw() {
+  var freq = map(mouseX, 0, width, 20, 20000); // マウスのX座標で周波数を変化
+  osc.freq(freq); 
+  
+  var amp = map(mouseY, 0, height, 1, 0.01); // マウスのY座標で音量を変換
+  osc.amp(amp);
+  
+  background(230);
+  // 波形を描画する
+  var waveform = fft_wave.waveform();
+  
+  stroke(255, 128, 128); // 線の色をオレンジに変更
+  beginShape();
+  for (var i = 0; i < waveform.length; i += 1) {
+    var x = map(i, 0, waveform.length, 0, width);
+    var y = map(waveform[i], -1.0, 1.0, height, 0);
+    vertex(x, y);
+  }
+  endShape();
+  
+  // 周波数成分を描画する
+  var spectrum = fft_spec.analyze();
+  stroke(0); // 線の色を黒に変更
+  for (var i = 0; i < spectrum.length; i += 1) {
+    var x = map(i, 0, spectrum.length, 0, width);
+    var h = map(spectrum[i], 0, 255, 0, height);
+    rect(x, height, width/spectrum.length, -h);
+  }
+}
+```
+
+```js
+/**
+ * p5.Oscillator(freq, type)
+ * オシレーターを生成する
+ * @param {} freq
+ * @param {String} type - "sine"|"triangle"|"square"|"sawtooth"
+ */
+```
+
+## 10.8 音を合成する
+
+```js
+// FMSynthesizer
+var carrier, modulator;
+var fft;
+var mod_freq_slider, mod_amp_slider;
+
+var music = [60, 60, 67, 67, 69, 69, 67, 0];
+var note = 0;
+
+function setup() {
+  createCanvas(512, 256);
+  noFill();
+  
+  // パラメータ調整用スライダー
+  mod_freq_div = createDiv('modulator freq');
+  mod_freq_div.position(10, height + 10);
+  mod_freq_slider = createSlider(1, 21, 2);
+  mod_freq_div.child(mod_freq_slider);
+  
+  mod_amp_div = createDiv('amp');
+  mod_amp_div.position(300, height + 10);
+  mod_amp_slider = createSlider(-10, 10, 10);
+  mod_amp_div.child(mod_amp_slider);
+  
+  // オシレーターの生成
+  carrier = new p5.Oscillator('sawtooth'); // Carrier の生成
+  carrier.amp(0);
+  carrier.freq(1);
+  carrier.start();
+  
+  modulator = new p5.Oscillator(); // Modulator の生成
+  modulator.disconnect();
+  modulator.amp(0);
+  modulator.freq(2);
+  modulator.start();
+  
+  carrier.freq(modulator.mult(10).add(11)); // carrier を modulator で変調
+  
+  fft = new p5.FFT();
+}
+
+function draw() {
+  var x, y, freq;
+  
+  // modulator の周波数を変更
+  var mod_freq = mod_freq_slider.value();
+  modulator.freq(mod_freq);
+  
+  // modulator の出力の大きさを変更
+  var mod_amp = mod_amp_slider.value() / 10;
+  modulator.amp(mod_amp);
+  
+  // music[] の中の音符を演奏
+  if (frameCount % 60 === 0) {
+    carrier.amp(0.8);
+    if (music[note] > 0) {
+      freq = midiToFreq(music[note]);
+      carrier.freq(freq);
+    } else {
+      carrier.amp(0);
+    }
+    note = (note + 1) % music.length;
+  }
+
+  background(230);
+  // 波形を描画する
+  var waveform = fft.waveform();
+  
+  stroke(255, 128, 128); // 線の色をオレンジに変更
+  beginShape();
+  for (var i = 0; i < waveform.length; i += 1) {
+    var x = map(i, 0, waveform.length, 0, width);
+    var y = map(waveform[i], -1.0, 1.0, height, 0);
+    vertex(x, y);
+  }
+  endShape();
+
+}
+
+```
+
+## 10.9 音にこまかな変化を加える
+楽器の種類によって、音が立ち上がる時間や減衰する時間や量が異なります。
+`p5.sound` は、こういった細かな設定を行うためのエンベロープ機能も備えています。
+
+- ATTACK - 音がなってから最大音量に達するまでの時間(秒)
+- DECAY - 最大音量から SUTAIN レベルに達する時間(秒)
+- SUSTAIN TIME - 音が持続する時間(秒)
+- RELEASE - 鍵盤などを離した後、音が消えるまでの余韻の時間(秒)
+
+
+```js
+// FMSynthesizer2
+
+var carrier, modulator; // オシレーターオブジェクトの管理変数
+var fft;
+var mod_freq_slider, mod_amp_slider;
+var envelope; // エンベロープオブジェクトの管理変数
+
+var music = [60, 60, 67, 67, 69, 69, 67, 0];
+var note = 0;
+
+function setup() {
+  // ...
+  
+  carrie.freq(modulator.mult(15).add(16)); // carrier を modulator で変調
+  // エンベロープの設定
+  envelope = new p5.Env(0.01, 0.6, 0.5, 0.6, 0.0, 0.6, 0.0, 0.0);
+  
+  fft = new p5.FFT();
+}
+
+function draw() {
+  var  x, y, freq;
+  
+  // ...
+  // music [] の中の音符を演奏
+  if (frameCount % 60 === 0) {
+    carrier.amp(0.2);
+    if (music[note] > 0) {
+      freq = midiToFreq(music[note]);
+      carrier.freq(freq); 
+      envelope.play(carrier); // エンベロープを carrier の音量に適用
+    } else {
+      carrier.amp(0);
+    }
+    note = (note + 1) % music.length;
+  }
+}
+```
+
+```js
+/**
+ * p5.Env(aTime, alevel, dTime, [dLevel], [sTime], [sLevel], [rTime], [rLevel])
+ * エンベロープをかけるためのオブジェクトを生成する
+ * @param {} aTime - ATTACK の時間 [秒]
+ * @param {} aLevel - ATTACK で到達する最大音量 [0.0~1.0]
+ * @param {} dTime - DECAY 時間を指定する
+ * @param {} dLevel - DECAY レベルを指定する。通常 SUSTAIN レベルと同じ
+ * @param {} sTime - SUSTAIN の時間
+ * @param {} sLevel - SUSTAIN レベル [0.0~1.0]
+ * @param {} rTime - DECAY の時間
+ * @param {} rLevel - DECAY レベル
+ */ 
+```
+
+## 10.10 まとめ
+
+
+
