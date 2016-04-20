@@ -4,7 +4,11 @@
 ## CDN
 
 ```
+https://npmcdn.com/@reactivex/rxjs@5.0.0-beta.2/dist/global/Rx.umd.js
+
 <script src="https://npmcdn.com/@reactivex/rxjs@5.0.0-beta.2/dist/global/Rx.umd.js"></script>
+
+https://cdnjs.com/libraries/rxjs/
 ```
 
 
