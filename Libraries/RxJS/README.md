@@ -15,8 +15,9 @@ https://cdnjs.com/libraries/rxjs/
 ```
 
 ## Sample
-- [RxJS チュートリアル (1)](https://jsfiddle.net/stageclear/kobmcc4t/)
-- [RxJS チュートリアル (2)](https://jsfiddle.net/stageclear/ymv7m2b7/)
+- [RxJS チュートリアル (1)](https://jsfiddle.net/stageclear/kobmcc4t/) - Observable
+- [RxJS チュートリアル (2)](https://jsfiddle.net/stageclear/ymv7m2b7/) - Observables as generalizations of functions
+- [RxJS チュートリアル (3)](https://jsfiddle.net/stageclear/ervmx938/) - Subscribing to Observables
 - [RxJS サンプル (1)](https://jsfiddle.net/stageclear/odenhtLe/)
 
 
