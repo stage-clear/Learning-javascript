@@ -3,10 +3,10 @@ JavaScript の学習や情報収集のまとめ
 
 # Menu
 
-- [ドキュメント](Documents/)
+- [仕様](Specification/) - JavaScript の基本的な記述について
 - [スニペット](Snippets/)
 - [リファレンス](References/)
-- [書籍](Books/)
+- [書籍](Books/) - 読んで注釈やメモした書籍など
 
 
 ## Libraries
