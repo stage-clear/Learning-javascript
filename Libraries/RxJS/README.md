@@ -30,6 +30,7 @@ https://cdnjs.com/libraries/rxjs/
 - [ReactiveX/rxjs](https://github.com/ReactiveX/RxJS) - 5.x
 - [Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS) - =< 4.x
 - [RxJS API Document](http://rxjs5-esdoc-decision-tree.surge.sh/)
+- [RxJS Overview](http://reactivex.io/rxjs/manual/overview.html) - Tutorial
 
 
 ## References
