@@ -20,9 +20,14 @@ https://cdnjs.com/libraries/rxjs/
 - [RxJS サンプル (1)](https://jsfiddle.net/stageclear/odenhtLe/)
 
 
-## References
+## Links 
 
 - [ReactiveX](http://reactivex.io/)
 - [ReactiveX/rxjs](https://github.com/ReactiveX/RxJS) - 5.x
 - [Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS) - =< 4.x
 - [RxJS API Document](http://rxjs5-esdoc-decision-tree.surge.sh/)
+
+
+## References
+
+- [bouzuya's RxJS Advent Calendar 2015](http://www.adventar.org/calendars/1200)
