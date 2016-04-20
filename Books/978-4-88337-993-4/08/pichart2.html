@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <script src="https://www.google.com/jsapi"></script>
+  <script>
+    google.load('visualization', '1', {'packages': ['corechart']});
+    google.setOnLoadCallback(drawChart);
+
+    // チャートの描画を行う
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', '人物');
+      data.addColumn('number', '獲得票');
+      data.addRows([
+        ['ryuji', 51],
+        ['korota', 34],
+        ['ina', 20],
+        ['salada', 11],
+        ['igata', 8],
+        ['kyouda', 4]
+      ]);
+
+      // グラフのオプション
+      var opt = {
+        'title': '人気投票',
+        'width': 600,
+        'height': 400,
+        pieSliceText: 'value',
+        lengend: {
+          position: 'right',
+          textStyle: { color: 'blue', fontSize: 16 }
+        }
+      };
+
+      // グラフを表示
+      var chart = new google.visualization.PieChart(
+        document.getElementById('chart_div')
+      );
+      chart.draw(data, opt);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart_div"></div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://www.google.com/jsapi"></script>
+  <script src="temperature-data.js"></script>
+  <script>
+    'use strict';
+
+    google.load('visualization', '1', {'packages': ['corechart']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      let data = google.visualization.arrayToDataTable(tempData);
+      let options = {
+        'title': '最高気温と最低気温',
+        'width': 600,
+        'height': 400,
+        'colors': ['red', 'blue'],
+        'pointShape': 'circle',
+        'pointSize': 5
+      };
+
+      // graph
+      let chart = new google.visualization.LineChart(
+        document.getElementById('chart_div')
+      );
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart_div"></div>
+</body>
+</html>

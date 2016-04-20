@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+<script>
+  // データの一覧
+  var dataset = [30, 25, 44, 21, 30, 50];
+
+  // 描画領域をつくる
+  var svg_width = 600;
+  var svg_height = 400;
+  var bar_h = svg_height / dataset.length;
+  var bar_w = svg_width / 50;
+  var svg = d3.select('body')
+    .append('svg')
+    .attr('width', svg_width)
+    .attr('height', svg_height);
+
+  // グラフを描画
+  svg.selectAll('rect')
+    .data(dataset)
+    .enter()
+    .append('rect')
+    .attr({
+      x: 0,
+      y: function(d, i) {
+        return i * bar_h;
+      },
+      width: function(d) {
+        return d * bar_w;
+      },
+      height: (bar_h -5),
+      fill: 'blue'
+    });
+
+</script>
+</body>
+</html>

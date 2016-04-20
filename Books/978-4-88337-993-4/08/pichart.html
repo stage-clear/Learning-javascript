@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <title>円グラフ</title>
+  <script src="https://www.google.com/jsapi"></script>
+  <script>
+    // どのグラフを使うかを指定
+    google.load('visualization', '1.0', {'packages': ['corechart']});
+    // グラフAPIの読み込みが完了したら実行するようイベントを指定
+    google.setOnLoadCallback(drawChart);
+
+    // チャートの描画を行う
+    function drawChart() {
+      // データオブジェクトを作成する
+      var data = new google.visualization.DataTable();
+
+      // データのカラムを指定
+      data.addColumn('string', '人物');
+      data.addColumn('number', '獲得票');
+
+      // 実データを指定
+      data.addRows([
+        ['ryuji', 51],
+        ['korota', 34],
+        ['inakoon', 20],
+        ['sarada', 11],
+        ['igata', 9],
+        ['kyouda', 4]
+      ]);
+
+      // グラフのオプションを指定
+      var opt = {
+        'title': '人気投票',
+        'width': 600,
+        'height': 400,
+        pieSliceText: 'label',
+        logend: 'none'
+      };
+
+      // グラフを表示
+      var chart = new google.visualization.PieChart(
+        document.getElementById('chart_div')
+      );
+
+      chart.draw(data, opt);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart_div"></div>
+</body>

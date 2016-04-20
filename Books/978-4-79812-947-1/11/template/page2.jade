@@ -1,0 +1,25 @@
+extends layout2
+
+baseUrl = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/'
+
+block title
+  title Messages
+
+block style
+  link(rel="stylesheet", href= baseUrl + "themes/flick/jquery-ui.css")
+
+block append scripts
+  script(src= baseUrl + "jquery-ui.js")
+
+block content
+  count = 0
+  each messsage in messages
+    - count = count + 1
+    script
+      $(function() {
+        $('#message_#{count}').dialog({
+          height: 140,
+          modal: true
+        });
+      });
+    != '<div id="message_'+ count +'">' + message + '</div>'

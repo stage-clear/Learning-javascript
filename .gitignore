@@ -1,0 +1,14 @@
+node_modules
+Vagrantfile
+.*
+!.gitignore
+mecab-*
+
+*.gz
+*.svm
+*.model
+*.csv
+*.sqlite
+*.ldb
+jawiki-latest-all-titles-in-ns0
+train-images-idx3-ubyte

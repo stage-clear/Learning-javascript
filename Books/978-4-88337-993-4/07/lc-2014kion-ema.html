@@ -1,0 +1,31 @@
+<html>
+<head>
+  <script src="https://www.google.com/jsapi"></script>
+  <script src="2014kion-ema.js"></script>
+  <script>
+    // initialize charts api
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      // create Data Object
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', '日付');
+      data.addColumn('number', '平均気温');
+      data.addColumn('number', '指数平均');
+
+      data.addRows(kion_data);
+      var options = {
+        width: 800,
+        height: 400
+      };
+      var chart = new google.charts.Line(document.getElementById('chart'));
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart"></div>
+</body>
+</html>

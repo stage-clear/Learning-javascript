@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>UTC</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      // Socket.IO サーバーに接続する
+      var socket = io.connect();
+      // message イベントを受けたいときはサーバーが時刻を送っている
+      socket.on('message', function(time) {
+        // span 要素の time をサーバー時刻で更新
+        document.getElementById('time').innerHTML = time;
+      });
+    </script>
+  </head>
+  <body>
+    Current server time is:
+    <strong>
+      <span id="time"></span>
+    </strong>
+  </body>
+</html>

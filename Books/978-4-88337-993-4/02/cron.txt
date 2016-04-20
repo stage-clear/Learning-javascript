@@ -1,0 +1,20 @@
+7 * * * /usr/bin/node /var/www/html/kawase-usd_jpy.js
+
+
+# 環境変数に注意
+
+PATH=/usr/local/bin:/usr/bin/:/bin
+NODE_PATH=/usr/lib/node_modules/
+
+0 7 * * * node /path/to/kawase-usd_jpy.js
+
+
+# crontab で環境変数などは展開されない
+# 間違った例
+PATH=/usr/local/bin:$PATH
+# 正しい例
+PATH=/usr/local/bin:/usr/bin:/bin
+# もしくは
+0 7 * * * export NODE_PATH=/usr/lib/node_moduels/ && /usr/bin/node/ /path/to/kawase-usd_jpy.js
+
+

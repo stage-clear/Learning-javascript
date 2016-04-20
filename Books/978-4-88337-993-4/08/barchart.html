@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://www.google.com/jsapi"></script>
+  <script>
+    google.load('visualization', '1', {'packages': ['corechart']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', '人物');
+      data.addColumn('number', '獲得票');
+
+      data.addRows([
+        ['Ryuji', 51], ['Korota', 34],
+        ['Inakoon', 20], ['Salada', 11],
+        ['Igata', 8], ['Kyoda', 4]
+      ]);
+
+      // option
+      var opt = {
+        'title': '人気投票',
+        'width': 600,
+        'height': 400
+      };
+
+      // draw
+      var chart = new google.visualization.BarChart(
+        document.getElementById('chart_div')
+      );
+      chart.draw(data, opt);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart_div"></div>
+</body>
+</html>

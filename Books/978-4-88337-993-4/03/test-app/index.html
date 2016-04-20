@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Test App</title>
+</head>
+<body>
+  <h1>テスト</h1>
+  <p id="info">info</p>
+
+<script>
+window.onload = function() {
+  var info = document.getElementById('info');
+  info.innerHTML = '' +
+    'Node ver.' + process.version + '<br>' +
+    'atom ver.' + process.versions['electron'];
+};
+
+// IPCモジュールを読み込み
+var ipc = require('ipc');
+
+// 同期的にメインプロセスに対して値を２つ送信し結果を得る
+// var res = ipc.sendSync('mul-sync', {a: 30, b: 2});
+// alert('res=' + res);
+
+// 非同期
+ipc.send('mul-async', {a: 40, b:2});
+ipc.on('mul-async-reply', function(arg) {
+  alert('res=' + arg);
+});
+</script>
+</body>
+</html>

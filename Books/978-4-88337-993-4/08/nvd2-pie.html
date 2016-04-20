@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <link href="nvd3/nv.d3.css" rel="stylesheet" type="text/css">
+  <script src="d3.v3.min.js"></script>
+  <script src="nvd3/nv.d3.js"></script>
+  <style>
+  #chart text {
+    font-size: 20px;
+  }
+  </style>
+</head>
+<body>
+  <div id="chart">
+    <svg></svg>
+  </div>
+<script>
+// データ
+var sample_data = [
+  {'label': 'nishida', 'value': 94},
+  {'label': 'suzuki', 'value': 88},
+  {'label': 'kawada', 'value': 62},
+  {'label': 'sato', 'value': 48},
+  {'label': 'ookawa', 'value': 45},
+  {'label': 'masada', 'value': 22}
+];
+
+// グラフの描画
+nv.addGraph(function() {
+  // パイチャートをつくる
+  var chart = nv.models.pieChart()
+    .x(function(d) {
+      return d.label + '(' + d.value + ')';
+    })
+    .y(function(d) {
+      return d.value;
+    })
+    .title('人気投票')
+    .showLabels(true)
+    .donutLabelsOutside(true)
+    .padAngle(0.04)
+    .cornerRadius(8)
+    .donut(true);
+
+  d3.select('#chart svg')
+    .style({
+      'width': '800px',
+      'height': '600px'
+    })
+    .datum(sample_data)
+    .transition().duration(1000)
+    .call(chart);
+
+  // タイトルサイズの補正
+  d3.select('#chart .nv-pie-title')
+    .style({
+      'font-size': '50px'
+    });
+
+  return chart;
+})
+</script>
+</body>

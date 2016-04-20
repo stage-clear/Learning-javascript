@@ -1,0 +1,37 @@
+<html>
+<head>
+  <title></title>
+  <script src="https://www.google.com/jsapi"></script>
+  <script src="2014kion.js"></script>
+  <script>
+
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      // データオブジェクトの作成
+      var data = new google.visualization.DataTable();
+      // データのカラムを指定
+      data.addColumn('number', 'テストの回数');
+      data.addColumn('number', '英語の点');
+      // データの値を指定
+      data.addRows([
+        [1,30], [2, 50], [3,43], [5, 77],
+        [8, 70], [9, 80], [10, 87], [11, 68], [12, 60]
+      ]);
+
+      // 描画オプション
+      var options = {
+        width: 800, height: 400
+      };
+
+      // 描画
+      var chart = new google.charts.Line(document.getElementById('chart'));
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart"></div>
+</body>
+</html>

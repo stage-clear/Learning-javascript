@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="C3/c3.css">
+  <script src="d3.v3.min.js"></script>
+  <script src="C3/c3.js"></script>
+</head>
+<body>
+  <div id="chart" style="width: 800px;height: 400px">
+  </div>
+
+<script>
+var sample_data = [
+  ['A', 70, 76, 83, 44, 33, 44, 64],
+  ['B', 30, 40 ,48, 49, 98, 77, 33]
+];
+
+// グラフの描画
+var chart = c3.generate({
+  bindto: '#chart',
+  data: {
+    columns: sample_data
+  },
+  grid: {
+    x: { show: true },
+    y: { show: true }
+  }
+});
+</script>
+</body>
+</html>

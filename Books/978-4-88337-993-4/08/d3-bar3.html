@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+<script>
+  // データの一覧
+  var dataset = [30, 25, 44, 21, 30, 60];
+
+  // 画面サイズの指定
+  var gr_w = 600;
+  var gr_h = 400;
+  var margin = { top: 40, right: 20, bottom: 30, left: 20 };
+  var bar_h = gr_h / dataset.length;
+
+  // スケールの指定
+  var x_scale = d3.scale.linear()
+    .domain([0, d3.max(dataset)])
+    .range([0, gr_w]);
+
+  // Axis の指定
+  var x_axis = d3.svg.axis()
+    .scale(x_scale)           // スケール情報
+    .orient('top');           // メモリを配置する場所
+
+  // 描画領域をつくる
+  var svg = d3.select('body')
+    .append('svg')
+    .attr('width', gr_w + margin.left + margin.right)
+    .attr('height', gr_h + margin.top + margin.bottom);
+
+  // グラフを描画
+  var bar = svg.selectAll('.bar')
+    .data(dataset)
+    .enter();
+
+  // バーの部分を生成
+  bar.append('rect')
+    .attr({
+      x: margin.left,
+      width: function(d, i) {
+        return x_scale(d);
+      },
+      y: function(d, i) {
+        return margin.top + i * bar_h;
+      },
+      height: function(d, i) {
+        return bar_h - 4;
+      },
+      fill: function(d, i) {
+        return (i % 2) ? 'red' : 'blue'
+      }
+    });
+
+  // ラベルテキスト
+  bar.append('text')
+    .text(function(d) {
+      return d;
+    })
+    .style({
+      'font-size': '20px',
+      'text-anchor': 'middle'
+    })
+    .attr({
+      x: function(d, i) {
+        return x_scale(d) - 10;
+      },
+      y: function(d, i) {
+        return margin.top + i * bar_h + bar_h / 2 + 5;
+      },
+      fill: 'white'
+    });
+
+  // Axis を追加
+  svg.append('g')
+    .attr('class', 'axis')
+    .attr('transform', 'translate(' + margin.left +', '+ margin.top +')')
+    .style({
+      'font-size': '15px'
+    })
+    .call(x_axis)
+</script>
+</body>
+</html>
