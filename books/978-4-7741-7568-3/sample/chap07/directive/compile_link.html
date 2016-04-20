@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/compile_link.js"></script>
+</head>
+<body ng-controller="MyController">
+  <div ng-repeat="d in data">
+    <compile-link type="outer">
+      <compile-link type="inner">{{d}}</compile-link>
+    </compile-link>
+  </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/order_func.js"></script>
+</head>
+<body ng-controller="MyController">
+<ul>
+  <li ng-repeat="member in members | orderBy : mySort">
+  <!--<li ng-repeat="member in members | orderBy : mySort: true">-->
+  <!--<li ng-repeat="member in members | orderBy : [mySort, 'old']">-->
+    {{member.name}}（{{member.role}}・{{member.old}}歳）
+  </li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/form_pattern.js"></script>
+</head>
+<body ng-controller="MyController">
+<form name="myForm" ng-submit="onsubmit()" novalidate>
+  <div>
+    <label for="zip">郵便番号：</label><br />
+    <input id="zip" name="zip" type="text" ng-model="user.zip"
+      ng-pattern="/^[0-9]{3}-[0-9]{4}$/" />
+    <span ng-show="myForm.zip.$error.pattern">
+      郵便番号は「999-9999」の形式で入力してください。</span>
+  </div>
+  <div>
+    <input type="submit" value="登録"
+      ng-disabled="myForm.$invalid" />
+  </div>
+</form>
+</body>
+</html>

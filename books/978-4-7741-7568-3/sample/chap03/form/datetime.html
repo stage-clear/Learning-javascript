@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/datetime.js"></script>
+</head>
+<body ng-controller="MyController">
+<form name="myForm" novalidate>
+  <div>
+  <label for="now">日時：</label>
+  <input id="now" name="now" type="datetime-local" ng-model="current"
+    min="1990-01-01T00:00:00" max="2050-12-31T23:59:59" required />
+  <span ng-show="myForm.now.$error.required">日時は必須です。</span>
+  <span class="error" ng-show="myForm.now.$error.datetimelocal">
+        日時は「XXXX-XX-XXTXX:XX:XX」の形式で入力してください。</span>
+  <span class="error" ng-show="myForm.now.$error.min">
+        日時は「1990-01-01T00:00:00」以降で入力してください。</span>
+  <span class="error" ng-show="myForm.now.$error.max">
+        日時は「2050-12-31T23:59:59」以前で入力してください。</span>
+  </div>
+</form>
+</body>
+</html>

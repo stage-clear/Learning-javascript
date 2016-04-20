@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+</head>
+<body>
+<button id="btn">表示</button>
+<div id="main">現在時刻：{{msg}}</div>
+<script>
+angular.element(document.getElementById('btn')).on('click', function() {
+  var $scope = angular.element(document.getElementById('main')).scope();
+  $scope.$apply(function() {
+    $scope.msg = new Date().toLocaleString();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+</head>
+<body>
+<ul ng-init="msg = 'いろはにほへとちりぬるを'">
+  <li>元の文字列：{{msg}}</li>
+  <li>先頭5文字：{{msg | limitTo: 5}}</li>
+  <li>末尾5文字：{{msg | limitTo:-5}}</li>
+</ul>
+</body>
+</html>

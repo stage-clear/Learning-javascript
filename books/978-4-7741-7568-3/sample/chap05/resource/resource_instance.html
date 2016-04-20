@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-resource.min.js"></script>
+<script src="scripts/resource_instance.js"></script>
+</head>
+<body ng-controller="MyController">
+<table class="table">
+  <tr>
+    <th>書名</th><th>価格</th><th>出版社</th><th>編集／削除</th>
+  </tr>
+  <tr ng-repeat="book in books">
+    <td>{{book.title}}</td>
+    <td>{{book.price}}円</td>
+    <td>{{book.publish}}</td>
+    <td><button ng-click="onedit(book.isbn)">編集</button>
+    <button ng-click="ondelete(book.isbn)">削除</button></td>
+  </tr>
+</table>
+<hr />
+<form novalidate>
+  <div>
+    <label for="isbn">ISBNコード：</label><br />
+    <input id="isbn" type="text" size="25" ng-model="book.isbn" />
+  </div>
+  <div>
+    <label for="title">書名：</label><br />
+    <input id="title" type="text" size="60" ng-model="book.title" />
+  </div>
+  <div>
+    <label for="price">価格：</label><br />
+    <input id="price" type="text" size="5" ng-model="book.price" />
+  </div>
+  <div>
+    <label for="publish">出版社：</label><br />
+    <input id="publish" type="text" size="10" ng-model="book.publish" />
+  </div>
+  <div>
+    <label for="published">刊行日：</label><br />
+    <input id="published" type="text" size="10" ng-model="book.published" />
+  </div>
+  <div>
+    <button ng-click="oninsert()">登録</button>
+    <button ng-click="onupdate()">更新</button>
+  </div>
+</form>
+</body>
+</html>

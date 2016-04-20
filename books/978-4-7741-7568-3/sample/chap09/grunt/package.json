@@ -1,0 +1,15 @@
+{
+  "name": "angularSample",
+  "version": "1.0.0",
+  "description": "AngularJS 本のサンプル",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yoshihiro Yamada",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-uglify": "~0.9.1"
+  }
+}

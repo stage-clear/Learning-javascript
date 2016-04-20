@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+<div id="main">isXxxxxメソッド</div>
+<script>
+console.log(angular.isElement(document.getElementById('main')));
+console.log(angular.isElement($('#main')));
+
+console.log(angular.isDefined(undefined));
+console.log(angular.isDefined(null));
+console.log(angular.isUndefined(undefined));
+console.log(angular.isUndefined(null));
+
+console.log(angular.isNumber(0.123E10));
+console.log(angular.isNumber('0.123E10'));
+console.log(angular.isNumber(0xFF));
+
+console.log(angular.isArray(['a', 'b']));
+console.log(angular.isArray(new Array('a', 'b')));
+
+console.log(angular.isString('山田'));
+console.log(angular.isString(12345));
+
+console.log(angular.isDate(new Date()));
+console.log(angular.isDate(new Date().getTime()));
+
+console.log(angular.isFunction(function() { /* 任意の処理 */ }));
+console.log(angular.isFunction(new Function()));
+
+console.log(angular.isObject(['a', 'b']));
+console.log(angular.isObject(null));
+console.log(angular.isObject(undefined));
+console.log(angular.isObject('山田'));
+console.log(angular.isObject(new Date()));
+console.log(angular.isObject(['a', 'b']));
+console.log(angular.isObject({ foo: 'bar' }));
+</script>
+</body>
+</html>

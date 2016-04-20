@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="css/animate.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-animate.min.js"></script>
+<script src="scripts/animate.js"></script>
+</head>
+<body ng-controller="MyController">
+<button ng-click="oninsert()">追加</button>
+<button ng-click="onremove()">削除</button>
+<ul>
+  <li class="box" ng-repeat="str in data">{{str}}</li>
+</ul>
+</body>
+</html>

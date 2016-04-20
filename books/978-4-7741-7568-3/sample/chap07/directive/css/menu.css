@@ -1,0 +1,8 @@
+.menu li {
+  list-style-type: none;
+}
+
+.menu ul {
+  margin: 0 0 0 0.5em;
+  padding: 0;
+}

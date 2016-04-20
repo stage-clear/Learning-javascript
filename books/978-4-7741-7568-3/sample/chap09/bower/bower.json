@@ -1,0 +1,17 @@
+{
+  "name": "angularSample",
+  "version": "1.0.0",
+  "authors": [
+    "Yoshihiro Yamada"
+  ],
+  "description": "AngularJS本のサンプル",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {}
+}

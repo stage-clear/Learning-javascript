@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="lib/angular-ui-router.min.js"></script>
+<script src="scripts/multi.js"></script>
+</head>
+<body>
+<div>
+  <div ui-view="upper"></div>
+  <hr />
+  <div ui-view="lower"></div>
+</div>
+</body>
+</html>

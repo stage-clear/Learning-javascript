@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/select.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+  <div>
+    <label for="book">書籍：</label>
+<!--（1）ラベルテキスト for 要素 in 配列-->
+    <select id="book" name="book" ng-model="data.book"
+      ng-options="book.title for book in books">
+
+<!--（2）選択値 as ラベルテキスト for 要素 in 配列-->
+<!--
+<select id="book" name="book" ng-model="data.book"
+  ng-options="book.isbn as book.title for book in books">
+-->
+      <option value="">以下から選択してください。</option>
+    </select>
+  </div>
+  選択された値：{{data.book}}
+</form>
+</body>
+</html>

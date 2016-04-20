@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-route.min.js"></script>
+<script src="scripts/route_resolve.js"></script>
+<script src="scripts/controller.js"></script>
+</head>
+<body>
+<li><a ng-href="#/main">メインページ</a></li>
+<li><a ng-href="#/resolve">現在地の緯度／経度</a></li>
+<li><a ng-href="#/articles/100">記事 No.100</a></li>
+<li><a ng-href="#/articles/108">記事 No.108</a></li>
+<li><a ng-href="#/search/Angular/Karma/Bower">「Angular／Karma／Bower」の検索</a></li>
+<hr />
+<div ng-view></div>
+</body>
+</html>

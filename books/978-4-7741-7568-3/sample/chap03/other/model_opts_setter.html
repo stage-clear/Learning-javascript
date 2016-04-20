@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/model_opts_setter.js"></script>
+</head>
+<body ng-controller="MyController">
+  <label for="name">名前：</label>
+  <input id="name" name="name" type="text" ng-model="my.name" 
+    ng-model-options="{ getterSetter: true }" />
+  <div>こんにちは、<span ng-bind="my.name()"></span>さん！</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script>
+var process = function(value ,success, fail) {
+  if (value > 0) {
+    (success || angular.noop)(value);
+  } else {
+    (fail || angular.noop)(value);
+  }
+};
+
+process(-10,
+  function(value) { 
+    console.log('success：' + value);
+  }, 
+  function(value) { 
+    console.log('fail：' + value);
+  });
+</script>
+</head>
+<body>
+</body>
+</html>

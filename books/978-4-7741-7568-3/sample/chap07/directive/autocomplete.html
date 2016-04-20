@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/cupertino/jquery-ui.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/autocomplete.js"></script>
+</head>
+<body ng-controller="MyController">
+  <label for="keywd">キーワード：</label>
+  <input id="keywd" type="search" size="20"
+    my-autocomplete ng-model="keywd"
+    source="data" minlength="1" select="onselect" />
+  <hr />
+  現在の入力値：{{keywd}}
+</body>
+</html>

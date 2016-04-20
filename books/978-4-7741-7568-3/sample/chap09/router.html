@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="lib/angular-ui-router.min.js"></script>
+<script src="scripts/router.js"></script>
+</head>
+<body>
+<ul>
+  <li><a ui-sref="main">メインページ</a></li>
+  <li><a ui-sref="articles({id:100})">記事 No.100</a></li>
+  <li><a ui-sref="articles({id:108})">記事 No.108</a></li>
+  <li><a ui-sref="search({keyword:'Angular/Karma/Bower'})">
+    「Angular／Karma／Bower」の検索</a></li>
+</ul>
+<hr />
+<div ui-view></div>
+</body>
+</html>

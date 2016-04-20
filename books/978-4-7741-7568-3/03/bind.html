@@ -1,0 +1,17 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8"/>
+  <title>AngularJS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+  <script src="./bind.js"></script>
+</head>
+<body ng-controller="MyController">
+  <form>
+    <label for="name">Name: </label>
+    <input id="name" name="name" type="text" ng-model="myName"/>
+    <div ng-bind="'Hello, ' + myName + '!'"></div>
+    <div ng-cloak>{{"Hello, " + myName + "!"}}</div>
+    <div ng-non-bindable>{{"Hello, " + myName + "!"}}</div>
+  </form>
+</body>

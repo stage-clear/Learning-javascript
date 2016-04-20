@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="css/include.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/include.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+  <div>
+    <label for="temp">テンプレート：</label>
+    <select id="temp" name="temp" ng-model="template"
+      ng-options="t.url as t.title for t in templates">
+      <option value="">以下から選択してください。</option>
+    </select>
+  </div>
+  <div class="box" ng-include="template" onload="onload()"></div>
+</form>
+</body>
+</html>

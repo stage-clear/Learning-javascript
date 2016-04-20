@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="css/event_bubble.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/event_bubble.js"></script>
+</head>
+<body ng-controller="MyController">
+<div id="outer" ng-click="onclick1()">outer
+  <div id="inner" ng-click="onclick2($event)">inner</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "morning": "おはようございます。",
+  "hello": "こんにちは、{{name}}さん！",
+  "info": {
+    "title": "AngularJSアプリプログラミング"
+  }
+}

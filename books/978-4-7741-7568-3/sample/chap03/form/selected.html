@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/selected.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+<label>
+  <input type="checkbox" ng-model="selected" />標準を選ぶ
+</label>
+<select>
+  <option value="easy">かんたんコース</option>
+  <option value="usually" ng-selected="selected">ふつうコース</option>
+  <option value="difficulty">むずかしいコース</option>
+</select>
+</form>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8"/>
+  <title>AngularJS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-message-format.min.js"></script>
+  <script src="./plurize_format.js"></script>
+</head>
+<body ng-controller="MyController">
+
+<div>{{ favs.length, plural, offset: 2
+  =0   { [いいね！] されていません }
+  =1   { {{favs[0]}}さんが [いいね！] と言っています }
+  =2   { {{favs[0]}}さん、{{favs[1]}}さんが [いいね！] と言っています }
+  one  { {{favs[0]}}さん、{{favs[1]}}さんとあと1名が [いいね！] と言っています } 
+  other { {{favs[0]}}さん、{{favs[1]}}さん、他#名が [いいね！] と言っています }
+}}</div>
+
+</body>
+</html>

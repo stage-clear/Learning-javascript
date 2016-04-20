@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script>
+var $injector = angular.injector(['ng']);
+var $http = $injector.get('$http');
+$http({
+  method: 'GET',
+  url: 'injector.txt'
+})
+.success(function(data, status, headers, config){
+  console.log(data);
+})
+.error(function(data, status, headers, config){
+  console.log('!!通信に失敗しました!!');
+}); 
+</script>
+</head>
+<body>
+</body>
+</html>

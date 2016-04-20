@@ -1,0 +1,7 @@
+{
+  "morning": "Guten Morgen.",
+  "hello": "Guten Tag, Herr {{name}}!",
+  "info": {
+    "title": "AngularJS Anwendung Programmierung"
+  }
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/order_table.js"></script>
+</head>
+<body ng-controller="MyController">
+<table class="table">
+  <tr>
+    <th ng-click="name=!name;sort('name', name)">名前</th>
+    <th ng-click="role=!role;sort(mySort, role)">役職</th>
+    <th ng-click="old =!old; sort('old',  old)">年齢</th>
+  </tr>
+  <tr ng-repeat="member in members">
+    <td>{{member.name}}</td>
+    <td>{{member.role}}</td>
+    <td>{{member.old}}</td>
+  </tr>
+</table>
+</body>
+</html>

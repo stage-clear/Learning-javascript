@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/constant.js"></script>
+</head>
+<body ng-controller="MyController">
+<ul>
+  <li>タイトル：{{title}}</li>
+  <li>著者：{{info.author}}</li>
+  <li>最終更新日：{{info.updated.toLocaleDateString()}}</li>
+</ul>
+<button ng-click="proc(title)">ログ出力</button>
+</body>
+</html>

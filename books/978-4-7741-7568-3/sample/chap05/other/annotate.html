@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script>
+var $injector = angular.injector(['ng']);
+console.log($injector.annotate(function($scope, $http, MyService) { }));
+console.log($injector.annotate([ '$scope', '$http', 'MyService',
+  function(srv1, srv2, srv3) { }]));
+var MyController = function(srv1, srv2, srv3) {};
+MyController.$inject = ['$scope', '$http', 'MyService'];
+console.log($injector.annotate(MyController));
+</script>
+</head>
+<body>
+</body>
+</html>

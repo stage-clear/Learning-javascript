@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-messages.min.js"></script>
+<script src="scripts/messages_include.js"></script>
+</head>
+<body ng-controller="MyController">
+<form name="myForm" novalidate>
+  <div>
+    <label for="mail">メールアドレス：</label><br />
+    <input id="mail" name="mail" type="email" ng-model="user.mail"
+      required ng-minlength="10" ng-maxlength="20" />
+
+  <script type="text/ng-template" id="my-error-messages">
+    <span ng-message="required">入力は必須です。</span>
+    <span ng-message="minlength">入力値が短すぎます。</span>
+    <span ng-message="maxlength">入力値が長すぎます。</span>
+    <span ng-message="email">正しいメール形式で入力してください。</span>
+  </script>
+    <span ng-messages="myForm.mail.$error" ng-messages-multiple
+      ng-messages-include="my-error-messages">
+      <span ng-message="minlength">10文字以上で入力してください。</span>
+      <span ng-message="maxlength">20文字以内で入力してください。</span>
+    </span>
+  </div>
+</form>
+</body>
+</html>

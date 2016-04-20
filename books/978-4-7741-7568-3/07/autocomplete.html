@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>autocomplete</title>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/cupertino/jquery-ui.min.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="./js/autocomplete.js"></script>
+</head>
+<body ng-controller="MyController">
+
+  <label for="keywd">Keyword: </label>
+  <input id="keywd" type="search" size="20"
+    my-autocomplete ng-model="keywd"
+    source="data" minlength="1"
+    select="onselect"
+  />
+  <hr/>
+  Current input {{ keywd }}
+  
+</body>
+</html>

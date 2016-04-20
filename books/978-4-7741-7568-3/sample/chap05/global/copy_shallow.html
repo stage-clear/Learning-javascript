@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script>
+
+var src1 = [ 1, 2, 3 ];
+var src2 = [ { x: 1, y: 2 }, { x: 3, y: 4 }, { x: 5, y: 6 } ];
+
+var dest1 = src1.concat();
+var dest2 = src2.concat();
+
+src1[0] = 10;
+src2[0].x = 100;
+
+console.log(src1);
+console.log(dest1);
+console.log(src2);
+console.log(dest2);
+</script>
+</head>
+<body>
+</body>
+</html>

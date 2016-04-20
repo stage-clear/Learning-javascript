@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swipe - AngularJS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-touch.min.js"></script>
+  <script src="swipe.js"></script>
+  <style>
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  .panel {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 100vw;
+    height: 100vh;
+  }
+  .panel p {
+    
+  }
+  </style>
+</head>
+<body ng-controller="MyController">
+  
+  <div class="panel" ng-swipe-left="onleft()" ng-swipe-right="onright()">
+    <p>{{ contents }}</p>
+  </div>
+  
+</body>
+</html>

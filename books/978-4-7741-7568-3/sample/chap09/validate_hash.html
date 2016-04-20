@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="lib/validate.js"></script>
+<script src="scripts/validate_hash.js"></script>
+</head>
+<body ng-controller="MyController">
+<form name="myForm" novalidate>
+  <div>
+    <label for="email">メールアドレス：</label><br />
+    <input id="email" name="email" type="text" ng-model="user.email" />
+  </div>
+  <div>
+    <label for="email_confirm">メールアドレス（確認）：</label><br />
+    <input id="email_confirm" name="email_confirm" type="text"
+      ng-model="email_confirm"
+      ui-validate="'$value === user.email'"
+      ui-validate-watch="'user.email'" />
+    <span ng-show="myForm.email_confirm.$error.validator">
+      メールアドレス同士が等しくなければなりません。</span>
+  </div>
+  <div>
+    <label for="memo">備考：</label><br />
+    <textarea id="memo" name="memo" cols="45" rows="5"
+      ng-model="user.memo"
+      ui-validate="{ ngword : 'ngword($value)' }"></textarea>
+    <span ng-show="myForm.memo.$error.ngword">
+      備考に禁止ワードが含まれています。</span>
+  </div>
+</form>
+</body>
+</html>

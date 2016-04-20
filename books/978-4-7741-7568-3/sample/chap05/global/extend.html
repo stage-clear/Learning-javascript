@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script>
+var book = {
+  isbn: '978-4-7741-7078-7',
+  title: 'JSPポケットリファレンス',
+  description: {
+    published: '2015-01-08'
+  }
+};
+
+var book2 = {
+  title: 'サーブレット＆JSPポケットリファレンス',
+  price: 2680,
+  description: {
+    publish: '技術評論社'
+  }
+};
+
+var book3 = {
+  pages: 400,
+  image: 'http://www.wings.msn.to/books/978-4-7741-7078-7/978-4-7741-7078-7.jpg'
+};
+
+angular.extend(book, book2, book3);
+//angular.merge(book, book2, book3);
+console.log(book);
+
+//var booked = angular.merge({}, book, book2, book3);
+//console.log(book);
+//console.log(booked);
+
+</script>
+</head>
+<body>
+</body>
+</html>

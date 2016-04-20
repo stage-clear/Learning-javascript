@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/radio_hash.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+  <div>
+    <label>
+      <input type="radio" ng-model="value" ng-value="scalarValue" name="exp" />
+      スカラー値</label>
+    <label>
+      <input type="radio" ng-model="value" ng-value="arrayValue" name="exp" />
+      配列</label>
+    <label>
+      <input type="radio" ng-model="value" ng-value="hashValue" name="exp" />
+      ハッシュ</label>
+  </div>
+  選択された値：{{value}}
+</form>
+</body>
+</html>

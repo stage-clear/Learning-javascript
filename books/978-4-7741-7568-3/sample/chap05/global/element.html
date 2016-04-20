@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+</head>
+<body>
+<ul>
+  <li class="gihyo">サーブレット＆JSPポケットリファレンス</li>
+  <li>アプリを作ろう！Android入門</li>
+  <li>ASP.NET MVC 5実践プログラミング</li>
+  <li>JavaScript逆引きレシピ</li>
+  <li class="gihyo">PHPライブラリ＆サンプル実践活用</li>
+  <li>.NET開発テクノロジ入門</li>
+  <li class="gihyo">Rails 4アプリケーションプログラミング</li>
+  <li class="gihyo">iPhone／iPad開発ポケットリファレンス</li>
+</ul>
+<script>
+angular.element(
+  document.getElementsByClassName('gihyo')).css('color', 'red');
+angular.element(
+  document.getElementsByTagName('body')).append('<div>書籍一覧</div>');
+</script>
+</body>
+</html>

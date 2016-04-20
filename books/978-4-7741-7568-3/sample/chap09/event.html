@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link href="css/event.css" rel="stylesheet" type="text/css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="lib/event.js"></script>
+<script src="scripts/event.js"></script>
+</head>
+<body ng-controller="MyController">
+<div ui-event="{ contextmenu : 'oncontext($event)' }">
+  この中で右クリックしてください。
+</div>
+</body>
+</html>

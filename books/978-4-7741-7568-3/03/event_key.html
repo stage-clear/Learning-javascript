@@ -1,0 +1,21 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8"/>
+  <title>AngularJS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+  <script src="./scripts/event_key.js"></script>
+</head>
+<body ng-controller="MyController">
+
+  <form>
+    <label for="key">key input: </label>
+    <input id="key" name="key" ng-keydown="onkeydown($event)" />
+  </form>
+  <div ng-show="altKey"> [Alt] </div>
+  <div ng-show="ctrlKey"> [Ctrl] </div>
+  <div ng-show="shiftKey"> [Shift] </div>
+  <div>keyCode: {{ which }}</div>
+
+</body>
+</html>

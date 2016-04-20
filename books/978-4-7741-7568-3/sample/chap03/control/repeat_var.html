@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS TIPS</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/repeat_var.js"></script>
+</head>
+<body ng-controller="MyController">
+<table class="table">
+  <tr>
+    <th>値</th><th>$index</th><th>$first</th><th>$middle</th>
+    <th>$last</th><th>$odd</th><th>$even</th>
+  </tr>
+  <tr ng-repeat="value in years">
+    <td>{{value}}</td>
+    <td>{{$index}}</td>
+    <td>{{$first ? '○' : '－'}}</td>
+    <td>{{$middle ? '○' : '－'}}</td>
+    <td>{{$last ? '○' : '－'}}</td>
+    <td>{{$odd ? '○' : '－'}}</td>
+    <td>{{$even ? '○' : '－'}}</td>
+  </tr>
+</table>
+</body>
+</html>

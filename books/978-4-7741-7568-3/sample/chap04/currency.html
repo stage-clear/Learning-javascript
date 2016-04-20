@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="i18n/angular-locale_ja-jp.js"></script>
+</head>
+<body>
+<ul ng-init="price = 3500.125">
+  <li>整形なし：{{price}}</li>
+  <li>整形あり：{{price | currency}}</li>
+  <li>整形あり（通貨記号あり）：{{price | currency : '$'}}</li>
+  <li>整形あり（桁数指定）：{{price | currency : '￥' : 0 }}</li>
+</ul>
+</body>
+</html>

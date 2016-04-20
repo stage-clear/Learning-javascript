@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8"/>
+  <title>AngularJS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-sanitize.min.js"></script>
+  <script src="./bind_template.js"></script>
+</head>
+<body ng-controller="MyController">
+
+  <div>
+    <label for="name">Name: </label>
+    <input id="name" name="name" type="text" ng-model="name">
+  </div>
+  
+  <div>
+    <label for="age">Age: </label>
+    <input id="age" name="age" type="text" ng-model="age"/>
+  </div>
+
+  <div ng-bind-template="{{ name }} is {{ age }} years old."></div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/bind_template.js"></script>
+</head>
+<body ng-controller="MyController">
+<div>
+  <label for="name">名前：</label>
+  <input id="name" name="name" type="text" ng-model="name" />
+</div>
+<div>
+  <label for="age">年齢：</label>
+  <input id="age" name="age" type="text" ng-model="age" />
+</div>
+<div ng-bind-template="{{name}}さんは{{age}}歳です。"></div>
+</body>
+</html>

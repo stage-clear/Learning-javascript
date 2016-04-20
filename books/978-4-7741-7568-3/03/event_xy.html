@@ -1,0 +1,20 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8"/>
+  <title>AngularJS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+  <script src="./scripts/event_xy.js"></script>
+</head>
+<body ng-controller="MyController">
+
+  <div id="main" style="position: absolute: margin:58px; width: 300px;
+    height: 300px; border: 1px solid #000;" ng-mousemove="onmousemove($event)">
+    <p>screen: {{ screenX }} x {{ screenY }}</p>
+    <p>page: {{ pageX }} x {{ pageY }}</p>
+    <p>client: {{ clientX }} x {{ clientY }}</p>
+    <p>offset: {{ offsetX }} x {{ offsetY }}</p>
+  </div>
+
+</body>
+</html>

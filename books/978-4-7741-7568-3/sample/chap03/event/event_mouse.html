@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/event_mouse.js"></script>
+</head>
+<body ng-controller="MyController">
+  <img ng-src="{{path}}" alt="ロゴ画像"
+    ng-mouseenter="onmouseenter($event)" ng-mouseleave="onmouseleave()" />
+</body>
+</html>

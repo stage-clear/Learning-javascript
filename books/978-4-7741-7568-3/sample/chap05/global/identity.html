@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script>
+var transfer = function(value, callback) {
+  return (callback || angular.identity)(value);
+};
+
+console.log(
+  transfer(10, function(value) {
+    return value * value;
+  })
+);
+</script>
+</head>
+<body>
+</body>
+</html>

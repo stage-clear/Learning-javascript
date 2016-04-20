@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/radio_list.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+  <div>
+    書籍：<br />
+    <label ng-repeat-start="book in books">
+      <input type="radio" ng-model="data.book" 
+         ng-value="book.isbn" id="isbn{{book.isbn}}" name="book" />
+      {{book.title}}</label>
+    <br ng-repeat-end />
+  </div>
+  選択された値：{{data.book}}
+</form>
+</body>
+</html>

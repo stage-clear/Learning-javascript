@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/list.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+  <label for="mail">メールアドレス：</label><br />
+  <textarea id="mail" type="text" ng-model="emails" ng-list=";"></textarea>
+</form>
+<ul>
+  <li ng-repeat="email in emails track by $index">{{email}}</li>
+  <!--<li ng-repeat="email in emails">{{email}}</li>-->
+</ul>
+</body>
+</html>

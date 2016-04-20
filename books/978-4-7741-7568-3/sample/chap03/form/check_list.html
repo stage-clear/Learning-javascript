@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/check_list.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+  <div>
+    書籍：<br />
+    <label ng-repeat-start="book in books">
+      <input type="checkbox" ng-model="data.book[book.isbn]"
+         ng-true-value="true" ng-false-value="false"
+         id="isbn{{book.isbn}}" name="book{{book.isbn}}" />
+      {{book.title}}</label>
+    <br ng-repeat-end />
+  </div>
+  選択された値：{{data.book}}
+</form>
+</body>
+</html>

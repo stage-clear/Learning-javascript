@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/event_prevent.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+  <label for="zip">郵便番号：</label>
+  <input id="zip" name="zip" type="text" size="10" ng-model="zip"
+    ng-keypress="onpress($event)" />
+</form>
+</body>
+</html>

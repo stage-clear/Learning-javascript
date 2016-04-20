@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script>
+var book = {
+  isbn: '978-4-7741-7078-7',
+  title: 'サーブレット＆JSPポケットリファレンス',
+  price: 2680,
+  publish: '技術評論社',
+};
+angular.forEach(book, function(value, key, obj) {
+  console.log(key + '：' + value);
+});
+</script>
+</head>
+<body>
+</body>
+</html>

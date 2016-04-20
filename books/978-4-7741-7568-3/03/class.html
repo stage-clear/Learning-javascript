@@ -1,0 +1,23 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8"/>
+  <title>AngularJS</title>
+  <link rel="stylesheet" href="css/class.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+  <script src="./scripts/class.js"></script>
+</head>
+<body ng-controller="MyController">
+
+<form>
+  <button ng-click="myStyle='red'">Red</button>
+  <button ng-click="myStyle='green'">Green</button>
+  <button ng-click="myStyle='blue'">Blue</button>
+</form>
+
+<div ng-class="myStyle">
+  <p>this is paragraph.</p>
+</div>
+
+</body>
+</html>

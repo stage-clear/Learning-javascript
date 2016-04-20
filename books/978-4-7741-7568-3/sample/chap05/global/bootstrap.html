@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html id="my">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+</head>
+<body>
+<!--AngularJSを利用したページ-->
+{{3 + 5}}
+<script>
+angular.element(document).ready(function() {
+  angular.module('myApp', []);
+  angular.bootstrap(document.getElementById('my'), ['myApp']);
+});
+</script>
+</body>
+</html>

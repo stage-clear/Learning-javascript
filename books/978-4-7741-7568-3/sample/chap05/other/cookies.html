@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-cookies.min.js"></script>
+
+<script src="scripts/cookies.js"></script>
+</head>
+<body ng-controller="MyController">
+<form name="myForm" novalidate>
+  <label for="email">メールアドレス</label>
+  <input id="email" name="email" type="text" ng-model="email" /><br />
+  <label>
+    <input type="checkbox" ng-model="record" />
+    メールアドレスを記憶する
+  </label><br />
+  <button ng-click="onclick()">更新</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS TIPS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/repeat_start.js"></script>
+</head>
+<body ng-controller="MyController">
+<header ng-repeat-start="article in articles">{{article.title}}</header>
+<div>{{article.body}}</div>
+<footer ng-repeat-end>（{{article.author}}）</footer>
+</body>
+</html>

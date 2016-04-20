@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="css/script.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/script.js"></script>
+</head>
+<body ng-controller="MyController">
+<form>
+<script type="text/ng-template" id="templates/execution.html">
+  <dl>
+    <dt>マルカート</dt>
+    <dd>ひとつひとつの音をはっきりと演奏する</dd>
+    <dt>ストリンジェンド</dt>
+    <dd>だんだんせきこんで</dd>
+    <dt>レガート</dt>
+    <dd>音の間を切れ目なくなめらかに演奏する</dd>
+    <dt>トレモロ</dt>
+    <dd>急速に反復して演奏する</dd>
+  </dl>
+</script>
+<script type="text/ng-template" id="templates/tempo.html">
+  <dl>
+    <dt>アッチェレランド</dt>
+    <dd>だんだんはやく</dd>
+    <dt>リタルダンド</dt>
+    <dd>だんだんおそく</dd>
+    <dt>ピュウ モッソ</dt>
+    <dd>今までよりもはやく</dd>
+    <dt>テンポ ルバート</dt>
+    <dd>はやさを柔軟に伸縮させて</dd>
+  </dl>
+</script>
+  <div>
+    <label for="temp">テンプレート：</label>
+    <select id="temp" name="temp" ng-model="template"
+      ng-options="t.url as t.title for t in templates">
+      <option value="">以下から選択してください。</option>
+    </select>
+  </div>
+<div class="box" ng-include="template" onload="onload()"></div>
+</form>
+</body>
+</html>

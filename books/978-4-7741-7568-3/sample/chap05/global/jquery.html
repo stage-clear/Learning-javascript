@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app ng-jq>
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+</head>
+<body>
+<ul>
+  <li>サーブレット＆JSPポケットリファレンス</li>
+  <li>アプリを作ろう！Android入門</li>
+  <li>ASP.NET MVC 5実践プログラミング</li>
+  <li>JavaScript逆引きレシピ</li>
+  <li id="php">PHPライブラリ＆サンプル実践活用</li>
+  <li>.NET開発テクノロジ入門</li>
+  <li>Rails 4アプリケーションプログラミング</li>
+  <li>iPhone／iPad開発ポケットリファレンス</li>
+</ul>
+<script>
+var result = [];
+var elm = angular.element(document.getElementById('php'));
+for(var prop in elm) {
+  if (angular.isFunction(elm[prop])) { result.push(prop); }
+}
+console.log(result);
+</script>
+</body>
+</html>

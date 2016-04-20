@@ -1,0 +1,1 @@
+$injectorサービスを使って、非AngularJSアプリから$httpサービスを呼び出します。

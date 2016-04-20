@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="i18n/angular-locale_ja-jp.js"></script>
+<script src="scripts/date.js"></script>
+</head>
+<body ng-controller="MyController">
+<ul>
+  <li>整形なし：{{today}}</li>
+  <li>整形あり（デフォルト）：{{today | date}}</li>
+  <li>整形あり（medium）：{{today | date: 'medium'}}</li>
+  <li>整形あり（書式指定）：{{today | date: 'yyyy年MM月dd日（EEEE） a hh:mm:ss'}}</li>
+</ul>
+</body>
+</html>

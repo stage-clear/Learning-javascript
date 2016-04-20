@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/async.js"></script>
+</head>
+<body ng-controller="MyController">
+<form name="myForm" novalidate>
+  <label for="isbn">ISBNコード：</label>
+  <input id="isbn" name="isbn" size="20" 
+    ng-model="isbn" ng-model-options="{ updateOn: 'blur' }"
+    my-unique="async.php?isbn=" />
+  <span ng-show="myForm.isbn.$error.unique">
+    ISBNコードが登録済みです。</span>
+</form>
+</body>
+</html>
