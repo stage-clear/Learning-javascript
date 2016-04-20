@@ -12,4 +12,6 @@ JavaScript の学習や情報収集のまとめ
 ## Libraries
 
 - [AngularJS](Libraries/AngularJS/) - AngularJS の学習ログ
+- [React](Libraries/React/) - React.js の学習ログ
 - [RxJS](Libraries/RxJS/) - RxJS の学習ログ
+- [p5js](Books/978-4-87783-381-7) - p5js の学習ログ
