@@ -4,7 +4,10 @@
 
 - [モジュールの紹介](modules/README.md)
 - [スニペット](snippets/README.md)
-- [書籍のログ](books/)
+- [書籍のログ](https://github.com/stage-clear/Learning-javascript/tree/master/Books)
+  - [実践Node.jsプログラミング](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-79812-947-1/)
+  - [JS+Node.jsによるWebクローラー/ネットエージェント開発テクニック](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-88337-993-4/)
+  - [はじめてのNode.js](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-79737-090-4/)
 
 
 ## npm
