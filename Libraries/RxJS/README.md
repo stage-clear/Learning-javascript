@@ -20,6 +20,7 @@ https://cdnjs.com/libraries/rxjs/
 - [RxJS チュートリアル (3)](https://jsfiddle.net/stageclear/ervmx938/) - Subscribing to Observables
 - [RxJS チュートリアル (4)](https://jsfiddle.net/stageclear/4wo03e69/) - Executing Observables
 - [RxJS チュートリアル (5)](https://jsfiddle.net/stageclear/wdzzgpf8/) - Disposing Observable Executions
+- [RxJS チュートリアル (6)](https://jsfiddle.net/stageclear/yeLz5ztp/) - Observer
 - [RxJS サンプル (1)](https://jsfiddle.net/stageclear/odenhtLe/)
 
 
