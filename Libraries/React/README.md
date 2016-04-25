@@ -1,4 +1,4 @@
-# Learning React.js
+# Learn to "React"
 React.js の学習や情報収集のまとめ
 
 
