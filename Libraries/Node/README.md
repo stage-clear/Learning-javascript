@@ -1,4 +1,4 @@
-# Node.js の学習ログ
+# Learn to "Node.js"
 
 ## Menu
 
