@@ -3,7 +3,7 @@ JavaScript の学習や情報収集のまとめ
 
 # Menu
 
-- [仕様](Specification/) - JavaScript の基本的な記述について
+- [仕様](Specification/) - JavaScript の基本的な記述やいろいろな書き方
   - [ES2015](Specification/es2015/README.md)
 - [スニペット](Snippets/)
 - [リファレンス](References/)
@@ -12,8 +12,8 @@ JavaScript の学習や情報収集のまとめ
 
 ## Libraries
 
-- [Node.js](Libraries/Node/) - Node.js の学習ログ
-- [AngularJS](Libraries/AngularJS/) - AngularJS の学習ログ
-- [React](Libraries/React/) - React.js の学習ログ
-- [RxJS](Libraries/RxJS/) - RxJS の学習ログ
-- [p5js](Books/978-4-87783-381-7) - p5js の学習ログ
+- [Node.js](Libraries/Node/) - learn to Node.js
+- [AngularJS](Libraries/AngularJS/) - learn to AngularJS
+- [React](Libraries/React/) - learn to React.js
+- [RxJS](Libraries/RxJS/) - learn to RxJS
+- [p5js](Books/978-4-87783-381-7) - learn to p5js
