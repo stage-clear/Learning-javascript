@@ -16,9 +16,9 @@ $ jsx --watch src/ build/
 # src/ 以下のファイルをコンパイルして build/ に配置
 ```
 
-## メニュー
+## 書籍
 
-- [書籍](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-87311-719-5/README.md)
+- [入門 React](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-87311-719-5/README.md)
 
 
 ## 外部リンク
