@@ -18,7 +18,7 @@ $ jsx --watch src/ build/
 
 ## メニュー
 
-- [書籍](book/README.md)
+- [書籍](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-87311-719-5/README.md)
 
 
 ## 外部リンク
