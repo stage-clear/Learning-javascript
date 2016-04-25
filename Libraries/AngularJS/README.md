@@ -1,4 +1,4 @@
-# Learning AngularJS
+# Lean to "AngularJS"
 Angular.js の学習や情報収集のまとめ
 
 - [公式サイト](https://angularjs.org/)
