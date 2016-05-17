@@ -10,6 +10,7 @@
 - [isNative](isNative.js) - 組み込み関数かどうかを取得
 - [insertRule](insertRule.js) - インラインスタイルの追加
 - [matchesSelector](matchesSelector.js) - セレクターのマッチング
+- [EventEmitter.js](EventEmitter.md) - EventEmitter の実装をいくつか
 
 
 ## その他
