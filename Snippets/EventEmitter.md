@@ -57,6 +57,11 @@ var singletonEmitter = new Emitter();
 
 
 ```js
+/**
+ * EventEmitter
+ * http://azu.github.io/slide/react-meetup/flux.html
+ */
+
 function EventEmitter() {
   this._handlers = {};
 }
