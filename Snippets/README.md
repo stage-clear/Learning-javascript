@@ -9,6 +9,7 @@
 - [getAbsoluteUrl](getAbsoluteUrl.js) - 絶対パスを取得
 - [isNative](isNative.js) - 組み込み関数かどうかを取得
 - [insertRule](insertRule.js) - インラインスタイルの追加
+- [injectCSS](injectCSS.js) - インラインスタイルの追加
 - [matchesSelector](matchesSelector.js) - セレクターのマッチング
 - [EventEmitter](EventEmitter.md) - `EventEmitter/pubsub` の実装をいくつか
 - [each/foreach](each.md) - `each/forEach`
