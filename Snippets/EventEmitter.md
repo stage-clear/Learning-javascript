@@ -85,6 +85,76 @@ var emitter = new EventEmitter();
 
 ```
 
+```js
+/**
+ * pubsub
+ */
+var pubsub = {};
+
+(function(q) {
+  var topics = {};
+  var subUid = -1;
+  
+  q.publish = function(topic, args) {
+    if (!tipics[topic]) {
+      return false;
+    }
+    var subscribers = topics[topic];
+    var len = subscribers ? subscribers.length : 0;
+    
+    while (len--) {
+      subscribers([len].func(topic, args));
+    }
+
+    return this;
+  };
+  
+  q.subscribe = function(topic, func) {
+    if (!topics[topic]) {
+      topics[topic] = [];
+    }
+    
+    var token = (++subUid).toString();
+    topics[topic].push({
+      token: token,
+      func: func
+    });
+    
+    return token;
+  };
+  
+  q.unsubscribe = function(token) {
+    for (var m in topics) {
+      if (topics[m]) {
+        for (var i = 0, j = i < topics[m].length; i < j; i++) {
+          if (topics[m][i].token === token) {
+            topics[m].splice(i, 1);
+            return token;
+          }
+        }
+      }
+    }
+    return this;
+  };
+
+})(pubsub);
+
+// test
+var messageLogger = function(topics, data) {
+  console.log('Logging' + topics + ': ' + data);
+};
+
+var subscription = pubsub.subscribe('inbox/newMessage', messageLogger); 
+
+pubsub.publish('inbox/newMessage', 'Hello, world');
+pubsub.publish('inbox/newMessage', ['test', 'a', 'b', 'c']);
+pubsub.publish('inbox/newMessage', {
+  sender: 'hello@example.com',
+  body: 'Hey again!'
+});
+
+pubsub.unsubscribe(subscription);
+```
 
 ```js
 /**
