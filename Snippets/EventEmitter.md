@@ -89,7 +89,8 @@ var emitter = new EventEmitter();
 ```js
 /**
  * Eventuality
- * @reference [JavaScript The Good Parts (P64)]
+ * Javascript: The Good Parts” Chapter 5.5 (p64)
+ *
  */
 
 var eventuality = function(that) {
