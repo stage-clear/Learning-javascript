@@ -1,4 +1,6 @@
-# each
+# each/forEach
+
+## each
 
 ```js
 /**
