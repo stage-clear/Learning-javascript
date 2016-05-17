@@ -7,7 +7,6 @@
  * https://github.com/changbenny/leopard/blob/master/build/leopard.js
  */
 
-
 function EventEmitter() {
   this.uid = 0;
   this.handlers = [];
@@ -19,16 +18,16 @@ function EventEmitter() {
 
 EventEmitter.prototype.on = function(level, callback) {
   this.handlers[level].push({
-    id: this.uid++;,
+    id: this.uid++,
     action: callback
   });
 };
 
 EventEmitter.prototype.emit = function(level) {
   for (var _len = arguments.length
-         , args = Array(_len > 1 _len - 1 : 0))
+         , args = Array(_len > 1 ? _len - 1 : 0)
          , _key = 1;
-        _key < _len; _key++ {
+        _key < _len; _key++) {
     args[_key - 1] = arguments[_key];
   }
   
@@ -54,4 +53,29 @@ EventEmitter.prototype.once = function(level, callback) {
 };
 
 var singletonEmitter = new Emitter();
+```
+
+
+```js
+function EventEmitter() {
+  this._handlers = {};
+}
+
+EventEmitter.prototype.on = function(type, handler) {
+  if (typeof this._handlers[type] === 'undefined') {
+    this._handlers[type] = [];
+  }
+  this._handlers[type].push(handler);
+};
+
+EventEmitter.prototype.emit = function(type, data) {
+  var handlers = this._handlers[type] || [];
+  for (var i = 0; i < handlers.length; i++) {
+    var handler = handlers[i];
+    handler.call(this, data);
+  }
+};
+
+var emitter = new EventEmitter();
+
 ```
