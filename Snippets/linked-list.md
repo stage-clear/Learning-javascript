@@ -66,7 +66,7 @@ class LinkedList {
 ```
 
 ```js
-// http://goo.gl/nTAcfX
+// @reference: http://goo.gl/nTAcfX
 
 /**
  * Node
@@ -113,6 +113,14 @@ class List {
     return str;
   }
 }
+
+// test
+var list = new List();
+var john = list.push('John');
+var mike = list.push('mike');
+console.log(list.toString()); // [John, mike]
+var nick = list.insertAfter(john, 'nick');
+console.log(list.toString()); // [John, nick, mike]
 ```
 
 
