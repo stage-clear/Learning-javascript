@@ -65,11 +65,14 @@ class LinkedList {
 }
 ```
 
+__一般的な例__
+
 ```js
 // @reference: http://goo.gl/nTAcfX
 
 /**
  * Node
+ * @class
  */
 
 class Node {
@@ -80,6 +83,7 @@ class Node {
 
 /**
  * List
+ * @class
  */
 class List {
   constructor() {
@@ -123,4 +127,75 @@ var nick = list.insertAfter(john, 'nick');
 console.log(list.toString()); // [John, nick, mike]
 ```
 
+__単一方向__
 
+- 次の要素への参照を持たせる
+
+```js
+/**
+ * Node
+ * @class
+ */
+
+class Node {
+  constructor(name, ref) {
+    this.name = name;
+    this.next = ref;
+  }
+}
+
+/**
+ * List
+ * @class
+ */
+
+class List {
+  constructor() {
+    this.size = 0;
+    this.first = null;
+    this.last = null;
+  }
+  
+  push(name) {
+    var node;
+    if (this.size === 0) {
+      node = new Node(name, null);
+      this.first = node;
+      this.last = node;
+      this.size++;
+      return node;
+    } else {
+      node = new Node(name, null);
+      this.last.next = node;
+      this.last = node;
+      this.size++;
+      return node;
+    }
+  }
+  
+  insertAfter(ref, name) {
+    if (ref === this.last) {
+      ref.next = new Node(name, null);
+      this.last = ref.next;
+      this.size++;
+      return ref;
+    } else {
+      ref.next = new Node(name, ref);
+      this.size++;
+      return ref.next;
+    }
+  }
+  toString() {
+    var r1 = '';
+    var str = '';
+    r1 = this.first;
+    while (r1 != null && r1 != r) {
+      str += r1.name + ', ';
+      r1 = r1.next;
+    }
+    str = '['+ str +']';
+    str = str.replace(/,\s\]/ig, ']');
+    return str;
+  }
+}
+```
