@@ -7,12 +7,22 @@
 
 
 ```js
+/**
+ * Node
+ * @class
+ */
 class Node {
   constructor(value) {
     this.value = value;
     this.nextNode = null;
   }
 }
+
+
+/**
+ * LinkedList
+ * @class
+ */
 
 class LinkedList {
   constructor() {
@@ -50,6 +60,56 @@ class LinkedList {
       node = node.nextNode;
       str = str + ', ' + node.value.toString();
     }
+    return str;
+  }
+}
+```
+
+```js
+// http://goo.gl/nTAcfX
+
+/**
+ * Node
+ */
+
+class Node {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+/**
+ * List
+ */
+class List {
+  constructor() {
+    this.data = new Array();
+  }
+  
+  push(name) {
+    var node = new Node();
+    this.data.push(node);
+    return node;
+  }
+
+  insertAfter(ref, name) {
+    var node = new Node(name);
+    var counter = this.data.length;
+    while (counter > 0 && this.data[counter] != ref) {
+      this.data[counter] = this.data[counter - 1];
+      counter--;
+    }
+    this.data[counter + 1] = node;
+    return node;
+  }
+
+  toString() {
+    var str = '';
+    for (var i = 0; i < this.data.length; i++) {
+      str += this.data[i].name + ', ';
+    }
+    str = '['+ str +']';
+    str = str.replace(/,\s\]/i, ']');
     return str;
   }
 }
