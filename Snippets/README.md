@@ -15,6 +15,13 @@
 - [each/foreach](each.md) - `each/forEach`
 
 
+## データ構造
+
+- [Stack.js](stack.md) - スタックの実装例
+- [Queue.js](queue.md) - キューの実装例
+- [Heap.js](heap.md) - 優先度付きキューの実装例
+
+
 ## その他
 
 - [Vue.js](vue.md) - Vue.js のサンプルコード
