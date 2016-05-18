@@ -37,6 +37,31 @@ class Queue {
 }
 ```
 
+```js
+class Queue {
+  constructor() {
+    this.elements = new Array();
+    this.length = 0;
+  }
+  enqueue(value) {
+    this.elements.enqueue[this.length] = value;
+    this.length++;
+  }
+  dequeue() {
+    var value = this.elements[0];
+    for (var i in this.elements) {
+      if (i === 0) {
+        continue;
+      }
+      this.elements[i - 1] this.elements[i];
+    }
+    delete this.elements[this.length];
+    this.length--;
+    return value;
+  }
+}
+```
+
 ## 参考
 
 - [キュー 【 queue 】 待ち行列](http://e-words.jp/w/%E3%82%AD%E3%83%A5%E3%83%BC.html)
