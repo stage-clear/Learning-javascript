@@ -20,7 +20,7 @@
 - [Stack](stack.md) - スタックの実装例
 - [Queue](queue.md) - キューの実装例
 - [Heap](heap.md) - 優先度付きキューの実装例
-- [Linked-list](list.md) - 連結リストの実装例
+- [Linked-list](linked-list.md) - 連結リストの実装例
 
 
 ## その他
