@@ -3,6 +3,8 @@
 ![連結リストの参考図](http://image.itmedia.co.jp/ait/articles/0809/01/r20algorithm0203.jpg)
 
 - [連結リスト 【 linked list 】 線形リスト / linear list / リンクリスト](http://e-words.jp/w/%E9%80%A3%E7%B5%90%E3%83%AA%E3%82%B9%E3%83%88.html)
+- [データ構造の選択次第で天国と地獄の差 (2/3)](http://www.atmarkit.co.jp/ait/articles/0809/01/news163_2.html)
+
 
 ```js
 class Node {
