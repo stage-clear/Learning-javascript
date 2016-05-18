@@ -8,7 +8,8 @@
 ```js
 /**
  * Queue
- *
+ * - first in first out
+ */
  */
 
 class Queue {
