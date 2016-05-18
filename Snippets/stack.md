@@ -33,6 +33,9 @@ class Stack {
   empty() {
     return this.data.length === 0;
   }
+  dump() {
+    return this.data;
+  }
 }
 
 // test
