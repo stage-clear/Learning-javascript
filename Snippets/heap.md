@@ -148,6 +148,7 @@ class BinaryHeap {
    */
   getPrior() {
     var elm = this._ary.shift();
+    if (!elm) return ;
     this.build();
     return elm['elm'];
   }
