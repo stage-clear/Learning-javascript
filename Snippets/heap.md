@@ -160,4 +160,16 @@ class BinaryHeap {
     return this._ary;
   }
 }
+
+// test
+var pq = new BinaryHeap();
+
+pq.insert('pochi', 0);
+pq.insert('son', 4);
+pq.insert('mike', 10);
+pq.insert('father', 1);
+pq.insert('mother', 2);
+console.log(pq.getList());
+console.log(pq.getPrior());
+console.log(pq.getPrior());
 ```
