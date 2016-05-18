@@ -3,22 +3,23 @@
 キューとは、先に入力したデータが先に出力されるという特徴をもつ、データ構造の一種。  
 ちょうど遊園地の乗り物待ちのような構造になっており、データを入れるときは新しいデータが最後尾につき、データを出すときは一番古いデータが優先して出てくる。
 
+![キューの参考図](http://image.itmedia.co.jp/ait/articles/0809/01/r20algorithm0202.jpg)
+
 ```js
 /**
  * Queue
- * - first in first out
- */
+ * - first in, first out
  */
 
 class Queue {
   constructor() {
     this.data = [];
   }
-  push(value) {
+  enqueue(value) {
     this.data.push(value);
     return value;
   }
-  pop() {
+  dequeue() {
     return this.data.shift();
   }
   front() {
