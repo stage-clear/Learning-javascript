@@ -53,7 +53,7 @@ function dela(s) {
 }
 
 async function func() {
-  console.log('start);
+  console.log('start');
   let message = await delay(3000);
   console.log(message);
 }
@@ -61,7 +61,7 @@ async function func() {
 func();
 ```
 
-```
+```js
 async function three() {
   for (var i = 0; i < 3; i++) {
     await func();
