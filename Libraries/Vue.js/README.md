@@ -17,6 +17,7 @@
 - [Vue.component](https://jsfiddle.net/stageclear/p9017xLo/) - 動的な Props
 - [Vue.component](https://jsfiddle.net/stageclear/L3mudtg6/) - リテラル 対 動的
 - [Vue.component](https://jsfiddle.net/stageclear/cf96u9am/) - Prop バインディングタイプ
+- [Vue.component](https://jsfiddle.net/stageclear/1qtmb5bc/) - Prop 検証
 
 
 ### リアクティブの探求
