@@ -15,6 +15,7 @@
 - [Vue.component](https://jsfiddle.net/stageclear/y4jghj2f/) - Props によるデータの伝達
 - [Vue.component](https://jsfiddle.net/stageclear/nprzg7wz/) - キャメルケース対ケバブケース
 - [Vue.component](https://jsfiddle.net/stageclear/p9017xLo/) - 動的な Props
+- [Vue.component](https://jsfiddle.net/stageclear/L3mudtg6/) - リテラル 対 動的
 
 
 ### リアクティブの探求
