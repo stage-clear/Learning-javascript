@@ -25,6 +25,7 @@
 - [Vue.component](https://jp.vuejs.org/guide/components.html#カスタムイベント) - カスタムイベント (https://jp.vue.js.org)
 - [Vue.component](https://jsfiddle.net/stageclear/qug4kc65/) - カスタムイベント
 - [Vue.component](https://jsfiddle.net/stageclear/4mxzazj8/) - カスタムイベントに対する v-on
+- [Vue.component](https://jsfiddle.net/stageclear/pugeyryr/) - 子コンポーネントの参照 v-ref
 
 
 ### リアクティブの探求
