@@ -28,6 +28,7 @@
 ### スロットによる配信 [❓](https://jp.vuejs.org/guide/components.html#スロットによるコンテンツ配信)
 - [Vue.component](https://jsfiddle.net/stageclear/bf0aLt8y/) - コンパイルスコープ
 - Vue.component - 単一スロット [❓](https://jp.vuejs.org/guide/components.html#単一スロット)
+- Vue.component - 名前付きスロット [❓](https://jp.vuejs.org/guide/components.html#名前付きスロット)
 
 
 ### リアクティブの探求
