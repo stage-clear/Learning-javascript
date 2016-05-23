@@ -19,7 +19,7 @@
 - [Vue.component](https://jsfiddle.net/stageclear/cf96u9am/) - Prop バインディングタイプ
 - [Vue.component](https://jsfiddle.net/stageclear/1qtmb5bc/) - Prop 検証
 
-#### 親子間の通信 [❓](https://jp.vuejs.org/guide/components.html#親子間の通信)
+#### [親子間の通信](https://jp.vuejs.org/guide/components.html#親子間の通信)
 - Vue.component - 親のチェーン [❓](https://jp.vuejs.org/guide/components.html#親子間の通信)
 - [Vue.component](https://jsfiddle.net/stageclear/qug4kc65/) - カスタムイベント
 - [Vue.component](https://jsfiddle.net/stageclear/4mxzazj8/) - カスタムイベントに対する v-on
