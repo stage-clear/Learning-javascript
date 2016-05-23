@@ -24,6 +24,7 @@
 - [Vue.component](https://jp.vuejs.org/guide/components.html#親子間の通信) - 親のチェーン (https://jp.vue.js.org)
 - [Vue.component](https://jp.vuejs.org/guide/components.html#カスタムイベント) - カスタムイベント (https://jp.vue.js.org)
 - [Vue.component](https://jsfiddle.net/stageclear/qug4kc65/) - カスタムイベント
+- [Vue.component](https://jsfiddle.net/stageclear/4mxzazj8/) - カスタムイベントに対する v-on
 
 
 ### リアクティブの探求
