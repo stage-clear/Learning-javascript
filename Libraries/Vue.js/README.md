@@ -30,7 +30,7 @@
 - Vue.component - 単一スロット [❓](https://jp.vuejs.org/guide/components.html#単一スロット)
 - Vue.component - 名前付きスロット [❓](https://jp.vuejs.org/guide/components.html#名前付きスロット)
 
-#### [動的コンポーネント](ttps://jp.vuejs.org/guide/components.html#動的コンポーネント)
+#### [動的コンポーネント](https://jp.vuejs.org/guide/components.html#動的コンポーネント)
 - [Vue.component](https://jsfiddle.net/stageclear/ovd038a6/)- <component/> (未動作)
 - [Vue.component](https://jsfiddle.net/stageclear/b5fz0xa0/) - keep-alive (未動作)
 - [Vue.component](https://jsfiddle.net/stageclear/w3yLe2on/) - activate フック (未動作)
