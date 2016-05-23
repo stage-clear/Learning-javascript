@@ -38,6 +38,11 @@
 
 #### [その他](https://jp.vuejs.org/guide/components.html#その他)
 - [Vue.component](https://jsfiddle.net/stageclear/cabtgm06/) - コンポーネントと v-for
+- [Vue.component](https://jsfiddle.net/stageclear/jp6hhvhw/) - 再利用可能なコンポーネントの著作 (未動作)
+- [Vue.component](https://jsfiddle.net/stageclear/uzwws0xk/) - 非同期コンポーネント
+- [Vue.component](https://jsfiddle.net/stageclear/38z6ncfo/) - 再帰的なコンポーネント (意図的なエラー)
+- [Vue.component](https://jsfiddle.net/stageclear/4rtmag6q/) - フラグメントインスタンス
+- [Vue.component](https://jsfiddle.net/stageclear/cb1gex4f/) - インラインテンプレート (未動作?)
 
 
 ### リアクティブの探求
