@@ -36,6 +36,9 @@
 - [Vue.component](https://jsfiddle.net/stageclear/w3yLe2on/) - activate フック (未動作)
 - [Vue.component](https://jsfiddle.net/stageclear/ahez5mpa/) - transition-mode
 
+#### [その他](https://jp.vuejs.org/guide/components.html#その他)
+- [Vue.component](https://jsfiddle.net/stageclear/cabtgm06/) - コンポーネントと v-for
+
 
 ### リアクティブの探求
 
