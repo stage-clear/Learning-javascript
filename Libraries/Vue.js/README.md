@@ -61,6 +61,10 @@
 - [Vue.directive](https://jsfiddle.net/stageclear/vv7mzk8y/) - エレメントディレクティブ
 
 #### 高度なオプション
+- [Vue.directive](https://jsfiddle.net/stageclear/bh0dsrLp/) - params
+- [Vue.directive](https://jsfiddle.net/stageclear/m0xLg520/) - deep
+- [Vue.directive](https://jsfiddle.net/stageclear/c358t1yd/) - twoWay (未動作)
+- [Vue.directive](https://jsfiddle.net/stageclear/me8ptgpr/) - acceptStatement
 
 
 ## CDN
