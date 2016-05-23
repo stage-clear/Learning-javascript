@@ -19,6 +19,12 @@
 - [Vue.component](https://jsfiddle.net/stageclear/cf96u9am/) - Prop バインディングタイプ
 - [Vue.component](https://jsfiddle.net/stageclear/1qtmb5bc/) - Prop 検証
 
+### 親子間の通信
+
+- [Vue.component](https://jp.vuejs.org/guide/components.html#親子間の通信) - 親のチェーン (https://jp.vue.js.org)
+- [Vue.component](https://jp.vuejs.org/guide/components.html#カスタムイベント) - カスタムイベント (https://jp.vue.js.org)
+- [Vue.component](https://jsfiddle.net/stageclear/qug4kc65/) - カスタムイベント
+
 
 ### リアクティブの探求
 
