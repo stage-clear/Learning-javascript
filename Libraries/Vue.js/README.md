@@ -20,12 +20,12 @@
 - [Vue.component](https://jsfiddle.net/stageclear/1qtmb5bc/) - Prop 検証
 
 ### 親子間の通信
-- Vue.component - 親のチェーン [？](https://jp.vuejs.org/guide/components.html#親子間の通信)
-- [Vue.component](https://jsfiddle.net/stageclear/qug4kc65/) - カスタムイベント [？](https://jp.vuejs.org/guide/components.html#カスタムイベント)
+- Vue.component - 親のチェーン [❓](https://jp.vuejs.org/guide/components.html#親子間の通信)
+- [Vue.component](https://jsfiddle.net/stageclear/qug4kc65/) - カスタムイベント [❓](https://jp.vuejs.org/guide/components.html#カスタムイベント)
 - [Vue.component](https://jsfiddle.net/stageclear/4mxzazj8/) - カスタムイベントに対する v-on
 - [Vue.component](https://jsfiddle.net/stageclear/pugeyryr/) - 子コンポーネントの参照 v-ref
 
-### スロットによる配信 [？](https://jp.vuejs.org/guide/components.html#スロットによるコンテンツ配信)
+### スロットによる配信 [❓](https://jp.vuejs.org/guide/components.html#スロットによるコンテンツ配信)
 - [Vue.component]() - コンパイルスコープ
 
 
