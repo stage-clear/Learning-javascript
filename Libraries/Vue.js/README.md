@@ -51,6 +51,17 @@
 - [Vue.nextTick (2)](https://jsfiddle.net/stageclear/noct6nn6/) - (動作未確認)
 
 
+### カスタムディレクティブ
+#### 基本
+
+- [Vue.directive](https://jsfiddle.net/stageclear/7o7wxj3n/) - フック関数
+- [Vue.directive](https://jsfiddle.net/stageclear/9zy43rf7/) - ディレクティブインスタンスのプロパティ
+- [Vue.directive](https://jsfiddle.net/stageclear/4w8utd2q/) - オブジェクトリテラル
+- [Vue.directive](https://jsfiddle.net/stageclear/mcw95fet/) - リテラル修飾子
+- [Vue.directive](https://jsfiddle.net/stageclear/vv7mzk8y/) - エレメントディレクティブ
+
+#### 高度なオプション
+
 
 ## CDN
 
