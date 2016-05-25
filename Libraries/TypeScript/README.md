@@ -1,1 +1,1 @@
-# Lean to TypeScript
+# Learn to TypeScript
