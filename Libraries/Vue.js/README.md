@@ -43,6 +43,11 @@
 - [オブジェクトの v-for](https://jsfiddle.net/stageclear/dhdvtu7c/)
 - [範囲の v-for](https://jsfiddle.net/stageclear/m3sdwpqw/)
 
+### トランジション
+- [CSS トランジション](https://jsfiddle.net/stageclear/bc9sLtjy/)
+- [JavaScript トランジション](https://jsfiddle.net/stageclear/x9m5m4v5/)
+
+
 ### コンポーネント
 #### [コンポーネントの利用](https://jp.vuejs.org/guide/components.html#コンポーネントの使用)
 - [Vue.component](https://jsfiddle.net/stageclear/p8mdpjn4/) - 登録
