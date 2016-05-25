@@ -19,3 +19,4 @@ JavaScript の学習や情報収集のまとめ
 - [Vue.js](Libraries/Vue.js) - learn to Vue.js
 - [RxJS](Libraries/RxJS/) - learn to RxJS
 - [p5js](Books/978-4-87783-381-7) - learn to p5js
+- [TypeScript](Libraries/TypeScript/) - learn to TypeScript
