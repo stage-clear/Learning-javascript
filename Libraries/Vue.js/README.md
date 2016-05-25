@@ -66,6 +66,17 @@
 - [Vue.directive](https://jsfiddle.net/stageclear/c358t1yd/) - twoWay (未動作)
 - [Vue.directive](https://jsfiddle.net/stageclear/me8ptgpr/) - acceptStatement
 
+### カスタムフィルタ
+- [Vue.filter](https://jsfiddle.net/stageclear/fetjwpzq/) - 基本
+- [Vue.filter](https://jsfiddle.net/stageclear/n30pp0zp/) - Two-Way フィルタ
+- [Vue.filter](https://jsfiddle.net/stageclear/ytrwdwz1/) - 動的な引数
+
+### ミックスイン
+- [Vue.mixin](https://jsfiddle.net/stageclear/4utxqLnd/) - 基本
+- [Vue.mixin](https://jsfiddle.net/stageclear/hws6t9pk/) - オプションのマージ
+- [Vue.mixin](https://jsfiddle.net/stageclear/yhks2av2/) - グローバルミックスイン
+- [Vue.mixin](https://jsfiddle.net/stageclear/2euk4s6v/) - カスタムオプションのマージストラテジ
+
 
 ## CDN
 
