@@ -16,6 +16,16 @@
 - [算出プロパティ 対 $watch](https://jsfiddle.net/stageclear/x4nj6g4e/)
 - [算出 Setter 関数](https://jsfiddle.net/stageclear/djphvken/)
 
+### クラスとスタイルのバインディング
+#### バンディングHTMLクラス
+- [オブジェクト構文](https://jsfiddle.net/stageclear/doy3u0n9/) - 
+- [配列構文](https://jsfiddle.net/stageclear/p7p3p5vm/)
+
+#### バインディングインラインスタイル
+- [オブジェクト構文](https://jsfiddle.net/stageclear/cgLep793/)
+- [配列構文](https://jsfiddle.net/stageclear/h6fbgpv4/)
+
+
 ### コンポーネント
 #### [コンポーネントの利用](https://jp.vuejs.org/guide/components.html#コンポーネントの使用)
 - [Vue.component](https://jsfiddle.net/stageclear/p8mdpjn4/) - 登録
