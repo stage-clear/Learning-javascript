@@ -25,6 +25,16 @@
 - [オブジェクト構文](https://jsfiddle.net/stageclear/cgLep793/)
 - [配列構文](https://jsfiddle.net/stageclear/h6fbgpv4/)
 
+### 条件付きレンダリング
+- [v-if](https://jsfiddle.net/stageclear/g5k80nxj/)
+- [テンプレートでの v-if](https://jsfiddle.net/stageclear/t0ksgqtp/)
+- [v-show](https://jsfiddle.net/stageclear/pxvz51cc/)
+- [v-else](https://jsfiddle.net/stageclear/567zwbc4/)
+- [コンポーネントでの注意事項](https://jp.vuejs.org/guide/conditional.html#コンポーネントでの注意事項)
+
+> v-if 対 v-show  
+> とても頻繁に何かを切り替える必要があるのであればむしろ v-show を選び、
+> 条件が実行時に変更することがほとんどない場合は、むしろ v-if を選びます。
 
 ### コンポーネント
 #### [コンポーネントの利用](https://jp.vuejs.org/guide/components.html#コンポーネントの使用)
@@ -65,7 +75,6 @@
 - [Vue.component](https://jsfiddle.net/stageclear/38z6ncfo/) - 再帰的なコンポーネント (意図的なエラー)
 - [Vue.component](https://jsfiddle.net/stageclear/4rtmag6q/) - フラグメントインスタンス
 - [Vue.component](https://jsfiddle.net/stageclear/cb1gex4f/) - インラインテンプレート (未動作?)
-
 
 ### リアクティブの探求
 
