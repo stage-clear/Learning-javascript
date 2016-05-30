@@ -7,7 +7,7 @@ ES2015の学習や情報収集のまとめ
 
 ## 主要機能リスト
 
-- [クラス](/Class.md)
+- [クラス](Class.md)
 - [モジュール](Modules.md)
 - [アロー関数](ArrowFunctions.md)
 - [オブジェクトリテラル拡張](objectLiteral.md)
