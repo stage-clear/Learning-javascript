@@ -18,15 +18,21 @@ function compose(a, b) {
 function compose(/* args */) {
   let args = Array.from(arguments);
   let length = args.length;
-  
-  return function(/* values */) {
-    if (length < 1) return value;
-    let counter = 0;
-    let values = Array.from(arguments);
-    while(length > counter++) {
-      values = args[counter].apply(null, values);
+  let counter = 0, res = null;
+
+  return function(value) {
+    if (length < 1 || value == null) {
+      return value;
     }
-    return values;
+		res = value;
+    while(length > counter) {
+    	let arg = args[counter];
+    	if (typeof arg === 'function') {
+      	res = arg.call(null, res);
+      }
+      counter++;
+    }
+    return res;
   }
 }
 ```
