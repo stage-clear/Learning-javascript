@@ -21,6 +21,7 @@
 
 ## データ構造
 
+- [Store](store.md) - ストア
 - [Stack](stack.md) - スタックの実装例
 - [Queue](queue.md) - キューの実装例
 - [Heap](heap.md) - 優先度付きキューの実装例
