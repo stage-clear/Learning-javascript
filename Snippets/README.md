@@ -14,6 +14,7 @@
 - [EventEmitter](EventEmitter.md) - `EventEmitter/pubsub` の実装をいくつか
 - [each/foreach](each.md) - `each/forEach`
 - [globalEval](globalEval.md) - グローバルスコープでコードを評価/実行する
+- [compose](compose.md) - 合成関数
 
 
 ## データ構造
