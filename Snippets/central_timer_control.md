@@ -96,19 +96,20 @@ let target = document.getElementById('box');
 let left = 0;
 let top = 0;
 
-Timer.add(() => {
-  target.style.left = (left + 2) + 'px';
+timer.add(() => {
+  target.style.left = (left += 2) + 'px';
   if (left > 200) {
     return false;
   }
 });
 
-Timer.add(() => {
+timer.add(() => {
   target.style.top = (top++) + 'px';
   if (top > 50) {
     return false;
   }
 });
 
+timer.start();
 
 ```
