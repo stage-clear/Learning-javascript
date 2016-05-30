@@ -15,6 +15,7 @@
 - [each/foreach](each.md) - `each/forEach`
 - [globalEval](globalEval.md) - グローバルスコープでコードを評価/実行する
 - [compose](compose.md) - 合成関数
+- [Central timer control](central_timer_control.md) - 集中タイマーコントロール
 - [Array Effects](array_effects.md) - reduce/map/range
 
 
