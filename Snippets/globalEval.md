@@ -22,5 +22,5 @@ function globalEval(data) {
 })()
 
 // work on global scope
-console.log('test'); // => 5
+console.log('test:', test); // => 5
 ```
