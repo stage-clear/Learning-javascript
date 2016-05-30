@@ -13,6 +13,7 @@
 - [matchesSelector](matchesSelector.js) - セレクターのマッチング
 - [EventEmitter](EventEmitter.md) - `EventEmitter/pubsub` の実装をいくつか
 - [each/foreach](each.md) - `each/forEach`
+- [globalEval](globalEval.md) - グローバルスコープでコードを評価/実行する
 
 
 ## データ構造
