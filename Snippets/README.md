@@ -15,6 +15,7 @@
 - [each/foreach](each.md) - `each/forEach`
 - [globalEval](globalEval.md) - グローバルスコープでコードを評価/実行する
 - [compose](compose.md) - 合成関数
+- [range](range.md) - n 個の要素を持った配列を返す
 
 
 ## データ構造
