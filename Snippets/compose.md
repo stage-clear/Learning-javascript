@@ -17,7 +17,7 @@ function compose(a, b) {
 可変長引数に対応 + 左から処理
 
 ```js
-function compose(/* args */) {
+function compose(/* arguments */) {
   let args = Array.from(arguments);
   let length = args.length;
   let counter = 0, res = null;
