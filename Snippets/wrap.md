@@ -42,10 +42,10 @@ a2(10, 1, (value) => {
 function wrap(object, method, wrapper) {
   var fn = object[method];
 
-	return object[method] = (...args) => {
+  return object[method] = (...args) => {
     return wrapper.apply(object, [fn.bind(object)].concat(
-			args
-    ));  
+      args
+    ));
   };
 }
 
