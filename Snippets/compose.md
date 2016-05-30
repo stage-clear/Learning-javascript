@@ -26,11 +26,11 @@ function compose(/* arguments */) {
     if (length < 1 || value == null) {
       return value;
     }
-		res = value;
+    res = value;
     while(length > counter) {
-			let arg = args[counter];
-			if (typeof arg === 'function') {
-				res = arg.call(null, res);
+      let arg = args[counter];
+      if (typeof arg === 'function') {
+        res = arg.call(null, res);
       }
       counter++;
     }
