@@ -22,6 +22,7 @@
 
 - [compose](compose.md) - 合成関数
 - [wrap](wrap.md) - ラッピング関数
+- [pipeline](pipeline.md) - パイプライン関数
 
 
 ## データ構造
