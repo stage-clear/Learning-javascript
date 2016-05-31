@@ -16,7 +16,7 @@
 - [globalEval](globalEval.md) - グローバルスコープでコードを評価/実行する
 - [Central timer control](central_timer_control.md) - 集中タイマーコントロール
 - [Array Effects](array_effects.md) - reduce/map/range
-
+- [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 
 ## 高階関数
 
