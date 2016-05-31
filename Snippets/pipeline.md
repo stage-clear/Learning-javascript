@@ -13,4 +13,21 @@ function pipeline(seed /*, some functions */) {
     r(l);
   }, seed);
 }
+
+// test
+let a = pipeline(42, function(n) {
+	return -n;
+});
+console.log(a);
+
+function fifth(a) {
+	return pipeline(a
+		, _.rest
+		, _.rest
+		, _.first
+	)
+}
+
+let b = fifth([1,2,3,4,5]);
+console.log(b);
 ```
