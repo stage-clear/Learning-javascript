@@ -16,15 +16,15 @@ function pipeline(seed /*, some functions */) {
 
 // test
 let a = pipeline(42, function(n) {
-	return -n;
+  return -n;
 });
 console.log(a);
 
 function fifth(a) {
-	return pipeline(a
-		, _.rest
-		, _.rest
-		, _.first
+  return pipeline(a
+    , _.rest
+    , _.rest
+    , _.first
 	)
 }
 
