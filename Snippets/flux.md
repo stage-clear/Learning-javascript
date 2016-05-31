@@ -63,13 +63,13 @@ class Button {
     this.state = { count: store.getCount() };
     this.view = view;
     this.trigger = trigger;
-    store.on('CHANGE', () => {
-      this._onChange();
-    });
     this.trigger.addEventListener('click', () => {
       this.tick();
       this.render();
-    })
+    });
+    store.on('CHANGE', () => {
+      this._onChange();
+    });
   }
   _onChange() {
     this.state.count = store.getCount();
