@@ -1,7 +1,6 @@
 # スニペット
 
 ## コード
-
 - [debounce](debounce.js) - 連続したイベントの最後に1度だけ処理する
 - [throttle](throttle.js) - 連続したイベントの発生頻度を一定に保つ
 - [poll](poll.js) - ポーリング処理
@@ -19,20 +18,21 @@
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 
 ## 高階関数
-
 - [compose](compose.md) - 合成関数
 - [wrap](wrap.md) - ラッピング関数
 - [pipeline](pipeline.md) - パイプライン関数
 
 
 ## データ構造
-
 - [Store](store.md) - ストア
 - [Stack](stack.md) - スタックの実装例
 - [Queue](queue.md) - キューの実装例
 - [Heap](heap.md) - 優先度付きキューの実装例
 - [Linked-list](linked-list.md) - 連結リストの実装例
 
+
+## フロー制御
+- [Flux](flux.md) - 構造を理解するためだけのシンプルな Flux
 
 ## その他
 
