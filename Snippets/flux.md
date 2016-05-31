@@ -26,7 +26,6 @@ class EventEmitter {
   }
 }
 
-
 // Store
 // import Emitter from './EventEmitter.js';
 class Store extends EventEmitter {
@@ -47,6 +46,7 @@ class Store extends EventEmitter {
   }
 }
 
+// ActionCreator
 class ActionCreator {
   constructor(dispatcher) {
     this.dispatcher = dispatcher;
@@ -57,7 +57,7 @@ class ActionCreator {
   }
 }
 
-
+// Component 
 class Button {
   constructor(trigger, view) {
     this.state = { count: store.getCount() };
