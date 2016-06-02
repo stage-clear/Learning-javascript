@@ -1,41 +1,6 @@
 ### 2.1 [コンストラクタパターン](1.md)
 ### 2.2 [モジュールパターン](2.md)
-### 2.3 リビーリングモジュールパターン
-
-__モジュールパターンへの不満__  
-
-- メインオブジェクトの名前を繰り返し書かなければならない
-- パブリックにしたいものをオブジェクトリテラルに書き換えなければならない
-
-```javascript
-var myRevealingModule = function() {
-  var privateVar = 'Ben Cherry';
-  var publicVar = 'Hey there!';
-
-  function privateFunction() {
-    console.log('Name: ' + privateVar);
-  }
-
-  function publicSetName(strName) {
-    privateVar = strName;
-  }
-
-  function publicGetName() {
-    privateFunction();
-  }
-
-  return {
-    setName  : publicSetName,
-    greeting : publicVar,
-    getName  : publicGetName
-  }
-
-}();
-
-myRevealingModule.setName('Paul kinlan');
-myRevealingModule.getName();
-```
-
+### 2.3 [リビーリングモジュールパターン](3.md)
 ### 2.4 シングルトンパターン
 __シングルトンパターンの適用可能性__
 
