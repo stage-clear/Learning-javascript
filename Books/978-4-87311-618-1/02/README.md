@@ -1,50 +1,9 @@
 ### 2.1 [コンストラクタパターン](1.md)
 ### 2.2 [モジュールパターン](2.md)
 ### 2.3 [リビーリングモジュールパターン](3.md)
-### 2.4 シングルトンパターン
-__シングルトンパターンの適用可能性__
-
-1. クラスのインスタンスは1つしか存在してはならず, また, クライアントが, 公開されたアクセスポイントを通してそのインスタンスにアクセスできなければならない場合
-2. 唯一のインスタンスがサブクラス化により拡張可能で, また, クライアントが, 拡張されたインスタンスをコードの修正なしに利用できるようにしたい場合
-
-*シングルトンを使う根拠がはっきりしていても, JavaScript でシングルトンが必要だと感じている場合はたいてい, 設計の見直しが必要です.
-```javascript
-var SingletonTester = (function() {
-
-  function Singleton(options) {
-    // 引数で受け取ったオプションがあれば options に設定する.
-    // なければ options には空のオブジェクトを設定する
-    options = options || {};
-
-    // シングルトンのプロパティの設定する
-    this.name = 'SingletonTester';
-    this.pointX = options.pointX || 6;
-    this.pointY = options.pointY || 10;
-  }
-
-  // インスタンスの保存場所
-  var instance;
-  // 静的な変数やメソッドの列挙
-  return {
-    name: 'SingletonTester',
-    // インスタンスを取得するメソッド
-    // シングルトンオブジェクトのインスタンスを返す
-    getInstance: function(options) {
-      if (!instance) {
-        instance = new Singleton(options);
-      }
-      return instance;
-    }
-  };
-
-})();
-
-// 使用
-var singltonTest = SingletonTester.getInstance({ pointX: 5 });
-console.log(singltonTest.pointX);
-```
-
+### 2.4 [シングルトンパターン](4.md)
 ### 2.5 オブザーバパターン
+
 サブジェクトと呼ばれるオブジェクト自身に依存するオブジェクト（オブザーバ）のリストを保持し, 状態変化の際にオブザーバに自動的に通知します.
 
 | 種類 | 説明 |
