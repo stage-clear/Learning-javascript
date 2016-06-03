@@ -6,11 +6,13 @@ function fixEvent(event) {
   const returnTrue = () => true;
   const returnFalse = () => false;
   
+  // Tests if fixing up is needed
   if (!event || !event.stopPropagation) {
     const old = event || window.event;
     
     event = {};
     
+    // Clones existing properties
     for (let property in old) {
       event[property] = old[property];
     }
@@ -58,6 +60,8 @@ function fixEvent(event) {
       );
     }
   }
+
+  // Returns fixed up instance
   return event;
 }
 ```
