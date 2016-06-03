@@ -41,7 +41,7 @@
 
 
 ## フロー制御
-- [EventEmitter](EventEmitter.md) - `EventEmitter/pubsub` の実装をいくつか
+- [EventEmitter](event-emitter.md) - `EventEmitter/pubsub` の実装をいくつか
 - [Flux](flux.md) - 構造を理解するためだけのシンプルな Flux
 
 ## その他
