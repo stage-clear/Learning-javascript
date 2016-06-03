@@ -23,7 +23,7 @@ function getOffset(el) {
       offsetTop += el.offsetTop;
     }
     if (!isNaN(el.offsetLeft)) {
-      offset += el.offsetLeft;
+      offsetLeft += el.offsetLeft;
     }
   } while (el = el.offsetParent);
   
@@ -34,4 +34,15 @@ function getOffset(el) {
     width: offsetWidth 
   };
 }
+
+// test 
+var a = document.getElementById('a');
+a.style.width = '131.5px';
+a.style.height = '50px';
+a.style.backgroundColor = '#ccc';
+a.style.position = 'absolute';
+a.style.top = '40px';
+a.style.left = '10px';
+
+getOffset(a); // => { top: 40, left: 10, height: 50, width: 132 }
 ```
