@@ -39,7 +39,6 @@ function getOffset(el) {
 var a = document.getElementById('a');
 a.style.width = '131.5px';
 a.style.height = '50px';
-a.style.backgroundColor = '#ccc';
 a.style.position = 'absolute';
 a.style.top = '40px';
 a.style.left = '10px';
