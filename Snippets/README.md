@@ -20,6 +20,7 @@
 - [getScrolled](get-scrolled.md) - スクロール量の取得する
 - [getConteiner](get-container.md) - 
 - [isElemVisible](is-elem-visible.md) - 
+- [fixEventObject](fix-event-object.md) - イベントオブジェクトを正規化する(レガシーIE対応)
 
 ## Util
 - [each/foreach](each.md) - `each/forEach`
