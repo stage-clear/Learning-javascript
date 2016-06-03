@@ -16,7 +16,7 @@
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 
 ## Element
-- [getOffset](get-offset.md) - 要素の幅と高さ、絶対位置を取得する
+- [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
 - [getScrolled](get-scrolled.md) - スクロール量の取得する
 
 ## Util
