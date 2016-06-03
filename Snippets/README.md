@@ -15,6 +15,10 @@
 - [Array Effects](array_effects.md) - reduce/map/range
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 
+## Element
+- [getOffset](get-offset.md) - 
+- [getScrolled](get-scrolled.md) - スクロール量の取得
+
 ## Util
 - [each/foreach](each.md) - `each/forEach`
 - [merge](merge.md) - オブジェクトとオブジェクトをマージする
