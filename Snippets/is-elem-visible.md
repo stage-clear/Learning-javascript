@@ -5,39 +5,57 @@
 // import _getContainer from 'path/to/getContainer.js'
 // import _getScrolled from 'path/to/getScrolled.js';
 
-function isElemVisible(elem) {
-  let offset = _getOffset(elem.domEl);
-  let container = _getContainer(elem.config.container);
-  let scrolled = _getScrolled(elem.config.container);
-  let vF = elem.config.viewFactor;
-  
+/**
+ * is elem visible
+ * @param {HTMLElement} el
+ * @param {HTMLElement} viewport - Usualy, It is window object
+ * @param {Obmect} _viewOffset - { top, left, bottom, right }
+ * @return {Booean} True is visibled elem.
+ * @reference 
+ *   - https://github.com/jlmakes/scrollreveal.js/blob/master/scrollreveal.js#L813-L855,
+ *   - https://scrollrevealjs.org/assets/viewoffset.png (viewOffset visual aid)
+ */
+
+function isElemVisible(el, viewport, _viewOffset) {
+  let offset = _getOffset(el);
+  let container = _getContainer(viewport);
+  let scrolled = _getScrolled(viewport);
+  let vF = 0.2; // viewFactor
+
   let elemHeight = offset.height;
-  let elemWidth = offset.width;
+  let elemWidth = offset.width; 
   let elemTop = offset.top;
+  let elemLeft = offset.left;
   let elemBottom = elemTop + elemHeight;
   let elemRight = elemLeft + elemWidth;
-  
-  return confirmBounds() || isPositionFixed();
-  
-  function confirmBounds() {
-    let top = elemTop + elemHeight * vF;
-    let left = elemLeft + elemWidth * vF;
-    let bottom = elemBottom - elemHeight * vF;
-    let right = eemRight - elemWidth * vF;
-    
-    let viewTop = scrolled.y + elem.config.viewOffset.top;
-    let viewLeft = scrolled.x + elem.config.viewOffset.left;
-    let viewBottom = scrolled.y - elem.config.viewOffset.bottom + container.height;
-    let viewRight = scrolled.x - elem.config.viewOffset.right + container.width;
-    
-    return top < viewBottom
-      && bottom > viewTop
-      && left > viewLeft
-      && right < viewRight;
+
+  let viewOffset = { top: 0, left: 0, bottom: 0, right: 0 };
+
+  if (_viewOffset) {
+    for (let key in _viewOffset) {
+      if (_viewOffset[key] && _viewOffset[key] !== 0) {
+        viewOffset[key] = _viewOffset[key];
+      }
+    }
   }
-  
-  function isPositionFixed() {
-    return (window.getComputedStyle(elem.domEl).position === 'fixed');
+
+  return confirmBounds();
+
+  function confirmBounds() {
+    let top    = elemTop    + elemHeight * vF;
+    let left   = elemLeft   + elemWidth  * vF;
+    let bottom = elemBottom - elemHeight * vF;
+    let right  = elemRight  - elemWidth  * vF;
+    
+    viewTop    = scrolled.y + viewOffset.top;
+    viewLeft   = scrolled.x + viewOffset.left;
+    viewBottom = scrolled.y - viewOffset.bottom + container.height;
+    viewRight  = scrolled.x - viewOffset.right  + container.width;
+    
+    return top  < viewBottom
+      && bottom > viewTop
+      && left   > viewLeft
+      && right  < viewRight;
   }
 }
 ```
