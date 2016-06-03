@@ -27,7 +27,7 @@ console.log('test:', test); // => 5
 
 // test 2:
 // <script type="x/onload">
-//   do something
+//   console.log('run after page load');
 // </script>
 window.addEventListener('load', () => {
   let scripts = document.getElementsByTagName('script');
