@@ -12,6 +12,7 @@
 - [matchesSelector](matchesSelector.js) - セレクターのマッチング
 - [EventEmitter](EventEmitter.md) - `EventEmitter/pubsub` の実装をいくつか
 - [each/foreach](each.md) - `each/forEach`
+- [merge](merge.md) - オブジェクトとオブジェクトをマージする
 - [globalEval](globalEval.md) - グローバルスコープでコードを評価/実行する
 - [Central timer control](central_timer_control.md) - 集中タイマーコントロール
 - [Array Effects](array_effects.md) - reduce/map/range
