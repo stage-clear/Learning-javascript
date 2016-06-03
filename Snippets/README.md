@@ -18,6 +18,7 @@
 ## Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
 - [getScrolled](get-scrolled.md) - スクロール量の取得する
+- [getConteiner](get-container.md) - 
 
 ## Util
 - [each/foreach](each.md) - `each/forEach`
