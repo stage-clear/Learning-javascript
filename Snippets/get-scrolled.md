@@ -3,6 +3,11 @@
 ```js
 // import _getOffset from './getOffset.js';
 
+/**
+ * get scrolled
+ * @reference https://github.com/jlmakes/scrollreveal.js/blob/master/scrollreveal.js#L759-L777
+ *
+ */
 function getScrolled(container) {
   // Return the container scroll values, plus the its offset.
   if (container && container !== window.document.documentElement) {
