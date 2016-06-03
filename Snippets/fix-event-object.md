@@ -2,8 +2,9 @@
 
 ```js
 function fixEvent(event) {
-  let returnTrue = () => true;
-  let returnFalse = () => false;
+  // Predefines often used functions
+  const returnTrue = () => true;
+  const returnFalse = () => false;
   
   if (!event || !event.stopPropagation) {
     const old = event || window.event;
