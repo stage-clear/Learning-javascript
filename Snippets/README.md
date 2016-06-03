@@ -10,7 +10,7 @@
 - [insertRule](insertRule.js) - インラインスタイルの追加
 - [injectCSS](injectCSS.js) - インラインスタイルの追加
 - [matchesSelector](matchesSelector.js) - セレクターのマッチング
-- [globalEval](globalEval.md) - グローバルスコープでコードを評価/実行する
+- [globalEval](global-eval.md) - グローバルスコープでコードを評価/実行する
 - [Central timer control](central_timer_control.md) - 集中タイマーコントロール
 - [Array Effects](array_effects.md) - reduce/map/range
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
