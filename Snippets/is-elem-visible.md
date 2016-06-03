@@ -58,4 +58,15 @@ function isElemVisible(el, viewport, _viewOffset) {
       && right  < viewRight;
   }
 }
+
+
+
+// test
+let elem = document.getElementById('elem');
+let viewport = document.documentElement;
+window.addEventListener('scroll', () => {
+	if (isElemVisible(elem, viewport, { top: 200 })) {
+		console.log('[I\'m in!]');
+	}
+});
 ```
