@@ -23,4 +23,10 @@ function getScrolled(container) {
     }
   }
 }
+
+// test
+let container = document.body || document.documentElement;
+window.addEventListener('scroll', () => {
+	console.log( getScrolled(container) );
+});
 ```
