@@ -1,6 +1,12 @@
 # getOffset
 
+
 ```js
+/**
+ * get offset by element
+ * @reference https://github.com/jlmakes/scrollreveal.js/blob/master/scrollreveal.js#L781-L809
+ */
+
 function getOffset(el) {
   let offsetTop = 0;
   let offsetLeft = 0;
