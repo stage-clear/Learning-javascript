@@ -6,59 +6,7 @@
 ### 2.6 [メディエータパターン](6.md)
 ### 2.7 [プロトタイプパターン](7,md)
 ### 2.8 [コマンドパターン](8.md)
-
-__コマンドパターンの目的__  
-
-メソッド呼び出しやリクエスト, あるいはオペレーションを, 1つのオブジェクトにカプセル化し, メソッド呼び出しのパラメータ化とメソッド呼び出しを渡すことのどちらも自由に実行できるようにすることです.
-
-```javascript
-// コマンドパターンの説明のため, 以下のような車を購入する簡単なサービスを作成してみます.
-(function(){
-  var CarManager = {
-    // 情報を要求する
-    requestInfo: function(model, id) {
-      return 'The information for ' + model + ' with ID ' + id + ' is foobar';
-    },
-
-    // 車を購入する
-    buyVehicle: function(model, id) {
-      return 'You have successfully purchased Item ' + id + ' model';
-    },
-
-    // 車を見るための手配をする.
-    arrangeViewwing: function(model, id) {
-      return 'You have successfully booked a viewing of ' + model + '(' + id + ')';
-    }
-  };
-})();
-```
-
-__問題点__  
-
-- CarManagerの背後にあるコアAPIが変更された場合, このメソッドに直接アクセスするアプリケーションの中のオブジェクトもすべて修正せざるを得ません.これはレイヤーの分離が不十分であり, オブジェクトをできるだけ疎結合にするというオブジェクト指向の手法に反します
-
-__コマンドパターン__  
-
-- 名前指定されたメソッドを受け付けて, CarManagerオブジェクトで実行されるようにする
-- 必要と思われるデータをパラメータとして渡せるようにする
-
-```javascript
-CarManager.execute('buyVehicle', 'Ford Escort', '453454');
-
-// executeを定義
-CarManager.execute = function(name) {
-  return CarManager[name] &&
-    CarManager[name].apply(CarManager, [].slice.call(arguments, 1));
-};
-
-CarManager.execute('arrangeViewing', 'Ferrari', '839208');
-CarManager.execute('requestInfo', 'Ford Mondeo', '843904');
-CarManager.execute('requestInfo', 'Ford Escort', '324324');
-CarManager.execute('buyVehicle', 'Ford Escort', '432489');
-
-```
-
-### 2.9 ファサードパターン
+### 2.9 [ファサードパターン](9.md)
 
 ファサードは, jQueryのようなJSライブラリによく見られる構造パターンです. 内部ではさまざまな振る舞いを持つメソッド群が実装されていても, 「ファサード」あるいはこれらのメソッドの制限された抽象だけが, 外部に公開されます.
 
