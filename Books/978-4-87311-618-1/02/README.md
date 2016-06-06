@@ -5,63 +5,8 @@
 ### 2.5 [オブザーバパターン](5.md)
 ### 2.6 [メディエータパターン](6.md)
 ### 2.7 [プロトタイプパターン](7,md)
+### 2.8 [コマンドパターン](8.md)
 
-```javascript
-var myCar = {
-  name: 'Ford Escort',
-  drive: function() {
-    console.log('Weeeee. I\'m driving!');
-  },
-  panic: function() {
-    console.log('Wait. How do you stop this thing!');
-  }
-};
-
-var yourCar = Object.create(myCar);
-
-console.log(yourCar.name);
-```
-
-```javascript
-// もう一つの例
-var vehiclePrototype = {
-  init: function(carModel) {
-    this.model = carModel;
-  },
-  getModel: function() {
-    console.log('The model of this vehicle is..' + this.model);
-  }
-};
-
-function vehicle(model) {
-  function F() {};
-  F.prototype = vehiclePrototype;
-
-  var f = new F();
-
-  f.init(model);
-  return f;
-}
-
-var car = vehicle('Ford Escort');
-car.getModel();
-```
-
-* プロトタイプ関係にあるプロパティを列挙するときには, プロトタイプ関係が問題を発生させることがあるので, ループの内容を `hasOwnProperty()` で包むのはとても重要です.
-
-```javascript
-// プロトタイプパターンは次のように実装することもできます.
-var beget = (function(){
-  function F() {}
-
-  return function(proto) {
-    F.prototype = proto;
-    return new F();
-  }
-});
-```
-
-### 2.8 コマンドパターン
 __コマンドパターンの目的__  
 
 メソッド呼び出しやリクエスト, あるいはオペレーションを, 1つのオブジェクトにカプセル化し, メソッド呼び出しのパラメータ化とメソッド呼び出しを渡すことのどちらも自由に実行できるようにすることです.
