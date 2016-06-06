@@ -7,75 +7,7 @@
 ### 2.7 [プロトタイプパターン](7,md)
 ### 2.8 [コマンドパターン](8.md)
 ### 2.9 [ファサードパターン](9.md)
-
-ファサードは, jQueryのようなJSライブラリによく見られる構造パターンです. 内部ではさまざまな振る舞いを持つメソッド群が実装されていても, 「ファサード」あるいはこれらのメソッドの制限された抽象だけが, 外部に公開されます.
-
-```javascript
-var addMyEvent = function(el, ev, fn) {
-  if (el.addEventListener) {
-    el.addEventListener(ev, fn, false);
-  } else if (el.attachEvent) {
-    el.attachEvent('on' + ev, fn);
-  } else {
-    el['on' + ev] = fn;
-  }
-};
-```
-
-```javascript
-// もう1つのファサードの例
-var module = {
-  bindReady: function() {
-    if (document.addEventListener) {
-      // 便利なイベントコールバックを利用する
-      document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
-
-      // window.onload へのフォールバック. これは常に動作する
-      window.addEventListener('load', jQuery.ready, false);
-    } else if (document.attachEvent) {
-      document.attachEvent('onreadystatechange', DOMContentLoaded, false);
-
-      // window.onload へのフォールバック. これは常に動作する
-      window.attachEvent('load', jQuery.ready);
-    }
-  },
-};
-```
-
-ファサードは必ず単独である必要はありません.
-ファサードパターンは, モジュールパターンなど, 他のパターンと組み合わせて使うこともできます.
-
-```javascript
-var module = (function() {
-  var _private = {
-    i: 5,
-    get: function() {
-      console.log('current value: ' + this.i);
-    },
-    set: function(val) {
-      this.i = val;
-    },
-    run: function() {
-      console.log('running');
-    },
-    jump: function() {
-      console.log('jumping');
-    }
-  };
-
-  return {
-    facade: function(args) {
-      _private.set(args);
-      _private.get();
-      if (args.run) {
-        _private.run();
-      }
-    }
-  }
-})();
-```
-
-### 2.10 ファクトリパターン
+### 2.10 [ファクトリパターン](10.md)
 
 オブジェクトやコンポーネントを作成するメソッドがサブクラス化される ExtJS のようなUIライブライブラリに, このパターンの実例が見られます.
 
