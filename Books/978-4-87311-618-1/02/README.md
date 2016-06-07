@@ -8,42 +8,9 @@
 ### 2.8 [コマンドパターン](8.md)
 ### 2.9 [ファサードパターン](9.md)
 ### 2.10 [ファクトリパターン](10.md)
-### 2.11 ミックスインパターン - ミックスインに相当します
+### 2.11 ミックスインパターン
+ミックスインに相当します
 ### 2.12 [サブクラス化](12.md)
-
-伝統的なオブジェクト指向言語では, クラスBは他のクラスAを拡張できます. 
-このとき, AはBのスーパークラス, BはAのサブクラスと言います.
-
-```javascript
-// スーパークラス
-var Person = function(firstName, lastName) {
-  this.firstName = firstName;
-  this.lastName = lastName;
-  this.gender = 'male';
-};
-
-// Person の新規インスタンスは以下のようにして簡単に作成できる
-var clark = new Person('Clark', 'Kent');
-
-// Superhero のためにサブクラスコンストラクタを定義
-var Superhero = function(firstName, lastName, pwers) {
-  // 新規オブジェクトでスーパークラスのコンストラクタを呼び出す
-  // 次に .call() を使って, オブジェクトのメソッドとしてコンストラクタを呼び出し
-  // オブジェクトを初期化する
-
-  Person.call(this, firstName, lastName);
-
-  // 最後に Person にはない特徴であるパワーを意味する新しい配列を保持する
-  this.powers = powers;
-};
-
-Superhero.prototype = Object.create(Person.prototype);
-var superman = new Superhero('Clack', 'Kent', ['flight', 'heat-vision']);
-console.log(superman)
-
-// Person の属性と同様にパワーも出力する
-```
-
 ### 2.13 ミックスイン
 ミックスインにより, オブジェクトは複雑性を最小限に抑えて他オブジェクトから機能を借りる（または継承する）ことができます.
 
