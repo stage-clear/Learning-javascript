@@ -16,72 +16,20 @@
 ### 2.15 [擬古典的デコレータ](15.md)
 #### 2.15.2 [抽象デコレータ](15-2.md)
 ### 2.16 [jQueryを使ったデコレータ](16.md)
-
-__jQueryでのデコレータの実装例__  
-`$.extend()` を使えば, 実行時もしくはある一点で動的に, 2つ以上のオブジェクト（とそれらのプロパティ）を1つのオブジェクトに拡張（またはマージ） することができます.
-
-```javascript
-
-// defaults, options, settings の3つのオブジェクトを定義
-// defaults を装飾して options settiins にある機能を新に追加します
-var decoratorApp = decoratorApp || {};
-
-// これから仕様するオブジェクトを定義する
-decoratorApp = {
-  defaults: {
-    validate: false,
-    limit: 5,
-    name: 'foo',
-    welcome: function() {
-      console.log('hello, world');
-    }
-  },
-  options: {
-    validate: true,
-    name: 'bar',
-    helloWorld: function() {
-      console.log('hello world');
-    }
-  },
-  settings: {},
-  printObj: function(obj) {
-    var arr = [];
-    var next;
-    $.each(obj, function(key, val) {
-      next = key + ': ';
-      next += $.isPlainObject(val) ? printObj(val) : val;
-      arr.push(next);
-    });
-    return '{' + arr.join(', ') + '}';
-  }
-};
-
-// defaults を明示的に変更することなく, defaults と options をマージする.
-decoratorApp.settings = $.extend({}, decoratorApp.defaults, decoratorApp.options);
-
-// ここでは, defaultを装飾して, 必要なプロパティや機能に
-// （デコレータ[options]と同様に）アクセスできるようにした.
-// default 自体は変更されていない
-$('#log').append(
-  decoratorApp.printObj(decoratorApp.settings) +
-  decoratorApp.printObj(decoratorApp.options) +
-  decoratorApp.printObj(decoratorApp.defaults)
-);
-```
-
 ### 2.17 デコレータパターンの利点と欠点
-__利点__  
+#### 利点
 
 - 透過的に使用できて, かつかなり柔軟であるため, 開発者はこのパターンを好んで利用します.
 - オブジェクトは新しい振る舞いで包まれ（装飾され）, 基底オブジェクトが変更されることを心配せず使い続けられる
 - 多くのサブクラスに依存することを避けつつ, それと同じ恩恵を受けることができる
 
-__欠点__  
+#### 欠点 
 
 - 小さく似通ったオブジェクトをたくさん名前空間に取り込むので, 下手扱うと設計が複雑化し管理しづらくなる
 - なぜそのパターンが使われているのかをパターンに不慣れな開発者が把握するのに苦労するかもしれない
 
-### フライウェイトパターン
+### 2.18 [フライウェイトパターン](17.md)
+
 フライウェイトパターンは, 構造に関する伝統的な解決策です.
 繰り返される低速で非効率なデータ共有を行うコードを最適化します.
 
