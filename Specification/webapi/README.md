@@ -2,7 +2,7 @@
 
 ## api 
 
-- [IntersectionObserver](intersectoni_observer.md) 
+- [IntersectionObserver](intersection_observer.md) 
 
 
 ## links 
