@@ -6,6 +6,7 @@ JavaScript の学習や情報収集のまとめ
 - [仕様](Specification/) - JavaScript の基本的な記述やいろいろな書き方
   - [ES2015](Specification/es2015/README.md)
   - [ES2016](Specification/es2016/README.md)
+  - [WebAPI](Specification/webapi/README.md)
 - [スニペット](Snippets/)
 - [リファレンス](References/)
 - [書籍](Books/) - 読んで注釈やメモした書籍など
