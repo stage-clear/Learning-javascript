@@ -204,3 +204,7 @@ var eventuality = function(that) {
 var evt = eventuality({});
 ```
 
+## Links
+
+- [metafizzy/ev-emitter](https://github.com/metafizzy/ev-emitter)
+- [Observer patterns in "JavaScript Design Pattern"](https://github.com/stage-clear/Learning-javascript/blob/master/Books/978-4-87311-618-1/02/5.md)
