@@ -8,107 +8,8 @@
 ### 2.8 [コマンドパターン](8.md)
 ### 2.9 [ファサードパターン](9.md)
 ### 2.10 [ファクトリパターン](10.md)
-
-オブジェクトやコンポーネントを作成するメソッドがサブクラス化される ExtJS のようなUIライブライブラリに, このパターンの実例が見られます.
-
-```javascript
-// Type.js - 裏で使われるためのコンストラクタ
-
-// 新しい車を定義するためのコンストラクタ
-function Car(options) {
-  // デフォルト
-  this.doors = options.doors || 4;
-  this.wheelSize = options.wheelSize || 'brand new';
-  this.color = options.color || 'silver';
-}
-
-// 新しいトラックを定義するためのコンストラクタ
-function Truck(options) {
-  this.state = options.state || 'used';
-  this.wheelSize = options.wheelSize || 'large';
-  this.color = options.color || 'blue';
-}
-```
-
-```javascript
-// FactoryExample.js
-function VehicleFactory() {}
-
-// 新しいVehicleインスタンスを作成するためのファクトリメソッド
-VehicleFactory.prototype.createVehicle = function(options) {
-  if (options.vehicleType === 'car') {
-    this.vehicleClass = Car;
-  } else {
-    this.vehicleClass = Truck;
-  }
-  return new this.vehicleClass(options);
-};
-
-// 車を作成するファクトリのインスタンスを作成
-var carFactory = new VehicleFactory();
-var car = carFactory.createVehicle({
-  vehicleType : 'car',
-  color: 'yellow',
-  doors: 6
-});
-```
-__ファクトリパターンを適用すべき状況__  
-
-- オブジェクトやコンポーネントの設定がかなり複雑であるとき
-- 状況に応じて異なる種類のオブジェクトのインスタンスを簡単に作成しなければならないとき
-- 同じプロパティを共有する大量の小さなオブジェクトやコンポーネントを扱うとき
-- API規約を満足させる（いわゆるダックタイピング）ためだけに必要なオブジェクトのインスタンスでオブジェクトを構成するとき（これは疎結合の実現に役立つ）
-
-__ファクトリパターンを適用すべきではない状況__  
-
-- オブジェクト生成のインターフェイスを作成することが開発中のライブラリやフレームワークの設計目標である場合を除き, 不要なオーバーヘッドが生じるのを避けるために, 明示的にコンストラクタを使うことをおすすめします.
-
-__抽象ファクトリ__  
-
-個々のファクトリを共通の目的でグループ化しカプセル化します. 
-
-```javascript
-var AbstractVehicleFactory = (function(){
-  // 車種別の保存場所
-  var types = {};
-
-  return {
-    getVehicle: function(type, customizations) {
-      var Vehicle = types[type];
-
-      return (Vehicle) ? return new Vehicle(customizations) : null;
-    },
-
-    registerVehicle: function(type, Vehicle) {
-      var proto = Vehicle.prototype;
-
-      // vehicle 規約を満足するクラスを登録する
-      if (proto.drive && proto.breakDown) {
-        types[type] = Vehicle;
-      }
-      return AbstractVehicleFactory;
-    }
-  }
-})();
-
-// 使用例
-AbstractVehicleFactory.registerVehicle('car', Car);
-AbstractVehicleFactory.registerVehicle('truck', Truck);
-
-// 乗り物の抽象型をもとに新しい車のインスタンスを作成
-var car = AbstractVehicleFactory.getVehicle('car', {
-  color: 'lime green',
-  state: 'like new'
-});
-
-// 同様に新しいトラックのインスタンスを作成
-var truck = AbstractVehicleFactory.getVehicle('truck', {
-  wheelSize: 'medium',
-  color: 'neon yellow'
-});
-```
-
-### サブクラス化
+### 2.11 ミックスインパターン - ミックスインに相当します
+### 2.12 [サブクラス化](12.md)
 
 伝統的なオブジェクト指向言語では, クラスBは他のクラスAを拡張できます. 
 このとき, AはBのスーパークラス, BはAのサブクラスと言います.
@@ -143,7 +44,6 @@ console.log(superman)
 // Person の属性と同様にパワーも出力する
 ```
 
-### 2.11 ミックスインパターン
 ### 2.13 ミックスイン
 ミックスインにより, オブジェクトは複雑性を最小限に抑えて他オブジェクトから機能を借りる（または継承する）ことができます.
 
