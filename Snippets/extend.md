@@ -7,7 +7,7 @@
  * @param {Object} a
  * @param {Object} b
  * @return {Object}
- * @referenct https://addyosmani.com/resources/essentialjsdesignpatterns/book/#decoratorpatternjavascript
+ * @reference https://addyosmani.com/resources/essentialjsdesignpatterns/book/#decoratorpatternjavascript
  */
 
 function extend(a, b) {
