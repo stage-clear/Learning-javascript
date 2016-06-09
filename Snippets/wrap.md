@@ -4,7 +4,7 @@
 
 ```js
 function wrap(func, wrapper) {
-	let callback = (function() {});
+  let callback = (function() {});
   let args = [];
 
   return function(/* ...values, callback */) {
