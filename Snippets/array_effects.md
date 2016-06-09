@@ -7,7 +7,7 @@
  * Reduce 
  * @param {Array} values
  * @param {Function} func
- * @return {Arrat}
+ * @return {Array}
  * @reference [関数型プログラミング目覚めた(P89)]
  */
 function reduce(values, func) {
