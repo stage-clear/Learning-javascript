@@ -5,14 +5,14 @@
 ```js
 function wrap(func, wrapper, context) {
   return (...args) => {
-  	return wrapper.apply(context, [func.bind(context)].concat(args));
+    return wrapper.apply(context, [func.bind(context)].concat(args));
   };
 }
 
 // test
 // source function
 function a (str) {
-	console.log('[a]', str);
+  console.log('[a]', str);
   return str;
 }
 
@@ -20,14 +20,14 @@ function a (str) {
 let b = wrap(a, function(origin, ...values) {
   let callback = values.pop();
   let value = values[0]
-	console.log('[wrapper]', origin, values);
+  console.log('[wrapper]', origin, values);
   console.log('[a work in wrapper]', origin(value));
   callback(value + '---');
 });
 
 // b run
 b('aaa', function(a) {
-	console.log('[b]', a);
+  console.log('[b]', a);
 });
 ```
 
