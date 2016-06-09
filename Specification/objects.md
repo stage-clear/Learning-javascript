@@ -1,7 +1,5 @@
-# オブジェクト
-
+# Object
 ## さまざまな構文
-
 ### リテラル
 
 ```js
@@ -13,21 +11,39 @@ var object = {
 ### コンストラクタ
 
 ```js
-var Constructor = function() {};
+let A = function(name) {
+  this.name = name;
+};
 // or
-function Constructor() {}
-// prototype method
-Constructor.prototype.method = function() {
+// function A(nae) {
+//   this.name = name;
+// }
+
+// Prototype method
+A.prototype.methodName = function() {
   // do something...
 };
 
-var object = new Constructor();
+let a = new A();
+console.log('`a` is instance of `A`" = ' + (a instanceof A)); // -> true
+
+// A を継承して B を作る
+function B() {}
+B.prototype = new A();
+let b = new B();
+console.log('`b` is instance of `B` = ' + (b instanceof B)); // -> true
+
+A.prototype = {};
+let d = new A();
+console.log('> `A.prototype` is emptied.');
+console.log('`a` is instance of `C` = ' + (a instanceof A)); // -> false
+console.log('`d` is instance of `C` = ' + (d instanceof A)); // -> true
 ```
 
 __関数式の中でコンストラクターを定義する__
 
 ```js
-var Constructor = function() {
+let Constructor = function() {
   function Constructor() {}
   // prototype method
   Constructor.prototype.method = function() {
@@ -36,12 +52,14 @@ var Constructor = function() {
   
   return Constructor;
 };
+
+let obj = new Constructor();
 ```
 
 ### 即時関数
 
 ```js
-var object = (function() {
+let iffe = (function() {
   return {
     method() { /* do something */ }
   }
@@ -49,13 +67,12 @@ var object = (function() {
 ```
 
 ### プライベートメンバ
-
 #### コンストラクタとプライバシー
 
 ```js
 function MyObj() {
-  // プライベートメンバ
-  var name = 'my, oh my';
+  // Private member
+  let name = 'my, oh my';
   this.getName = () => name;
 }
 ```
@@ -66,7 +83,7 @@ function MyObj() {
 var myObj = {};
 (function() {
   // プライベートメンバ
-  var name = 'my, oh my';
+  let name = 'my, oh my';
   myObj.getName = () => name;
 })();
 ```
@@ -74,9 +91,9 @@ var myObj = {};
 #### 即時関数とプライバシー
 
 ```js
-var myObj = (function() {
-  // プライベートメンバ
-  var name = 'my, oh my';
+let myObj = (function() {
+  // Private member
+  let name = 'my, oh my';
 
   return {
     getName() { return name; }
@@ -90,7 +107,7 @@ var myObj = (function() {
 function MyObj() {}
 MyObj.prototype = (function() {
   // プライベート
-  var name = 'my, oh my';
+  let name = 'my, oh my';
 
   return {
     getName() {　return name; }
@@ -99,11 +116,5 @@ MyObj.prototype = (function() {
 ```
 
 
-## さまざまな使い方
-
-coming soon?
-
-
 ## その他
-
 - __特権メソッド__ - プライベートメンバにアクセスできるパブリックメソッド
