@@ -3,36 +3,31 @@
 ## 関数をラッピング
 
 ```js
-function wrap(func, wrapper) {
-  let callback = (function() {});
-  let args = [];
-
-  return function(/* ...values, callback */) {
-    args = Array.from(arguments);
-
-    if (typeof args[args.length - 1] === 'function') {
-      callback = args.splice(args.length - 1, 1);
-    }
-    values = func.apply(null, args);
-    return wrapper.apply(null, [func, values].concat(callback));
-  }
+function wrap(func, wrapper, context) {
+  return (...args) => {
+  	return wrapper.apply(context, [func.bind(context)].concat(args));
+  };
 }
 
 // test
-// target function
-let a = (x, y) => {
-  console.log('[a]', x, y);
-  return [x + y + 10, y];
-};
+// source function
+function a (str) {
+	console.log('[a]', str);
+  return str;
+}
 
-// wrapped function
-let a2 = wrap(a, (origin, value, done) => {
-  console.log('[b 1]', value + 20);
-  return done(value);
+// a is wrapped
+let b = wrap(a, function(origin, ...values) {
+  let callback = values.pop();
+  let value = values[0]
+	console.log('[wrapper]', origin, values);
+  console.log('[a work in wrapper]', origin(value));
+  callback(value + '---');
 });
 
-a2(10, 1, (value) => {
-	console.log('[done]', value);
+// b run
+b('aaa', function(a) {
+	console.log('[b]', a);
 });
 ```
 
