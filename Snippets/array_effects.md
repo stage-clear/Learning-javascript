@@ -16,7 +16,7 @@ function reduce(values, func) {
     if (i === 0) {
       s = values[i];
     } else {
-      s = f(res, values[i]);
+      s = func(res, values[i]);
     }
   }
   return res;
