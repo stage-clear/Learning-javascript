@@ -8,12 +8,12 @@ function wrap(func, wrapper) {
   let args = [];
 
   return function(/* ...values, callback */) {
-  	args = Array.from(arguments);
+    args = Array.from(arguments);
 
     if (typeof args[args.length - 1] === 'function') {
-    	callback = args.splice(args.length - 1, 1);
+      callback = args.splice(args.length - 1, 1);
     }
-  	values = func.apply(null, args);
+    values = func.apply(null, args);
     return wrapper.apply(null, [func, values].concat(callback));
   }
 }
