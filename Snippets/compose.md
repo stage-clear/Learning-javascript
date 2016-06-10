@@ -26,7 +26,7 @@ function compose(...funcs) {
     }
 
     let res = value
-			, index = 0;
+        , index = 0;
 
     while(len > index) {
       let f = funcs[index];
@@ -43,20 +43,20 @@ function compose(...funcs) {
 可変長引数 + 右から処理
 
 ```js
-function composeRight(/* arguments */) {
-  let args = Array.from(arguments);
-  let length = args.length;
-  let res = null;
+function composeRight(...funcs) {
+  let len = funcs.length;
 
   return function(value) {
-    if (length < 1 || value == null) {
+    if (len < 1 || value == null) {
       return value;
     }
-    res = value;
-    while (length) {
-      let arg = args[--length];
-      if (typeof arg === 'function') {
-        res = arg.call(null, res);
+
+    let res = value;
+
+    while (len) {
+      let f = funcs[--len];
+      if (typeof f === 'function') {
+        res = f.call(null, res);
       }
     }
     return res;
