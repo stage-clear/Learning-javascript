@@ -17,22 +17,23 @@ function compose(a, b) {
 可変長引数に対応 + 左から処理
 
 ```js
-function compose(/* arguments */) {
-  let args = Array.from(arguments);
-  let length = args.length;
-  let counter = 0, res = null;
+function compose(...funcs) {
+  let len = funcs.length;
 
   return function(value) {
-    if (length < 1 || value == null) {
+    if (len < 1 || value == null) {
       return value;
     }
-    res = value;
-    while(length > counter) {
-      let arg = args[counter];
-      if (typeof arg === 'function') {
-        res = arg.call(null, res);
+
+    let res = value
+			, index = 0;
+
+    while(len > index) {
+      let f = funcs[index];
+      if (typeof f === 'function') {
+        res = f.call(null, res);
       }
-      counter++;
+      index++;
     }
     return res;
   };
