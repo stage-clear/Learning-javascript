@@ -1,6 +1,8 @@
 # this
 
-## Arror functions [via](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
+## Arror functions 
+- [Reference link](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
+
 ### Object literal
 
 ```js
