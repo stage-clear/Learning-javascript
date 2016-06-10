@@ -26,7 +26,7 @@ function compose(...funcs) {
     }
 
     let res = value
-        , index = 0;
+      , index = 0;
 
     while(len > index) {
       let f = funcs[index];
