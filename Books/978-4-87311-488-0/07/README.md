@@ -168,7 +168,7 @@ CarMaker.factory = function(type) {
   // この時点でコンストラクタの存在がわかる
   // 一度だけ親から継承します
   if (typeof CarMaker[constr].prototype.drive !== 'function') {
-    CarMaker[constr] = new CarMaker();
+    CarMaker[constr].prototype = new CarMaker();
   }
   // 新しいインスタンスの作成
   newcar = new CarMaker[constr]();
