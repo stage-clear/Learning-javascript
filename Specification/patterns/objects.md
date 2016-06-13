@@ -7,7 +7,7 @@ var object = {
 };
 ```
 
-## コンストラクター
+## コンストラクタ
 ```js
 let A = function(name) {
   this.name = name;
