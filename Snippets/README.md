@@ -50,6 +50,12 @@
 - [Singleton](singleton.md) - シングルトン
 - [Factory](factory.md) - ファクトリ
 - [Iterator](iterator.md) - イテレータ
+- Decorator - デコレータ
+- Strategy - ストラテジー
+- Facade - ファサード
+- Proxy - プロキシ
+- Mediator - メディエータ
+- Observer - オブザーバ
 
 ## その他
 - [Vue.js](vue.md) - Vue.js のサンプルコード
