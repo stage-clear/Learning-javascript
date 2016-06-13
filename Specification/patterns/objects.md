@@ -9,17 +9,17 @@ var object = {
 
 ## コンストラクタ
 ```js
-// 関数式
+// a. 関数式
 const A = function(name) {
   this.name = name;
 };
 
-// 関数宣言
+// b. 関数宣言
 function A(name) {
   this.name = name;
 }
 
-// 即時関数の中で関数宣言
+// c. 即時関数の中で関数宣言
 const A = (function() {
   function A(name) {
     this.name = name;
