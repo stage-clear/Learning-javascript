@@ -3,6 +3,8 @@
 > 同じコンストラクタを使って `new` でオブジェクトを作るとき、シングルトンの実装でやることは、
 > まったく同じオブジェクトを指す新しいポインタを取得することだけです。
 
+## "JavaScript Patterns" での実装
+
 __静的プロパティにインスタンスをキャッシュする__
 
 ```js
@@ -98,4 +100,34 @@ var Universe;
     this.bang = 'big';
   }
 })();
+```
+
+
+## "JavaScript Design Patterns" での実装
+
+```js
+const SingletonTester = (function() {
+  
+  function Singleton(options) {
+    this.name = 'SingletonTester';
+  }
+
+  let instance;
+
+  return {
+    name: 'SingletonTester',
+    getInstance(options) {
+      if (!instance) {
+        instance = new Singleton(options);
+      }
+      return instance;
+    }
+  }
+
+})();
+
+let sin = SingletonTester.getInstance();
+let sin2 = SingletonTester.getInstance();
+
+console.log(sin === sin2);
 ```
