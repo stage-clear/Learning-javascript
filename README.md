@@ -7,7 +7,7 @@ JavaScript の学習や情報収集のまとめ
   - [ES2015](Specification/es2015/README.md)
   - [ES2016](Specification/es2016/README.md)
   - [WebAPI](Specification/webapi/README.md)
-  - [Coding patterns](Specification/patterns/READMD.md)
+  - [Coding patterns](Specification/patterns/README.md)
 - [スニペット](Snippets/README.md)
 - [リファレンス](References/)
 - [書籍](Books/) - 読んで注釈やメモした書籍など
