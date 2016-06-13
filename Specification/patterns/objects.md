@@ -9,7 +9,7 @@ var object = {
 
 ## コンストラクタ
 ```js
-let A = function(name) {
+const A = function(name) {
   this.name = name;
 };
 // or
@@ -22,7 +22,7 @@ __アロー関数は、コンストラクターを持たない__
 
 ```js
 // [x] Bad: "Allow function" does not have "constructor".
-let A () => {};
+const A () => {};
 let a = new A();
 // "Uncaught TypeError: A is not a constructor"
 ```
