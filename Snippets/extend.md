@@ -59,15 +59,15 @@ __"JavaScript Patterns" での実装__
  *
  */
 function extend(parent, child) {
-	var i;
-	child = child || {};
-	
-	for (i in parent) {
-		if (parent.hasOwnProperty(i)) {
-			child[i] = parent[i];
-		}
-	}
-	return child;
+  var i;
+  child = child || {};
+
+  for (i in parent) {
+    if (parent.hasOwnProperty(i)) {
+      child[i] = parent[i];
+    }
+  }
+  return child;
 }
 
 /**
@@ -77,22 +77,22 @@ function extend(parent, child) {
  * `parent` で `child` を拡張します
  */
 function extendDeep(parent, child) {
-	var i;
-	var toStr = Object.prototype.toString;
-	var astr = '[object Array]';
-	
-	child = child || {};
-	
-	for (i in parent) {
-		if (parent.hasOwnProperty(i)) {
-			if (typeof parent[i] === 'object') {
-				child[i] = toStr.call(parent[i]) === astr ? [] : {};
-				extendDeep(parent[i], child[i]);
-			} else {
-				child[i] = parent[i];
-			}
-		}
-	}
-	return child;
+  var i;
+  var toStr = Object.prototype.toString;
+  var astr = '[object Array]';
+
+  child = child || {};
+
+  for (i in parent) {
+    if (parent.hasOwnProperty(i)) {
+      if (typeof parent[i] === 'object') {
+        child[i] = (toStr.call(parent[i]) === astr) ? [] : {};
+        extendDeep(parent[i], child[i]);
+      } else {
+        child[i] = parent[i];
+      }
+    }
+  }
+  return child;
 }
 ```
