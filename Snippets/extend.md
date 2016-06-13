@@ -3,7 +3,7 @@
 ```js
 /**
  * extend
- * a のオブジェクトを b のオブジェクトで拡張します
+ * `a` のオブジェクトを `b` のオブジェクトで拡張します
  * @param {Object} a
  * @param {Object} b
  * @return {Object}
@@ -11,19 +11,21 @@
  */
 
 function extend(a, b) {
-	for (let key of b) {
-		if (b.hasOwnProperty(key)) {
-			a[key] = b[key];
-		}
-	}
-	return a;
+  for (let key of b) {
+    if (b.hasOwnProperty(key)) {
+      a[key] = b[key];
+    }
+  }
+  return a;
 }
 ```
 
 ```js
 /*
  * deepExtend
- * 2つのオブジェクトを拡張します
+ * @param {Object} destination
+ * @param {Object} source
+ * `destination` を `source` で拡張します
  * @reference https://github.com/jakiestfu/Snap.js/blob/develop/snap.js
  */
 
@@ -47,4 +49,50 @@ var extended = deepExtend(
   {name: 'paul'},
   {age: 12 }
 );
+```
+
+__"JavaScript Patterns" での実装__
+
+```js
+/**
+ * extend
+ *
+ */
+function extend(parent, child) {
+	var i;
+	child = child || {};
+	
+	for (i in parent) {
+		if (parent.hasOwnProperty(i)) {
+			child[i] = parent[i];
+		}
+	}
+	return child;
+}
+
+/**
+ * extendDeep
+ * @param {Object} parent
+ * @param {Object} child
+ * `parent` で `child` を拡張します
+ */
+function extendDeep(parent, child) {
+	var i;
+	var toStr = Object.prototype.toString;
+	var astr = '[object Array]';
+	
+	child = child || {};
+	
+	for (i in parent) {
+		if (parent.hasOwnProperty(i)) {
+			if (typeof parent[i] === 'object') {
+				child[i] = toStr.call(parent[i]) === astr ? [] : {};
+				extendDeep(parent[i], child[i]);
+			} else {
+				child[i] = parent[i];
+			}
+		}
+	}
+	return child;
+}
 ```
