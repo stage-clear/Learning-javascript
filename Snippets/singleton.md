@@ -78,3 +78,24 @@ function Universe() {
   return instance;
 }
 ```
+
+もうひとつの解決方法として、コンストラクタとプロトタイプを即時関数で包むやり方もあります。
+
+```js
+var Universe;
+
+(function() {
+  var instance;
+
+  Universe = function Universe() {
+    if (instance) {
+      return instance;
+    }
+
+    instance = this;
+
+    this.start_time = 0;
+    this.bang = 'big';
+  }
+})();
+```
