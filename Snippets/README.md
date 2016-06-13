@@ -48,8 +48,8 @@
 
 ## デザインパターン
 - [Singleton](singleton.md) - シングルトン
+- [Factory](factory.md) - ファクトリ
 
 ## その他
-
 - [Vue.js](vue.md) - Vue.js のサンプルコード
 
