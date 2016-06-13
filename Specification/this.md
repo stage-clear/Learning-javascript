@@ -69,3 +69,8 @@ button2.addEventListener('click', function() {
 });
 button2.click();
 ```
+
+
+## 参考リンクなど
+
+- [じゃあ this の抜き打ちテストやるぞー](http://qiita.com/KDKTN/items/0b468a07410d757ac609)
