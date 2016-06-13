@@ -1,6 +1,6 @@
 # Patterns
 
-1. [変数](variables.md) - coming soon..
+1. [変数](variables.md)
 1. [オブジェクト](objects.md)
   1. リテラル
   1. コンストラクタ
