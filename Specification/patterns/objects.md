@@ -1,6 +1,5 @@
 # Object
-## さまざまな構文
-### リテラル
+## Literal
 
 ```js
 var object = {
@@ -8,17 +7,21 @@ var object = {
 };
 ```
 
-### コンストラクタ
-
+## Constructor
 ```js
 let A = function(name) {
   this.name = name;
 };
 // or
-// function A(nae) {
-//   this.name = name;
-// }
+function A(name) {
+  this.name = name;
+}
 
+// [x] Bad: "Allow function" does not have "constructor".
+let A = (name) => { this.name = name; };
+```
+
+```js
 // Prototype method
 A.prototype.methodName = function() {
   // do something...
