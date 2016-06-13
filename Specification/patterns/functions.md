@@ -79,16 +79,17 @@ next(); //-> 2
 ```js
 let scareMe = function() {
   let index = 0;
-  alert('Boo! ' + index);
+  console.log('Boo! ' + index);
 
   scareMe = function() {
-    alert('Double Boo! ' + (++index));
+    console.log('Double Boo! ' + (++index));
   };
 };
-scareMe(); // Boo! 0
-scareMe(); // Double Boo! 1
-scareMe(); // Double Boo! 2
+scareMe(); //-> "Boo! 0"
+scareMe(); //-> "Double Boo! 1"
+scareMe(); //-> "Double Boo! 2"
 ```
+
 ## 高階関数
 ### コールバック関数
 
