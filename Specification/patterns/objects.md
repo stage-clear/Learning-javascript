@@ -11,6 +11,9 @@ __即時関数でリテラルオブジェクトを返す__
 
 ```js
 let a = (function() {
+  // local scope
+  // do something
+
   return {
     name: 'John',
     method() { /* do something */ }
