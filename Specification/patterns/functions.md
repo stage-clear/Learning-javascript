@@ -14,7 +14,9 @@ let add = function add(a, b) {
 }
 ```
 
-### 名前なし関数式 (無名関数)
+### 名前なし関数式
+いわゆる無名関数
+
 ```js
 let add = function(a, b) {
   return a + b;
@@ -36,7 +38,9 @@ next(); //-> 1
 next(); //-> 2
 ```
 
-## 即時関数（自己呼び出し関数、自己実行関数）
+## 即時関数
+自己呼び出し関数、自己実行関数などとも呼ぶ
+
 - [Immediately-invoked function expression](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression)
 
 ```js
