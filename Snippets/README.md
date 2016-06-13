@@ -26,7 +26,12 @@
 ## Util
 - [each/foreach](each.md) - `each/forEach`
 - [merge](merge.md) - オブジェクトとオブジェクトをマージする
-- [extend](extend.md) - 
+- [extend](extend.md) - 2つのオブジェクトを引数にとり、片方のオブジェクトでもう一方を拡張します
+- [mixin](mixin.md) - 複数のオブジェクトを混ぜ合わせて新しいオブジェクトを作成します
+
+__`marge` と `extend` の違い__  
+拡張(及びマージ)する側とされる側の両方に存在するプロパティに関して、
+`merge` の場合は上書きされ、`extend` の場合は上書しません。
 
 
 ## 高階関数
