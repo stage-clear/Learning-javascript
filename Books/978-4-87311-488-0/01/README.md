@@ -25,10 +25,10 @@ JavaScript には継承がありません。継承はコードを再利用する
 
 ## 1.3 ECMAScript 5
 
-## 1.4 JSLing
+## 1.4 JSLint
 
 JavaScript はインタープリタ言語であり、コンパイル時の静的なチェックしません。
-[JSLing](http://jslint.com)
+[JSLint](http://jslint.com)
 
 
 ## 1.5 コンソール
