@@ -441,11 +441,11 @@ child.hasOwnProperty('age'); // true
 別のオブジェクトの機能をコピーすることで、継承を実現します。
 
 ```js
-function extend(paret, child) {
+function extend(parent, child) {
   var i;
   child = child || {};
   for (i in parent) {
-    if (paren.hasOwnProperty(i)) {
+    if (parent.hasOwnProperty(i)) {
       child[i] = parent[i];
     }
   }
