@@ -95,6 +95,9 @@ foo(bar);
 ```
 
 ### 部分適用
+> 複数の引数を取る関数に対して、一部の引数に値を束縛した関数を返すこと。 
+([出典](http://qiita.com/f81@github/items/e8bfab96b4be9e404840))
+
 ```js
 let add = function (x) {
   return function(y) {
