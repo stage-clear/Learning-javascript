@@ -77,17 +77,17 @@ next(); //-> 2
 - 初期化による準備作業があり、その準備作業の実行1回きりにする必要があるとき
 
 ```js
-let scareMe = function() {
+let step = function() {
   let index = 0;
-  console.log('Boo! ' + index);
+  console.log('[One step]: ' + index);
 
-  scareMe = function() {
-    console.log('Double Boo! ' + (++index));
+  step = function() {
+    console.log('[Two step]: ' + (++index));
   };
 };
-scareMe(); //-> "Boo! 0"
-scareMe(); //-> "Double Boo! 1"
-scareMe(); //-> "Double Boo! 2"
+step(); //-> "[One step]: 0"
+step(); //-> "[Two step]: 1"
+step(); //-> "[Two step]: 2"
 ```
 
 ## 高階関数
