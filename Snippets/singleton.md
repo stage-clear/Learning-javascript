@@ -32,14 +32,15 @@ __クロージャにインスタンスをキャッシュする__
 
 ```js
 function Universe() {
-	var instance = this;
-  
+  var instance = this;
+
   this.start_time = 0;
   this.bang = 'big';
-  
+
   Universe = function() {
-  	return instance;
+    return instance;
   };
+
   return this;
 }
 
@@ -48,4 +49,32 @@ var uni1 = new Universe();
 var uni2 = new Universe();
 
 uni1 === uni2 // true
+```
+
+クロージャを使った場合、`uni.constructor === Universe` は失敗します。   ちょっとした調整で、プロトタイプとコンストラクタのポインタを期待通りにすることができます。
+
+```js
+function Universe() {
+  // chaced instance
+  var instance = this;
+
+  // rewrite the constructor
+  Universe = function() {
+    return instance;
+  };
+
+  // extend prototype
+  Universe.prototype = this;
+
+  // instance
+  instance = new Universe();
+
+  // reset the pointer of constructor
+  instance.constructor = Universe;
+
+  instance.start_time = 0;
+  instance.bang = 'big';
+
+  return instance;
+}
 ```
