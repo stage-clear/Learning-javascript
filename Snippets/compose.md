@@ -1,4 +1,4 @@
-# Compose.js
+# Compose
 
 ```js
 /**
