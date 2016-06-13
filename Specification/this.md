@@ -1,6 +1,7 @@
 # this
 
-## Arror functions 
+## Arrow funcions
+アロー関数内での `this` の取扱いについて
 - [Reference link](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
 
 ### Object literal
@@ -74,3 +75,4 @@ button2.click();
 ## 参考リンクなど
 
 - [じゃあ this の抜き打ちテストやるぞー](http://qiita.com/KDKTN/items/0b468a07410d757ac609)
+- [globalオブジェクトを取得する](http://qiita.com/Hiraku/items/d249a2f2f13532748324)
