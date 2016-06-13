@@ -2,7 +2,7 @@
 
 ## Arrow funcions
 アロー関数内での `this` の取扱いについて
-- [Reference link](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
+- [When 'not' to use arrow functions](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
 
 ### Object literal
 
