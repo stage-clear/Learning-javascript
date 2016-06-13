@@ -23,10 +23,17 @@ let add = function(a, b) {
 
 ## 関数を返す
 ```js
-let setup = function() {
+const setup = function() {
+  let count = 0;
+  console.log('[setup1]: ' + (count));
+
   return function() {
+    console.log('[setup2]: ' + (++count));
   }
-}
+};
+let next = setup(); //-> 0
+next(); //-> 1
+next(); //-> 2
 ```
 
 ## 即時関数（自己呼び出し関数、自己実行関数）
