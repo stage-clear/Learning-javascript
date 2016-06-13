@@ -16,7 +16,7 @@
 - [letter format](letter-formats.md) - 文字フォーマットの変換
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 
-## Element
+## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
 - [getScrolled](get-scrolled.md) - スクロール量の取得する
 - [getConteiner](get-container.md) - 
@@ -45,6 +45,9 @@
 ## フロー制御
 - [EventEmitter](event-emitter.md) - `EventEmitter/pubsub` の実装をいくつか
 - [Flux](flux.md) - 構造を理解するためだけのシンプルな Flux
+
+## デザインパターン
+- [Singleton](singleton.md) - シングルトン
 
 ## その他
 
