@@ -2,9 +2,20 @@
 ## リテラル
 
 ```js
-var object = {
+let object = {
+  name: 'John',
   method() { /* do something */ }
 };
+```
+__即時関数でリテラルオブジェクトを返す__
+
+```js
+let a = (function() {
+  return {
+    name: 'John',
+    method() { /* do something */ }
+  }
+})();
 ```
 
 ## コンストラクタ
@@ -73,23 +84,8 @@ console.log('`a` is instance of `C` = ' + (a instanceof A)); // -> false
 console.log('`d` is instance of `C` = ' + (d instanceof A)); // -> true
 ```
 
-## 即時関数でオブジェクトを返す
-
-```js
-let a = (function iffe() {
-  /* do something */
-  
-  // returns to "a"
-  return {
-    name: 'John',
-    method() { /* do something */ }
-  }
-})();
-```
-
 ## プライベートメンバ
 ### コンストラクタとプライバシー
-
 ```js
 function MyObj() {
   // Private member
@@ -99,21 +95,20 @@ function MyObj() {
 ```
 
 ### リテラルとプライバシー
-
 ```js
-var myObj = {};
+let myObj = {};
 (function() {
-  // プライベートメンバ
+  // "name" is private.
   let name = 'my, oh my';
+
   myObj.getName = () => name;
 })();
 ```
 
 ### 即時関数とプライバシー
-
 ```js
 let myObj = (function() {
-  // Private member
+  // "name" is private.
   let name = 'my, oh my';
 
   return {
@@ -123,11 +118,10 @@ let myObj = (function() {
 ```
 
 ### プロトタイプとプライバシー
-
 ```js
 function MyObj() {}
 MyObj.prototype = (function() {
-  // プライベート
+  // "name" is private.
   let name = 'my, oh my';
 
   return {
