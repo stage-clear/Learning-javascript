@@ -9,13 +9,26 @@ var object = {
 
 ## コンストラクタ
 ```js
+// 関数式
 const A = function(name) {
   this.name = name;
 };
-// or
+
+// 関数宣言
 function A(name) {
   this.name = name;
 }
+
+// 即時関数の中で関数宣言
+const A = (function() {
+  function A(name) {
+    this.name = name;
+  }
+  A.prototype.method = function() {};
+  return A;
+})();
+
+let a = new A('John');
 ```
 
 __アロー関数は、コンストラクターを持たない__
@@ -26,6 +39,8 @@ const A () => {};
 let a = new A();
 // "Uncaught TypeError: A is not a constructor"
 ```
+
+### `prototype`
 
 __`prototype` にメソッドを追記する__
 
@@ -39,7 +54,7 @@ A.prototype.methodB = function() {
 }
 ```
 
-__継承__
+__プロトタイプを使って継承する__
 
 ```js
 let a = new A();
@@ -56,22 +71,6 @@ let d = new A();
 console.log('> `A.prototype` is emptied.');
 console.log('`a` is instance of `C` = ' + (a instanceof A)); // -> false
 console.log('`d` is instance of `C` = ' + (d instanceof A)); // -> true
-```
-
-__関数式の中でコンストラクターを定義する__
-
-```js
-const Constructor = function() {
-  function Constructor() {}
-  // prototype method
-  Constructor.prototype.method = function() {
-    // do something...
-  };
-  
-  return Constructor;
-};
-
-let obj = new Constructor();
 ```
 
 ## 即時関数
