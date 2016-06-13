@@ -158,5 +158,7 @@ var add10(1); // -> 11
 ```
 
 - [カリー化 != 部分適用](http://kmizu.hatenablog.com/entry/20091216/1260969166)
+- [カリー化と部分適用（JavaScriptとHaskell）](http://qiita.com/7shi/items/a0143daac77a205e7962)
+- [部分適用された関数とカリー化された関数は何が違うのか？](http://qiita.com/t-mochizuki/items/4a5b1bd5c8dd7ccd6a92)
 
 ### 代理関数
