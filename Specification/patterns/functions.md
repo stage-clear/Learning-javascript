@@ -1,29 +1,36 @@
 # 関数
 ## 関数宣言
-
 ```js
 function name() {
   // do something
 }
 ```
 
-## 関数式（無名関数）
-
+## 関数式
+### 名前付き関数式
 ```js
-var add = function(a, b) {
-  return a + b;
-};
-```
-
-## 名前付き関数式
-
-```js
-var add = function add(a, b) {
+let add = function add(a, b) {
   return a + b;
 }
 ```
 
+### 名前なし関数式 (無名関数)
+```js
+let add = function(a, b) {
+  return a + b;
+};
+```
+
+## 関数を返す
+```js
+let setup = function() {
+  return function() {
+  }
+}
+```
+
 ## 即時関数（自己呼び出し関数、自己実行関数）
+- [Immediately-invoked function expression](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression)
 
 ```js
 (function() {
@@ -33,10 +40,14 @@ var add = function add(a, b) {
 (function() {
   // local scope
 }());
+
+!function () { /* … */ }();
+~function () { /* … */ }();
+-function () { /* … */ }();
++function () { /* … */ }();
 ```
 
 ### 即時オブジェクト初期化
-
 ```js
 ({
   maxwidth: 600,
@@ -55,8 +66,8 @@ var add = function add(a, b) {
 - 初期化による準備作業があり、その準備作業の実行1回きりにする必要があるとき
 
 ```js
-var scareMe = function() {
-  var index = 0;
+let scareMe = function() {
+  let index = 0;
   alert('Boo! ' + index);
 
   scareMe = function() {
@@ -67,34 +78,33 @@ scareMe(); // Boo! 0
 scareMe(); // Double Boo! 1
 scareMe(); // Double Boo! 2
 ```
-
-## さまざまな使い方
-
+## 高階関数
 ### コールバック関数
 
 ```js
-var foo = function(callback) {
+let foo = function(callback) {
   console.log('foo!');
   callback();
 };
 
-foo(function() {
-  console.log('bar! I am callback');
-});
+let bar = function() {
+  console.log('bar I am callback.');
+};
+
+foo(bar);
 ```
 
-### 高階関数（合成関数）
 ### 部分適用
-
 ```js
-var add = function (x) {
+let add = function (x) {
   return function(y) {
     return x + y;
   };
 };
 
 // 部分適用
-var add5 = add.apply(null, 5); // function
+let add5 = add(5); // return "function"
+add5.apply(null, [10]); //-> 15
 ```
 
 ### カリー化
