@@ -1,5 +1,5 @@
-# Object
-## Literal
+# オブジェクト
+## リテラル
 
 ```js
 var object = {
@@ -7,7 +7,7 @@ var object = {
 };
 ```
 
-## Constructor
+## コンストラクター
 ```js
 let A = function(name) {
   this.name = name;
@@ -16,9 +16,15 @@ let A = function(name) {
 function A(name) {
   this.name = name;
 }
+```
 
+__アロー関数は、コンストラクターを持たない__
+
+```js
 // [x] Bad: "Allow function" does not have "constructor".
-let A = (name) => { this.name = name; };
+let A () => {};
+let a = new A();
+// "Uncaught TypeError: A is not a constructor"
 ```
 
 ```js
