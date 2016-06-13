@@ -108,6 +108,9 @@ add5.apply(null, [10]); //-> 15
 ```
 
 ### カリー化
+> 複数の引数を取る関数を、1つの引数を取る関数のチェーンに変換すること。
+([出典](http://qiita.com/f81@github/items/e8bfab96b4be9e404840))
+
 ```js
 // add() をカリー化
 var add = function(x, y) {
@@ -138,5 +141,7 @@ var add = curry(function(a, b) {
 var add10 = add(10);
 var add10(1); // -> 11
 ```
+
+- [カリー化 != 部分適用](http://kmizu.hatenablog.com/entry/20091216/1260969166)
 
 ### 代理関数
