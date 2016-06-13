@@ -32,3 +32,17 @@ c = 0;
 // Good
 var c = 0;
 ```
+
+__単独 `var` パターン__
+
+```js
+function func() {
+  var a = -1,
+      b = 2,
+      sum = a + b,
+      i,
+      j;
+  
+  // ...
+}
+```
