@@ -161,4 +161,41 @@ var add10(1); // -> 11
 - [カリー化と部分適用（JavaScriptとHaskell）](http://qiita.com/7shi/items/a0143daac77a205e7962)
 - [部分適用された関数とカリー化された関数は何が違うのか？](http://qiita.com/t-mochizuki/items/4a5b1bd5c8dd7ccd6a92)
 
+
 ### 代理関数
+```js
+function wrap(fn, wrapper, context) {
+  return (...args) => {
+  	args = [fn.bind(context)].concat(args);
+    return wrapper.apply(context, args);
+  };
+}
+
+function a(x) {
+  return x + 10;
+}
+
+// 代理関数関数 `wrap` で `a` をラッピングする
+let b = wrap(a, (origin, value, done) => {
+  value = origin(value) * 10;
+  done(value);
+})
+
+b(100, (value) => {
+  console.log(value);
+});
+```
+
+### 合成関数
+
+```js
+function compose(a, b) {
+  return function(x) {
+    return b.call(null, a(x));
+  }
+}
+
+// 架空の関数 `reverse` と `even` を合成
+let f = compose(reverse, even);
+f([9,5,3,2,6,3,4,1]) // [2, 6, 4]
+```
