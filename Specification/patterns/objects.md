@@ -52,7 +52,7 @@ console.log('`d` is instance of `C` = ' + (d instanceof A)); // -> true
 __関数式の中でコンストラクターを定義する__
 
 ```js
-let Constructor = function() {
+const Constructor = function() {
   function Constructor() {}
   // prototype method
   Constructor.prototype.method = function() {
@@ -67,12 +67,26 @@ let obj = new Constructor();
 
 ### 即時関数
 
+- [Immediately-invoked function expression](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression)
+
 ```js
-let iffe = (function() {
+let a = (function iffe() {
+  /* do something */
+  
+  // returns to "a"
   return {
     method() { /* do something */ }
   }
 })();
+```
+
+__その他の即時関数の書き方__
+
+```js
+!function () { /* … */ }();
+~function () { /* … */ }();
+-function () { /* … */ }();
++function () { /* … */ }();
 ```
 
 ### プライベートメンバ
