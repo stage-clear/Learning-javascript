@@ -1,8 +1,5 @@
 # 関数
-
-## さまざまな構文
-
-### 関数宣言
+## 関数宣言
 
 ```js
 function name() {
@@ -10,7 +7,7 @@ function name() {
 }
 ```
 
-### 関数式（無名関数）
+## 関数式（無名関数）
 
 ```js
 var add = function(a, b) {
@@ -18,7 +15,7 @@ var add = function(a, b) {
 };
 ```
 
-### 名前付き関数式
+## 名前付き関数式
 
 ```js
 var add = function add(a, b) {
@@ -26,7 +23,7 @@ var add = function add(a, b) {
 }
 ```
 
-### 即時関数（自己呼び出し関数、自己実行関数）
+## 即時関数（自己呼び出し関数、自己実行関数）
 
 ```js
 (function() {
@@ -38,7 +35,7 @@ var add = function add(a, b) {
 }());
 ```
 
-#### 即時オブジェクト初期化
+### 即時オブジェクト初期化
 
 ```js
 ({
@@ -54,8 +51,7 @@ var add = function add(a, b) {
 }).init();
 ```
 
-### 自己定義関数
-
+## 自己定義関数
 - 初期化による準備作業があり、その準備作業の実行1回きりにする必要があるとき
 
 ```js
@@ -88,8 +84,6 @@ foo(function() {
 ```
 
 ### 高階関数（合成関数）
-
-
 ### 部分適用
 
 ```js
@@ -103,9 +97,7 @@ var add = function (x) {
 var add5 = add.apply(null, 5); // function
 ```
 
-
 ### カリー化
-
 ```js
 // add() をカリー化
 var add = function(x, y) {
