@@ -1,4 +1,5 @@
 # Iterator
+> イテレータパターンでは、オブジェクトは `next()` メソッドを提供する必要があります。
 
 ## from "JavaScript Patterns"
 
