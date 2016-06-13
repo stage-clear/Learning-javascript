@@ -27,12 +27,21 @@ let a = new A();
 // "Uncaught TypeError: A is not a constructor"
 ```
 
+__`prototype` にメソッドを追記する__
+
 ```js
 // Prototype method
-A.prototype.methodName = function() {
+A.prototype.methodA = function() {
   // do something...
 };
+A.prototype.methodB = function() {
+  // do something
+}
+```
 
+__継承__
+
+```js
 let a = new A();
 console.log('`a` is instance of `A`" = ' + (a instanceof A)); // -> true
 
@@ -65,8 +74,7 @@ const Constructor = function() {
 let obj = new Constructor();
 ```
 
-### 即時関数
-
+## 即時関数
 - [Immediately-invoked function expression](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression)
 
 ```js
@@ -89,8 +97,8 @@ __その他の即時関数の書き方__
 +function () { /* … */ }();
 ```
 
-### プライベートメンバ
-#### コンストラクタとプライバシー
+## プライベートメンバ
+### コンストラクタとプライバシー
 
 ```js
 function MyObj() {
@@ -100,7 +108,7 @@ function MyObj() {
 }
 ```
 
-#### リテラルとプライバシー
+### リテラルとプライバシー
 
 ```js
 var myObj = {};
@@ -111,7 +119,7 @@ var myObj = {};
 })();
 ```
 
-#### 即時関数とプライバシー
+### 即時関数とプライバシー
 
 ```js
 let myObj = (function() {
@@ -124,7 +132,7 @@ let myObj = (function() {
 })();
 ```
 
-#### プロトタイプとプライバシー
+### プロトタイプとプライバシー
 
 ```js
 function MyObj() {}
@@ -137,7 +145,6 @@ MyObj.prototype = (function() {
   }
 })();
 ```
-
 
 ## その他
 - __特権メソッド__ - プライベートメンバにアクセスできるパブリックメソッド
