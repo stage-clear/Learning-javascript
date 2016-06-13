@@ -42,7 +42,7 @@ const A = (function() {
 let a = new A('John');
 ```
 
-__アロー関数は、コンストラクターを持たない__
+__注意) アロー関数は、コンストラクターを持たない__
 
 ```js
 // [x] Bad: "Allow function" does not have "constructor".
