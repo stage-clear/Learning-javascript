@@ -73,8 +73,7 @@ console.log('`a` is instance of `C` = ' + (a instanceof A)); // -> false
 console.log('`d` is instance of `C` = ' + (d instanceof A)); // -> true
 ```
 
-## 即時関数
-- [Immediately-invoked function expression](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression)
+## 即時関数でオブジェクトを返す
 
 ```js
 let a = (function iffe() {
@@ -82,18 +81,10 @@ let a = (function iffe() {
   
   // returns to "a"
   return {
+    name: 'John',
     method() { /* do something */ }
   }
 })();
-```
-
-__その他の即時関数の書き方__
-
-```js
-!function () { /* … */ }();
-~function () { /* … */ }();
--function () { /* … */ }();
-+function () { /* … */ }();
 ```
 
 ## プライベートメンバ
