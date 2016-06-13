@@ -49,6 +49,7 @@
 ## デザインパターン
 - [Singleton](singleton.md) - シングルトン
 - [Factory](factory.md) - ファクトリ
+- [Iterator](iterator.md) - イテレータ
 
 ## その他
 - [Vue.js](vue.md) - Vue.js のサンプルコード
