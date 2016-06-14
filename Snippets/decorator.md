@@ -32,7 +32,7 @@ Car.prototype = {
 // これは抽象化クラスとなるのでクラス自体はインスタンス化しませんが
 // 本格的なデコレータを作成するためにサブクラス化する必要があります
 var CarDecorator = function(car) {
-	// `CarDecorator` コンストラクターは `Car` と同じ
+  // `CarDecorator` コンストラクターは `Car` と同じ
   // インターフェイスを実装するオブジェクトを取ります
   this.car = car;
 };
@@ -112,26 +112,26 @@ console.log( car.getPrice() );
 ```js
 // Implementation:
 function Sale(price) {
-	this.price = price || 100;
+  this.price = price || 100;
 }
 Sale.prototype.getPrice = function() {
-	return this.price;
+  return this.price;
 };
 
 // Implementation: decorators
 Sale.decorators = {};
 Sale.decorators.fedtax = {
-	getPrice: function() {
-		var price = this.uber.getPrice();
-		price += price * 5 / 100;
-		return price;
+  getPrice: function() {
+    var price = this.uber.getPrice();
+    price += price * 5 / 100;
+    return price;
 	}
 };
 Sale.decorators.quedec = {
-	getPrice: function() {
-		var price = this.uber.getPrice();
-		price += price * 7.5 / 100;
-		return price;
+  getPrice: function() {
+    var price = this.uber.getPrice();
+    price += price * 7.5 / 100;
+    return price;
 	}
 }
 Sale.decorators.money = {
