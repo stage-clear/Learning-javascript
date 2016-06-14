@@ -30,11 +30,12 @@ Car.prototype = {
 // これは抽象化クラスとなるのでクラス自体はインスタンス化しませんが
 // 本格的なデコレータを作成するためにサブクラス化する必要があります
 var CarDecorator = function(car) {
+	// `CarDecorator` コンストラクターは `Car` と同じ
+  // インターフェイスを実装するオブジェクトを取ります
   this.car = car;
 };
 
 // CarDecorator implements the same interface as Car
-// (`CarDecorator` の実装インターフェイスは `Car` と同じ)
 CarDecorator.prototype = {
   start: function() {
     this.car.start();
