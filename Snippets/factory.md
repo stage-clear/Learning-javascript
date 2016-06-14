@@ -56,4 +56,3 @@ console.log(cherokee.drive());
 
 
 ## Links
-- [JavaScriptデザインパターン – 第1部：シングルトン、コンポジット、ファサード](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt1-singleton-composite-facade.html)
