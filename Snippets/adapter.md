@@ -31,5 +31,4 @@ window.console = AjaxLoggerAdapter;
 ```
 
 ## Link
-- [/ HTML5 デベロッパーセンター /
-JavaScriptデザインパターン – 第2部：アダプター、デコレーター、ファクトリ](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt2-adapter-decorator-factory.html)
+- [JavaScriptデザインパターン – 第2部: アダプター, デコレーター, ファクトリ](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt2-adapter-decorator-factory.html)
