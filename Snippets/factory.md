@@ -1,7 +1,7 @@
 # Factory
 > ファクトリの目的はオブジェクトを作ることです。 通常はクラスあるいはクラスの静的メソッドで実装されます。 以下の目的があります
 
-## from "JavaScript Patterns"
+## 例1) "JavaScript Patterns"
 
 ```js
 // Parent constructor
@@ -53,3 +53,7 @@ console.log(corolla.drive());
 console.log(solstice.drive());
 console.log(cherokee.drive());
 ```
+
+
+## Links
+- [JavaScriptデザインパターン – 第1部：シングルトン、コンポジット、ファサード](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt1-singleton-composite-facade.html)
