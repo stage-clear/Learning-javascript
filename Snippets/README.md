@@ -59,4 +59,5 @@
 
 ## その他
 - [Vue.js](vue.md) - Vue.js のサンプルコード
+- [fablic.js - Animated Sprite](fabricjs.md) - fabric.js を使ったスプライトアニメーションのサンプル
 
