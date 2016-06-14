@@ -176,7 +176,7 @@ sale = sale.decorate('cdn'); // CDN で書式化
 sale.getPrice(); // "CDN$ 105.00"
 ```
 
-## 例3) JavaScript patterns / リストを使った実装
+## 例3) "JavaScript patterns" での実装 - リストを使った実装
 JavaScript の動的性質を利用すれば、継承をいっさい使わずにすみます。
 
 ```js
@@ -231,7 +231,7 @@ sale.decorate('money'); // 金額用の書式に設定
 console.log(`> ${sale.getPrice()}`);
 ```
 
-## 例4) "JavaScript design patterns" での実装
+## 例4) "JavaScript design patterns" での実装 - 新機能でコンストラクタを装飾
 
 ```js
 function vehicle(vehicleType) {
@@ -261,6 +261,51 @@ console.log(truck);
 // 元の vehicle は変更されない
 let secondInstance = new vehicle('car');
 console.log(secondInstance);
+```
+
+## 例4) "JavaScript design patterns" での実装 - 複数のデコレータでオブジェクトを装飾
+
+```js
+// Implementation: Concrete class
+function MacBook() {
+  this.cost = function() { return 997; }
+  this.screenSize = function() { return 11.6; }
+}
+
+// Implementation: Decorators class
+// Decorator 1
+function Memory(macbook) {
+  let v = macbook.cost();
+  macbook.cost = function() {
+    return v + 75;
+  };
+}
+
+// Decorator 2
+function Engraving(macbook) {
+  let v = macbook.cost();
+  macbook.cost = function() {
+    return v + 200;
+  };
+}
+
+// Decorator 3
+function Insurance(macbook) {
+  let v = macbook.cost();
+  macbook.cost = function() {
+    return v + 250;
+  };
+}
+
+// Usage:
+let mb = new MacBook();
+Memory(mb);
+Engraving(mb);
+Insurance(mb);
+
+// 
+console.log(mb.cost());
+console.log(mb.screenSize());
 ```
 
 ## Links
