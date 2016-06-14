@@ -50,8 +50,9 @@ CarDecorator.prototype = {
 ```
 
 ```js
-var PowerLockDecorator = function(car) {
+var PowerLocksDecorator = function(car) {
   // Call Parent Constructor
+  // Override `this.car` from argument `car`
   CarDecorator.call(this, car);
   console.log('Assemble: add power locks');
 };
