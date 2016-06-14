@@ -231,5 +231,37 @@ sale.decorate('money'); // 金額用の書式に設定
 console.log(`> ${sale.getPrice()}`);
 ```
 
+## 例4) "JavaScript design patterns" での実装
+
+```js
+function vehicle(vehicleType) {
+  this.vehicleType = vehicleType || 'car';
+  this.model = 'default';
+  this.license = '0000-000';
+}
+
+// デコレートしない vehicle の確認
+let testInstance = new vehicle('car');
+console.log(testInstance);
+
+// デコレートする vehicle を用意する 
+let truck = new vehicle('truck');
+// vehcle をデコレートする新機能
+truck.setModel = function(modelName) {
+  this.model = modelName;
+};
+truck.setColor = function(color) {
+  this.color = color;
+};
+
+truck.setModel('CAT');
+truck.setColor('blue');
+console.log(truck);
+
+// 元の vehicle は変更されない
+let secondInstance = new vehicle('car');
+console.log(secondInstance);
+```
+
 ## Links
 - [Learning JavaScript: decorator](https://github.com/stage-clear/Learning-javascript/blob/master/Books/978-4-87311-618-1/02/14.md)
