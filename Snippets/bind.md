@@ -6,8 +6,10 @@
  * bind
  * @param {Object} context
  * @param {Function} fn
- * 
+ * `fn` に `context` を束縛します
+ * `fn` スコープ内で `this = context` として新たな関数を返します
  */
+
 function bind(context, fn) {
   return function() {
     return fn.apply(context, [].slice.call(arguments));
@@ -28,8 +30,8 @@ let b = {
 
 a.say('Hello');
 b.say = bind(b, a.say);
-console.log( a.say('Hello') ); //-> Hello, a object
-console.log( b.say('Hi') ); //-> Hi, b object
+console.log( a.say('Hello') ); //-> "Hello, a object"
+console.log( b.say('Hi') ); //-> "Hi, b object"
 ```
 
 
@@ -39,8 +41,8 @@ console.log( b.say('Hi') ); //-> Hi, b object
 let c = {
   name: 'c object'
 };
-c.say = a.say.bind(c);
-console.log( c.say('Hey') ); //-> Hey, c object
+c.say = a.say.bind(c, 'Hey');
+console.log( c.say() ); //-> "Hey, c object"
 ```
 
 ポリフィル
