@@ -21,7 +21,12 @@
   fabric.Object.prototype.transparentCorners = false;
 
   fabric.Sprite.fromURL('sprite.png', function(sprite) {
-    sprite.set({ left: 50, top: 50, angle: fabric.util.getRandomInt(-30, 30) });
+    sprite.set({ 
+      left: 50,
+      top: 50,
+      angle: fabric.util.getRandomInt(-30, 30) 
+    });
+
     canvas.add(sprite);
     
     (function play() {
