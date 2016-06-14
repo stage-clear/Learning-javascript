@@ -57,6 +57,7 @@
 - Proxy - プロキシ
 - Mediator - メディエータ
 - Observer - オブザーバ
+- [Adapter](adapter.md) - アダプター
 
 ## その他
 - [Vue.js](vue.md) - Vue.js のサンプルコード
