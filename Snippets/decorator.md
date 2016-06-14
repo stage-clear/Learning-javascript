@@ -125,42 +125,42 @@ Sale.decorators.fedtax = {
     var price = this.uber.getPrice();
     price += price * 5 / 100;
     return price;
-	}
+  }
 };
 Sale.decorators.quedec = {
   getPrice: function() {
     var price = this.uber.getPrice();
     price += price * 7.5 / 100;
     return price;
-	}
+  }
 }
 Sale.decorators.money = {
-	getPrice: function() {
-		return `$${this.uber.getPrice().toFixed(2)}`;
-	}
+  getPrice: function() {
+    return `$${this.uber.getPrice().toFixed(2)}`;
+  }
 };
 Sale.decorators.cdn = {
-	getPrice: function() {
-		return `CDN$${this.uber.getPrice().toFixed(2)}`;
-	}
+  getPrice: function() {
+    return `CDN$${this.uber.getPrice().toFixed(2)}`;
+  }
 };
 
 // Implementaion: decorate method
 Sale.prototype.decorate = function(decorate) {
-	var F = function() {};
-	var overrides = this.constructor.decorators[decorator];
-	var i, newobj;
-	
-	F.prototype = this;
-	newobj = new F();
-	newobj.uber = F.prototype;
-	
-	for (i in overrides) {
-		if (overrides[i].hasOwnProperty(i)) {
-			newobj[i] = overrides[i];
-		}
-	}
-	return newobj;
+  var F = function() {};
+  var overrides = this.constructor.decorators[decorator];
+  var i, newobj;
+  
+  F.prototype = this;
+  newobj = new F();
+  newobj.uber = F.prototype;
+  
+  for (i in overrides) {
+    if (overrides[i].hasOwnProperty(i)) {
+      newobj[i] = overrides[i];
+    }
+  }
+  return newobj;
 };
 
 // Usage:
