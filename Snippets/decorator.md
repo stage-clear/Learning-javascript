@@ -176,5 +176,60 @@ sale = sale.decorate('cdn'); // CDN で書式化
 sale.getPrice(); // "CDN$ 105.00"
 ```
 
+## 例3) JavaScript patterns / リストを使った実装
+JavaScript の動的性質を利用すれば、継承をいっさい使わずにすみます。
+
+```js
+// Implementation: Concrete class
+// Sale() コンストラクタはデコレータのリストを持ちます
+function Sale(price) {
+  this.price = price || 100;
+  this.decorators_list = [];
+}
+
+// Implementation: Decorators
+Sale.decorators = {};
+Sale.decorators.fedtax = {
+  getPrice: function(price) {
+    return price + price * 5 / 100;
+  }
+};
+Sale.decorators.quedec = {
+  getPrice: function(price) {
+    return price + price * 7.5 / 100;
+  }
+};
+Sale.decorators.money = {
+  getPrice: function(price) {
+    return `$${price.toFixed(2)}`
+  }
+};
+
+// Implementation: #decorate()
+Sale.prototype.decorate = function(decorator) {
+  this.decorators_list.push( decorator );
+};
+
+// Implementation: #getPrice()
+Sale.prototype.getPrice = function() {
+  var price = this.price;
+  var i, max = this.decorators_list.length;
+  var name;
+
+  for (i = 0; i < max; i += 1) {
+    name = this.decorators_list[i];
+    price = Sale.decorators[name].getPrice(price);
+  }
+  return price;
+};
+
+// Usage:
+var sale = new Sale(100); // 価格は100ドル
+sale.decorate('fedtax'); // 連邦税を追加
+sale.decorate('quedec'); // 地方税を追加
+sale.decorate('money'); // 金額用の書式に設定
+console.log(`> ${sale.getPrice()}`);
+```
+
 ## Links
 - [Learning JavaScript: decorator](https://github.com/stage-clear/Learning-javascript/blob/master/Books/978-4-87311-618-1/02/14.md)
