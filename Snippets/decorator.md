@@ -87,7 +87,19 @@ AcDecorator.prototype.getPrice = function() {
 ```
 
 ```js
+// usage
 var car = new Car();
+
+// give the car some power windows
+car = new PowerWindowsDecorator(car);
+
+// now some power locks and A/C
+car = new PowerLocksDecorator(car);
+car = new AcDecorator(car);
+
+car.start();
+car.drive();
+console.log( car.getPrice() );
 ```
 
 
