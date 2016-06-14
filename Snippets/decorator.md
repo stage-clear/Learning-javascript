@@ -11,6 +11,7 @@ var Car = function() {
 };
 
 // The decorators will also need to implement this interface
+// (デコレータには、実装のインターフェイスを必要となります)
 Car.prototype = {
   start: function() {
     console.log('The engine starts with roar!');
@@ -25,11 +26,14 @@ Car.prototype = {
 ```
 
 ```js
+// これは抽象化クラスとなるのでクラス自体はインスタンス化しませんが
+// 本格的なデコレータを作成するためにサブクラス化する必要があります
 var CarDecorator = function(car) {
   this.car = car;
 };
 
 // CarDecorator implements the same interface as Car
+// (`CarDecorator` の実装インターフェイスは `Car` と同じ)
 CarDecorator.prototype = {
   start: function() {
     this.car.start();
@@ -80,3 +84,11 @@ AcDecorator.prototype.getPrice = function() {
   return this.car.getPrice() + 600;
 };
 ```
+
+```js
+var car = new Car();
+```
+
+
+## Links
+- [Learning JavaScript: decorator](https://github.com/stage-clear/Learning-javascript/blob/master/Books/978-4-87311-618-1/02/14.md)
