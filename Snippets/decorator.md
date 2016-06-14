@@ -7,6 +7,7 @@
 - [JavaScriptデザインパターン – 第2部：アダプター、デコレーター、ファクトリ](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt2-adapter-decorator-factory.html)
 
 ```js
+// Implementation: Concrete class
 var Car = function() {
   console.log('Assemble: build frame, add core parts');
 };
@@ -27,6 +28,7 @@ Car.prototype = {
 ```
 
 ```js
+// Implementation: Abstract class
 // これは抽象化クラスとなるのでクラス自体はインスタンス化しませんが
 // 本格的なデコレータを作成するためにサブクラス化する必要があります
 var CarDecorator = function(car) {
@@ -50,6 +52,7 @@ CarDecorator.prototype = {
 ```
 
 ```js
+// Implementation: Decorators
 var PowerLocksDecorator = function(car) {
   // Call Parent Constructor
   // Override `this.car` from argument `car`
@@ -89,7 +92,7 @@ AcDecorator.prototype.getPrice = function() {
 ```
 
 ```js
-// usage
+// Usage:
 var car = new Car();
 
 // give the car some power windows
@@ -104,6 +107,74 @@ car.drive();
 console.log( car.getPrice() );
 ```
 
+## 例2) JavaScript pattens の実装 
+
+```js
+// Implementation:
+function Sale(price) {
+	this.price = price || 100;
+}
+Sale.prototype.getPrice = function() {
+	return this.price;
+};
+
+// Implementation: decorators
+Sale.decorators = {};
+Sale.decorators.fedtax = {
+	getPrice: function() {
+		var price = this.uber.getPrice();
+		price += price * 5 / 100;
+		return price;
+	}
+};
+Sale.decorators.quedec = {
+	getPrice: function() {
+		var price = this.uber.getPrice();
+		price += price * 7.5 / 100;
+		return price;
+	}
+}
+Sale.decorators.money = {
+	getPrice: function() {
+		return `$${this.uber.getPrice().toFixed(2)}`;
+	}
+};
+Sale.decorators.cdn = {
+	getPrice: function() {
+		return `CDN$${this.uber.getPrice().toFixed(2)}`;
+	}
+};
+
+// Implementaion: decorate method
+Sale.prototype.decorate = function(decorate) {
+	var F = function() {};
+	var overrides = this.constructor.decorators[decorator];
+	var i, newobj;
+	
+	F.prototype = this;
+	newobj = new F();
+	newobj.uber = F.prototype;
+	
+	for (i in overrides) {
+		if (overrides[i].hasOwnProperty(i)) {
+			newobj[i] = overrides[i];
+		}
+	}
+	return newobj;
+};
+
+// Usage:
+var sale = new Sale(100); // 価格は 100ドル
+sale = sale.decorate('fedtax'); // 連邦税を追加
+sale = sale.decorate('quedec'); // 地方税を追加
+sale = sale.decorate('money'); // 金額を書式化
+sale.getPrice(); // "$112.88"
+
+var sale = new Sale(100); // 価格は100ドル
+sale = sale.decorate('fedtax'); // 連邦税を追加
+sale = sale.decorate('cdn'); // CDN で書式化
+sale.getPrice(); // "CDN$ 105.00"
+```
 
 ## Links
 - [Learning JavaScript: decorator](https://github.com/stage-clear/Learning-javascript/blob/master/Books/978-4-87311-618-1/02/14.md)
