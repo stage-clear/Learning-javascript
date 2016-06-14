@@ -3,7 +3,7 @@
 > 同じコンストラクタを使って `new` でオブジェクトを作るとき、シングルトンの実装でやることは、
 > まったく同じオブジェクトを指す新しいポインタを取得することだけです。
 
-## "JavaScript Patterns" での実装
+## 例1) "JavaScript Patterns" での実装
 
 __静的プロパティにインスタンスをキャッシュする__
 
@@ -102,12 +102,11 @@ var Universe;
 })();
 ```
 
-
-## "JavaScript Design Patterns" での実装
+## 例2) "JavaScript Design Patterns" での実装
 
 ```js
 const SingletonTester = (function() {
-  
+
   function Singleton(options) {
     this.name = 'SingletonTester';
   }
@@ -131,3 +130,6 @@ let sin2 = SingletonTester.getInstance();
 
 console.log(sin === sin2);
 ```
+
+## Links
+- [JavaScriptデザインパターン – 第1部：シングルトン、コンポジット、ファサード](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt1-singleton-composite-facade.html)
