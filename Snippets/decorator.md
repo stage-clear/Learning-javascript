@@ -2,7 +2,7 @@
 
 > デコレーターパターンは、他の多くのパターンとはかなり異なります。デコレーターパターンを使用すれば、
 > 機能の組み合わせごとにサブクラスを作成することなく、クラスへの機能の追加または変更という問題が解決されます。
-
+> [出展](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt2-adapter-decorator-factory.html)
 ## 例1) Adobe Developer Connection での実装
 
 ```js
