@@ -1,6 +1,5 @@
-# スニペット
-
-## コード
+# Snippets
+## Tips
 - [debounce](debounce.js) - 連続したイベントの最後に1度だけ処理する
 - [throttle](throttle.js) - 連続したイベントの発生頻度を一定に保つ
 - [poll](poll.js) - ポーリング処理
@@ -23,31 +22,31 @@
 - [isElemVisible](is-elem-visible.md) - 
 - [fixEventObject](fix-event-object.md) - イベントオブジェクトを正規化する(レガシーIE対応)
 
-## Util
+## Utilities
 - [each/foreach](each.md) - `each/forEach`
 - [merge](merge.md) - オブジェクトとオブジェクトをマージする
 - [extend](extend.md) - 2つのオブジェクトを引数にとり、片方のオブジェクトでもう一方を拡張します
 - [mixin](mixin.md) - 複数のオブジェクトを混ぜ合わせて新しいオブジェクトを作成します
 - [bind](bind.md) - 関数にオブジェクトを束縛します
 
-## 高階関数
+## Higher order Functions
 - [compose](compose.md) - 合成関数
 - [wrap](wrap.md) - ラッピング関数
 - [pipeline](pipeline.md) - パイプライン関数
 - [actions](actions.md) - 
 
-## データ構造
+## Data architecture
 - [Store](store.md) - ストア
 - [Stack](stack.md) - スタックの実装例
 - [Queue](queue.md) - キューの実装例
 - [Heap](heap.md) - 優先度付きキューの実装例
 - [Linked-list](linked-list.md) - 連結リストの実装例
 
-## フロー制御
+## Flow control
 - [EventEmitter](event-emitter.md) - `EventEmitter/pubsub` の実装をいくつか
 - [Flux](flux.md) - 構造を理解するためだけのシンプルな Flux
 
-## デザインパターン
+## Design patterns
 - [Singleton](singleton.md) - シングルトン
 - [Factory](factory.md) - ファクトリ
 - [Iterator](iterator.md) - イテレータ
@@ -60,7 +59,7 @@
 - [Adapter](adapter.md) - アダプター
 - [Composit](composit.md) - コンポジット
 
-## その他
+## Others
 - [Vue.js](vue.md) - Vue.js のサンプルコード
 - [fablic.js - Animated Sprite](fabricjs.md) - fabric.js を使ったスプライトアニメーションのサンプル
 
