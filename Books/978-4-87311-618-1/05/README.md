@@ -35,7 +35,7 @@ var test = {
             setClass = ' ' + elem.className + ' ';
             for ( c = 0, cl = classNames.length; c < cl; c++) {
               if (!~setClass.indexOf(' '+classNames[c] + ' ')) {
-                setClass += [c] + ' ';
+                setClass += classNames[c] + ' ';
               }
             }
             elem.className = $.trim(setClass);
