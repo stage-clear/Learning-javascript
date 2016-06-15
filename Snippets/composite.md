@@ -1,4 +1,8 @@
 # Composite
+- 単一の要素と複数の要素を、同じ方法で扱う
+  - ファイルとディレクトリ
+  - jQuey のメソッド
+
 
 ## 例1) "Adobe developer Connection" の実装
 - コンポジットとリーフは同一のインターフェイスを持たなければならない
@@ -98,3 +102,8 @@ container.getElement().appendTo('body');
 container.show();
 
 ```
+
+
+## Links
+
+- [11. Composite パターン](http://www.techscore.com/tech/DesignPattern/Composite.html)
