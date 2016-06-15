@@ -105,5 +105,5 @@ container.show();
 
 
 ## Links
-
+- [【まとめ】JavaScriptでデザインパターン](http://qiita.com/KENJU/items/4d32598ffddf86af82f2)
 - [11. Composite パターン](http://www.techscore.com/tech/DesignPattern/Composite.html)
