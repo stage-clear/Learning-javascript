@@ -57,7 +57,7 @@
 - Mediator - メディエータ
 - Observer - オブザーバ
 - [Adapter](adapter.md) - アダプター
-- [Composit](composit.md) - コンポジット
+- [Composite](composite.md) - コンポジット
 
 ## Others
 - [Vue.js](vue.md) - Vue.js のサンプルコード
