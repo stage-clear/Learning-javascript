@@ -8,7 +8,7 @@
 let el = document.querySelector('.element');
 
 let animStart = () => {
-	return new Promise(resolve => {
+  return new Promise(resolve => {
     setTimeout(() => {
       el.classList.add('animate'); 
       resolve();
