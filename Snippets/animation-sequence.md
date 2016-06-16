@@ -2,6 +2,8 @@
 
 ## use `Promise()`
 
+[Sample](https://jsfiddle.net/walfo/07xphesh/)
+
 ```js
 let el = document.querySelector('.element');
 
