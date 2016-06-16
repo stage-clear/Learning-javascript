@@ -46,6 +46,38 @@ animStart()
 ## Use `Generator`
 
 ```js
+// アニメーションの定義は Promise のときと同じ
+
+// 
+main(gen());
+
+function main(g) {
+  let p = g.next();
+  if (p.done) return ;
+  
+  p.value.then(() => {
+    main(g);
+  });
+}
+
+function* gen() {
+  // 即時実行
+  console.log('[start]');
+  yield animStart();
+  yield anim1();
+  yield anim2();
+  yield anim3();
+  yield (function() {
+    console.log('3000ms wait...');
+    return new Promise(resolve => {
+      setTimeout(resolve, 3000);
+    });
+  })();
+  yield (function() {
+    console.log('[end]');
+    return Promise.resolve();
+  })();
+}
 ```
 
 ## Use `async/await`
