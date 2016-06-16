@@ -84,4 +84,4 @@ function* gen() {
 
 ## Links
 - [Promiseについて](http://js-next.hatenablog.com/entry/2013/11/28/093230)
-- [JavaScriptは如何にしてAsync/Awaitを獲得したのか](http://gao-tec.seesaa.net/article/427643074.html)
+- [JavaScriptは如何にしてAsync/Awaitを獲得したのか](http://qiita.com/gaogao_9/items/5417d01b4641357900c7)
