@@ -48,7 +48,6 @@ animStart()
 ```js
 // アニメーションの定義は Promise のときと同じ
 
-// 
 main(gen());
 
 function main(g) {
