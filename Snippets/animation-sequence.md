@@ -37,9 +37,9 @@ let anim3 = () => {
 };
 
 animStart()
-  .then(() => anim1())
-  .then(() => anim2())
-  .then(() => anim3());
+  .then(anim1)
+  .then(anim2)
+  .then(anim3);
 ```
 
 ## Use `Generator`
