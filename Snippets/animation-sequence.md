@@ -3,7 +3,16 @@
 ## use `Promise()`
 
 ```js
-let el = document.querySelector('.animate');
+let el = document.querySelector('.element');
+
+let animStart = () => {
+	return new Promise(resolve => {
+    setTimeout(() => {
+      el.classList.add('animate'); 
+      resolve();
+    }, 3000);
+  });
+};
 
 let anim1 = () => {
   return new Promise(resolve => {
@@ -26,5 +35,8 @@ let anim3 = () => {
   });
 };
 
-anim1().then(() => anim2()).then(() => anim3())
+animStart()
+  .then(() => anim1())
+  .then(() => anim2())
+  .then(() => anim3());
 ```
