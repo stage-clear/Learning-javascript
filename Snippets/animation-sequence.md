@@ -1,7 +1,6 @@
 # Animation sequence
 
 ## Use `Promise()`
-
 [Sample](https://jsfiddle.net/walfo/07xphesh/)
 
 ```js
@@ -44,6 +43,7 @@ animStart()
 ```
 
 ## Use `Generator`
+[Sample](https://jsfiddle.net/walfo/36p3cpts/)
 
 ```js
 // アニメーションの定義は Promise のときと同じ
