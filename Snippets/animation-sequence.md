@@ -1,6 +1,6 @@
 # Animation sequence
 
-## use `Promise()`
+## Use `Promise()`
 
 [Sample](https://jsfiddle.net/walfo/07xphesh/)
 
@@ -42,3 +42,15 @@ animStart()
   .then(() => anim2())
   .then(() => anim3());
 ```
+
+## Use `Generator`
+
+```js
+```
+
+## Use `async/await`
+
+
+## Links
+- [Promiseについて](http://js-next.hatenablog.com/entry/2013/11/28/093230)
+- [JavaScriptは如何にしてAsync/Awaitを獲得したのか](http://gao-tec.seesaa.net/article/427643074.html)
