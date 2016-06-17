@@ -170,9 +170,27 @@ let myCat = new Animal('Cat', 4);
 setTimeout(myCat.logInfo, 1000);
 ```
 
-__Solution:__  
+__Solutions:__  
 - use `bind()` `setTimeout(myCat.logInfo.bind(myCat), 1000)`
 - use Arrow function. `this.logInfo = () => { /*...*/ }`
+
+## Constructor invocation
+
+```js
+function Country(name, traveled) {
+  this.name = this.name ? this.name : 'United Kingdom';
+  this.traveled = Boolean(traveled); // transform to a boolean
+}
+Country.prototype.travel = () => {
+  this.traveled = true;
+};
+// Constructor invocation
+let france = new Country('France', false);
+// Constructor invocation
+let unitedKingdom = new Country;
+
+france.travel(); // "Travel to France"
+```
 
 ## Arrow function
 ### `this` in arrow funcions
