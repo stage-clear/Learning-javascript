@@ -192,8 +192,196 @@ let unitedKingdom = new Country;
 france.travel(); // "Travel to France"
 ```
 
+__using `class` keyword:__
+```js
+class City {
+  constructor(name, traveled) {
+    this.name = name;
+    this.traveled = false;
+  }
+  travel() {
+    this.traveled = true;
+  }
+}
+// Constructor invocation
+let paris = new City('Paris', false);
+paris.travel();
+```
+
+### `this` in constructor invocation
+> `this` is the __newly created object__ in a constructor invocation
+
+```js
+function Foo() {
+  console.log(this instanceof Foo);//=> true
+  this.property = 'Default Value';
+}
+// Constructor invocation
+let fooInstance = new Foo();
+fooInstance.property; //=> "Default Value"
+```
+
+```js
+class Bar {
+  constructor() {
+    console.log(this instanceof Bar); //=> true
+    this.property = 'Default Value';
+  }
+}
+// Constructor invocation
+let barInstance = new Bar();
+barInstance.property;//=> "Default Value"
+```
+
+### Pitfall: forgetting about `new`
+
+__!) `new` keyword missing:__
+
+```js
+function Vehicle(type, wheels) {
+  this.type = type;
+  this.wheels = wheels;
+  return this;
+}
+// Function invocation
+// is not using `new`
+let car = Vehicle('Car', 4);
+car.type;//=> "Car"
+car.wheels;//=> 4
+car === window;//=> true
+windwo.tye;//=> "Car"
+```
+
+Make sure to use `new` operator in cases when a constructor call is expected:
+
+```js
+function Vehicle (type, wheels) {
+  if (!(this instanceof Vehicle)) {
+    throw Error('Error: Incorrect invocation');
+    // return new Vehicle(type, wheels);
+  }
+  this.type = type;
+  this.wheels = wheels;
+  return this;
+}
+```
+
+## Indirect invocation
+> __Indirect invocation__ is performed when a function is called using `.call()` or `.apply()` methods.
+
+```js
+function increment(number) {
+  return ++number;
+}
+increment.call(undefined, 10);//=> 11
+increment.apply(undefined, [10]);//=> 11
+```
+
+### `this` in indirect invocation
+> `this` is the __first argument__ of `.call()` or `.apply()` in an indirect invocation
+
+```js
+let rabbit = { name: 'White Rabbit' };
+function concatName(string) {
+  console.log(this === rabit);//=> true
+  return string + this.name;
+}
+// Indirect invocation
+concatName.call(rabbit, 'Hello');//=> "Hello White Rabbit"
+concatName.apply(rabbit, ['Bye']);//=> "Bye White Rabbit"
+```
+
+```js
+function Runner(name) {
+  console.log(this instanceof Rabbi);//=> true
+  this.name = name;
+}
+function Rabbit(name, legs) {
+  console.log(this instanceof Rabbi);//=> true
+  // Indirect invocation. Call parent constructor.
+  Runner.call(this, name);
+  this.legs = legs;
+}
+
+let myRabbit = new Rabbit('White Rabbit', 4);
+myRabbit;//=> { name: "White Rabbit", legs: 4 }
+```
+
+## Bound function
+__A bound function__ is a function bind with an object.
+Usually it is created from the original function using `.bind()` method.
+
+```js
+function multiply(number) {
+  'use strict';
+  return this * number;
+}
+// create a bound function with context
+let double = multiply.bind(2);
+// invoke the bound founction
+double(2);//=> 6
+double(10);//=> 20
+```
+
+### `this` in bound function
+> `this` is the __first argument__ of `.bind()` when invoking a bound function
+
+```js
+let numbers = {
+  array: [3, 5, 10],
+  getNumbers() {
+    return this.array;
+  }
+};
+// Create a bound function
+let boundGetNumbers = numbers.getNumbers.bind(numbers);
+boundGetNumbers();//=> [3, 5, 10]
+// Extract method from object
+let simpleGetNumbers = numbers.getNumbers;
+simpleGetNumbers();//=> undefined or throws an error in strict mode
+```
+
+`.bind()` makes a permanent context link and will always keep it.
+A bound function cannot change its linked context when using `.call()` or `.apply()` with a different context,
+or even a rebound doesn't have any effect.
+
+```js
+function getThis() {
+  'use strict';
+  return this;
+}
+let one = getThis.bind(1);
+// Bound function invocation
+one();//=> 1
+// Use bound function with `.apply()` and `.call()`
+one.call(2);//=> 1
+one.apply(2);//=> 1
+// Bind again
+one.bind(2)();//=> 1;
+```
+
 ## Arrow function
+__Arrow function__ is designed to declare the function in a shorter from and lexically bind the context.
+
+```js
+let hello = (name) => {
+  return 'Hello' + name;
+};
+hello('World');//=> "Hello World"
+[1,2,5,6].filter(item => item % 2 === 0);//=> [2, 6]
+```
+
+```js
+let sumArguments = (...args) => {
+  console.log(typeof arguments);//=> "undefined" (Using Chrome is "Object")
+  return args.reduce((result, item) => result + item);
+};
+sumArguments.name;//=> '' (Using Chrome is "sumArguments");
+sumArguments(5, 5, 6);
+```
+
 ### `this` in arrow funcions
+> `this` is the __enclosing context__ where the arrow function is defined.
 - [When 'not' to use arrow functions](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
 
 ### Object literal
