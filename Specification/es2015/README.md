@@ -23,11 +23,12 @@ ES2015の学習や情報収集のまとめ
 - [Symbol](Symbol.md) - _シンボル_
 - [Proxies](Proxy.md) - _プロキシ_
 - [Reflection](Reflection.md) - _リフレクション_
-- [String](String.md)
+- [String](String.md) - _文字列_
 - [RegExp](RegExp.md) - _正規表現_
 - [Array](Array.md) - _配列_
 - [Object](Object.md) - _オブジェクト_
-- [Math, Number](Math.md)
+- [Number](Number.md) - _数値_
+- [Math](Math.md)
 - [Tail call optimasation](TailCallOptimisation.md) - _末尾再帰最適化_
 
 ## Compability table
