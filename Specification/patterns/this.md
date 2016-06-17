@@ -1,7 +1,87 @@
 # this
+## `this` in function invocation
+> `this` is the __global object__ in function invocation.
 
-## Arrow funcions
-アロー関数内での `this` の取扱いについて
+```js
+function sum(a, b) {
+  console.log(this === window); //=> true
+  this.myNumber = 20; // add `myNumber` property to global object
+  return a + b;
+}
+// `sum()` is invoked as a function
+// this in `sum()` is a global object(window);
+sum(15, 16);//=> 31
+window.myNumber; //=> 20
+```
+
+```js
+console.log(this === window); //=> true
+this.myString = 'Hello world!';
+console.log(window.myString); //=> "Hello world!"
+```
+
+```html
+<!-- in an html file -->
+<script type="text/javascript">
+  console.log(this === window);//=> true
+</script>
+```
+
+## `this` in function invocation, `strict mode`
+> `this` is `undefined` in a function invocation in strict mode.
+
+```js
+function multiply(a, b) {
+  'use strict'; // enabled this strict mode
+  console.log(this === undefined);//=> true
+  return a * b;
+}
+// `multiply()` function invocation with strict mode enabled
+// `this` in `multiply()` in undefined.
+multiply(2, 5);
+```
+> The `strict mode` is active not only in the current scope, but also in the inner scopes.
+> (for all function declared inside):
+
+```js
+function execute() {
+  'use strict'; // activate the strict mode
+  
+  function concat(str1, str2) {
+    // strict mode is enabled too
+    console.log(this === undefined); //=> true
+    return str1 + str2;
+  }
+  
+  concat('Hello', 'World!');//=> "HelloWorld!"
+}
+execute();
+```
+
+### Pitfall: `this` in an inner function
+
+```js
+let numbers = {
+  numberA: 5,
+  numberB: 10,
+  sum() {
+    console.log(this === numbers);//=> true
+    
+    function calc() {
+      console.log(this === numbers);//=> false
+      return this.numberA + numberB;
+    }
+
+    return calc();//=> Error: NaN
+  }
+};
+```
+
+This case's solution is `return calc.call(this)`.
+
+
+
+## `this` in arrow funcions
 - [When 'not' to use arrow functions](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
 
 ### Object literal
