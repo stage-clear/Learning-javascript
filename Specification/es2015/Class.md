@@ -1,6 +1,6 @@
 # Classes 
-1. Class
-2. Constructor, Inheritence
+1. クラス
+2. コンストラクタと継承
 
 ## クラスの定義
 
