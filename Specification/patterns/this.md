@@ -318,7 +318,7 @@ function multiply(number) {
 }
 // create a bound function with context
 let double = multiply.bind(2);
-// invoke the bound founction
+// invoke the bound function
 double(2);//=> 6
 double(10);//=> 20
 ```
@@ -382,6 +382,7 @@ sumArguments(5, 5, 6);
 
 ### `this` in arrow funcions
 > `this` is the __enclosing context__ where the arrow function is defined.
+
 - [When 'not' to use arrow functions](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
 
 ### Object literal
