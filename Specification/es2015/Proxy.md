@@ -1,18 +1,12 @@
-Proxy
-======
-
+# Proxy
 - Proxyは、引数に対象オブジェクトとハンドラオブジェクトを取る
 - ハンドラオブジェクトでは、トラップしたい操作に対応するメソッドを定義する
   ハンドラに定義できるメソッドには `get` のほかに、プロパティ代入に対応する `set` 、 for/in ループに対応する `enumerate` 、関数実行に対応する `apply` など14個のメソッドがある
   - [ハンドラAPI](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
 
+## Proxy の基本
 
-
-
-Proxy の基本
--------------
-
-```javascript
+```js
 // ハンドラオブジェクト
 var handler = {
   // プロパティの取得をトラップするメソッド
@@ -41,56 +35,8 @@ console.log(proxy.bar);
 //=> undefined
 ```
 
-
-Reflect
---------
-
-オブジェクトのもとの挙動を再現するためのメソッドを持つ
-
-```javascript
-// ↑のリストを `Reflect` を使って書き換える
-var handler = {
-  get(target, key, receiver) {
-    console.log('Proxy, GET: ', key);
-    return Reflect.get(target, key, receiver);
-  }
-}
-```
-
-Reflect オブジェクトにはすべてのハンドラメソッドに対応するメソッドが定義されているため、
-どのメソッドを使うときでも機会的にオリジナルの挙動を再現できる。
-
-
-使用例) 実行時の型チェックに活用する
-------------------------------------
-
-```javascript
-function createTypesSafeObject(obj) {
-  return new Proxy(obj, {
-    set(target, key, value, receiver) {
-      var currentType = typeof target[key];
-      var newType = typeof value;
-      if (key in target && currentType !== newType) {
-        throw new Error(`${key} requires a ${currentType}`);
-      } else {
-        return Reflect.set(target, key, value, receiver);
-      }
-    }
-  });
-}
-
-var person = {
-  name: 'Bob',
-  age: 20
-};
-
-person = createTypeSafeObject(person);
-person.name = 'Jhon';// OK
-person.age = true;// ReferenceError: createTypeSefeObject is not defined
-```
-
-
-リンク
-------
-
+## Links
 - [ES6 Proxy Traps in Depth](https://ponyfoo.com/articles/es6-proxy-traps-in-depth)
+
+## Related
+- [Reflection](Reflection.md) - _リフレクション_
