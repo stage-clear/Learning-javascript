@@ -1,17 +1,13 @@
-クラス
-======
+# Classes 
+1. Class
+2. Constructor, Inheritence
 
-1. クラス
-2. コンストラクタと継承
-
-
-クラスの定義
--------------
+## クラスの定義
 
 - `class` キーワードで定義する
 - 変数の巻き上げが発生しない
 
-```javascript
+```js
 class Parent {
   print() {
     console.log('I am a class');
@@ -30,9 +26,7 @@ let myParent = Parent();
 new Parent().print();
 ```
 
-__静的なメソッド__
-
-- インスタンスを作らなくても呼べるメソッド
+__静的なメソッド__ - インスタンスを作らなくても呼べるメソッド
 
 ```js
 let count = 0;
@@ -51,8 +45,7 @@ class Parent {
 console.log(Parent.count());//=> 0
 ```
 
-コンストラクタと継承
---------------------
+## コンストラクタと継承
 
 ```js
 // コンストラクタ
@@ -116,10 +109,7 @@ let myChild2 = Child.create('Goku', 'Goten');
 console.log(myChild2.print());//=> My parent is Goku. My name is Goten.
 ```
 
-
-リンク
-------
-
+# Links
 - [ECMAScript 2015 Language Specification – Class Definitions](http://www.ecma-international.org/ecma-262/6.0/#sec-class-definitions)
 - [Classes - JavaScript | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Classes)
 - [set - JavaScript | MDN](https://developer.mozilla.org/ja/docs/JavaScript/Reference/Operators/set)
