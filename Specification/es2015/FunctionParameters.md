@@ -1,9 +1,5 @@
-関数パラメータ
-==============
-
-<a name="defaultParameter">デフォルトパラメータ
---------------------
-
+# 関数パラメータ
+## <a name="defaultParameter"></a>デフォルトパラメータ
 引数のデフォルト値を指定できる
 
 ```javascript
@@ -14,9 +10,7 @@ var fun = (a, b = 5) => {
 fun(1);
 ```
 
-<a name="restParameter">レストパラメータ
-------------------
-
+## <a name="restParameter"></a>レストパラメータ
 可変長の引数を簡単に書ける
 
 ```javascript
@@ -30,10 +24,9 @@ fun(1,2,3,4,5);
 // * argumentsと違ってちゃんと配列
 ```
 
+- [How three dots changed JavaScript](http://rainsoft.io/how-three-dots-changed-javascript/)
 
-<a name="spredOperator">スプレッドオペレータ
---------------------
-
+## <a name="spredOperator"></a>スプレッドオペレータ
 レストパラメータの逆で、配列で指定した引数を単一の引数で受け取る
 
 ```javascript
