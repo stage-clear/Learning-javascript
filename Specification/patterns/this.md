@@ -71,8 +71,7 @@ button2.addEventListener('click', function() {
 button2.click();
 ```
 
-
-## 参考リンクなど
-
+## Links
+- [Gentle explanation of 'this' keyword in JavaScript](http://rainsoft.io/gentle-explanation-of-this-in-javascript/)
 - [じゃあ this の抜き打ちテストやるぞー](http://qiita.com/KDKTN/items/0b468a07410d757ac609)
 - [globalオブジェクトを取得する](http://qiita.com/Hiraku/items/d249a2f2f13532748324)
