@@ -1,56 +1,47 @@
 # ES2015 (ES6)
 ES2015の学習や情報収集のまとめ
-
 - [ECMA-262](http://www.ecma-international.org/ecma-262/6.0/)
 - [tc39/ecma262](https://github.com/tc39/ecma262)
 
-
-## 主要機能リスト
-
-- [クラス](Class.md)
-- [モジュール](Modules.md)
-- [アロー関数](ArrowFunctions.md)
-- [オブジェクトリテラル拡張](objectLiteral.md)
-- [ブロックスコープ](BlockScope.md)
-- [関数パラメータ](FunctionParameters.md)
-  - [デフォルトパラメータ](FunctionParameters.md#defaultParameter)
-  - [レストパラメータ](FunctionParameters.md#restParameter)
-  - [スプレッドオペレータ](FunctionParameters.md#spredOperator)
-- [分割代入](DestructuringAssignment.md)
-- [イテレータ](Iterator.md)
-- [テンプレートリテラル](TempleteLiteral.md)
-- [Promise](Promise.md)
-- [Generator](Generator.md)
+## Featured list
+- [Class](Class.md) - _クラス_
+- [Module](Modules.md) - _モジュール_
+- [Arrow functions](ArrowFunctions.md) - _アロー関数_
+- [Object literal](objectLiteral.md) - _オブジェクトリテラル拡張_
+- [Block scope](BlockScope.md) - _ブロックスコープ_
+- [Function parameters](FunctionParameters.md) - _関数パラメータ_
+  - [Default parameter](FunctionParameters.md#defaultParameter) - _デフォルトパラメータ_
+  - [Rest parameter](FunctionParameters.md#restParameter) - _レストパラメータ_
+  - [Spread Operator](FunctionParameters.md#spredOperator) - _スプレッドオペレータ_
+- [Destructuring Assingment](DestructuringAssignment.md) - _分割代入_
+- [Iterator](Iterator.md) - _イテレータ_
+- [Template literal](TempleteLiteral.md) - _テンプレートリテラル_
+- [Promise](Promise.md) - _プロミス_
+- [Generator](Generator.md) - _ジェネレータ_
 - [Map, Set, WeakMap, WeakSet](MapSet.md)
-- [型付き配列](TypedArray.md)
-- [Symbol](Symbol.md)
-- [Proxy, Reflect](Proxy.md)
+- [Typed Array](TypedArray.md) - _型付き配列_
+- [Symbol](Symbol.md) - _シンボル_
+- [Proxy, Reflect](Proxy.md) = _プロキシ, リフレクト_
 - [String](String.md)
-- [RegExp](RegExp.md)
-- [Array](Array.md)
-- [Object](Object.md)
+- [RegExp](RegExp.md) - _正規表現_
+- [Array](Array.md) - _配列_
+- [Object](Object.md) - _オブジェクト_
 - [Math, Number](Math.md)
-- [末尾再帰最適化](TailCallOptimisation.md)
+- [Tail call optimasation](TailCallOptimisation.md) - _末尾再帰最適化_
 
 
-## 対応状況
-
+## Compability table
 - [ECMAScript 6 compatibility table](https://kangax.github.io/compat-table/es6/)
 
 
-## REPL
-
+## REPL, Play Ground
 - [Babel REPL](https://babeljs.io/repl/)
 - [Promisees visualization](http://bevacqua.github.io/promisees/)
 
-
-## トランスパイラ
-
+## Transpilear
 - [Babel](https://babeljs.io/)
 - [Traceur](https://github.com/google/traceur-compiler)
 
-
-## リファレンス
-
+## References
 - [ES6 Overview in 350 Bullet Points](https://ponyfoo.com/articles/es6)
 - [ES6 Interactive Guide](http://projects.formidablelabs.com/es6-interactive-guide/#/)
