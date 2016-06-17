@@ -1,5 +1,6 @@
 # this
-## `this` in function invocation
+## Function invocation
+### `this` in function invocation
 > `this` is the __global object__ in function invocation.
 
 ```js
@@ -27,7 +28,7 @@ console.log(window.myString); //=> "Hello world!"
 </script>
 ```
 
-## `this` in function invocation, `strict mode`
+### `this` in function invocation, `strict mode`
 > `this` is `undefined` in a function invocation in strict mode.
 
 ```js
@@ -79,9 +80,102 @@ let numbers = {
 
 This case's solution is `return calc.call(this)`.
 
+## Method invocation
+Method invocation is:
+```js
+let myObject = {
+  helloFunction() {
+    return 'Hello World!';
+  }
+};
+let message = myObject.helloFunction();
+```
 
+```js
+['Hello', 'World'].join(','); // method invocation
+({ ten () { reutn 10;} }).ten(); // method invocation
 
-## `this` in arrow funcions
+let obj = {};
+obj.myFunction = () => new Date().toString();
+obj.myFunction(); // method invocation
+
+let otherFunction = obj.myFunction;
+otherFUnction(); // function invocation
+parseFloat('16.50'); // function invocation
+isNaN(0); // function invocation
+```
+
+### `this` in method invocation
+> `this` is the __object that owns the method__ in a method invocation
+
+__Object literal__
+
+```js
+let calc = {
+  num: 0,
+  increment() {
+    console.log(this === calc); //=> true
+    this.num += 1;
+    return this.num;
+  }
+};
+// method invocation. this is calc
+calc.increment();//=> 1
+calc.increment();//=> 2
+```
+
+__`Object.create()`__
+
+```js
+let myDog = Object.create({
+  sayName() {
+    console.log(this === myDog);
+    return this.name;
+  }
+});
+myDob.name = 'Milo';
+// method invocation. this myDog
+myDog.SayName();//=> "Milo"
+```
+
+__Class__
+
+```js
+class Planet {
+  constructor(name) {
+    this.name = name;
+  }
+  getName() {
+    console.log(this === earth);//=> true
+    return this.name;
+  }
+}
+
+let earth = new Planet('Earth');
+earth.getName();
+```
+
+### Pitfall: separating method from its object
+
+```js
+function Animal(type, legs) {
+  this.type = type;
+  this.legs = legs;
+  this.logInfo = function() {
+    console.log(this === myCat);//=> false
+    console.log(`The ${this.type} has ${this.legs} legs`);
+  }
+}
+let myCat = new Animal('Cat', 4);
+setTimeout(myCat.logInfo, 1000);
+```
+
+__Solution:__  
+- use `bind()` `setTimeout(myCat.logInfo.bind(myCat), 1000)`
+- use Arrow function. `this.logInfo = () => { /*...*/ }`
+
+## Arrow function
+### `this` in arrow funcions
 - [When 'not' to use arrow functions](http://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/)
 
 ### Object literal
