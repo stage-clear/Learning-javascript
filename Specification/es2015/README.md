@@ -21,7 +21,7 @@ ES2015の学習や情報収集のまとめ
 - [Map, Set, WeakMap, WeakSet](MapSet.md)
 - [Typed Array](TypedArray.md) - _型付き配列_
 - [Symbol](Symbol.md) - _シンボル_
-- [Proxies](Proxy.md) = _プロキシ_
+- [Proxies](Proxy.md) - _プロキシ_
 - [Reflection](Reflection.md) - _リフレクション_
 - [String](String.md)
 - [RegExp](RegExp.md) - _正規表現_
