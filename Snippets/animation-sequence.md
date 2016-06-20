@@ -16,17 +16,19 @@ const animStart = () => new Promise((resolve) => {
 
 const anim1 = () => new Promise((resolve) => {
   el.style.animationName = 'animation-name-1';
-  el.addEventListener('animationend', e => resolve, false);
+  el.addEventListener('animationend', resolve, false);
+  // if you need the `arguments` to `resolve()`.
+  // or `el.addEventListener('animationend, e => resolve(), false');`
 });
 
 const anim2 = () => new Promise((resolve) => {
   el.style.animationName = 'animation-name-2';
-  el.addEventListener('animationend', e => resolve, false);
+  el.addEventListener('animationend', resolve, false);
 });
 
 const anim3 = () => new Promise((resolve) => {
   el.style.animationName = 'animation-name-3';
-  el.addEventListener('animationend', e => resolve, false);
+  el.addEventListener('animationend', resolve, false);
 });
 
 animStart()
