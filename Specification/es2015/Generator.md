@@ -8,10 +8,9 @@
 - 関数の呼び出し先と呼び出し元で値を交換できる
 
 ## 基本
+### 生成
 
-__生成__
-
-```javascript
+```js
 // Generator の基本
 function* generator1() {
   // yield でイテレータの区切りを指定
@@ -21,7 +20,7 @@ function* generator1() {
 }
 ```
 
-__next() で順に実行__
+### `next()` で順に実行
 
 ```js
 // イテレータを作成
@@ -41,7 +40,7 @@ console.log(g.next());//=> { "value": 3, "done": true }
 }
 ```
 
-__for/of で順に実行__
+### `for/of` で順に実行
 
 ```js
 // for/of と組み合わせる
@@ -52,7 +51,7 @@ for (let n of generator()) {
 //=> 2
 ```
 
-__while で順に実行__
+## `while` で順に実行
 
 ```js
 while (true) {
@@ -64,14 +63,14 @@ while (true) {
 }
 ```
 
-__Spread operator でまとめて__
+### Spread operator でまとめて
 
 ```js
 // 結果を配列で取得する
 console.log([...generator()]);//=> [1, 2]
 ```
 
-__Array.from でまとめて__
+### `Array.from` でまとめて
 
 ```js
 console.log(Array.from(generator()));//=> [1, 2]
@@ -126,10 +125,9 @@ console.log(g3.next(100).value);//b = 100 //=> 110
 ```
 
 ## yield*
-
 - `yield*` には iterable なオブジェクトを渡す
 
-```javascript
+```js
 function* generator() {
   yield* [1, 2, 3];
 }
@@ -150,10 +148,9 @@ console.log(g.next().value);//=> う
 ```
 
 ## return
+### `return()` メソッド
 
-__return() メソッド__
-
-```javascript
+```js
 function* numbers() {
   yield 1;
   yield 2;
@@ -167,7 +164,7 @@ console.log(g.return()); //=> { "done" : true }
 console.log(g.next()); //=> { "done": true }
 ```
 
-__return__
+### return
 
 ```js
 function* numbers() {
@@ -230,7 +227,6 @@ asyncFlow(function* () {
   var item = yield getUrl('/items/' + id);
   console.log(item);
 });
-
 
 function asyncFlow(generator) {
   const g = generator();
