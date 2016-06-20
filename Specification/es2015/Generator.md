@@ -1,16 +1,13 @@
-Generator
-=========
+# Generator
 
 - `function` と関数名の間に * を付けて定義する( `function* name() {}` )
 - Generator 関数を実行すると、Iterator が返る
 - `yield` で実行を区切る
 - `Generator#next()` で、`yield` を1つ進む
-- Generator は、yield と next によって関数を停止・再開する
+- Generator は、`yield` と `next` によって関数を停止・再開する
 - 関数の呼び出し先と呼び出し元で値を交換できる
 
-
-基本
-----
+## 基本
 
 __生成__
 
@@ -28,13 +25,20 @@ __next() で順に実行__
 
 ```js
 // イテレータを作成
-var g = generator();
+const g = generator();
 // 1つめの yield まで実行
-console.log(g.next());//=> {"value":1,"done":false}
+console.log(g.next());//=> { "value": 1, "done": false }
 // 2つめの yield まで実行
-console.log(g.next());//=> {"value":2,"done":false}
+console.log(g.next());//=> { "value": 2, "done": false }
 // 関数の最後まで実行
-console.log(g.next());//=> {"value":3,"done":true}
+console.log(g.next());//=> { "value": 3, "done": true }
+```
+
+```js
+{
+  value: Any,
+  done: Boolean
+}
 ```
 
 __for/of で順に実行__
@@ -74,13 +78,10 @@ console.log(Array.from(generator()));//=> [1, 2]
 ```
 
 
-yield に値を渡す
------------------
-
+## `yield` に値を渡す
 - `next()` 引数に渡した値が `yield` 式の戻り値となる
 
-
-```javascript
+```js
 // ロギング用関数
 function msg(str) {
   console.log('msg:', str);
@@ -90,29 +91,27 @@ function msg(str) {
 function* generator() {
   console.log('start');
   
-  // ret1 は next() から値を受け取る
-  var ret1 = yield msg('yeild 1');
+  // `ret1` は `next(arg)` の引数(`arg`)の値を受け取る
+  const ret1 = yield msg('yeild 1');
   console.log('ret1:', ret1);
-  
-  var ret2 = yield msg('yeild 2');
+
+  const ret2 = yield msg('yeild 2');
   console.log('ret2:', ret2);
   
   return 'end';
 }
 
-var g = generator();
+const g = generator();
 // 最初の yield まで進む
-var next1 = g.next();
-console.log(next1);//=> {"value":"yeild 1","done":false}
+const next1 = g.next();
+console.log(next1);//=> { "value": "yeild 1", "done": false }
 
 // yield に値を渡す(ret1 に入る)
-var next2 = g.next('next 1');
-console.log(next2);//=> {"value":"yeild 2","done":false}
+const next2 = g.next('next 1');
+console.log(next2);//=> { "value": "yeild 2", "done": false}
 
-
-var next3 = g.next('next 2');
-console.log(next3);//=> {"value":"end","done":true}
-
+const next3 = g.next('next 2');
+console.log(next3);//=> { "value": "end", "done": true }
 
 function* generator3() {
   var a = yield 'first';
@@ -120,14 +119,13 @@ function* generator3() {
   yield a + b;
 }
 
-var g3 = generator3();
+const g3 = generator3();
 console.log(g3.next().value);//=> first
 console.log(g3.next(10).value);// a = 10 //=> second
 console.log(g3.next(100).value);//b = 100 //=> 110
 ```
 
-yield*
-------
+## yield*
 
 - `yield*` には iterable なオブジェクトを渡す
 
@@ -136,7 +134,7 @@ function* generator() {
   yield* [1, 2, 3];
 }
 
-var g = generator();
+const g = generator();
 console.log(g.next().value);//=> 1
 console.log(g.next().value);//=> 2
 console.log(g.next().value);//=> 3
@@ -145,14 +143,13 @@ function* generator2() {
   yield* 'あいうえお';
 }
 
-var g2 = generator2();
+const g2 = generator2();
 console.log(g.next().value);//=> あ
 console.log(g.next().value);//=> い
 console.log(g.next().value);//=> う
 ```
 
-return
--------
+## return
 
 __return() メソッド__
 
@@ -163,12 +160,11 @@ function* numbers() {
   yield 3;
 }
 
-var g = numbers();
+const g = numbers();
 
-console.log(g.next()); //=> {"value":1,"done":false}
-console.log(g.return()); //=> {"done":true}
-console.log(g.next()); //=> {"done":true}
-
+console.log(g.next()); //=> { "value": 1, "done": false }
+console.log(g.return()); //=> { "done" : true }
+console.log(g.next()); //=> { "done": true }
 ```
 
 __return__
@@ -192,13 +188,13 @@ for (let n of numbers()) {
   //=> 2
 }
 // next
-var g = numbers();
+const g = numbers();
 console.log(g.next());//=> {"value":1,"done":false}
 console.log(g.next());//=> {"value":2,"done":false}
 console.log(g.next());//=> {"value":3,"done":true}
 console.log(g.next());//=> {"done":true}
 
-var g = numbers();
+const g = numbers();
 console.log(g.next());//=> {"value":1,"done":false}
 console.log(g.return(5));//=> {"value":5,"done":true}
 console.log(g.next());//=> {"done":true}
@@ -216,7 +212,7 @@ function* numbers() {
   yield 5;
 }
 
-var g = numbers();
+const g = numbers();
 console.log(g.next());//=> {"value":1,"done":false}
 console.log(g.next());//=> {"value":2,"done":false}
 console.log(g.return(6));//=> {"value":6,"done":true}
@@ -224,12 +220,9 @@ console.log(g.next());//=> {"done":true}
 console.log(g.next());//=> {"done":true}
 ```
 
+## 非同期処理
 
-非同期処理
-----------
-
-
-```javascript
+```js
 asyncFlow(function* () {
   // yield に Promise を渡す
   var items = yield getUrl('/items');
@@ -240,12 +233,12 @@ asyncFlow(function* () {
 
 
 function asyncFlow(generator) {
-  var g = generator();
-  var next = value => {
+  const g = generator();
+  const next = value => {
     // promise を受け取る
-    var result = g.next(value);
+    const result = g.next(value);
     if (!result.done) {
-      var promise = result.value;
+      const promise = result.value;
       promise.then(value => {
         // promise が完了したら next 関数に結果を渡す
         next(value);
@@ -255,20 +248,15 @@ function asyncFlow(generator) {
   next();
 }
 
-
 function getUrl(str) {
   // get url on xhr
 }
 ```
 
-関連
-------
-
+## 関連
 - [イテレータ](./Iterator.md)
 
-リンク
-------
-
+# リンク
 - [ES6 Generators in Depth](https://ponyfoo.com/articles/es6-generators-in-depth)
 - [ジェネレータについて](http://js-next.hatenablog.com/entry/2014/08/07/174147)
 - [JavaScript のジェネレータを極める！](http://goo.gl/KBRGxb)
