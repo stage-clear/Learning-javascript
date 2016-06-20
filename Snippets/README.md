@@ -16,6 +16,7 @@
 - [letter format](letter-formats.md) - 文字フォーマットの変換
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 - [Animation sequence](animation-sequence.md) - 連鎖的なアニメーション
+- [sleep by Promise](sleep.md) - Promise を使った sleep 処理
 
 ## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
