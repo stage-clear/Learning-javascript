@@ -76,6 +76,16 @@ function* gen() {
 
 ## Use `async/await`
 
+```js
+async function animationSequence() {
+  await animStart();
+  await anim1();
+  await anim2();
+  await anim3();
+  return 'Animation is End';
+}
+animationSequence().then(result => console.log(resolt) );
+```
 
 ## Links
 - [Promiseについて](http://js-next.hatenablog.com/entry/2013/11/28/093230)
