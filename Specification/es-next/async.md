@@ -1,13 +1,15 @@
 # async/await
-
 ## async
 非同期な処理を同期的に書くことができる
 
 ### basic
+- `async` で宣言された関数は `Promise` オブジェクトを返します
 
 ```js
+// 関数宣言で定義
 async function func() {}
 
+// 関数式で定義
 func = async () => {};
 
 obj = {
@@ -48,7 +50,7 @@ await 式は p (Promise でなくても Promise としてラップされる)
 
 ```js
 // Sミリ秒後に解決する Promise を返す関数
-function dela(s) {
+function delay(s) {
   return new Promise( ok => setTimeout(ok, s, `${s}ms later`) );
 }
 
