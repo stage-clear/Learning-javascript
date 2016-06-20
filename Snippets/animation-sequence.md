@@ -4,37 +4,30 @@
 [Sample](https://jsfiddle.net/walfo/07xphesh/)
 
 ```js
-let el = document.querySelector('.element');
+const el = document.querySelector('.element');
+const animStart = () => new Promise((resolve) => {
+  setTimeout(() => {
+    el.classList.add('animate');
+    resolve({
+      message: 'animation stated'
+    });
+  }, 3000);
+});
 
-let animStart = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      el.classList.add('animate'); 
-      resolve();
-    }, 3000);
-  });
-};
+const anim1 = () => new Promise((resolve) => {
+  el.style.animationName = 'animation-name-1';
+  el.addEventListener('animationend', e => resolve, false);
+});
 
-let anim1 = () => {
-  return new Promise(resolve => {
-    el.style.animationName = 'anim-1';
-    el.addEventListener('animationend', e => resolve, false);
-  });
-};
+const anim2 = () => new Promise((resolve) => {
+  el.style.animationName = 'animation-name-2';
+  el.addEventListener('animationend', e => resolve, false);
+});
 
-let anim2 = () => {
-  return new Promise(resolve => {
-    el.style.animationName = 'anim-2';
-    el.addEventListener('animationend', e => resolve, false);
-  });
-};
-
-let anim3 = () => {
-  return new Promise(resolve => {
-    el.style.animationName = 'anim-3';
-    el.addEventListener('animationend', e => resolve, false);
-  });
-};
+const anim3 = () => new Promise((resolve) => {
+  el.style.animationName = 'animation-name-3';
+  el.addEventListener('animationend', e => resolve, false);
+});
 
 animStart()
   .then(anim1)
