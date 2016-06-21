@@ -8,7 +8,7 @@ if (array.includes(element)) { //=> <Boolean>
 }
 ```
 
-- [Exponentiation Operator](https://github.com/rwaldron/exponentiation-operator)
+- [Exponentiation Operator](https://github.com/rwaldron/exponentiation-operator) - _**演算子_
 
 ```js
 2 ** 2
