@@ -4,7 +4,8 @@
 - [throttle](throttle.js) - 連続したイベントの発生頻度を一定に保つ
 - [poll](poll.js) - ポーリング処理
 - [once](once.js) - 関数を一度だけ処理
-- [Kill](kill.md) - CPUプロセスを指定した時間遅らせる
+- [sleep](sleep.md) - Promise を使った sleep 処理
+- [kill](kill.md) - CPUプロセスを指定した時間遅らせる
 - [getAbsoluteUrl](getAbsoluteUrl.js) - 絶対パスを取得
 - [isNative](isNative.js) - 組み込み関数かどうかを取得
 - [insertRule](insertRule.js) - インラインスタイルの追加
@@ -16,7 +17,6 @@
 - [letter format](letter-formats.md) - 文字フォーマットの変換
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 - [Animation sequence](animation-sequence.md) - 連鎖的なアニメーション
-- [sleep by Promise](sleep.md) - Promise を使った sleep 処理
 
 ## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
