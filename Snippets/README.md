@@ -50,17 +50,17 @@
 - [Flux](flux.md) - 構造を理解するためだけのシンプルな Flux
 
 ## Design patterns
-- [Singleton](singleton.md) - シングルトン
-- [Factory](factory.md) - ファクトリ
-- [Iterator](iterator.md) - イテレータ
-- [Decorator](decorator.md) - デコレータ
-- Strategy - ストラテジー
-- Facade - ファサード
-- Proxy - プロキシ
-- Mediator - メディエータ
-- Observer - オブザーバ
-- [Adapter](adapter.md) - アダプター
-- [Composite](composite.md) - コンポジット
+- [Singleton](singleton.md) - _シングルトン_
+- [Factory](factory.md) - _ファクトリ_
+- [Iterator](iterator.md) - _イテレータ_
+- [Decorator](decorator.md) - _デコレータ_
+- [Strategy](Strategy.md) - _ストラテジー_
+- Facade - _ファサード_
+- Proxy - _プロキシ_
+- Mediator - _メディエータ_
+- Observer - _オブザーバ_
+- [Adapter](adapter.md) - _アダプター_
+- [Composite](composite.md) - _コンポジット_
 
 ## Others
 - [Vue.js](vue.md) - Vue.js のサンプルコード
