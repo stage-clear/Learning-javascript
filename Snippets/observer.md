@@ -1,6 +1,7 @@
 # Observer
 
 ## 例1) "Adobe Developer Connection" での実装
+- [JavaScript design patterns – Part 3: Proxy, observer, and command](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt3-proxy-observer-command.html)
 
 ```js
 // Observable
