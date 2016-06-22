@@ -1,6 +1,9 @@
 # Strategy
 
-## 例) "JavaScript pattern"
+> ストラテジーパターンでは、実行時にアルゴリズムを選択します。  
+> ストラテジーパターンの使用例としては、妥当性の検証があります。`validate()` メソッドを持つバリデータオブジェクトをひとつ作ります。
+
+## 例) "JavaScript pattern" での実装
 
 ```js
 let validator = {
