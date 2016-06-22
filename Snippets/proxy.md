@@ -3,6 +3,7 @@
 ## 例1) "Adobe Developer Connection" での実装
 ### 仮想プロキシ
 > 本当に必要になるまで、大きなオブジェクトのインスタンス化を遅らせる
+
 ```js
 let VehicleList = {
   // Origin object
