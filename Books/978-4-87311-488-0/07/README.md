@@ -818,7 +818,7 @@ function makePublisher(o) {
   var i;
   for (i in publisher) {
     if (publisher.hasOwnProperty(i) && typeof publisher[i] === 'function') {
-      o[i] = publish[i];
+      o[i] = publisher[i];
     }
   }
   o.subscribers = { any: [] };
