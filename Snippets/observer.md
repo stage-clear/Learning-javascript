@@ -6,7 +6,7 @@
   - DOMイベントの挙動
 - __プルメソッド__ - 監視対象は、オブザーバーの持つサブスクリプションリスに追加されます。
 定期的に、または指定された時に、オブザーバーは、監視対象内で変更が発生したかどうかをチェックし、変更があった場合はその変更に反応して何らかの処理を実行します。
-  - 多くのデスクトップソフトウェアで、アップデートはこのように動作します
+  - デスクトップソフトウェアでのアップデート処理など
 
 ## 例1) "Adobe Developer Connection" での実装
 - [JavaScript design patterns – Part 3: Proxy, observer, and command](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt3-proxy-observer-command.html)
