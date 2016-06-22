@@ -55,10 +55,10 @@
 - [Iterator](iterator.md) - _イテレータ_
 - [Decorator](decorator.md) - _デコレータ_
 - [Strategy](strategy.md) - _ストラテジー_
-- Facade - _ファサード_
-- Proxy - _プロキシ_
-- Mediator - _メディエータ_
-- Observer - _オブザーバ_
+- [Facade](facade.md) - _ファサード_
+- [Proxy](proxy.md) - _プロキシ_ (Coming soon)
+- [Mediator](mediator.md) - _メディエータ_ (Coming soon)
+- [Observer](observer.md) - _オブザーバ_ (Coming soon)
 - [Adapter](adapter.md) - _アダプター_
 - [Composite](composite.md) - _コンポジット_
 
