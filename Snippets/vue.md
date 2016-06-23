@@ -125,13 +125,52 @@ Vue.component('my-component', {
 });
 ```
 
+スコープ内でデータを受け取る
+
 ```js
-// スコープ内でデータを受け取る
+// <my-component :first-name="firstName" :last-name="lastName"/>
+// 定義
+let myComponent = Vue.extend({
+  props: ['firstName', 'lastName'],
+  template: `<div>{{ firstName }} {{ lastName }}</div>`
+});
+
 new Vue({
   el: '#example',
-  data { firstName: 'John', lastName: 'Lennon' },
-  components {
+  data: { firstName: 'John', lastName: 'Lennon' },
+  components: {
     'my-component': myComponent
   }
-})
+});
 ```
+
+実装例) リスト
+```js
+// <my-list :items="item">
+// 定義
+let myListItem = Vue.extend({
+  props: ['item', 'index'],
+  template: `<li>{{ index }} - {{ item }}</li>`
+});
+
+let myList = Vue.extend({
+  props: ['items'],
+  template: `<ul>
+    <my-list-item v-for="item in items" :item="item" :index="$index"/>
+  </ul>`,
+  components: {
+    'my-list-item': myListItem
+  }
+});
+
+new Vue({
+  el: '#example',
+  data: {
+    items: ['apple', 'banana', 'melon']
+  },
+  components: {
+    'my-list': myList
+  }
+});
+```
+
