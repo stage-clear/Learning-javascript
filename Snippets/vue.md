@@ -100,3 +100,38 @@ setTimeout(function() {
   <div is="my-component"></div>
 </div>
 ```
+
+## コンポーネント
+
+定義 :arrow_right: 登録
+```js
+// `<my-component first-name="John" last-name="Lennon"/>`
+// 定義
+var myComponent = Vue.extend({
+  props: ['firstName', 'lastName'],
+  template: '<div>{{ firstName }} {{ lastName }}</div>'
+});
+// 登録
+Vue.component('my-component', myComponent);
+```
+
+定義 :heavy_plus_sign: 登録
+
+```js
+// `<my-component first-name="John" last-name="Lennon"/>`
+Vue.component('my-component', {
+  props: ['firstName', 'lastName'],
+  template: `<div>{{ firstName }} {{ lastName }}</div>`
+});
+```
+
+```js
+// スコープ内でデータを受け取る
+new Vue({
+  el: '#example',
+  data { firstName: 'John', lastName: 'Lennon' },
+  components {
+    'my-component': myComponent
+  }
+})
+```
