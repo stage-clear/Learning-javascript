@@ -18,7 +18,7 @@ document.fonts.addEventListener('loadingerror', () => {
   console.log(`[loading error]`);
 });
 
-docuemnt.ready.then((fontFaceSet) => {
+document.ready.then((fontFaceSet) => {
   console.log(`ready`);
   console.dir(fontFaceSet);
 });
