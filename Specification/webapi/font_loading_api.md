@@ -8,19 +8,22 @@ if (document.fonts) {
   console.log('Supported');
 }
 
-document.fonts.addEventListener('loadingdone', () => {
+document.fonts.addEventListener('loading', (FontFaceSetLoadEvent) => {
+  console.log(`[loading]`);
+});
+
+document.fonts.addEventListener('loadingdone', (FontFaceSetLoadEvent) => {
   // font loaded.
   console.log(`[loading done]`);
 });
 
-document.fonts.addEventListener('loadingerror', () => {
+document.fonts.addEventListener('loadingerror', (error) => {
   // font load error
   console.log(`[loading error]`);
 });
 
 document.ready.then((fontFaceSet) => {
-  console.log(`ready`);
-  console.dir(fontFaceSet);
+  console.log(`[ready]`);
 });
 
 ```
