@@ -28,6 +28,18 @@ document.ready.then((fontFaceSet) => {
 
 ```
 
+動的に `@font-face` を定義する
+
+```js
+const fontFace = new FontFace('font-name', 'url(path/to/font.woff2) format("woff2")');
+
+fontFace.load().then((fontFace) => {
+  // loaded font add to document.fons.
+  document.fonts.add(fontFace);
+  document.body.style.fontFamily = 'font-name';
+});
+```
+
 ## links
 
 - [CSS Font loading API](https://www.w3.org/TR/css-font-loading-3/) - W3
