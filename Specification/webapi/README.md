@@ -2,6 +2,7 @@
 ## api 
 - [IntersectionObserver](intersection_observer.md) 
 - [passive event listener](passive_event_listener.md)
+- [CSS Font Loading API](font_loading_api.md)
 
 ## links 
 - [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API) - MDN
