@@ -84,7 +84,7 @@ async function animationSequence() {
   await anim3();
   return 'Animation is End';
 }
-animationSequence().then(result => console.log(resolt) );
+animationSequence().then(result => console.log(result) );
 ```
 
 ## Links
