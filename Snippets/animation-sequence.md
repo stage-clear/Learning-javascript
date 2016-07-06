@@ -46,22 +46,25 @@ animStart()
 async(gen());
 
 function* gen() {
-  // 即時実行
   console.log('[start]');
+
   yield animStart();
   yield anim1();
   yield anim2();
   yield anim3();
+  // 並列処理
+  yield Promise.all([anim1(), anim2(), anim3()]);
+  // 即時関数で定義
   yield (function() {
     console.log('3000ms wait...');
     return new Promise(resolve => {
       setTimeout(resolve, 3000);
     });
   })();
-  yield (function() {
-    console.log('[end]');
-    return Promise.resolve();
-  })();
+  // `Promise.resolve` を使う
+  const msg = yield Promise.resolve(`[end]`);
+
+  return console.log(`${msg}`);
 }
 
 // async flow
