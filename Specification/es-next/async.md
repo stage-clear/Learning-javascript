@@ -73,6 +73,30 @@ async function three() {
 three();
 ```
 
+```js
+async function start() {
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(`3000ms later`);
+      return resolve();
+    }, 3000);
+  });
+  
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(`5000ms later`);
+      resolve();
+    }, 5000);
+  });
+  
+  return `end`;
+}
+
+start().then((result) => {
+  console.log(`${result}`);
+});
+```
+
 ## link
 
 - [wycats/javascript-decorators](https://github.com/wycats/javascript-decorators)
