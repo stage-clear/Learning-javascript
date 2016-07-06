@@ -4,6 +4,7 @@
 
 ### basic
 - `async` で宣言された関数は `Promise` オブジェクトを返します
+- Defined functions by `async` returns value that is `Promise` object.
 
 ```js
 // 関数宣言で定義
