@@ -12,7 +12,7 @@ var foo = 0;
 var bar = 1;
 
 // ES6)
-let obj = {foo, bar};
+const obj = {foo, bar};
 // -> {"foo":0,"bar":1}
 ```
 
@@ -20,10 +20,11 @@ let obj = {foo, bar};
 変数名をブラケットで囲むことで、オブジェクトリテラルのキーの指定できる。
 
 ```js
+// ES5)
 var key = 'foo';
 
 // ES6)
-var obj = {
+const obj = {
   [key]: 0,
   [key + '_bar']: 1
 };
@@ -34,7 +35,7 @@ var obj = {
 オブジェクトのメソッドを funtion を使わずに短く定義できる
 
 ```js 
-var counter = {
+const counter = {
   count: 0,
   increment() {
     this.count++;
