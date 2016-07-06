@@ -35,8 +35,8 @@ console.log(g.next());//=> { "value": 3, "done": true }
 
 ```js
 {
-  value: Any,
-  done: Boolean
+  value: <Any>,
+  done: <Boolean>
 }
 ```
 
@@ -111,7 +111,9 @@ console.log(next2);//=> { "value": "yeild 2", "done": false}
 
 const next3 = g.next('next 2');
 console.log(next3);//=> { "value": "end", "done": true }
+```
 
+```js
 function* generator3() {
   var a = yield 'first';
   var b = yield 'second';
@@ -222,9 +224,9 @@ console.log(g.next());//=> {"done":true}
 ```js
 asyncFlow(function* () {
   // yield に Promise を渡す
-  var items = yield getUrl('/items');
-  var id = items[0].id;
-  var item = yield getUrl('/items/' + id);
+  let items = yield getUrl('/items');
+  let id = items[0].id;
+  let item = yield getUrl('/items/' + id);
   console.log(item);
 });
 
