@@ -1,16 +1,11 @@
-Promise
-=========
-
-基本
-----
-
-- Promise オブジェクトを Promise コンストラクタで生成する
+# Promise
+## base
+- `Promise` オブジェクトを `Promise` コンストラクタで生成する
 - コンストラクタの引数には `resolve` と `reject` が渡される
 - `resolve()` を実行すると `.then(callback)` で登録したコールバック関数が実行される
 - `reject()` を実行すると `.catch(callback)` で登録したコールバック関数が実行される
 
-
-```javascript
+```js
 // Promise による非同期処理の定義
 function wait(time) {
   // Promiseオブジェクトの作成
@@ -24,19 +19,20 @@ function wait(time) {
 
 // Promise の実行
 // then で次に実行する処理の登録
-wait(1000).then(value => {
-  console.log(1, value);//=> 1 wait: 1000
-}).then(value => {
-  // value は引き継がれない
-  console.log(2, value);//=> 2 '         '
-});
+wait(1000)
+  .then(value => {
+    console.log(1, value);//=> 1 wait: 1000
+  })
+  .then(value => {
+    // value は引き継がれない
+    console.log(2, value);//=> 2 '         '
+  });
 ```
 
-__resolve と reject__
-
+### resolve と reject
 `Promise#resolve` は、Promise オブジェクトを生成してすぐに resolve する
 
-```javascript
+```js
 Prmoise.resolve(10);
 // ↑ と ↓ は等価
 new Promise(resolve => resolve(10));
@@ -44,11 +40,10 @@ new Promise(resolve => resolve(10));
 // * Promise#reject も同様
 ```
 
-__Prmose のネスト__
-
+### Prmose のネスト
 `then()` で登録したコールバック関数が Promise オブジェクトを返した場合、その Promise オブジェクトが完了するまで外側の Promise が処理を持ってくれる
 
-```javascript
+```js
 Prmise.resolve().then(() => {
   return wait(1000).then(() => {
     return getUrl('/items');
@@ -59,17 +54,12 @@ Prmise.resolve().then(() => {
 });
 ```
 
-
-
-Promise.all
-------------
-
+## Promise.all
 - すべてが完了したらコールバック関数を呼ぶ
 - 復数の Promise オブジェクトを配列で渡す
 - 渡された Prmise は同時平行でリクエストを投げる
 
-
-```javascript
+```js
 // Promise.al
 Promise.all([
   getUrl('/foo'), getUrl('/bar')
@@ -84,72 +74,64 @@ Promise.all([
 });
 ```
 
+## その他の例
+### Promise
 
-その他の例
-----------
-
-__Promise__
-
-```javascript
-var promise = new Promise(function(resolve, reject) {
+```js
+var promise = new Promise((resolve, reject) => {
   
   // Making an ajax call
   $.ajax({
     url: 'https://api.github.com/users/super-true'
     method: 'get'
   })
-  .success(function(response) {
+  .success((response) => {
     resolve(response);
   })
-  .error(function(error) {
+  .error((error) => {
     reject(error);
   });
 });
 
 // Then callback to listen to resolve or rejected state
 promise.then(
-  function(response) {
+  (response) => {
     console.log('Success -->', response);
   },
   // reject callback
-  function(error) {
+  (error) => {
     console.log('Error -->', error);
   })
-.catch(function(e) {
+.catch((e) => {
   console.log(e);
 });
 ```
 
-__Promise.all__
+### Promise.all
 
-```javascript
+```js
 var promise = Promise.all([1,2,3,4,5]);
 
-promise.then(function(response) {
-  response.forEach(function(value) {
+promise.then((response) => {
+  response.forEach((value) => {
     console.log(value);
   });
-}, function(error) {
+}, (error) => {
   console.log('Error -->', error);
 })
-.catch(function(e) {
+.catch((e) => {
   console.log(e);
 });
 
 ```
 
-リンク
-------
-
+## Links
 - [JavaScript goes to Asynchronous city](http://blogs.msdn.com/b/eternalcoding/archive/2015/09/30/javascript-goes-to-asynchronous-city.aspx)
 - [Promise-cookbook](https://github.com/mattdesl/promise-cookbook)
 - [Promise Patterns & Anti-Patterns](http://www.datchley.name/promise-patterns-anti-patterns/)
 - [A BASIC GUIDE TO THE FETCH API](http://deanhume.com/Home/BlogPost/a-basic-guide-to-the-fetch-api/10129)
 
-
-ポリフィル
-------
-
+## Polyfills
 - [es6-promise](https://github.com/jakearchibald/es6-promise)
 - [Bluebird](https://github.com/petkaantonov/bluebird)
- - [promise-each](https://github.com/yoshuawuyts/promise-each) - `bluebird.each` と同等
+- [promise-each](https://github.com/yoshuawuyts/promise-each) - `bluebird.each` と同等
