@@ -43,16 +43,7 @@ animStart()
 ```js
 // アニメーションの定義は Promise のときと同じ
 
-main(gen());
-
-function main(g) {
-  let p = g.next();
-  if (p.done) return ;
-  
-  p.value.then(() => {
-    main(g);
-  });
-}
+async(gen());
 
 function* gen() {
   // 即時実行
@@ -71,6 +62,30 @@ function* gen() {
     console.log('[end]');
     return Promise.resolve();
   })();
+}
+
+// async flow
+function async(g) {
+  let p = g.next();
+  if (p.done) return ;
+  
+  p.value.then(() => {
+    main(g);
+  });
+}
+
+// async flow of another implementation
+function _async(g) {
+  const next = (value) => {
+    const result = g.next(value);
+    if (!result.done) {
+      const promise = result.value;
+      promise.then((value) => {
+        return next(value);
+      });
+    }
+  };
+  return next();
 }
 ```
 
