@@ -16,7 +16,8 @@
 - [Array Effects](array_effects.md) - reduce/map/range
 - [letter format](letter-formats.md) - 文字フォーマットの変換
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
-- [Animation sequence](animation-sequence.md) - 連鎖的なアニメーション
+- [Animation sequence](animation_sequence.md) - 連鎖的なアニメーション
+- [Game loop](game_loop.md) - ゲームループ
 
 ## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
