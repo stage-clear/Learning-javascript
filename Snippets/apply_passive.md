@@ -3,6 +3,7 @@
 ```js
 function applyPassive() {
   let isSupported = false;
+
   try {
     document.addEventListener('test', {
       get passive() {
