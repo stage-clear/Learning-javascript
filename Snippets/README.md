@@ -18,6 +18,7 @@
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
 - [Animation sequence](animation_sequence.md) - 連鎖的なアニメーション
 - [Game loop](game_loop.md) - ゲームループ
+- [Touch](touch.md)
 
 ## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
