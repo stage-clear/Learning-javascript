@@ -5,7 +5,7 @@ function applyPassive() {
   let isSupported = false;
 
   try {
-    document.addEventListener('test', {
+    document.addEventListener('test', null, {
       get passive() {
         isSupported = true;
       }
