@@ -103,7 +103,7 @@ var pubsub = {};
     var len = subscribers ? subscribers.length : 0;
     
     while (len--) {
-      subscribers([len].func(topic, args));
+      subscribers[len].func(topic, args));
     }
 
     return this;
