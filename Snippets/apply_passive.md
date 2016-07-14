@@ -11,7 +11,7 @@ function applyPassive() {
       }
     });
   } catch(e) {
-
+    isSupported = false;
   }
 
   return isSupported ? { passive : true } : false;
