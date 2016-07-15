@@ -2,15 +2,15 @@
 JavaScript の学習や情報収集のまとめ
 
 ## Menu
-- [仕様](Specification/) - 基本的な構文やその他の様々パターンなど
+- [Specifications](Specification/) - 仕様やその記述パターンなど
   - [ES2015](Specification/es2015/README.md)
   - [ES2016](Specification/es2016/README.md)
   - [ES2017](Specification/es2017/README.md)
   - [WebAPI](Specification/webapi/README.md)
   - [Coding patterns](Specification/patterns/README.md)
-- [スニペット](Snippets/README.md)
-- [リファレンス](References/)
-- [書籍リスト](Books/) - 読んで注釈やメモした書籍など
+- [Snippets](Snippets/README.md)
+- [References](References/) - 参考にできる外部リンクなど
+- [Reading Books](Books/) - 読んで注釈やメモした書籍など
 
 
 ## Libraries
