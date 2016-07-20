@@ -24,4 +24,5 @@ $ jsx --watch src/ build/
 ## 外部リンク
 
 - [Sites Using React](https://github.com/facebook/react/wiki/Sites-Using-React) - React.js を利用しているサイト一覧
+- [Made with React](http://madewithreact.com/)
 - [一人React.js Advent Calendar 2014](http://qiita.com/advent-calendar/2014/reactjs)
