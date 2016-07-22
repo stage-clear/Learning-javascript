@@ -1,6 +1,5 @@
 # EventEmitter.js
 
-
 ```js
 /**
  * EventEmitter
@@ -204,7 +203,82 @@ var eventuality = function(that) {
 var evt = eventuality({});
 ```
 
-## Links
+```js
+/**
+ * simple event emitter
+ * @see https://medium.com/@char_109/js-event-emitter-get-and-set-and-combining-them-a54172f6daf8
+ */
+const emitter = {
+  _subscriptions: {},
+  on(name, func) {
+    this._subscriptions = this._subscriptions[name] || [];
+    this._subscriptions[name].push(func);
+  },
+  emit(name, ...args) {
+    if (!this._subscriptions[name]) {
+      return ;
+    }
+    
+    this._subscriptions[name].forEach(f => f(...args));
+  }
+}
+```
 
+```js
+/**
+ * 
+ */
+
+function emitize(obj, eventName) {
+  let _subscriptions = new Set();
+  Object.defineProperty(obj, eventName, {
+    set(func) {
+      _subscriptions.add(func);
+    },
+    get() {
+      const emit = (...args) => {
+        _subscriptions.forEach(f => f(...args));
+      };
+      
+      Object.defineProperty(emit, 'off', {
+        set(func) {
+          _subscriptions.delete(func);
+        },
+        get() {
+          _subscriptions = new Set();
+        }
+      });
+      return emit;
+    }
+  });
+}
+
+// Usage:
+var obj = {};
+emitize(obj, 'x');
+
+function log(v) {
+  console.log(v);
+}
+
+function logPlus1(v) {
+  console.log(v + 1);
+}
+
+obj.x = log; // subscribe to events (named 'x') with cb (log)
+
+// another subscription won't override the previous one
+obj.x = logPlus1;
+
+obj.x(9);
+// logs:
+// '9'
+// '10'
+
+obj.x.off = logPlus1; // unsubscribe logPlus1
+obj.x.off; // or unsubscribe from all callbacks
+```
+
+## Links
 - [metafizzy/ev-emitter](https://github.com/metafizzy/ev-emitter)
 - [Observer patterns in "JavaScript Design Patterns"](https://github.com/stage-clear/Learning-javascript/blob/master/Books/978-4-87311-618-1/02/5.md)
