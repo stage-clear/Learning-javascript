@@ -1,5 +1,5 @@
 # Generator
-
+## 概要
 - `function` と関数名の間に * を付けて定義する( `function* name() {}` )
 - Generator 関数を実行すると、Iterator が返る
 - `yield` で実行を区切る
@@ -8,7 +8,7 @@
 - 関数の呼び出し先と呼び出し元で値を交換できる
 
 ## 基本
-### 生成
+### Generator を生成する
 
 ```js
 // Generator の基本
@@ -20,7 +20,42 @@ function* generator1() {
 }
 ```
 
-### `next()` で順に実行
+__Constructor として生成することで this 参照を扱う__
+
+```js
+function* F() {
+  this.a = 1;
+  yield this.b = 2;
+  yield this.c = 3;
+}
+
+let obj = {};
+let f = F.call(obj); // obj を this に指定して呼び出す
+// または
+let f = F.call(F.prototype); // 自分の prototype を this とする
+
+// または、コンストラクターを生成する関数を定義する
+function* gen() {
+  this.a = 1;
+  yield this.b = 2;
+  yield this.c = 3;
+}
+
+function F() {
+  return gen.call(gen.prototype);
+}
+
+let f = new F();
+
+// test
+f.next();
+f.next();
+f.next();
+```
+
+
+
+### `next()` で順に実行する
 
 ```js
 // イテレータを作成
@@ -40,7 +75,7 @@ console.log(g.next());//=> { "value": 3, "done": true }
 }
 ```
 
-### `for/of` で順に実行
+### `for/of` で順に実行する
 
 ```js
 // for/of と組み合わせる
@@ -51,7 +86,7 @@ for (let n of generator()) {
 //=> 2
 ```
 
-## `while` で順に実行
+## `while` で順に実行する
 
 ```js
 while (true) {
@@ -63,19 +98,18 @@ while (true) {
 }
 ```
 
-### Spread operator でまとめて
+### Spread operator でまとめて実行する
 
 ```js
 // 結果を配列で取得する
-console.log([...generator()]);//=> [1, 2]
+console.log( [...generator()] );//=> [1, 2]
 ```
 
-### `Array.from` でまとめて
+### `Array.from` でまとめて実行する
 
 ```js
-console.log(Array.from(generator()));//=> [1, 2]
+console.log( Array.from(generator()) );//=> [1, 2]
 ```
-
 
 ## `yield` に値を渡す
 - `next()` 引数に渡した値が `yield` 式の戻り値となる
