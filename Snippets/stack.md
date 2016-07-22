@@ -13,9 +13,9 @@ __実装例1)__
 /**
  * Stack
  * @class
+ * @see http://e-words.jp/w/%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF.html
  * last in, first out
  * first in, last out
- * http://e-words.jp/w/%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF.html
  */
 
 class Stack {
