@@ -12,6 +12,9 @@
 - [lodash.js](https://lodash.com/)
 - [bilby.js](https://github.com/puffnfresh/bilby.js)
 
+## Reactive Programing / FRP
+- [ ] [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
+
 ## Vanilla JavaScript Plugins
 - [Vanilla list](http://www.vanillalist.com/)
 - [vanilla javascript](https://www.sitepoint.com/tag/vanilla-javascript/)
