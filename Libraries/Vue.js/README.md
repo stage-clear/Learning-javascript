@@ -1,7 +1,6 @@
 # Vue.js
 
 ## サンプルコード
-
 - [Vue.extend](https://jsfiddle.net/stageclear/ek69zqs4/) 
 
 ### はじめに
@@ -120,10 +119,12 @@
 - [Vue.mixin](https://jsfiddle.net/stageclear/yhks2av2/) - グローバルミックスイン
 - [Vue.mixin](https://jsfiddle.net/stageclear/2euk4s6v/) - カスタムオプションのマージストラテジ
 
-
 ## CDN
 
 ```
 https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js
 <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
 ```
+
+## References
+- [Next Vue.js 2.0 by kazupon](https://speakerdeck.com/kazupon/next-vue-dot-js-2-dot-0)
