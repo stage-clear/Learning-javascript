@@ -5,13 +5,14 @@
 
 ![キューの参考図](http://image.itmedia.co.jp/ait/articles/0809/01/r20algorithm0202.jpg)
 
-
 - [キュー 【 queue 】 待ち行列](http://e-words.jp/w/%E3%82%AD%E3%83%A5%E3%83%BC.html)
 - [データ構造の選択次第で天国と地獄の差 (2/3)](http://www.atmarkit.co.jp/ait/articles/0809/01/news163_2.html)
 
+__実装例1)__
 ```js
 /**
  * Queue
+ * @class
  * - first in, first out
  */
 
@@ -41,7 +42,11 @@ class Queue {
 }
 ```
 
+__実装例2)__
 ```js
+/**
+ * @class
+ */
 class Queue {
   constructor() {
     this.elements = new Array();
@@ -64,4 +69,43 @@ class Queue {
     return value;
   }
 }
+```
+
+__実装例3)__
+```js
+/**
+ * @constructor
+ * @see http://d.hatena.ne.jp/otaks/20121220/1355993039
+ */
+
+function Queue() {
+  this.data = [];
+}
+Queue.prototype.push = function(val) {
+  this.data.push(val);
+  return val;
+};
+Queue.prototype.pop = function() {
+  return this.data.shift();
+};
+Queue.prototype.front = function() {
+  return this.data[0];
+};
+Queue.prototype.size = function() {
+  return this.length;
+};
+Queue.prototype.empty = function() {
+  return this.data.length === 0;
+};
+
+// test
+var q = new Queue();
+q.push(1); // [] -> [1]
+q.push(2); // [1] -> [1,2]
+q.front(); // 1
+q.push(3); // [1,2] -> [1,2,3]
+q.pop(); // [1,2,3] -> [2,3]
+q.pop(); // [2,3] -> [3]
+q.size(); // 1
+q.pop(); // [3] -> []
 ```
