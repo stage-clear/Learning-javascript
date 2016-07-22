@@ -62,7 +62,7 @@ console.log('[data]', stack.dump());
 /**
  * Stack
  * @class
- * http://www.atmarkit.co.jp/ait/articles/0809/01/news163.html
+ * @see http://www.atmarkit.co.jp/ait/articles/0809/01/news163.html
  */
 
 class Stack {
@@ -81,4 +81,38 @@ class Stack {
     return popvalue;
   }
 }
+```
+
+```js
+/**
+ * @constructor
+ * @see http://d.hatena.ne.jp/otaks/20121220/1355993039
+ */
+
+function Stack() {}
+Stack.prototype.push = function(val) {
+  this.data.push(val);
+  return val;
+};
+Stack.prototype.pop = function() {
+  return this.data.pup();
+};
+Stack.prototype.top = function() {
+  return this.data[ this.data.length-1 ];
+};
+Stack.prototype.size = function() {
+  return this.data.length;
+};
+Stack.prototype.empty = function() {
+  return this.data.length === 0;
+};
+
+// use
+let st = new Stack();
+st.push(1); // [] -> [1]
+st.push(2); // [1] -> [1,2]
+st.push(3); // [1,2] -> [1,2,3]
+st.empty(); // false
+st.pop(); // [1,2,3] -> [1,2]
+st.size(); // 2
 ```
