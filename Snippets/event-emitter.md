@@ -226,7 +226,8 @@ const emitter = {
 
 ```js
 /**
- * 
+ * Mixing getters-setters with eventEmitter
+ * @see https://medium.com/@char_109/js-event-emitter-get-and-set-and-combining-them-a54172f6daf8
  */
 
 function emitize(obj, eventName) {
