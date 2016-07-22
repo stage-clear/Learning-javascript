@@ -8,7 +8,7 @@
 - [スタック 【 stack 】](http://e-words.jp/w/%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF.html)
 - [データ構造の選択次第で天国と地獄の差 (1/3)](http://www.atmarkit.co.jp/ait/articles/0809/01/news163.html)
 
-
+__実装例1)__
 ```js
 /**
  * Stack
@@ -57,7 +57,7 @@ console.log(stack.top());
 console.log('[data]', stack.dump());
 ```
 
-
+__実装例2)__
 ```js
 /**
  * Stack
@@ -83,13 +83,16 @@ class Stack {
 }
 ```
 
+__実装例3)__
 ```js
 /**
  * @constructor
  * @see http://d.hatena.ne.jp/otaks/20121220/1355993039
  */
 
-function Stack() {}
+function Stack() {
+  this.data = [];
+}
 Stack.prototype.push = function(val) {
   this.data.push(val);
   return val;
