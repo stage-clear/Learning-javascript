@@ -1,8 +1,13 @@
 # Heap
 
+> ヒープ(二分ヒープ)は優先度付きキューの実装によく使われており、最小値(最大値)を効率よく取り出すことができるデータ構造です。ヒープの実装は二分木でなく実際には配列で実装するのが一般的のようです。
 
-
+__実装例1)__
 ```js
+/**
+ * @class
+ */
+
 class Heap {
   constructor() {
     this.heap = new Array();
@@ -53,7 +58,7 @@ class Heap {
 }
 ```
 
-
+__実装例2)__
 ```js
 /**
  * binaryHeap
@@ -172,4 +177,51 @@ pq.insert('mother', 2);
 console.log(pq.getList());
 console.log(pq.getPrior());
 console.log(pq.getPrior());
+```
+
+__実装例3) 実装1のコンストラクタバージョン__
+```js
+function Heap() {
+  this.heap = new Array();
+  this.size = 0;
+}
+Heap.prototype.push = function(val) {
+  var k = this.size++;
+  
+  while(0 < k) {
+    var p = Math.floor( (k - 1) / 2 );
+    if ( this.heap[p] <= val) break;
+    this.heap[k] = this.heap[p];
+    k = p;
+  }
+  this.heap[k] = val;
+};
+Heap.prototype.pop = function() {
+  var ret = this.heap[0];
+  var x = this.heap[--this.size];
+  
+  var k = 0;
+  while (k * 2 + 1 < this.size) {
+    var a = k * 2 + 1;
+    var b = k * 2 + 2;
+    if (b < this.size && this.heap[b] < this.heap[a]) {
+      a = b;
+    }
+    if (x <= this.heap[a]) {
+      break;
+    }
+    
+    this.heap[k] = this.heap[a];
+    k = a;
+  }
+  
+  this.heap[k] = x;
+  return ret;
+};
+Heap.prototype.top = function() {
+  return this.heap[0];
+};
+Heap.prototype.size = function() {
+  return this.size;
+};
 ```
