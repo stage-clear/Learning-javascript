@@ -429,6 +429,69 @@ function draw() {
 }
 ```
 
+スプライトが一番下まで行った時に再び上から表示させる
 
+```js
+// WrapUp
+var pumpkin, wall;
+var THICKNESS = 20;
 
+function setup() {
+  createCanvas(300, 300);
+  wall = createSprite(width / 2, height + THICKNESS / 2, width + THICKNESS * 2, THICKNESS);
+  
+  pumpkin = createSprite(0, 0);
+  pumpkin.addAnimation('pumpkin', 'assets/pumpkin10.png', 'assets/pumpkin15.png');
+  pumpkin.velocity.y = 1; // 落ちてくる速度
+}
 
+function draw() {
+  background(255);
+  pumpkin.overlap(wall, overlapped);
+  drawSprites();
+}
+
+function overlapped(pumpkin, wall) {
+  pumpkin.position.y = 0;
+}
+```
+
+## 13.6 グループ
+```js
+// Group
+var group;
+
+function setup() {
+  group = new Group(); // 空のグループを作成
+  
+  var sprite = createSprite(0, 0); // 左上
+  sprite.addAnimation('pumpkin', 'assets/pumpkin10.png', 'assets/pumpkin15.png');
+  sprite.velocity.x = 1;
+  sprite.velocity.y = 1;
+  group.add(sprite); // グループに追加する
+  
+  sprite = createSprite(width, height); // 右下
+  sprite.addAnimation('pumpkin', 'assets/pumpkin10.png', 'assets/pumpkin15.png');
+  sprite.velocity.x = 1;
+  sprite.velocity.y = -1;
+  group.add(sprite); // グループに追加する
+  
+  sprite = createSprite(0, height);
+  sprite.addAnimation('sheep', 'assets/sheep10.png', 'assets/sheep15.png');
+  sprite.velocity.x = 1;
+  sprite.velocity.y = -1;
+  group.add(sprite); // グループに追加する
+  
+  sprite = createSprite(width, 0);
+  sprite.addAnimation('ghost', 'assets/ghost10.png', 'assets/ghost15.png');
+  sprite.velocity.x = -1;
+  sprite.velocity.y = 1;
+  group.add(sprite); // グループに追加する
+}
+
+function draw() {
+  background(255);
+  group.bounce(group); // group 内のスプライト同士が衝突したら跳ね返る
+  drawSprites();
+}
+```
