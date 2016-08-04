@@ -338,12 +338,96 @@ function setup() {
   createCanvas(300, 300);
   
   wall = createSprite(width / 3, height * 2 / 3, width * 2 / 3, 30); // 横幅の 2/3 の壁を作る
-  wall.shapeColor = color(0, 135, );
+  wall.shapeColor = color(0, 135, 155); // 壁の色を設定する
+  wall.immovable = true; // 固定する
+  
+  pumpkin = createSprite(0, 0); // 左上に置く
+  pumpkin.addAnimation('pumpkin', 'assets/pumpkin10.png', 'assets/pumpkin15.png');
+  pumpkin.velocity.x = pumpkin.velocity.y = 1; // 落下速度(右下に進む)
+}
+
+function draw() {
+  background(255);
+  pumpkin.bounce(wall); // 跳ね返る
+  // pumpkin.collide(wall); // 衝突する
+  // pumpkin.overlap(wall); // 重なる
+  drawSprites();
 }
 ```
 
+__スプライト同士の衝突処理__
 
+|関数名|説明|
+|:--:|:--:|
+|`bounce(sprite, [callback])`|スプライトがぶつかると跳ね返る|
+|`collide(sprite, [callback])`|スプライトがぶつかると、ぶつからない場所に移動する|
+|`overlap(sprite, [callback])`|スプライトがぶつかると、callback が呼び出される|
 
+### 13.5.3 衝突した場合に関数を実行する
+スプライト同士がぶつかると色が変化するプログラムを作ってみましょう
+
+```js
+// OverlapCallback
+var pumpkin, wall;
+
+function setup() {
+  createCanvas(300, 300);
+  
+  wall = createSprite(width / 2, height * 2 / 3, width * 2 / 3, 30);
+  wall.shapeColor = color(0, 135, 155);
+  wall.immovable = true;
+  
+  pumpkin = createSprite(0, 0);
+  pumpkin.addAnimation('pumpkin', 'assets/pumpkin10.png', 'assets/pumpkin15.png');
+  pumpkin.velocity.x = pumpkin.velocity.y = 1;
+}
+
+function draw() {
+  background(255);
+  pumpkin.overlap(wall, overlapped);//カボチャが壁と重なった場合
+  drawSprites();
+}
+
+function overlapped(pumpkin, wall) {
+  wall.shapeColor = color(255, 0, 0);
+}
+```
+
+### 13.5.4 描画領域から出ないようにする
+```js
+// 4walls
+var pumpkin, wall_top, wall_bottom, wall_left, wall_right;
+var THICKNESS = 20;
+
+function setup() {
+  createCanvas(300, 300);
+  
+  wall_top = createSprite(width / 2, -THICKNESS / 2, width + THICKNESS * 2, THICKNESS);
+  wall_top.immovable = true;
+  
+  wall_bottom = createSprite(width / 2, height + THICKNESS / 2, width + THICKNESS * 2, THICKNESS);
+  wall_bottom.immovable = true;
+  
+  wall_left = createSprite(-THICKNESS / 2, height / 2, THICKNESS, height);
+  wall_left.immovable = true;
+  
+  wall_right = createSprite(width + THICKNESS / 2, height / 2, THICKNESS, height);
+  wall_right.immovable = true;
+  
+  pumpkin = createSprite(0, 0);
+  pumpkin.addAnimation('pumpkin', 'assets/pumpkin10.png', 'assets/pumpkin15.png');
+  pumpkin.velocity.x = pumpkin.velocity.y = 1;
+}
+
+function draw() {
+  background(200); // 背景を薄い灰色に
+  pumpkin.bounce(wall_top);
+  pumpkin.bounce(wall_bottom);
+  pumpkin.bounce(wall_left);
+  pumpkin.bounce(wall_right);
+  drawSprites();
+}
+```
 
 
 
