@@ -1,13 +1,11 @@
 # Learn to "AngularJS"
 Angular.js の学習や情報収集のまとめ
-
 - [公式サイト](https://angularjs.org/)
 
 
 ## 参考書籍
-
-- [AngularJS アプリケーションプログラミング](https://github.com/stage-clear/Learning-javascript/tree/master/books/978-4-7741-7568-3)
-- [AngularJSアプリケーション開発ガイド](https://github.com/stage-clear/Learning-javascript/tree/master/books/978-4-87311-667-9)
+- [AngularJS アプリケーションプログラミング](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-7741-7568-3)
+- [AngularJSアプリケーション開発ガイド](https://github.com/stage-clear/Learning-javascript/tree/master/Books/978-4-87311-667-9)
 
 
 ## CDN & Other URL
