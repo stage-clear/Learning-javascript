@@ -27,6 +27,7 @@
 - [getConteiner](get-container.md) - 
 - [isElemVisible](is-elem-visible.md) - 
 - [fixEventObject](fix-event-object.md) - イベントオブジェクトを正規化する(レガシーIE対応)
+- [lookUp](dom_lookup.md) - DOM ツリーを上方向に検索します
 
 ## Utilities
 - [each/foreach](each.md) - `each/forEach`
