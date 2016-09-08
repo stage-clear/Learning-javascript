@@ -18,12 +18,12 @@ Error:
 
 
 ## 4. Error and Trable shooting
-### `Error: timeout of 2000ms exceeded. Ensure the done()`
+### Error: timeout of 2000ms exceeded. Ensure the done()
 ```sh
 $ mocha test/index.js --timeout 10000
 ```
 
-### `Selenium is already running on port 4444. Or some other service is.`
+### Selenium is already running on port 4444. Or some other service is.
 ```
 $ lsof -i TCP
 
