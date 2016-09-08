@@ -14,7 +14,7 @@ Error:
 > "java -jar selenium-server-standalone-x.x.x.jar"コマンドラインツールを使用するには、JDK をインストールする必要があります。  
 > [Download](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
-## 3. [Tests example](./example/)
+## 3. [Example](./example/)
 
 
 ## 4. Error and Trable shooting
