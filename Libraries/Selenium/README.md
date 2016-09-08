@@ -17,7 +17,7 @@ Error:
 ## 3. [Tests example](./example/)
 
 
-## Error
+## 4. Error and Trable shooting
 ### `Error: timeout of 2000ms exceeded. Ensure the done()`
 ```sh
 $ mocha test/index.js --timeout 10000
