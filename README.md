@@ -13,7 +13,7 @@ JavaScript の学習や情報収集のまとめ
 - [Reading Books](Books/) - 読んで注釈やメモした書籍など
 
 
-## Libraries
+## Libraries / Frameworks
 - [Node.js](Libraries/Node/) - learn to Node.js
 - [AngularJS](Libraries/AngularJS/) - learn to AngularJS
 - [React](Libraries/React/) - learn to React.js
@@ -21,6 +21,7 @@ JavaScript の学習や情報収集のまとめ
 - [RxJS](Libraries/RxJS/) - learn to RxJS
 - [p5js](Books/978-4-87783-381-7) - learn to p5js
 - [TypeScript](Libraries/TypeScript/) - learn to TypeScript
+- [Selenium](Librarieis/Selenium/) - Learn to Selenium
 
 ## References
 - [JavaScript Standard Style](http://standardjs.com/)
