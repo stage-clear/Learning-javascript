@@ -3,7 +3,7 @@
 ```js
 /**
  * By
- * @classz
+ * @class
  * @member using
  * @member value
  * @member static By.className(name)
