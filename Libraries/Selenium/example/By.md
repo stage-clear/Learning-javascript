@@ -1,6 +1,22 @@
 # By
 
 ```js
+/**
+ * By
+ * @classz
+ * @member using
+ * @member value
+ * @member static By.className(name)
+ * @member static By.css(selector)
+ * @member static By.id(id)
+ * @member static By.js(script, var_args)
+ * @member static By.linkText(test)
+ * @member static By.name(name)
+ * @member static By.partialLinkText(text)
+ * @member [deprecated] static By.tagName(na,e)
+ * @member static By.xpath(xpath)
+ */
+ 
 const webdriver = require('selenium-webdriver');
 const By = webdriver.By; // <-
 
