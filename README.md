@@ -21,7 +21,7 @@ JavaScript の学習や情報収集のまとめ
 - [RxJS](Libraries/RxJS/) - learn to RxJS
 - [p5js](Books/978-4-87783-381-7) - learn to p5js
 - [TypeScript](Libraries/TypeScript/) - learn to TypeScript
-- [Selenium](Librarieis/Selenium/) - Learn to Selenium
+- [Selenium](Libraries/Selenium) - Learn to Selenium
 
 ## References
 - [JavaScript Standard Style](http://standardjs.com/)
