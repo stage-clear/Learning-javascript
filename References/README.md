@@ -6,6 +6,7 @@
 - [You-Dont-Need-jQuery](https://github.com/oneuijs/You-Dont-Need-jQuery) - jQuery のあれを JavaScript でどう書くんだっけ
 - [Get File Extension](http://www.jstips.co/en/get-file-extension/) - ファイル名から拡張子を抜き出す
 - [Sorting algorithms in JavaScript](https://medium.com/front-end-hacking/sorting-algorithms-in-javascript-2fb985af6880) - JavaScript でソートアルゴリズムを書く
+- [ ] [WEBA Guide to Browser Scroll Animations](http://developer.telerik.com/featured/guide-browser-scroll-animations/)
 
 ## Functional programing libraries for JavaScript
 - [Underscore.js](http://underscorejs.org/)
