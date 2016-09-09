@@ -126,6 +126,7 @@ promise.then((response) => {
 ```
 
 ## Links
+- [Promises/A+](https://promisesaplus.com/)
 - [JavaScript goes to Asynchronous city](http://blogs.msdn.com/b/eternalcoding/archive/2015/09/30/javascript-goes-to-asynchronous-city.aspx)
 - [Promise-cookbook](https://github.com/mattdesl/promise-cookbook)
 - [Promise Patterns & Anti-Patterns](http://www.datchley.name/promise-patterns-anti-patterns/)
