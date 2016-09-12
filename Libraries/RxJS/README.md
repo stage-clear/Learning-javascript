@@ -4,11 +4,11 @@
 ## CDN
 
 ```
-https://npmcdn.com/@reactivex/rxjs@5.0.0-beta.2/dist/global/Rx.umd.js
+https://unpkg.com/@reactivex/rxjs@5.0.0-beta.2/dist/global/Rx.umd.js
 https://cdnjs.com/libraries/rxjs/
 
 # 5.x
-<script src="https://npmcdn.com/@reactivex/rxjs@5.0.0-beta.2/dist/global/Rx.umd.js"></script>
+<script src="https://unpkg.com/@reactivex/rxjs@5.0.0-beta.2/dist/global/Rx.umd.js"></script>
 
 # 4.x
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.all.min.js"></script>
