@@ -4,6 +4,8 @@
 - [Vuex](https://github.com/vuejs/vuex) - [Vuex はじめに](https://vuex.vuejs.org/ja/index.html)
 - [vue-resource](https://github.com/vuejs/vue-resource)
 - [vue-router](https://github.com/vuejs/vue-router)
+- [vueify](https://github.com/vuejs/vueify) - With Browserify
+- [vue-loader](https://github.com/vuejs/vue-loader) - With Webpack
 
 ## サンプルコード
 - [Vue.extend](https://jsfiddle.net/stageclear/ek69zqs4/) 
