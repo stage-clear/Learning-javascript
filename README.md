@@ -22,6 +22,7 @@ JavaScript の学習や情報収集のまとめ
 - [p5js](Books/978-4-87783-381-7) - learn to p5js
 - [TypeScript](Libraries/TypeScript/) - learn to TypeScript
 - [Selenium](Libraries/Selenium) - Learn to Selenium
+- [Leaflet](Libraries/Leaflet) - Learn to Leaflet
 
 ## References
 - [JavaScript Standard Style](http://standardjs.com/)
