@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+  <head>
+    <link href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" rel="stylesheet"/>
+    <link href="https://xguaita.github.io/mtig-js/libs/minimap/Control.MiniMap.min.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="./lib/Control.MiniMap.min.js"></script>
+    <script src="./lib/Leaflet.EdgeMarker.js"></script>
+    <style>
+    body {
+      margin: 0;
+    }
+    #map {
+      height: 500px;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>
+
+    // Map
+    var map = L.map('map', {
+      zoom: 6,
+      minZoom: 6,
+      maxZoom: 7,
+      center: [0, 0],
+      crs: L.CRS.Simple,
+      zoomControl: false, // あとで自分で出すのでデフォルトでは非表示
+      attributionControl: false,
+    })
+
+    // Map 領域
+    var bounds = L.latLngBounds(
+      map.unproject([0, 1303], 6),
+      map.unproject([2048, 0], 6)
+    )
+
+    map.fitBounds(bounds)
+    map.setMaxBounds(bounds)
+
+    var url = './mapimages/{z}/y{y}x{x}.png'
+    var main = L.tileLayer(url, {
+      attribution: '',
+      bounds: bounds,
+      noWrap: true,
+    }).addTo(map)
+
+    var min = L.tileLayer('./mapimages/6/y0x1.png', {
+      zoom: 1,
+      dragging: false,
+    })
+
+    // Minimap
+    var minimap = new L.Control.MiniMap(min, {
+      position: 'bottomleft',
+      toggleDisplay: true,
+      zoomLevelOffset: -2,
+      zoomLevelFixed: true,
+      zoomAnimation: true,
+      autoToggleDisplay: false,
+      width: 201,
+      height: 131,
+      mapOptions: {
+        zoom: 1,
+        minZoom: 1,
+        maxZoom: 1,
+      }
+    }).addTo(map)
+
+
+    // Zoom controller
+    var zoom = L.control.zoom({
+      position: 'bottomleft'
+    }).addTo(map)
+
+
+    // Marker
+    var marker = L.marker(map.unproject([100, 100], 6)).addTo(map)
+
+    // Arrow
+
+
+    // event and handler
+    function onClickMap(e) {
+      alert(e.latlng)
+    }
+
+//    map.on('click', onClickMap)
+
+    </script>
+  </body>
+</html>
