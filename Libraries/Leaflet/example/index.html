@@ -25,6 +25,7 @@
       zoom: 6,
       minZoom: 6,
       maxZoom: 7,
+      preferCanvas: true,
       center: [0, 0],
       crs: L.CRS.Simple,
       zoomControl: false, // あとで自分で出すのでデフォルトでは非表示
@@ -75,11 +76,86 @@
       position: 'bottomleft'
     }).addTo(map)
 
+    // Icon
+    var PinIcon = L.icon({
+      iconUrl: 'images/pin.svg',
+      iconSize: [21, 32],
+    })
 
-    // Marker
-    var marker = L.marker(map.unproject([100, 100], 6)).addTo(map)
+    var FlowerIcon = L.icon({
+      iconUrl: 'images/flower.svg',
+      iconSize: [32, 32],
+    })
 
-    // Arrow
+    var icons = {
+      pin: PinIcon,
+      flower: FlowerIcon,
+    }
+
+    // Markers
+    var _markers = [
+      {
+        "name": "",
+        "location": [100, 100],
+        "icon": "pin",
+        "method": {
+          "type": "popup",
+          "text": "aaaaa"
+        }
+      },
+      {
+        "name": "",
+        "location": [500, 500],
+        "icon": "flower",
+        "method": {
+          "type": "link",
+          "url": "https://google.com"
+        }
+      }
+    ]
+
+    const bindLink = (marker) => {
+      marker.on('click', (e) => {
+        location.href = e.target._data.method.url
+        return
+      })
+    }
+
+    const bindPopup = (marker) => {
+      const data = marker._data
+      marker.bindPopup(data.method.text)
+      return
+    }
+
+    const markers = ((m, res) => {
+      m.forEach((data) => {
+        let marker = L.marker(
+          map.unproject(data.location, 6), {
+            icon: data.icon ? icons[data.icon] : null
+        })
+
+        marker._data = data
+
+        switch(data.method.type) {
+          case 'link':
+            bindLink(marker)
+            break
+          case 'popup':
+            bindPopup(marker)
+            break
+        }
+
+        marker.addTo(map)
+        res.push(marker)
+      })
+
+      return res
+
+    })(_markers, [])
+
+
+    // Map's position initializes
+    map.panTo(map.unproject(_markers[0].location))
 
 
     // event and handler

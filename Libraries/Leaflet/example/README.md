@@ -45,6 +45,31 @@ L.tileLayer('./mapimages/{z}/y{y}x{x}.png', {
 }).addTo(map)
 ```
 
+### Marker の表示
+
+```js
+const latlng = map.unproject([100, 100], 6) // ピクセルを座標に変換
+const marker = L.marker(latlng).addTo(map)
+```
+
+### Marker に独自画像を設定
+
+```js
+const CustomIcon = L.icon({
+  iconUrl: 'path/to/image',
+})
+
+const marker = L.marker([0, 0], { icon: CustomIcon })
+```
+
+### Marker をクリックしてページ遷移
+
+```js
+marker.on('click', () => {
+  location.href = '<url>'
+})
+```
+
 
 ## Libraries
 - [自作地図: leafletで使えるおすすめプラグインまとめ
