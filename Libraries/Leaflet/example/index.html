@@ -13,6 +13,29 @@
     #map {
       height: 500px;
     }
+
+    .leaflet-control-container .leaflet-control.leaflet-control-minimap {
+      margin: 0;
+    }
+    .leaflet-control-minimap {
+      border: 1px solid #000;
+      border-width: 1px 1px 0 0;
+      transition: all .2s;
+    }
+    .leaflet-control-minimap .leaflet-control-minimap-toggle-display {
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAUCAYAAABBECfmAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6REQwQzU0Njk4QTRDMTFFM0FBMUU4RjJDOTA4MjVFNzkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6REQwQzU0NkE4QTRDMTFFM0FBMUU4RjJDOTA4MjVFNzkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpERDBDNTQ2NzhBNEMxMUUzQUExRThGMkM5MDgyNUU3OSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpERDBDNTQ2ODhBNEMxMUUzQUExRThGMkM5MDgyNUU3OSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Psvnp3cAAABpSURBVHjazJHRDYAwCESh+zmADGgHYEAEUgwqJH5Kck3al4OUQxGBoki1Dz24AqoJ6mRzL9G6k3dM8AYyfAET2uOaNVVHHp7hszZsvnI5fwn5qzMWD6NNxKpLxDfXJRKwTCRgBVynAAMAokLJhcMdyN0AAAAASUVORK5CYII=");
+      background-color: transparent;
+      background-position: 7px 7px;
+      background-repeat: no-repeat;
+      background-size: auto;
+      height: 20px;
+      width: 20px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: auto;
+      z-index: 99999;
+    }
     </style>
   </head>
   <body>
@@ -25,15 +48,14 @@
       zoom: 6,
       minZoom: 6,
       maxZoom: 7,
-      preferCanvas: true,
       center: [0, 0],
       crs: L.CRS.Simple,
-      zoomControl: false, // あとで自分で出すのでデフォルトでは非表示
+      //zoomControl: false, // あとで自分で出すのでデフォルトでは非表示
       attributionControl: false,
     })
 
     // Map 領域
-    var bounds = L.latLngBounds(
+    var bounds = new L.LatLngBounds(
       map.unproject([0, 1303], 6),
       map.unproject([2048, 0], 6)
     )
@@ -48,33 +70,51 @@
       noWrap: true,
     }).addTo(map)
 
+
+    // minimap's bounds
+    var miniBounds = new L.LatLngBounds(
+      map.unproject([0, 130], 6),
+      map.unproject([200, 0], 6)
+    )
+
     var min = L.tileLayer('./mapimages/6/y0x1.png', {
-      zoom: 1,
-      dragging: false,
+
     })
 
     // Minimap
     var minimap = new L.Control.MiniMap(min, {
       position: 'bottomleft',
       toggleDisplay: true,
-      zoomLevelOffset: -2,
+      zoomLevelOffset: -5,
       zoomLevelFixed: true,
-      zoomAnimation: true,
+      zoomAnimation: false,
       autoToggleDisplay: false,
+      //centerFixed: true,
       width: 201,
       height: 131,
+      //bounds: miniBounds,
+      noWrap: true,
       mapOptions: {
-        zoom: 1,
-        minZoom: 1,
-        maxZoom: 1,
-      }
+        dragging: false,
+        bounds: miniBounds,
+      },
+      aimingRectOptions: {
+        color: '#000',
+        weight: 1,
+        clickable: true,
+        stroke: false,
+        fillOpacity: .5,
+        clip: true,
+      },
     }).addTo(map)
+
+    console.log(minimap)
 
 
     // Zoom controller
-    var zoom = L.control.zoom({
-      position: 'bottomleft'
-    }).addTo(map)
+    //var zoom = L.control.zoom({
+      //position: 'bottomleft'
+    //}).addTo(map)
 
     // Icon
     var PinIcon = L.icon({
@@ -91,6 +131,10 @@
       pin: PinIcon,
       flower: FlowerIcon,
     }
+
+    //minimap.setPosition('bottomleft')
+    map.zoomControl.setPosition("bottomleft")
+
 
     // Markers
     var _markers = [
