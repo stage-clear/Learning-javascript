@@ -7,6 +7,10 @@
     <script src="./lib/Control.MiniMap.min.js"></script>
     <script src="./lib/Leaflet.EdgeMarker.js"></script>
     <style>
+    html,body {
+      width: 100%;
+      height: 100%;
+    }
     body {
       margin: 0;
     }
@@ -47,10 +51,10 @@
     var map = L.map('map', {
       zoom: 6,
       minZoom: 6,
-      maxZoom: 7,
+      maxZoom: 6,
       center: [0, 0],
       crs: L.CRS.Simple,
-      //zoomControl: false, // あとで自分で出すのでデフォルトでは非表示
+      zoomControl: false,
       attributionControl: false,
     })
 
@@ -62,6 +66,18 @@
 
     map.fitBounds(bounds)
     map.setMaxBounds(bounds)
+
+    map.off('movestart').on('movestart', function(e) {
+      e.target.dragging._draggable && e.target.dragging._draggable.on('predrag', function() {
+        var e = map.latLngToLayerPoint(map.options.maxBounds.getSouthWest()).add(this._newPos)
+        var t = map.latLngToLayerPoint(map.options.maxBounds.getNorthEast()).add(this._newPos)
+        var i = map.getSize()
+
+        t.y > 0 && (this._newPos.y -= t.y / 1.2), e.x > 0 && (this._newPos.x -= e.x / 1.2), t.x < i.x && (this._newPos.x -= (t.x - i.x) / 1.2), e.y < i.y && (this._newPos.y -= (e.y - i.y) / 1.2)
+        console.log(e, t, i)
+      })
+
+    })
 
     var url = './mapimages/{z}/y{y}x{x}.png'
     var main = L.tileLayer(url, {
@@ -77,8 +93,11 @@
       map.unproject([200, 0], 6)
     )
 
-    var min = L.tileLayer('./mapimages/6/y0x1.png', {
-
+    var min = L.tileLayer('./mapimages/6/y{y}x{x}.png', {
+      bounds: bounds,
+      minZoom: 1,
+      maxZoom: 1,
+      noWrap: true
     })
 
     // Minimap
@@ -133,7 +152,7 @@
     }
 
     //minimap.setPosition('bottomleft')
-    map.zoomControl.setPosition("bottomleft")
+    //map.zoomControl.setPosition("bottomleft")
 
 
     // Markers
@@ -199,7 +218,7 @@
 
 
     // Map's position initializes
-    map.panTo(map.unproject(_markers[0].location))
+    map.panTo(map.unproject(_markers[1].location))
 
 
     // event and handler
