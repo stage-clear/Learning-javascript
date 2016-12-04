@@ -1,9 +1,9 @@
 
 ```js
 // with jQuery and Lethargy.js
-const lethargy = new Lethargy()
 let delta
 let oldDelta = 0
+const lethargy = new Lethargy()
 const resetOldDelta = () => {
   oldDelta = 0
 }
