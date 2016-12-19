@@ -139,3 +139,50 @@ let mySquare = createSquare(squareOptions)
 ```
 
 ### Function Types
+
+```typescript
+interface SearchFunc {
+  (source: string, subString: string): boolean
+}
+```
+
+```typescript
+let mySearch: SearchFunc
+mySearch = function(source: string, subString: string) {
+  let result = source.search(subString)
+  if (result == -1) {
+    return false
+  } else {
+    return true
+  }
+}
+```
+
+```typescript
+// 引数名は、インターフェイスとマッチしている必要はありません
+let mySearch: SearchFunc
+mySearch = function(src: string, sub: string):boolean {
+  let result = src.search(sub)
+  if (result == -1) {
+    return false
+  } else {
+    return true
+  }
+}
+```
+
+```typescript
+// 
+let mySearch: SearchFunc
+mySearch = function(src, sub) {
+  let result = src.search(sub)
+  if (result == -1) {
+    return false
+  } else {
+    return true
+  }
+}
+```
+
+### Indexable Types
+
