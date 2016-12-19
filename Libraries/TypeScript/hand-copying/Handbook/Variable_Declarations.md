@@ -1,4 +1,5 @@
 # Variable Declarations
+- [Varaible Declarations - TypeScript](https://www.typescriptlang.org/docs/handbook/variable-declarations.html)
 
 ## `var` declarations
 
