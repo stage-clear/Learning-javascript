@@ -1,14 +1,14 @@
 # Try "Quick start"
 
-## TypeScript をインストールする
-<sup>_Installing TypeScript_</sup>
+## Installing TypeScript
+<sup>_TypeScript をインストールする_</sup>
 
 ```sh
 $ npm install -g typescript
 ```
 
-## はじめての TypeScript ファイルを作成する
-<sup>_Building your first TypeScript file_</sup>
+## Building your first TypeScript file
+<sup>_はじめての TypeScript ファイルを作成する_</sup>
 
 次の JavaScript コードを `greeter.ts` として保存します。
 ```js
@@ -23,16 +23,16 @@ document.body.innerHTML = greeter(user)
 // > "Hello, Jane User"
 ```
 
-## コードをコンパイル
-<sup>_Compiling your code_</sup>
+## Compiling your code
+<sup>_コードをコンパイル_</sup>
 
 ```sh
 $ tsc greeter.ts
 // There is the output file as 'grtter.js'
 ```
 
-## 型注釈
-<sup>_Type annotations_</sup>
+## Type annotations
+<sup>_型注釈_</sup>
 
 ```js
 function greeter(person: string) {
@@ -66,8 +66,8 @@ document.body.innerHTML = greeter(user)
 // > "Hello, Jane User"
 ```
 
-## クラス
-<sup>_Classes_</sup>
+## Classes
+<sup>_クラス_</sup>
 
 ```js
 class Student {
@@ -92,8 +92,8 @@ document.body.innerHTML = greeter(user)
 // > "Hello, Jane User"
 ```
 
-## 走らせる 
-<sup>_Running your TypeScript web app_</sup>
+## Running your TypeScript web app 
+<sup>_TypeScript アプリを実行する_</sup>
 
 ```html
 <!-- greeter.html -->
