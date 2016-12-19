@@ -100,4 +100,42 @@ a = ro // Error!
 a = ro as number[]
 ```
 
-### `readonly` VS `const`
+#### `readonly` VS `const`
+変数の場合は `const` を使い、プロパティの場合は `readonly` を使う
+
+### Excess Property Checks
+<sup>_過剰なプロパティ検査_</sup>
+
+```typescript
+interface SquareConfig {
+  color?: string
+  width?: number
+}
+
+function createSquare(config: SquareConfig): { color: string, area: number } {
+  // ...
+}
+
+// Error: 'colour' not expected in type 'SquareConfig'
+let mySquare - createSquare({ colour: 'red', width: 100 })
+```
+
+```typescript
+// Type assertion を利用することで、これらの検査を避けられます
+let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConifg) <-
+```
+
+```typescript
+interface SquareConfig {
+  color?: string
+  width?: number
+  [propName: string]: any
+}
+```
+
+```typescript
+let squareOptions = { colour: 'red', width: 100 }
+let mySquare = createSquare(squareOptions)
+```
+
+### Function Types
