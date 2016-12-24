@@ -15,13 +15,12 @@
 - [Central timer control](central_timer_control.md) - 集中タイマーコントロール
 - [Array Effects](array_effects.md) - reduce/map/range
 - [letter format](letter-formats.md) - 文字フォーマットの変換
-- [XHR](xhr.md) - XMLHttpRequest/XDomainRequest
+- [XHR](xhr.md) - XMLHttpRequest/XDomainRequest/with Promise
 - [Animation sequence](animation_sequence.md) - 連鎖的なアニメーション
 - [Game loop](game_loop.md) - ゲームループ
 - [Touch](touch.md)
 - [window.requestAnimationFrame | polyfill](requestAnimationFrame.md) - ポリフィル
 - [URL parse](URLparse.md)
-- [XHR with Promise](xhr_with_promise.md)
 
 ## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
