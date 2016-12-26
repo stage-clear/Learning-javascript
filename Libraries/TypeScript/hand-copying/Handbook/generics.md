@@ -165,3 +165,121 @@ stringNumeric.add = function(x, y) { return x + y }
 
 alert(stringNumeric.add(stringNumeric.zeroValue, 'test'))
 ```
+
+インターフェイスと同じような、クラス自身に引数型を書くことは、クラスのすべての属性が同じ型で動作していることを確認させる。
+
+クラスのセクションでも言及したように、クラスの型は、静的とインスタンスの2つの側面を持ちます。
+ジェネリック・クラスは、ジェネリックなインスタンスよりもむしろ静的だけです。
+そして、クラスが動作しているとき、静的なメンバーはクラスの引数型を使用できません。
+
+## Generic Constraints
+もしあなたが前のサンプルを覚えているなら、あなたは、ときどき型の組の上でジェネリック関数書きたいかもしれません。
+あなたがいくつかの互換性についての知見のある場所は型の組が持ちます。
+`loggingIdentity` のサンプルでは、`arg` のプロパティ `.length` にアクセスしようと試みますが、
+コンパイラーはすべての型が `.length` プロパティを持つことを提供できません。
+そして、想定外であることを私たちに警告します。[
+
+```typescript
+function loggingIdentity<T>(arg: T): T {
+  console.log(arg.length) // Error T doesn't have .length
+  return arg
+}
+```
+
+`any` やすべての型で動作する代わりに、この関数が `any` やすべての型やさらに `.length` を持って動作するよう強制したい。
+長い型はこのメンバーを持っており、私たちはそれを許可します。しかし、そのメンバーをすくなくとも必須とされています。
+そうするために、Tが何に成りうるかの制限する要件を記録しなければなりません。
+
+そのために、制約を説明するインターフェイスを作成します。
+ここに、単独の `.length` プロパティを持つインターフェイスを作成します。
+それから、このインターフェイスと `extends` キーワード用いて制約を明示することを使用します。[
+
+```typescript
+interface Lengthwise {
+  length: number
+}
+
+function logginIdentity<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length) 
+  // Now we know it has a .length property, so no more error
+  // 今や .length プロパティを持っているため、エラーはでません
+  return arg
+}
+```
+
+ジェネリック関数は今や強制されたため、もはや any やすべての型で動作します
+
+```typescript
+loggingIdentity(3) 
+// Error, number doesn't have a .length property
+// エラー、number型は .length プロパティを持っていません
+```
+
+代わりに TypeScript では、型がすべての必須プロパティを持つ値で通す必要があります。
+
+```typescript
+loggingIdentity({ length: 10, value: 3 })
+```
+
+### Using Type Parameters in Generic Constraints _型パラメータの制約を使う_
+
+あなたは、他のパラメータで制約された型パラメータを宣言することができます。
+たとえば、これは、2つのオブジェクト取り、一方のからプロパティをコピーしようとし、
+間違って書いた余分なプロパティを確保しようと試みます。
+そして、2つの型の間の制約を配置します。
+
+```typescript
+// (! This example is not working)
+function copyFields<T extends U, U>(target: T, source: U): T {
+  for (let id in source) {
+    target[id] = source[id]
+  }
+  return target
+}
+
+let x = { a: 1, b: 2, c: 3, d: 4 }
+
+copyFields(x, { b: 10, d: 20 }) // okay
+copyFields(x, { Q: 90 }) // error: property 'Q' isn't declared in 'x'
+```
+
+### Using Class Types in Generics _ジェネリックでクラス型を使う_
+
+TypeScript でジェネリックを使ってファクトリーを作成するときに、コンストラクターのクラス型を参照することが必要です。
+例です。
+
+```typescript
+function create<T>(c: {new(): T }): T {
+  return new C()
+}
+```
+
+もっと高度な例ではプロトタイププロパティを使って、コンストラクターとインスタンスの関係性を推論し強制します。
+
+```typescript
+class BeeKeeper {
+  hasMask: boolean
+}
+
+class ZooKeeper {
+  nametag: string
+}
+
+class Animal {
+  numLegs: number
+}
+
+class Bee extends Animal {
+  keeper: BeeKeeper
+}
+
+class Lion extends Animal {
+  keeper: ZooKeeper
+}
+
+function findKeeper<A extends Animal, K>(a: { new(): A; prototype: { keeper: K }}): K {
+  return a.prototype.keeper
+}
+
+findKeeper(Lion).nametag // typechecks!
+```
