@@ -2,6 +2,9 @@
 > ジェネリックは簡単に言えば、型引数を使用して、実際に利用されるまで型が確定しないクラスや関数を実現するためのものだ。  
 > <sup>[TypeScriptの目玉機能「ジェネリック（Generics）」はこうなっている](http://www.buildinsider.net/language/tsgeneric/01)</sup>
 
+> シグネチャ・・・関数の名前と引数の数や型、返り値の型などをひとまとめにした呼び方  
+> <sup>[【TypeScript】シグネチャをインターフェイス化して型注釈をするクイズを作って..](http://qiita.com/M-ISO/items/ebfda5c825e11efbe89b)</sup>
+
 ## Introduction
 ## Hello World Generics
 
@@ -53,8 +56,8 @@ function loggingIdentity<T>(arg: T[]): T[] {
 }
 ```
 
-## Generic Types
-前回のセクションで、型の範囲を越えて動作する、値を返すだけの関数を作りました。  
+## Generic Types _ジェネリック型_
+前回のセクションで、型の範囲を越えて動作する、値を返すだけの関数を作りました。  
 このセクションでは、関数自身の型とジェネリックなインタフェースの作り方を探求します。
 
 ジェネリック関数の型は、ジェネリックでない関数のように、最初に型パラメータを並べます。関数定義と同様に。
@@ -100,6 +103,11 @@ function identity<T>(arg: T): T {
 }
 
 let myIdentity: GenericIdentityFn = identity
+
+// example
+myIdentity(<number>1000) // Ok
+myIdentity(<number>'sample') // Error!
+myIdentity(<string>'sample') // Ok
 ```
 
 同様のサンプルでは、ジェネリック引数をインターフェース全体の引数として書き換えたくなるかもしれません。  
@@ -107,7 +115,7 @@ let myIdentity: GenericIdentityFn = identity
 見える型引数を、すべてのインターフェイスのその他のメンバーとします。
 
 ```typescript
-interface GenericIdentity<T> {
+interface GenericIdentity<T> { // <-
   (arg: T): T
 }
 
@@ -115,5 +123,15 @@ function identity<T>(arg: T): T {
   return arg
 }
 
-let myIdentity: GenericIdentityFn<number> = identity
+let myIdentity: GenericIdentityFn<number> = identity // <-
+
+// example
+myIdentity(1000) // Ok
+myIdentity('sample') // Error!
 ```
+
+このサンプルは少しずつ変更を加えてきました。
+ジェネリック関数を記述する代わりに、私たちが今持っている（ジェネリックでない）コールシグネチャは、ジェネリック型の一部です。
+`GenericIdentityFn` を使用するとき、該当する型引数(ここでは `number`)が必要となります。
+根本的な構文呼び出しの中で効果的な固定することができます。
+コールシグネチャに型引数を直接を置くときを理解すること[
