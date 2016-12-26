@@ -134,4 +134,34 @@ myIdentity('sample') // Error!
 ジェネリック関数を記述する代わりに、私たちが今持っている（ジェネリックでない）コールシグネチャは、ジェネリック型の一部です。
 `GenericIdentityFn` を使用するとき、該当する型引数(ここでは `number`)が必要となります。
 根本的な構文呼び出しの中で効果的な固定することができます。
-コールシグネチャに型引数を直接を置くときを理解すること[
+コールシグネチャに型引数を直接を書き、インターフェイス自身にも書くことを理解することは、ジェネリックな型の何か側面を記述する中で役立ちます。
+
+ジェネリック・インターフェイスに加えて、さらにジェネリック・クラス作成することができます。
+それは、ジェネリックは列挙型や名前空間を作ることはできません。
+
+## Generic Classes _ジェネリック・クラス_
+ジェネリック・クラスは、ジェネリック・インターフェイスと同様の形状を持ちます。
+ジェネリック・クラスは、`<>` アングルブラケットで囲まれたジェネリック型引数のリストをクラス名の次に記述します。
+
+```typescript
+class GenericNumber<T> {
+  zeroValue: T
+  add: (x: T, y: T) => T
+}
+
+let myGenericNumber = new GenericNumber<number>()
+myGenericNumber.zeroValue = 0
+myGenericNumber.add = function(x, y) { return x + y }
+```
+
+これは、かなりリテラルな `GenericNumber` クラスを使用です。
+しかし、あなたは気づいているかもしれませんが、`number` 型だけを使うことに何も制限していません。（クラス内で）
+私たちは、代わりに `string` やさらに複雑なオブジェクトを使用することができます。[
+
+```typescript
+let stringNumeric = new GenericNumber<string>()
+stringNumeric.zeroValue = ''
+stringNumeric.add = function(x, y) { return x + y }
+
+alert(stringNumeric.add(stringNumeric.zeroValue, 'test'))
+```
