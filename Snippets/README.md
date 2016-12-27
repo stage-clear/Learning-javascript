@@ -1,11 +1,5 @@
 # Snippets
 ## Tips
-- [debounce](debounce.js) - 連続したイベントの最後に1度だけ処理する
-- [throttle](throttle.js) - 連続したイベントの発生頻度を一定に保つ
-- [poll](poll.js) - ポーリング処理
-- [once](once.js) - 関数を一度だけ処理
-- [sleep](sleep.md) - Promise を使った sleep 処理
-- [kill](kill.md) - CPUプロセスを指定した時間遅らせる
 - [getAbsoluteUrl](getAbsoluteUrl.js) - 絶対パスを取得
 - [isNative](isNative.js) - 組み込み関数かどうかを取得
 - [insertRule](insertRule.js) - インラインスタイルの追加
