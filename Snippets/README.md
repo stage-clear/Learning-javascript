@@ -31,12 +31,6 @@
 - [mixin](mixin.md) - 複数のオブジェクトを混ぜ合わせて新しいオブジェクトを作成します
 - [bind](bind.md) - 関数にオブジェクトを束縛します
 
-## Higher order Functions
-- [compose](compose.md) - 合成関数
-- [wrap](wrap.md) - ラッピング関数
-- [pipeline](pipeline.md) - パイプライン関数
-- [actions](actions.md) - 
-
 ## Data architecture
 - [Store](store.md) - ストア
 - [Stack](stack.md) - スタックの実装例
