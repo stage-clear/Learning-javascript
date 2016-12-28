@@ -1,6 +1,5 @@
 # Snippets
 ## Tips
-- [getAbsoluteUrl](getAbsoluteUrl.js) - 絶対パスを取得
 - [isNative](isNative.js) - 組み込み関数かどうかを取得
 - [insertRule](insertRule.js) - インラインスタイルの追加
 - [injectCSS](injectCSS.js) - インラインスタイルの追加
