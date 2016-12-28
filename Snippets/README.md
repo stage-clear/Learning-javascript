@@ -9,7 +9,6 @@
 - [letter format](letter-formats.md) - 文字フォーマットの変換
 - [XHR](xhr.md) - XMLHttpRequest/XDomainRequest/with Promise
 - [Animation sequence](animation_sequence.md) - 連鎖的なアニメーション
-- [Game loop](game_loop.md) - ゲームループ
 - [Touch](touch.md)
 - [window.requestAnimationFrame | polyfill](requestAnimationFrame.md) - ポリフィル
 
