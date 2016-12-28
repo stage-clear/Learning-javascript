@@ -12,7 +12,6 @@
 - [Game loop](game_loop.md) - ゲームループ
 - [Touch](touch.md)
 - [window.requestAnimationFrame | polyfill](requestAnimationFrame.md) - ポリフィル
-- [URL parse](URLparse.md)
 
 ## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
