@@ -38,10 +38,6 @@
 - [Heap](heap.md) - 優先度付きキューの実装例
 - [Linked-list](linked-list.md) - 連結リストの実装例
 
-## Flow control
-- [EventEmitter](event-emitter.md) - `EventEmitter/pubsub` の実装をいくつか
-- [Flux](flux.md) - 構造を理解するためだけのシンプルな Flux
-
 ## Design patterns
 - [Singleton](singleton.md) - _シングルトン_
 - [Factory](factory.md) - _ファクトリ_
