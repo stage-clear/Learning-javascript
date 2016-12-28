@@ -23,13 +23,6 @@
 - [fixEventObject](fix-event-object.md) - イベントオブジェクトを正規化する(レガシーIE対応)
 - [lookUp](dom_lookup.md) - DOM ツリーを上方向に検索します
 
-## Utilities
-- [each/foreach](each.md) - `each/forEach`
-- [merge](merge.md) - オブジェクトとオブジェクトをマージする
-- [extend](extend.md) - 2つのオブジェクトを引数にとり、片方のオブジェクトでもう一方を拡張します
-- [mixin](mixin.md) - 複数のオブジェクトを混ぜ合わせて新しいオブジェクトを作成します
-- [bind](bind.md) - 関数にオブジェクトを束縛します
-
 ## Data architecture
 - [Store](store.md) - ストア
 - [Stack](stack.md) - スタックの実装例
