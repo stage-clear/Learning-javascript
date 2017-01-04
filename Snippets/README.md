@@ -1,12 +1,4 @@
 # Snippets
-## DOM/Element
-- [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
-- [getScrolled](get-scrolled.md) - スクロール量の取得する
-- [getConteiner](get-container.md) - 
-- [isElemVisible](is-elem-visible.md) - 
-- [fixEventObject](fix-event-object.md) - イベントオブジェクトを正規化する(レガシーIE対応)
-- [lookUp](dom_lookup.md) - DOM ツリーを上方向に検索します
-
 ## Data architecture
 - [Store](store.md) - ストア
 - [Stack](stack.md) - スタックの実装例
