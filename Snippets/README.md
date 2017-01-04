@@ -1,8 +1,5 @@
 # Snippets
 ## Tips
-- [isNative](isNative.js) - 組み込み関数かどうかを取得
-- [insertRule](insertRule.js) - インラインスタイルの追加
-- [injectCSS](injectCSS.js) - インラインスタイルの追加
 - [matchesSelector](matchesSelector.js) - セレクターのマッチング
 - [globalEval](global-eval.md) - グローバルスコープでコードを評価/実行する
 - [Central timer control](central_timer_control.md) - 集中タイマーコントロール
