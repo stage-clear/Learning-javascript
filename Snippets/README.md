@@ -1,14 +1,4 @@
 # Snippets
-## Tips
-- [matchesSelector](matchesSelector.js) - セレクターのマッチング
-- [globalEval](global-eval.md) - グローバルスコープでコードを評価/実行する
-- [Central timer control](central_timer_control.md) - 集中タイマーコントロール
-- [letter format](letter-formats.md) - 文字フォーマットの変換
-- [XHR](xhr.md) - XMLHttpRequest/XDomainRequest/with Promise
-- [Animation sequence](animation_sequence.md) - 連鎖的なアニメーション
-- [Touch](touch.md)
-- [window.requestAnimationFrame | polyfill](requestAnimationFrame.md) - ポリフィル
-
 ## DOM/Element
 - [getOffset](get-offset.md) - 要素の幅と高さ、位置を取得する
 - [getScrolled](get-scrolled.md) - スクロール量の取得する
