@@ -1,1 +1,12 @@
-# Design patterns on JavaScript
+# Design patterns
+- [Singleton](singleton.md) - _シングルトン_
+- [Factory](factory.md) - _ファクトリ_
+- [Iterator](iterator.md) - _イテレータ_
+- [Decorator](decorator.md) - _デコレータ_
+- [Strategy](strategy.md) - _ストラテジー_
+- [Facade](facade.md) - _ファサード_
+- [Proxy](proxy.md) - _プロキシ_
+- [Mediator](mediator.md) - _メディエータ_ (Coming soon)
+- [Observer](observer.md) - _オブザーバ_
+- [Adapter](adapter.md) - _アダプター_
+- [Composite](composite.md) - _コンポジット_
