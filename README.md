@@ -8,7 +8,7 @@ JavaScript の学習や情報収集のまとめ
   - [ES2017](Specification/es2017/README.md)
   - [WebAPI](Specification/webapi/README.md)
   - [Coding patterns](Specification/patterns/README.md)
-- [Snippets](Snippets/README.md)
+- [Design patterns](DesignPatterns/README.md)
 - [References](References/) - 参考にできる外部リンクなど
 - [Reading Books](Books/) - 読んで注釈やメモした書籍など
 
