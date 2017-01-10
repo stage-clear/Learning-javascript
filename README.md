@@ -23,6 +23,7 @@ JavaScript の学習や情報収集のまとめ
 - [TypeScript](Libraries/TypeScript/) - learn to TypeScript
 - [Selenium](Libraries/Selenium/) - Learn to Selenium
 - [Leaflet](Libraries/Leaflet/) - Learn to Leaflet
+- [ScrollMagic](Libraries/ScrollMagic) - Learn to ScrollMagic.js
 - [fablic.js](Libralies/fablic.js/)
 
 ## References
