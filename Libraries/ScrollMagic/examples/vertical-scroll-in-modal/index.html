@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vertical-scroll - My exmaple of ScrollMagic.js</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
+
+    <style>
+
+    html, body {
+      margin: 0;
+    }
+
+    .modal {
+      position: absolute;
+      width: auto;
+      height: 80%;
+      top: 6%;
+      right: 6%;
+      bottom: 6%;
+      left: 6%;
+      border: 1px solid #666;
+      box-shadow: 0 2px 16px 0 rgba(0,0,0,.5);
+      overflow: hidden;
+    }
+
+    .modal-inner {
+      width: 100%;
+      height: 100%;
+      padding: 0 1px 0 0;
+      overflow: hidden;
+      overflow-y: scroll;
+      box-sizing: border-box;
+    }
+
+    .vertical-scroll {
+      height: 100%;
+      background-color: #ccc;
+      overflow: hidden;
+    }
+
+    .vertical-scroll .pin {
+      width: 3000px;
+      height: 100%;
+      position: relative;
+      padding: 16px 16px 16px 0;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .vertical-scroll .item {
+      width: 256px;
+      height: 100%;
+      float: left;
+      margin: 0 0 0 16px;
+      background-color: #fff;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="modal">
+      <div class="modal-inner" id="viewport">
+        <section class="vertical-scroll">
+          <div class="pin">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      var modal = document.querySelector('.modal')
+      var duration = ((256 + 16) * 10) - modal.clientWidth + 16;
+      var controller = new ScrollMagic.Controller({
+        globalSceneOptions: {
+          triggerHook: 'onLeave',
+        },
+        container: '#viewport' // <-
+      })
+
+      new ScrollMagic.Scene({
+        triggerElement: '.vertical-scroll',
+        duration: duration,
+      })
+      .setPin('#viewport .vertical-scroll') // <-
+      .setTween('.vertical-scroll .pin', 1, {
+        x: -duration
+      })
+      .addTo(controller)
+    </script>
+  </body>
+</html>
