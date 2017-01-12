@@ -23,12 +23,22 @@ var controller = new ScrollMagic.Controller({
 })
 
 new ScrollMagic.Scene({
-  triggerElement: '#trigger-element', // <- This element is watched on scroll.
+  triggerElement: '#trigger', // <- This element is watched on scroll.
   duration: 1000
 })
 .setPin('#pin')
 .setTween(/* tween */)
 .addTo(container)
+```
+
+```html
+<div id="container">
+  <div id="trigger">
+    <div id="pin">
+      <!-- Contents -->
+    </div>
+  </div>
+</div>
 ```
 
 ## Sites using ScrollMagic
