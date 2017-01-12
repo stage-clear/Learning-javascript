@@ -10,12 +10,23 @@ var controller = new ScrollMagic.Controller({
 })
 
 new ScrollMagic.Scene({
-  triggerElement: '#trigger', // <- This element is watched on scroll.
+  triggerElement: '#trigger',
   duration: 1000
 })
 .setPin('#pin')
 .setTween(/* tween */)
 .addTo(container)
+```
+
+```js
+var scene = new ScrollMagic.Scene({
+  triggerElement: '#pinned-trigger1', // この要素に到達したとき, このシーンが始まります.
+  duration: 400 // 400px の間要素を固定します
+})
+.setPin('#pinned-element1') // この要素を固定したい.
+
+// ScrollMagic のコントローラーにシーンを追加します.
+controller.addScene(scene)
 ```
 
 ## In case you don't use window scroll
