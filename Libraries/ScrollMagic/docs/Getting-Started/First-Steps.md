@@ -1,4 +1,6 @@
 # はじめに
+[原文](https://github.com/janpaepke/ScrollMagic/wiki/Getting-Started-:-First-Steps)
+
 ## すべてのファイルの取得
 ScrollMagic に必要なファイルは GSAP と jQuery です.
 もし bower を使っているなら, 必要なファイルをダウンロードする手段を知るべきです.
