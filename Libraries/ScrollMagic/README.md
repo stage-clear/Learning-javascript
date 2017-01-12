@@ -12,6 +12,25 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.min.js"></script>
 ```
 
+## Use
+
+```js
+var controller = new ScrollMagic.Controller({
+  globalSceneOptions: {
+    triggerHook: 'onLeave'
+  },
+  container: '#container' // <- This element is with doing scroll.
+})
+
+new ScrollMagic.Scene({
+  triggerElement: '#trigger-element', // <- This element is watched on scroll.
+  duration: 1000
+})
+.setPin('#pin')
+.setTween(/* tween */)
+.addTo(container)
+```
+
 ## Sites using ScrollMagic
 
 - [Le Mugs](http://le-mugs.com/)
