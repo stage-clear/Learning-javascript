@@ -11,6 +11,10 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.min.js"></script>
 ```
 
+## Usage
+- [Usage](./USAGE.md)
+
+
 ## Sites using ScrollMagic
 
 - [Le Mugs](http://le-mugs.com/)
