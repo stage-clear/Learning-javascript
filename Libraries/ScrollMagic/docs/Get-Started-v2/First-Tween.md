@@ -151,3 +151,27 @@ jQuery `onReady` の中に囲みます, それはすぐには再生されませ�
 理解する必要があるのは, コントローラに何が取り付けられて再生したかです.
 残りは無視されます.
 それは重要です, それを作成し数秒後にアニメーションを付けるだけにも関わらず.
+
+
+## トゥイーン
+
+```js
+var blockTween = new TweenMax.to('#block', 1.5, {
+  backgroundColor: 'red'
+})
+```
+
+## シーン
+
+```js
+var containerScene = new ScrollMagic.Scene({
+  triggerElement: '#container'
+})
+.setTween(blockTween)
+.addIndicators()
+.addTo(controller)
+```
+
+### 厚み
+
+## まとめ
