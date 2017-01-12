@@ -1,5 +1,5 @@
 # ScrollMagic の使い方
-- [origin](https://github.com/janpaepke/ScrollMagic/wiki/Getting-Started-:-How-to-use-ScrollMagic)
+[原文](https://github.com/janpaepke/ScrollMagic/wiki/Getting-Started-:-How-to-use-ScrollMagic)
 
 ## ScrollMagic はどのようにして動作するか
 ScrollMagicの基本的なデザインパターンは,任意の数のシーンを持つコントローラです.
