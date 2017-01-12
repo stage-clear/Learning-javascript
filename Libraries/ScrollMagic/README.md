@@ -19,7 +19,8 @@ var controller = new ScrollMagic.Controller({
   globalSceneOptions: {
     triggerHook: 'onLeave'
   },
-  container: '#container' // <- This element is with doing scroll.
+  // if in case of you don't use the window's scroll
+  container: '#container'
 })
 
 new ScrollMagic.Scene({
