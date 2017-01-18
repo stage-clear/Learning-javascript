@@ -1,11 +1,11 @@
 
-- [ ] Basic Types
-- [ ] Variable Declarations
-- [ ] Interfaces
-- [ ] Classes
-- [ ] Functions
-- [ ] Generics
-- [ ] Enums
+- [x] [Basic Types](basic-types.md)
+- [x] [Variable Declarations](variable-declarations.md)
+- [x] [Interfaces](interfaces.md)
+- [x] [Classes](classes.md)
+- [x] [Functions](functions.md)
+- [x] [Generics](generics.md)
+- [x] [Enums](enums.md)
 - [ ] Type Interface
 - [ ] Type Compatibility
 - [ ] Advanced Types
