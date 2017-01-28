@@ -4,7 +4,8 @@
 
 - データ型 _data type_
 - 文 _statement_
-- 宣言 _declaration_
+- 宣言 _declaration_ - 識別子を付与することでその存在を公表すること
+- 定義 _definition_ - 宣言し, かつ, それに値を与えること
 - 代入
 - 変数 _variable_
 - 定数 _constant_
@@ -27,5 +28,21 @@
   - `[...]` で囲まれているものはオプション（省略可能）であることを示します
   - `...` は「さらに続く」という意味を表します
 - イテレーション可能なオブジェクト _iterable object_
+- 演算子 _operator_
+- 評価 _evaluate_
+- 値 _value_
+- 短絡評価 _short-circuit evaluation_
+- 本体 _body_ - 全ての関数は本体を持ちます, など
+- 値型 _value type_ - プリミティブは値型. プリミティブは渡されるときには値がコピーされる
+- 参照型 _reference type_ - オブジェクトは参照型. オブジェクトが渡されるときには, 渡す方も渡される方も同じオブジェクトを参照する
+- メソッド _method_ - オブジェクトのプロパティとして指定される関数.
+- 関数式 _function expression_
+- 語彙的に _lexicary_
+- 静的な構造 _lexical structure_
+- 静的スコープ(構文スコープ) _lexical scope_
+  - グローバルスコープ(大域スコープ)
+  - ブロックスコープ
+  - 関数スコープ
+- 即座に実行される関数式 _immediately invoked function expression(IIFE)_
 - 巻き上げ _hosting_
 - 隠蔽 _shadowing_ - マスクなど
