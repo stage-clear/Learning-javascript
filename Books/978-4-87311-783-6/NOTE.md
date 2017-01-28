@@ -2,51 +2,52 @@
 
 ## Keywords
 
-- データ型 _data type_
-- 文 _statement_
-- 宣言 _declaration_ - 識別子を付与することでその存在を公表すること
-- 定義 _definition_ - 宣言し, かつ, それに値を与えること
-- 代入
-- 変数 _variable_
-- 定数 _constant_
-- リテラル _literal_
+- __データ型__ _data type_
+- __文__ _statement_
+- __宣言__ _declaration_ - 識別子を付与することでその存在を公表すること
+- __定義__ _definition_ - 宣言し, かつ, それに値を与えること
+- __代入__
+- __変数__ _variable_
+- __定数__ _constant_
+- __リテラル__ _literal_
   - 数値リテラル _numeric literal_
   - 文字列リテラル _string literal_
-- プリミティブ _primitive_ - Number, String, Boolean, null, undefined, Symbol
-- オブジェクト _object_
-- 不変 _immutable_ - プリミティブは不変です. 不変とは変数の内容を変更できないという意味ではありません.
-- プロパティ _property_ - (またはメンバー) オブジェクトに記憶されるもののこと
-- ブラケット表記 _bracket notation_ - `obj['not an identifier']`
-- 計算値によるメンバーアクセス _computed member access_ - ブラケット表記を使い, プロパティ名を文字列で指定すること
-- 関数 _function_
-- 引数 _ parameter_
-- オブジェクト指向プログラミング _OOP_
-- 真と見なされる _truthy_
-- 偽と見なされる _falsy_
-- 制御フロー _control flow_
-- EBNF(Extended Backus-Naur Form: 拡張バッカス・ナウア記法)
+- __プリミティブ__ _primitive_ - Number, String, Boolean, null, undefined, Symbol
+- __オブジェクト__ _object_
+- __不変__ _immutable_ - プリミティブは不変です. 不変とは変数の内容を変更できないという意味ではありません.
+- __プロパティ__ _property_ - (またはメンバー) オブジェクトに記憶されるもののこと
+- __ブラケット表記__ _bracket notation_ - `obj['not an identifier']`
+- __計算値によるメンバーアクセス__ _computed member access_ - ブラケット表記を使い, プロパティ名を文字列で指定すること
+- __関数__ _function_
+- __引数__ _ parameter_
+- __オブジェクト指向プログラミング__ _OOP_
+- __真と見なされる__ _truthy_
+- __偽と見なされる__ _falsy_
+- __制御フロー__ _control flow_
+- __EBNF__(Extended Backus-Naur Form: 拡張バッカス・ナウア記法)
   - `[...]` で囲まれているものはオプション（省略可能）であることを示します
   - `...` は「さらに続く」という意味を表します
-- イテレーション可能なオブジェクト _iterable object_
-- 演算子 _operator_
-- 評価 _evaluate_
-- 値 _value_
-- 短絡評価 _short-circuit evaluation_
-- 本体 _body_ - 全ての関数は本体を持ちます, など
-- 値型 _value type_ - プリミティブは値型. プリミティブは渡されるときには値がコピーされる
-- 参照型 _reference type_ - オブジェクトは参照型. オブジェクトが渡されるときには, 渡す方も渡される方も同じオブジェクトを参照する
-- メソッド _method_ - オブジェクトのプロパティとして指定される関数.
-- 関数式 _function expression_
-- 語彙的に _lexicary_
-- 静的な構造 _lexical structure_
-- 静的スコープ(構文スコープ) _lexical scope_
+- __イテレーション可能なオブジェクト__ _iterable object_
+- __演算子__ _operator_
+- __評価__ _evaluate_
+- __値__ _value_
+- __短絡評価__ _short-circuit evaluation_
+- __本体__ _body_ - 全ての関数は本体を持ちます, など
+- __値型__ _value type_ - プリミティブは値型. プリミティブは渡されるときには値がコピーされる
+- __参照型__ _reference type_ - オブジェクトは参照型. オブジェクトが渡されるときには, 渡す方も渡される方も同じオブジェクトを参照する
+- __メソッド__ _method_ - オブジェクトのプロパティとして指定される関数.
+- __関数式__ _function expression_
+- __語彙的に__ _lexicary_
+- __静的な構造__ _lexical structure_
+- __静的スコープ(構文スコープ)__ _lexical scope_
   - グローバルスコープ(大域スコープ)
   - ブロックスコープ
   - 関数スコープ
-- 即座に実行される関数式 _immediately invoked function expression(IIFE)_
-- 巻き上げ _hosting_
-- 隠蔽 _shadowing_ - マスクなど
-- アキュムレータ _accumulator_ (「蓄積する」「積み上げる」などの意) - reduce の引数
-- スーパークラス _super class_ - 「乗り物」は「車」のスーパークラス
-- サブクラス _sub class_ - 「車」は「乗り物」のサブクラス
-- アクセッサプロパティ(または, ダイナミックプロパティ)
+- __即座に実行される関数式__ _immediately invoked function expression(IIFE)_
+- __巻き上げ__ _hosting_
+- __隠蔽__ _shadowing_ - マスクなど
+- __アキュムレータ__ _accumulator_ (「蓄積する」「積み上げる」などの意) - reduce の引数
+- __スーパークラス__ _super class_ - 「乗り物」は「車」のスーパークラス
+- __サブクラス__ _sub class_ - 「車」は「乗り物」のサブクラス
+- __アクセッサプロパティ__(または, ダイナミックプロパティ)
+- __動的ディスパッチ__ _dynamic dispatch_ (「ディスパッチ」は「呼び出し」と同じ意味合いで使われています)
