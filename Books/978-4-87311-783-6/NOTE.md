@@ -46,3 +46,4 @@
 - 即座に実行される関数式 _immediately invoked function expression(IIFE)_
 - 巻き上げ _hosting_
 - 隠蔽 _shadowing_ - マスクなど
+- アキュムレータ _accumulator_ (「蓄積する」「積み上げる」などの意) - reduce の引数
