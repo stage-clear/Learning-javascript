@@ -32,3 +32,17 @@
 
 > `var` を使った方が `let` を使ったよりもわかりやすく書けるという例を思いつきません.
 > `let` を使えるならば `var` を使う理由はないと言ってもよいでしょう.
+
+## 7.10 TDZ (Template Dead Zone)
+TDZは, 「letで宣言された変数は宣言されるまで存在しない」ということを表す表現です.
+
+次のコードはエラーとなってしまいます.
+```js
+if (typeof x === 'undefined') { // ReferenceError: x is not defined
+  console.log('xは存在していない, あるいは undefined')
+} else {
+  // x を参照しても大丈夫
+}
+
+let x = 5
+```
