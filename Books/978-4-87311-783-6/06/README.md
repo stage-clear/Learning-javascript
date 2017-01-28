@@ -44,6 +44,21 @@ function addPrefix(prefix, ...words) {
 console.log(addPrefix('con', 'verse', 'vex')) // ['converse', 'convex']
 ```
 
+## 6.5 this
+`this` が「関数の呼び出され方」に依存して束縛される点に注意してください
+
+```js
+const o = {
+  name: 'Wallace',
+  speak() { return `My name is ${this.name}!` }
+}
+const speak = o.speak
+console.log(speak === o.speak) // true
+console.log(speak()) // "My name is undefined!"
+console.log(o.speak()) // "My name is Wallace!"
+
+```
+
 ## 6.6 関数式と無名関数
 
 ```js
