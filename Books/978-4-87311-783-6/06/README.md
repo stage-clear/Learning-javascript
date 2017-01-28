@@ -86,3 +86,26 @@ const g = function f(stop) {
 - `this` が語彙的(lexically)に
 - コンストラクタとしては使えない
 - `arguments` が使えない
+
+## 6.8 call, apply, bind
+call で展開演算子を使うと apply と同じ結果を得ることができます.
+
+```js
+const bruce = { name: 'Bruce' }
+const madeline = { name: 'Madeline' }
+
+function update(birth, occupation) {
+  this.birth = birth
+  this.occupation = occupation
+}
+
+console.log(bruce)
+const newBruce = [1940, '武術家']
+update.call(bruce, ...newBruce) // apply(bruce, newBruce) と同じ
+```
+
+```js
+const arr = [2,3,-5,15,7]
+console.log(Math.min(...arr)) // -5
+console.log(Math.max(...arr)) // 15
+```
