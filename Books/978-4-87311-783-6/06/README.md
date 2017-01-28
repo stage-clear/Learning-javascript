@@ -43,3 +43,25 @@ function addPrefix(prefix, ...words) {
 
 console.log(addPrefix('con', 'verse', 'vex')) // ['converse', 'convex']
 ```
+
+## 6.6 関数式と無名関数
+
+```js
+const g = function f() {
+  // ...
+}
+```
+このように関数を作成した場合, `g` の方が優先され, この関数の外では `g` を使ってこの関数を利用することになります.
+ただし, `f` を使いたいときがあります. それは `f` の中で `f` を呼び出したい時です(「再帰呼び出し」と言います).
+
+```js
+const g = function f(stop) {
+  if (stop) {
+    console.log('f stopped')
+    return 
+  } else {
+    console.log('f does not stop')
+    f(true)
+  }
+}
+```
