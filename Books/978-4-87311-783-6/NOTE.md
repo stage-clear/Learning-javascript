@@ -47,3 +47,5 @@
 - 巻き上げ _hosting_
 - 隠蔽 _shadowing_ - マスクなど
 - アキュムレータ _accumulator_ (「蓄積する」「積み上げる」などの意) - reduce の引数
+- スーパークラス _super class_
+- サブクラス _sub class_
