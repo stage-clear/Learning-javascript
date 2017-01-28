@@ -296,5 +296,165 @@ class Car extends Vehicle {
   }
 }
 ```
-]
 
+- `extends` - これにより `Car` は `Vehicle` のサブクラスとなります
+- `super()` - これは特別な関数で, スーパークラスのコンストラクタを呼び出します. 呼び出しておかないとエラーになってしまいます
+
+### 9.2.7 ポリモーフィズム
+ポリモーフィズムとは, 「あるインスタンスをそのインスタンスが属するクラスのメンバーとして扱うだけでなく,
+スーパークラスのメンバーとしても扱う」ということを意味する言葉です.
+
+```js
+const v = new Vehicle()
+v.addPassenger('taro')
+v.addPassenger('hana')
+console.log(v.passengers) // ['taro', 'hana']
+
+const c = new Car()
+c.addPassenger('kei')
+c.addPassenger('midori')
+console.log(c.passengers) // ['kei', 'midori']
+c.deployAirbags() // 
+
+class Motocycle extend Vehicle {}
+
+const c2 = new Car()
+const m = new Motorcycle()
+console.log(c instanceof Car) // true
+console.log(c instanceof Vehicle) // true
+console.log(m instanceof Car) // false
+console.log(m instanceof Motorcycle) // true
+console.log(m instanceof Vehicle) // true
+```
+
+### 9.2.8 プロパティの列挙
+
+```js
+class Super {
+  constructor() {
+    this.name = 'Super'
+    this.isSuper = true
+  }
+}
+
+Super.prototype.sneaky = 'Deprecated!' // 可能だが非推奨
+
+class Sub extends Super {
+  constructor() {
+    super()
+    this.name = 'Sub'
+    this.isSub = true
+  }
+}
+
+const obj =  new Sub()
+
+for (let p in obj) {
+  console.log(`${p}: ${obj[p]}` + (obj.hasOwnProperty(p) ? '' : '(継承)'))
+}
+```
+
+### 9.2.9 文字列による表現
+`toString()` はデフォルトでは `[object Object]` を戻します(これはほとんど役に立ちません)
+オブジェクトに関する何らかの情報を提供してくれる `toString` メソッドがあるとデバッグなどにオブジェクトの状態がわかって便利です.
+
+```js
+class Car {
+  toString() {
+    return `${this.make} ${this.model}: ${this.vin}`
+  }
+}
+```
+
+## 9.3 多重継承, ミックスイン, インタフェース
+多重継承は「コリジョン（衝突）」の危険性をはらむことになります. 
+同じメソッドを2つのスーパークラスが持つ場合どちらから継承すれば良いのか不明になってしまいます.
+この問題があるため, 多くの言語では多重継承を許してません.
+
+多重継承が自然だと思われる場合も多々存在します.
+こうした問題に対処するため多重継承を許さない言語においては, 「インタフェース」という機構を導入しています.
+クラスはスーパークラスとしては親クラスだけからしか継承できないけれど, 複数のインタフェースを持つことができるのです.
+
+JavaScript は興味深いハイブリッド状態になっています. 
+「単一継承」の言語であり, プロトタイプチェインは複数の親をさかのぼることはしません.
+
+多重継承の代わりに「ミックスイン(mixin)」という概念が使われています.
+
+```js
+class Car {
+  constructor() {
+  
+  }
+}
+
+class InsurancePolicy {
+}
+
+function makeInsurable(o) {
+  o.addInsurancePolicy = function(p) {
+    this.insurancePolicy = p
+  }
+  o.getInsurancePolicy = function() {
+    return this.insurancePolicy
+  }
+  o.isInsured = function() {
+    return !!this.insurancePolicy
+  }
+}
+```
+
+```js
+const car1 = new Car()
+makeInsurable(car1)
+console.log(car1.isInsured()) // false
+car1.addInsurancePolicy(new InsurancePolicy()) // Ok
+console.log(car1.isInsured()) // true
+```
+これはうまく行きますが, これを生成する全てのインスタンスに対してコピーすることになります.
+うまい解決方法があります.
+
+```js
+makeInsurable(Car.prototype)
+
+const car1 = new Car()
+console.log(car1.isInsured()) // false
+car1.addInsurancePolicy(new InsurancePolicy()) 
+console.log(car1.isInsured()) // true
+
+const car2 = new Car()
+console.log(car2.isInsured()) // false
+car2.addInsurencePolicy(new InsurancePolicy())
+console.log(car2.isInsured()) // true
+```
+
+ミックスインは「衝突」の問題をなくすというわけではありません.
+また, `instanceof` を使うことができません. 「ダックタイピング」しかできないのです.
+(メソッド`addInsurancePolicy`を持っていれば保険をかけられるに違いない)
+
+シンボルを使うとこの問題を解決できます.
+
+```js
+const ADD_POLICY = Symbol()
+const GET_POLICY = Symbol()
+const IS_INSURED = Symbol()
+const _POLICY = Symbol()
+function makeInsurable(o) {
+  o[ADD_POLICY] = function(p) { this[_POLICY] = p }
+  o[GET_POLICY] = function() { return this[_POLICY] }
+  o[IS_INSURED] = function() { return !!this[_POLICY] }
+}
+
+makeInsurable(Car.prototype)
+
+const car1 = new Car()
+console.log(car1[IS_INSURED]()) // false
+car1[ADD_POLICY](new InsurancePolicy())
+console.log(car1[IS_INSURED]()) // true
+
+const car2 = new Car()
+console.log(car2[IS_INSURED()]) // false
+car2[ADD_POLICY](new InsurancePolicy())
+console.log(car2[IS_INSURED()]) // true
+```
+
+シンボルはユニークなので, ミックスインは既存の `Car` の機能を邪魔することはありません.
