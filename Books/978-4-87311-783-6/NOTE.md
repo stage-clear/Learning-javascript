@@ -18,8 +18,8 @@
 - プロパティ _property_ - (またはメンバー) オブジェクトに記憶されるもののこと
 - ブラケット表記 _bracket notation_ - `obj['not an identifier']`
 - 計算値によるメンバーアクセス _computed member access_ - ブラケット表記を使い, プロパティ名を文字列で指定すること
-- 関数 _function_ _method_
-- 引数 _ parameta_
+- 関数 _function_
+- 引数 _ parameter_
 - オブジェクト指向プログラミング _OOP_
 - 真と見なされる _truthy_
 - 偽と見なされる _falsy_
