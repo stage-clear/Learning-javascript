@@ -57,3 +57,5 @@
 - __例外__ _exception handling_
 - __処理されない例外__ _unhandled exception_
 - __キャッチされない__ _uncaught exception_
+- __イテレータ__ _iterator_
+- __ジェネレータ__ _generator_
