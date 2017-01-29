@@ -54,3 +54,6 @@
 - __インスタンスメソッド__ _instance method_
 - __静的メソッド__ _static method_ (あるいはクラスメソッド) - インスタンスに付随しないメソッド
 - __継承__ _inherit_
+- __例外__ _exception handling_
+- __処理されない例外__ _unhandled exception_
+- __キャッチされない__ _uncaught exception_
