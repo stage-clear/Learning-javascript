@@ -10,10 +10,10 @@ ES2015より前は, キーと値の間の対応関係が必要な場合, オブ�
 
 Map 上のような問題はありません.
 
-- set - キーに値を設定
-- get - キーから値を取得
-- has - キーがあるかどうか
-- size - キーと値の組がいくつあるか
+- `set` - キーに値を設定
+- `get` - キーから値を取得
+- `has` - キーがあるかどうか
+- `size` - キーと値の組がいくつあるか
 
 ```js
 const u1 = { name: 'kazu' }
@@ -58,15 +58,15 @@ userRoles.set(u1, 'Admin')
 console.log(userRoles.get(u1)) // 'Admin'
 ```
 
-size で何組の対応があるかがわかります.
+`size` で何組の対応があるかがわかります.
 
 ```js
 console.log(userRules.size) // 3
 ```
 
-- keys - マップ内の全てのキーを取得
-- values - 全ての値を取得
-- entries - すべてのエントリーを取得
+- `keys` - マップ内の全てのキーを取得
+- `values` - 全ての値を取得
+- `entries` - すべてのエントリーを取得
 
 この3つのメソッドは `for...of` で利用可能なオブジェクト(iterable)を返します.
 
@@ -110,4 +110,96 @@ console.log([...userRoles]) // [...]
 
 すべてのエントリを削除したい場合は `clear` を使います.
 
-:
+```js
+userRoles.clear()
+console.log(userRoles.size) // 0
+console.log([...userRoles]) // []
+```
+
+## 10.2 WeakMap
+
+Map と次の点が異なります.
+
+- キーはオブジェクトでなければならない
+- キーがガベージコレクションの対象になる
+- イテレーションしたりクリアしたりできない
+
+```js
+const SecretHolder = (function() {
+  const secrets = new WeakMap()
+  return class {
+    setSecret(secret) {
+      secrets.set(this, secret)
+    }
+    getSecret() {
+      return secrets.get(this)
+    }
+  }
+})()
+```
+
+1. WeakMap を IIFE の中に入れています(それを利用するクラスも一緒です).
+2. IIFE の外で `SecretHolder` というクラスを利用できます
+3. このインスタンスに秘密を保管することができます
+4. 秘密をセットするには `setSecret` を使うしか方法がありません
+5. 取得するには `getSecret` を使います
+
+```js
+cosnt a = new SecretHolder()
+const b = new SecretHolder()
+
+a.setSecret('Secret A')
+b.setSecret('Secret B')
+
+console.log(a.getSecret()) // 'Secret A'
+console.log(b.getSecret()) // 'Secret B'
+```
+
+マップを使うこともできますが, そうすると `SecretHolder` のインスタンスに渡す秘密はガベージコレクションの対象にならなくなります.
+
+## 10.3 Set
+Set はデータの集まりですが, 重複は許されません(数学的な意味の「集合」と同じです).
+
+```js
+const roles = new Set()
+
+roles.add('User')
+consoel.log(roles) // Set { 'User' }
+
+roles.add('Admin')
+console.log(roles) // Set { 'User', 'Admin' }
+
+console.log(roles.size) // 2
+```
+
+追加する前に, 既に追加されてしまっているかを確認する方法はありません.
+
+削除するには `delete` を呼び出します.
+
+```js
+console.log(roles.delete('Admin')) // true
+console.log(roles) // Set { 'User' }
+console.log(roles.delete('Admin')) // false
+```
+
+## 10.4 WeakSet
+WeakSet はオブジェクトだけを含むことができる Set で, オブジェクトがガベージコレクションの対象となる可能性があります.
+
+```js
+const naughty = new WeakSet()
+
+const children = [
+  { name: 'kazu' },
+  { name: 'tetsu' }
+]
+
+naughty.add(children[1])
+
+for (let child of children) {
+  if (naughty.has(child)) {
+    console.log(`${child.name} 石炭をあげる`)
+  } else {
+    console.log(`${child.name} プレゼントをあげる`)
+  }
+}
+```
