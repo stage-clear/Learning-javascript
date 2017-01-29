@@ -57,5 +57,7 @@
 - __例外__ _exception handling_
 - __処理されない例外__ _unhandled exception_
 - __キャッチされない__ _uncaught exception_
-- __イテレータ__ _iterator_
+- __イテレータ__ _iterator_ - イテレータオブジェクトの意味で使います
 - __ジェネレータ__ _generator_
+- __反復可能なオブジェクト__ _iterable object_
+- __イテレータオブジェクト__ _iterator object_
