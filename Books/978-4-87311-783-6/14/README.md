@@ -252,4 +252,147 @@ Promise.race([readFile('a.txt'), readFile('b.txt'), readFile('c.tt')])
 ```
 
 ### 14.3.6 未確定の(unsettled)プロミスを防止する
-:
+プロミスは, 未確定のままの(settleしない)プロミスの問題は解決してくれません.
+これを防ぐひとつの方法はプロミスに対してタイムアウトを指定することです.
+
+```js
+function launch() {
+  return new Promise(function(onFulfilled, onRejected) {
+    if (Math.random() < 0.5) return /* 打ち上げ失敗 */
+    console.log('発射!')
+    setTimeout(function() {
+      onFullfilled('周回軌道に乗った')
+    }, 2 * 1000)
+  })
+}
+```
+
+```js
+/**
+ * @param {} fn タイムアウトをアタッチする関数:
+ * @param {} period タイムアウトする時間
+ */
+function addTimeout(fn, period) {
+  if (period === undefined) period = 1000
+  return function(...args) {
+    return new Promise(function(onFulfilled, onRejected) {
+      const timeoutId = setTimeout(onRejected, period, new Error('プロミス タイムアウト'))
+      fn(...args)
+        .then(function(...args) {
+          clearTimeout(timeoutId)
+          onFulfilled(...args)
+        })
+        .catch(function(...args) {
+          clearTimeout(timeoutId)
+          onRejected(...args)
+        })
+    })
+  }
+  
+  countdown(3)
+    .then(addTimeout(launch, 4 * 1000)) /* タイムアウトを4秒に設定 */
+    .then(function(msg) {
+      console.log(msg)
+    })
+    .catch(function(err) {
+      console.error(err)
+    })
+}
+```
+
+## 14.4 ジェネレータ
+### 14.4.1 ジェネラータランナー
+
+```js
+// grun (generator run)
+function grun(g) {
+  const it = g()
+  
+  ;(function iterate(val) {
+    const x = it.next(val)
+    if (!x.done) {
+      if (x.value instanceof Promise) {
+        x.value.then(iterate).catch(err => it.throw(err))
+      } else {
+        setTimeout(iterate, 0, x.value)
+      }
+    }
+  })()
+}
+```
+
+- [runGenerator](https://davidwalsh.name/es6-generators)
+
+`iterate`を直接呼び出すのではなく, `setTimeout`で呼び出すのはなぜか疑問に思っているかもしれませんが,
+その理由は動機的な再帰呼び出しを避けることで少し効率がよくなるからです.
+(非同期の再帰呼び出しのほうが, リソースを早く解放することができます)
+
+```js
+function readFile(fileName) {
+  return new Promise((onFulfilled, onRejected) => {
+    fs.readFile(fileName, 'utf-8', err => err ? onRejected(err) : onFulfilled(data))
+  })
+}
+
+function writeFile(fileName, data) {
+  return new Promise((onFulfilled, onRejected) => {
+    fs.writeFile(fileName, data, err => err ? onRejected(err) : onFulfilled('OK'))
+  })
+}
+
+function* fileReadAndWrite() {
+  const dataA = yield readFile('a.txt')
+  const dataB = yield readFile('b.txt')
+  const dataC = yield readFile('c.txt')
+  yield writeFiled('d.txt', dataA + dataB + dataC)
+}
+
+grun(fileReadAndWrite)
+```
+
+`Promise.all` を使う方に変更して見ましょう.
+
+```js
+function* fileReadAndWrite() {
+  const data = new Promise.all([readFile('a.txt'), readFile('b.txt'), readFile('c.txt')])
+  yield writeFile('d.txt', data[0] + data[1] + data[2])
+}
+
+grun(fileReadAndWrite)
+```
+
+ジェネレータランナーの[co](https://github.com/tj/co)は機能豊富で堅牢なライブラリです.
+ウェブサイトを作りたいのなら, [Koa](http://koajs.com/)も検討に値します.
+
+### 14.4.2 ジェネレータランナーの例外処理
+ジェネレータランナーを使うことのもうひとつの利点は `try...catch` を使った例外処理ができることです.
+
+```js
+function* fileReadAndWrite() {
+  try {
+    const data = yield Promise.all([
+      readFile('a.txt'), readFile('b.txt'), readFile('c.txt')
+    ])
+    yield writeFile('d.txt', data[0] + data[1] + data[2])
+  } catch(err) {
+    console.error('エラーが起こりました')
+  }
+}
+
+grun(fileReadAndWrite)
+```
+
+`try...catch`による例外処理が, プロミスに関する catch ハンドラやエラーファースト・コールバックよりも本質的に優れていると言っているわけではありません.
+しかし同期的な書き方を好むのならば, 例外処理を使いたくなるでしょう.
+
+# 14.5 まとめ
+- JavaScript における非同期の実行はコールバックを使って行われる
+- プロミスはコールバックを置き換えるわけではない. `then`や`catch`でコールバックを利用する
+- プロミスはあるコールバックが複数回呼ばれてしまうという問題を回避してくれる
+- プロミスが確定することは保証できないが, タイムアウトでラップすることでこの問題を回避できる
+- プロミスはチェインにして連続した処理を行うことができる
+- プロミスはジェネレータランナーと組み合わせることができ, 同期処理的な書き方で非同期の実行の効果を得ることができる
+- 同期処理的な書き方でジェネレータ関数を書くときはどの部分のコードを並列に実行してもよいか慎重に検討し, そうした部分を`Promise.all`で実行する
+- ジェネレータランナーは自分で書かずに co や Koa を利用すべきである
+- Node スタイルのコールバックをプロミスに変換するのに, 独自のコードを書くべきではない. [Q](https://github.com/kriskowal/q)を使うべきである.
+- ジェネレータランナーを使うことで, 例外処理を同期処理的な書き方で行うことができる
