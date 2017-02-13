@@ -91,4 +91,174 @@ console.log(output)
 const html = 'HTML with <a href="/one">one link</a>, and some JavaScript.' + '<script src="stuff.js"></script>'
 const matches = html.match(/area|a|link|script|source/ig)
 console.log(matches)
+```
+
+```js
+const html = 'HTML with <a href="/one">one link</a>, and some JavaScript.'
+const matches = html.match(/<area|<a|<link|<script|<source/ig)
+console.log(matches)
+```
+
+## 17.7 正規表現のマッチングの限界
+用途によって正規表現だけでは処理できずに, より強力な構文解析プログラムなどが必要になる場合があります.
+正規表現が万能だとは思わないようにしましょう.
+
+## 17.8 文字集合
+
+```js
+const beer99 = '99 bottles of beer on the wall ' + 
+  'take 1 down and pass it around -- ' +
+  '98 bottles of beer on the wall.'
+const ml = beer99.match(/0|1|2|3|4|5|6|7|8|9/g)
+```
+
+```js
+const m2 = beer99.match(/[0-9]/g)
+console.log(m3)
+```
+
+```js
+const m4 = beer99.match(/[-0-9a-z.]/ig)
+const m5 = beer99.match(/[a-z.0-9-]/ig)
+
+const m3String = JSON.stringify(m3)
+const m4String = JSON.stringify(m4)
+const m5String = JSON.stringify(m5)
+console.log(m3String)
+console.log(m3String === m4String) // true
+console.log(m3String === m5String) // true
+```
+
+```js
+const beer99 = '99 bottles of beer on the wall ' +
+  'take 1 down and pass it aroung --' +
+  '98 bottles of beer on the wall.'
+const match = beer99.match(/[^ 0-9a-z]/g)
+console.log(match)
+```
+
+`[ァ-ヴ]`でカタカナ文字(のほとんど), `[ぁ-ん]`でひらがな文字(のほとんど)とマッチさせることができます.
+
+##  17.9 文字集合の略記法
+
+- `\d` `[0-9]`
+- `\D` `[^0-9]`:
+- `\s` ホワイトスペース
+- `\S` 非ホワイトスペース
+- `\w` `[a-zA-Z_]`
+- `\W` `[^a-zA-Z_]`
+
+```js
+const tShirts =
+  'Small:     9\n' +
+  'Medium:    9\n' +
+  'Large:     9\n'
+const numbers = tShirts.match(/:\s*[0-9]/g)
+console.log(numbers)
+```
+
+```js
+const phoneNumber1 = '(0269)99-9876'
+const phoneNumber2 = '0269-99-9875'
+console.log(phoneNumber1.replace(/\D/g, '')) //
+console.log(phoneNumber2.replace(/\D/g, '')) //
+```
+
+```js
+const field1 = '  X   '
+const field2 = '　 \t   ' // 先頭に全角スペース
+console.log(/\S/.test(field1)) // true
+console.log(/\S/.test(field2)) // false
+```
+
+## 17.10 繰り返し
+
+- `{n}`
+- `{n,}`
+- `{n,m}`
+- `?`
+- `*`
+- `+`
+
+## 17.11 メタ文字「.」とエスケープ
+### 17.11.1 ワイルドカード
+`[\s\S]`を利用する方法です. これは, すべてのホワイトスペースおよびホワイトスペース以外のすべての文字, つまりすべての文字にマッチします.
+
+## 17.12 グループ化
+グループ化`(...)`を使って指定しますが, キャプチャなしのブループは`(?:...)`のような指定します.
+
+```js
+const text = 'Visit oreilly.com today!'
+const match = text.match(/[a-z0-9]+(?:\.com|\.org|\.edu)/ig)
+console.log(match)
+```
+
+```js
+const html = '<link rel="stylesheet" href="http://insecure.com/stuff.css">\n'
+  + '<link rel="stylesheet" href="https://secure.com/securestuff.css">\n'
+  + '<link rel="stylesheet" href="//anything.com/flexible.css">'
+const matches = html.match(/(?:https?:)?\/\/[a-z0-9][a-z0-9.-]+[a^z0-9]+/ig)
+console.log(matches)
+```
+
+## 17.13 最長マッチ, 最短マッチ
+
+```js
+const input = 'Regex pros know the difference between\n' +
+  '<i>greedy</i> and <i>lazy</i> matching.'
+const output = input.replace(/<i>(.*)<\/i>/, '<strong>$1</strong>')
+console.log(output)
+// Regex pros know the difference between
+// <strong>greedy</i> and <i>lazy</strong> matching
+// どん欲(greedy)なマッチング
+```
+
+`*?`として「最短マッチ(lazy matching)」にすることです.:
+```js
+const output2 = input.replace(/<i>(.*?)<\/i>/ig, '')
+console.log(output2)
+```
+
+すべての繰り返しのメタ文字(`* + ? {n} {n,} {n,m}`)は, 後ろに`?`を付けて最短マッチにすることができます.
+(ただし筆者は`*`と`+`にしか使ったことはありません)
+
+## 17.14 後方参照
+HTMLコードを処理していて `<img>`とそのalt属性だけをリストしたいとしましょう.
+
+```js
+const html = `<img alt='A "Simple" example'>` + `<img alt="Don't abuse it!">`
+const imagaTags = html.match(/<img alt=(['"]).*?\1>/g)
+for (let i = 0; imageTags && i < imageTags.length; i++) {
+  console.log(imageTags[i])
+}
+```
+
+`\1` が「後方参照」で, `(...)`で囲まれた1番目と同じものにマッチします.
+
+## 17.15 グループの置換
+
+HTMLコードで`<a>`からhref以外のすべての属性を取り除いて見ましょう.
+
+```js
+let html = '<a class="abc" hre="/www.xxx.yyy" id="lmn">xxxのサイト</a>'
+html = html.replace(/<a .*?(href=".*?").*?>/, '<a $1>')
+console.log(html)
+```
+
+```js
+let html1 = `<a class='abc' href="/www.xxx.yyy">サイトxx</a>`
+let html2 = `<a class='abc' href='/www.xxx.yyy'>サイトxx</a>`
+
+r = html1.replace(/<a .*?(href=(["']).*?\2).*?>/, '<a $1>')
+console.log(r)
+r = html2.replace(/<a .*?(href=(["']).*?\2).*?>/, '<a $1>')
+console.log(r)
+```
+
+今度はhref属性とclass属性を記憶することにしましょう.
+
+```js
+let html1 = `<a class='abc' id="s" href="/www.xx.yyy">サイトxx</a>`
+r = html1.replace(/<a .*?(class(["']).*?\2) .*?(href=(["']).*?\4).*?>/, '<a $3 $1>')
+console.log(r)
 ```]
