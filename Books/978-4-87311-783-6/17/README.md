@@ -261,4 +261,98 @@ console.log(r)
 let html1 = `<a class='abc' id="s" href="/www.xx.yyy">サイトxx</a>`
 r = html1.replace(/<a .*?(class(["']).*?\2) .*?(href=(["']).*?\4).*?>/, '<a $3 $1>')
 console.log(r)
+```
+- `` $` `` - マッチしたものより前にあるものすべて
+- `$&` - マッチしたもの
+- `$'` - マッチしたものより後ろにあるものすべて
+
+```js
+const input = 'One two three'
+let r = input.replace(/two/, '($`)')
+console.log(r) // One (One ) three
+r = input.replace(/\w+/g, '($&)')
+console.log(r) // (One) (two) (three)
+r = input.replace(/two/, "($')")
+console.log(r) // One ( three) three
+r = input.replace(/two/, "($$)")
+console.log(r) // One ($) three
+```
+
+## 17.16 関数を用いた置換
+
+```js
+const html = 
+  `<a class="foo" href="/foo" id="foo">Foo</a>\n` +
+  `<A href='/foo' Class="foo">Foo</a>\n` + 
+  `<a href="/foo">Foo</a>` + 
+  `<a onclick="javascript:alert('foo')" href="/foo">Foo</a>`
+```
+
+1. `<a>`タグを認識する正規表現 `/<a\s+(.*?)>(.*?)<\/a>/`
+2. `<a>`タグの属性を必要なものだけに整理する正規表現
+
+```js
+const html = `〇〇<a onclick="alert('!!')" class="cl1" href="/foo" id="id1">XXX</a>△△`
+console.log(sanitizeATag(html))
+
+function sanitizeATag(aTag) {
+  const parts = aTag.match(/<a\s+(.*?)>(.*?)<\/a>/i)
+  console.log(`parts[1]=${parts[1]}`)
+  console.log(`parts[2]=${parts[2]}`)
+  const attributes = parts[1].split(/\s+/)
+  
+  return '<a >' + 
+    attributes
+      .filter(attr => /^(?:class|id|href)[\s=]/i.test(attr))
+      .join(' ')
+      + '>'
+      + parts[2]
+      + '</a>'
+}
+```
+
+```js
+const html = `〇〇<a onclick="alert('!!')" class="cl1" href="/foo" id="id1">XXX</a>△△`
+
+html.replace(/<a .*?>(.*?)<\/a>/ig, function(match, group1, offset, origin) {
+  console.log(`<a>タグが${offset + 1}文字目から見つかった`)
+  console.log(`リンク対象文字列は「${group1}」`)
+  console.log(`元々の文字列は「${origin}」`)
+  console.log(`マッチしたのは「${match}」`)
+})
+```
+
+`String.prototype.replace` に渡す関数は次の引数を順に受け取ります.
+
+- マッチした文字列すべて (`$&`に同じ)
+- マッチしたグループ(グループ指定してある時)
+- マッチした文字列のオフセット(0から始まる)
+- 元の文字列(滅多に使われない)
+
+```js
+const html = `〇〇<a onclick="alert('!!')" class="cl1" href="/foo" id="id1">XXX</a>△△`
+
+// すでに sanitizeATag はできているので replace の第2引数に渡します
+const r = html.replace(/<a .*?<\/a>/ig, function() {
+  return sanitizeATag(m)
+})
+
+// 無名関数を使わなくてもよい
+const r = html.replace(/<a .*<\/a>/ig, sanitizeATag)
+```
+
+## 17.17 行頭や行末とのマッチング
+メタ文字`^`は行頭にマッチし, `$`は行末にマッチします.
+
+文字列を(改行を区切られた)複数行として扱いたい場合は, フラグ`m(multiline)` を使う必要があります.
+
+## 17.18 英単語の境界マッチング
+メタ文字に文字列中の文字が対応するわけではなく, メタ文字は境界を示すだけです.
+英語などの言語の単語の境界を表すメタ文字 `\b` と, 反対の意味を表す `\B` も入力文字を消費しません.
+
+```js
+const inputs = [
+
+]
 ```]
+
