@@ -352,7 +352,61 @@ const r = html.replace(/<a .*<\/a>/ig, sanitizeATag)
 
 ```js
 const inputs = [
-
+  "john@doe.com",
+  "john@doe.com is my email",
+  "my email is john@doe.com",
+  "use john@doe.com, my email",
+  "my email:john@doe.com"
 ]
-```]
+
+// メールアドレスと普通のテキストの間には必ず単語境界 \b があります.
+
+const emailMatcher = /\b[a-z][a-z0-9._-]*@[a-z][a-z0-9]+\.[a-z]+(?:\.[a-z]+)\b/ig
+const r = inputs.map(s => s.replace(emailMatcher))
+console.log(r)
+```
+
+## 171.19 先読み
+先読みは行頭・行末や単語の境界のメタ文字のように, 入力文字列を消費しません.
+
+```js
+function validPasword(p) {
+  return /[A-Z]/.test(p) &&   // 大文字が含まれる
+    /[0-9]/.test(p) &&        // 数字が含まれる
+    /[a-z]/.test(p) &&        // 小文字が含まれる
+    !/[^a-zA-Z0-9]/.test(p)   // それ以外の文字が含まれない
+}
+
+// これを一つの正規表現にまとめたいとしましょう.
+// まず次の方法で試しますが、これはうまくいきません.
+function validPassword(p) {
+  return /[A-Z].*[0-9].*[a-z]/.test(p)
+}
+```
+
+こういった場合に入力文字列を消費しない正規表現である「先読み(lookahead)」を利用できます.
+JavaScriptにおいては, `(?=...)`のように指定します.「否定先読み」もあり, `(?!...)`は後ろに指定の表現が続かないものだけにマッチします.
+
+```js
+function validPassword(p) {
+  return /(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])^[a-zA-Z0-9]+$/.test(p)
+}
+```
+
+## 17.20 正規表現の動的な生成
+```js
+const users = ["mary", "nick", "arthur", "sam", "yvette"]
+const userRegex = new RegExp(`@(?:${users.join('|')\\b})`, 'g')
+console.log(userRegex)
+
+const text = 'User @arthur started the backup and 15:15, ' +
+  'and @nick and @yvette restored it at 18:35'
+console.log(text.match(userRegex))
+```
+
+`b`の前に, `\`を2つ使う必要があることに注意してください. ひとつ目の`\`は, 文字列中の2つ目の`\`をエスケープするものです.
+
+## 17.21 まとめ
+
+- [regular expressions 101](https://regex101.com/#javascript)
 
