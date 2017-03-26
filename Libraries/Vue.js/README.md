@@ -10,6 +10,14 @@
 ## サンプルコード
 - [Vue.extend](https://jsfiddle.net/stageclear/ek69zqs4/) 
 
+## Tutorials
+- [Intro to Vue.js: Rendering, Directives, and Events](https://css-tricks.com/intro-to-vue-1-rendering-directives-events/)
+- [Intro to Vue.js: Components, Props, and Slots](https://css-tricks.com/intro-to-vue-2-components-props-slots/)
+- [Intro to Vue.js: Vue-cli and Lifecycle Hooks](https://css-tricks.com/intro-to-vue-3-vue-cli-lifecycle-hooks/)
+- [Intro to Vue.js: Vuex](https://css-tricks.com/intro-to-vue-4-vuex/)
+- [Intro to Vue.js: Animations](https://css-tricks.com/intro-to-vue-5-animations/)
+- [How To Build A Simple Single Page Application Using Vue2](https://scotch.io/tutorials/how-to-build-a-simple-single-page-application-using-vue-2-part-1)
+
 ### はじめに
 - [Hello world](https://jsfiddle.net/stageclear/g2vfwbxu/)
 - [双方向バインディング](https://jsfiddle.net/stageclear/waaja5oa/) - Two-way バインディング
@@ -70,15 +78,15 @@
 - [Vue.component](https://jsfiddle.net/stageclear/1qtmb5bc/) - Prop 検証
 
 #### [親子間の通信](https://jp.vuejs.org/guide/components.html#親子間の通信)
-- Vue.component - 親のチェーン [❓](https://jp.vuejs.org/guide/components.html#親子間の通信)
+- Vue.component - 親のチェーン [](https://jp.vuejs.org/guide/components.html#親子間の通信)
 - [Vue.component](https://jsfiddle.net/stageclear/qug4kc65/) - カスタムイベント
 - [Vue.component](https://jsfiddle.net/stageclear/4mxzazj8/) - カスタムイベントに対する v-on
 - [Vue.component](https://jsfiddle.net/stageclear/pugeyryr/) - 子コンポーネントの参照 v-ref
 
 #### [スロットによる配信](https://jp.vuejs.org/guide/components.html#スロットによるコンテンツ配信)
 - [Vue.component](https://jsfiddle.net/stageclear/bf0aLt8y/) - コンパイルスコープ
-- Vue.component - 単一スロット [❓](https://jp.vuejs.org/guide/components.html#単一スロット)
-- Vue.component - 名前付きスロット [❓](https://jp.vuejs.org/guide/components.html#名前付きスロット)
+- Vue.component - 単一スロット [](https://jp.vuejs.org/guide/components.html#単一スロット)
+- Vue.component - 名前付きスロット [](https://jp.vuejs.org/guide/components.html#名前付きスロット)
 
 #### [動的コンポーネント](https://jp.vuejs.org/guide/components.html#動的コンポーネント)
 - [Vue.component](https://jsfiddle.net/stageclear/ovd038a6/)- <component/> (未動作)
