@@ -55,4 +55,13 @@ document.body.innerHTML = shiro.sayHello();
 
 ## 2.3 「TypeScript」を「JavaScript」に変換
 
-### 「」:
+### 「VSCode」のタスクファイル
+#### `task.json` の作成
+1 `Shift + Command + P`
+2. task と入力
+3. 「タスク: タスクランナーの構成」を選択
+4. 「TypeScript-tsconfig.json」を選択
+
+#### タスクの実行
+##### ショートカットで実行
+:
