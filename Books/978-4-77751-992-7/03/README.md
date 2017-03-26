@@ -179,4 +179,90 @@ result[0] = '英作文';
 document.body.innerHTML = `${result[0]}は${result[1]}点`;
 ```
 
-### 型列挙:
+### 列挙型
+
+__「フラグ」を手早く変数で表す__
+
+```ts
+// ex) 列挙型を用いない場合:
+const SS = 1;
+const S = 2;
+const M = 3;
+const L = 4;
+const LL = 5;
+```
+
+```ts
+// ex) 列挙型
+enum size { SS, S, M, L, LL };
+```
+このようにして,「実際に割り当てられている数値はいくつか」を気にせず, 変数名だけで違いを表せるのが, 列挙型のいいところです.
+
+```ts
+// ex) enum
+enum Size { SS, S, M, L, LL };
+
+let sizeStr: string;
+let theSize = Size[Size.L];
+
+switch(theSize) {
+  case Size[Size.SS]:
+    sizeStr = 'とても可愛いですね';
+    break;
+  case Size[Size.S]:
+    sizeStr = '控えめですね';
+    break;
+   case Size[Size.M]:
+    sizeStr = '汎用型ですね';
+    break;
+   case Size[Size.L]:
+    sizeStr = '思い切りましたね';
+    break;
+   case Size[Size.LL]:
+    sizeStr = '堂々としたものです';
+    break;
+   default: 
+    break;
+}
+
+document.body.innerHTML = sizeStr;
+```
+
+## 3.4 基本のデータ型（不定型）
+
+__void型__
+
+- 関数やメソッドで戻す値
+
+__null型__
+
+- 「値がない」
+- 「その引数に値を渡さない」
+- 「値がないという答えを戻す」
+
+ことを積極的に示すために用います
+
+__undefined型__
+
+- 未定義
+
+__any__
+
+- any という型は「どんなデータ型でもいい」という寛容なデータ型です
+- JavaScriptオブジェクトを使うとき, HTMLElement の代わりに any としておくのがむしろいい判断でしょう.
+
+```ts
+let showhere: any;
+
+showhere = document.body;
+showhere.innerHTML = 'JavaScript のオブジェクトもこのように';
+```
+
+- どんな型でも仮定できる
+
+__never__
+
+- 「例外処理」のメソッドが返す, 決して受け取られないデータ型
+
+このデータ型の値は, 決して他の変数やメソッドが受け取るkとはありません.  
+「例外処理」の目的は, 「アプリの終了」だからです.
