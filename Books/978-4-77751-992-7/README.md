@@ -1,0 +1,2 @@
+# はじめてのTypeScript2
+
