@@ -63,5 +63,10 @@ document.body.innerHTML = shiro.sayHello();
 4. 「TypeScript-tsconfig.json」を選択
 
 #### タスクの実行
-##### ショートカットで実行
-:
+__ショートカットで実行__  
+- `Shift + Command + B`
+
+## 2.4 「TypeScript」のプロジェクトを再利用
+
+## 2.5 作られた「JavaScript」
+### 少し難しい JavaScript になっている
