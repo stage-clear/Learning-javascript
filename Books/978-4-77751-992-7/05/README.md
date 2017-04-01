@@ -103,7 +103,7 @@ document.body.innerHTML = calc(numA, numB).toString();
 ```
 
 #### 変数に渡す利点
-
+- 値として別の関数に変更できる良さがあります.
 ```ts
 // 5-10. 変数 calc の中身を, 別の関数に
 if (numA > numB) {
@@ -112,3 +112,40 @@ if (numA > numB) {
   }
 }
 ```
+
+#### 空の値で関数を定義
+
+```ts
+// 5-11. シグニチャだけで関数を宣言
+let calc:(a:number, b:numer)=>number;
+```
+- `=>` - 変数の型定義のときに `:` をつけなければならないので, 混同を避ける為別の記号を使う, と考える.
+
+```ts
+// 5-12 
+let calc:(a:number, b:number)=>number;
+
+let numA = 3;
+let numB = 3;
+
+if (numA > numB) {
+  calc = function(a:number, b:number):number {
+    return a - b;
+  }
+} else if (numA < numB) {
+  calc = function(a:number, b:number):number {
+    return a + b;
+  }
+} else {
+  calc = function(a:number, b:number):number {
+    return a * b;
+  }
+}
+
+document.body.innerHTML = calc(numA, numB).toString();
+```
+
+#### 関数の配列
+:
+
+
