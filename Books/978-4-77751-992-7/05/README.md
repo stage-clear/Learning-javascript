@@ -146,6 +146,108 @@ document.body.innerHTML = calc(numA, numB).toString();
 ```
 
 #### 関数の配列
-:
 
+```ts
+// 5-13. シグニチャは同じで, 中身の異なる関数
+let add = function(a:number, b:number):number {
+  return a + b;
+}
+let sub = function(a:number, b:number):number {
+  return a - b;
+}
+let multi = function(a:number, b:number):number {
+  return a * b;
+}
+let div = function(a:number, b:number):number {
+  return a / b;
+}
+```
 
+```ts
+// 5-14. 配列 calcs
+let clacs = [add, sub, multi, div];
+```
+
+```ts
+// 5-15. 配列から関数を取り出して, 同じ引数を与える
+let numA = 3;
+let numB = 2;
+
+const br = '<br>';
+let resultStr = '';
+
+for (let calc of calcs) {
+  resultStr += calc(numA, numB) + br;
+}
+
+document.body.innerHTML = resultStr;
+```
+
+### クラスの属性となる
+#### 計算する関数を属性に持つクラス
+
+```ts
+class Calculator {
+  calcStr:string;
+  calc:(a:number, b:number)=>number;
+  // この後もっと書く
+}
+```
+
+#### 関数を引数に取るメソッド
+**異なる関数を属性地に持つオブジェクト**なので, コンストラクタの引数に**関数**を置かなければなりません.
+
+```ts
+// 5-18 関数を引数に取るコンストラクタ
+class Calclator {
+  ...
+  constructor(calcStr:string, func:(a:number, b:number)=>number) { // <-
+    this.calcStr = calcStr;
+    this.calc = func;
+  }
+}
+```
+
+#### 関数の属性を使うメソッド
+
+```ts
+// 5-19. メソッド doCalc
+class Calculator {
+  ...
+  doCalc(a:number, b:number):string {
+    return `${a}と${b}の${this.calcStr}: ${this.calc(a, b)}`;
+  }
+}
+```
+
+#### 関数を属性に渡して, オブジェクトを作成
+
+```ts
+// 5-20. 他のクラスを継承するクラスの宣言
+let calculatorAdd = new Calculator('足し算', function(a:number, b:number):number {
+  return a + b;
+})
+```
+
+```ts
+// 5-21. 引数として渡される関数の書き方
+function(a:number, b:number):number {
+  return a + b;
+}
+```
+
+```ts
+// 5-22 もう一つの Calculator オブジェクト
+let calculatorSub = new Calculator('引き算', function(a:number, b:number):number {
+  return a - b;
+})
+```
+
+```ts
+// 5-23. 異なるオブジェクトが, メソッド doCalc を呼び出す
+const br = '<br>';
+document.body.innerHTML = 
+  cacluratorAdd.doCalc(2, 3) + 
+  br + 
+  calculatorSub.doCalc(9, 7);
+```
