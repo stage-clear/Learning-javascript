@@ -663,3 +663,377 @@ for (let row of birdTableData) {
 ```
 
 ### アニメーション
+#### オブジェクト指向的ではないJavaScriptのアニメーション
+
+#### TypeScriptでアニメーションを記述
+
+```ts
+// 7-56 クラス AnimationField を定義
+class AnimationField extends DivDOM {
+  constructor(colorexpress?:string) {
+    super()
+    if (colorexpress) {
+      this.setBackgroundColor(colorexpress)
+    }
+  }
+  addMovingObject(objDOM:ElmDOM):AnimationField {
+    this.addChild(objDOM)
+    return this
+  }
+}
+```
+
+```ts
+// 7-57 クラス MovingTextDOM とメソッド move
+class MovingTextDOM extends DivDOM {
+  move(distance:number) {
+    this.elm.style.paddingLeft = distance + 'px'
+  }
+}
+``` 
+
+```ts
+// 7-58 クラス AnimationButton を定義
+class AnimationButton extends ElmDOM {
+  constructor(textStr:string, movefunc:()=>void) {
+    super('button')
+    this.addText(textStr)
+    this.elm.onclick = movefunc
+  }
+}
+```
+
+```ts
+// 7-59 トップレベルの処理の構造
+let button = new AnimationButton(
+  '押してください',
+  function() {
+    // 1. アニメーションにして見せる要素を作成
+    // 2. アニメーションに必要な変数の定義
+    // 3. setInterval を呼び出す
+    // 4. setInterval の引数に渡す関数の定義
+  }
+)
+```
+
+```ts
+// 7-60 アニメーションにして見せる要素を作成
+let movingText = new MovingTextDOM('こんなふうに動きます')
+```
+
+```ts
+// 7-61 背景となる div 要素の子要素
+new AnimationField('yellow')
+  .addMovingObject(movingText)
+  .addToBody()
+```
+
+```ts
+// 7-62 movingText.move の引数に渡す変数
+let distance = 0
+```
+
+```ts
+// 7-63 setInterval を呼び出し, 戻り値を受け取る
+let animationId = setInterval(slide, 10)
+```
+
+```ts
+// 7-64 関数 slide の定義
+function slide() {
+  if (distance >= 100) {
+    clearInterval(animationId)
+  } else {
+    distance++
+    movingText.move(distance)
+  }
+}
+```
+
+## キャンバスへの2D描画
+### HTML+JavaScript による書き方
+
+```html
+<!-- 7-65 HTMLで書くのは canvas 要素 -->
+<canvas id="thiscanvas" width="600" height="300" style="background-color: #ffffe0;">
+</canvas>
+```
+
+```ts
+// 7-66 キャンバスの描画コンテキスト
+var canvas = document.getElementById('thiscanvas')
+var ctx = canvas.getContext('2d')
+```
+
+```ts
+// 7-67 線を一本引く命令
+ctx.moveTo(0, 0)
+ctx.lineTo(100, 200)
+ctx.stroke()
+```
+
+```ts
+// 7-68 これなら納得がいく
+canvas = new Canvas(600, 400)
+canvas.drawLine(0, 0, 100, 200)
+```
+
+### キャンバスの描画
+#### クラス GraphCanvas と属性 canvasElm
+
+```ts
+// 7-69 クラス GraphCanvas
+class GraphCanvas {
+  canvasElm:HTMLCanvasElement
+  // 属性もメソッドも増やしていく
+}
+```
+
+```ts
+// 7-70 データ型をHTMLElementにした場合(見るだけ)
+canvas.canvasElm.setAttribute('width', '300')
+```
+
+#### ファクトリ・メソッド
+
+```ts
+// 7-71 ファクトリ・メソッド createCanvas
+class GraphCanvas {
+  ...
+  static createCanvas(width:number, height:number):GraphCanvas {
+    let canvas = new GraphCanvas()
+
+    // canvas 要素を新規作成
+    canvas.canvasElm = document.createElement('canvas')
+
+    // 数値を代入できる
+    canvas.canvasElm.width = width
+    canvas.canvasElm.height = height
+
+    // 色を決めてしまう
+    canvas.canvasElm.style.backgroundColor = '#ffffe0'
+
+    return canvas
+  }
+}
+```
+
+#### 描画メソッド
+
+```ts
+// 7-72 描画メソッド draw
+class GraphCanvas {
+  ...
+  draw() {
+    document.body.appendChild(this.canvasElm)
+  }
+}
+```
+
+#### トップレベルの処理
+
+```ts
+// 7-73 トップレベルで描画する
+let canvas = GraphCanvas.createCanvas(400, 300)
+canvas.draw()
+```
+
+### 線を描画するテスト
+#### 描画コンテキストを属性に
+
+```ts
+// 7-74 属性 ctx を宣言
+class GraphCanvas {
+  ...
+  ctx:CanvasRenderingContext2D
+}
+```
+
+```ts
+// 7-75 メソッド createCanvas に書き足す
+class GraphCanvas {
+  ...
+  static createCanvas(width:number, height:number):GraphCanvas {
+    ...
+    canvas.ctx = canvas.canvasElm.getContext('2d')
+    ...
+  }
+}
+```
+
+#### 描画メソッド drawLine
+
+```ts
+// 7-76 最も基本的な描画メソッド drawLine
+class GraphCanvas {
+  ...
+  drawLine(fromx:number, fromy:number, tox:number, toy:number):GraphCanvas {
+    this.ctx.beginPath()
+    // 始点へ
+    this.ctx.moveTo(fromx, fromy)
+    // 終点まで線を引く
+    this.ctx.lineTo(tox, toy)
+    
+    this.ctx.stroke()
+
+    return this
+  }
+}
+```
+
+#### トップレベルで線を引く
+
+```ts
+// 7-77 メソッド drawLine を, トップレベルで扱う
+canvas.drawLine(0, 0, 100, 200).draw()
+```
+
+### X軸とY軸を引く
+#### 原点を決定する属性
+
+```ts
+// 7-78 属性 zerox zeroy
+zerox:number
+zeroy:number
+```
+
+#### X軸Y軸を引くメソッド
+
+```ts
+// 7-79 メソッド drawXAxis
+class GraphCanvas {
+  ...
+  drawXAxis(zeroy:number):GraphCanvas {
+    this.ctx.lineWidth = 1
+    this.ctx.strokeStyle = '#0000ff'
+    
+    this.zeroy = zeroy
+    let realzeroy = this.canvasElm.height - this.zeroy
+    
+    this.drawLine(0, 
+      realzeroy,
+      this.canvasElm.width,
+      realzeroy
+    )
+    
+    return this
+  }
+}
+```
+
+```ts
+// 7-80 メソッド drawYAxis
+class GraphCanvas {
+  ...
+  drawYAxis(zerox:number):GraphCanvas {
+    // 線の太さと色
+    this.ctx.lineWidth = 1
+    this.ctx.strokeStyle = '#0000ff'
+    this.zerox = zerox
+    this.drawLine(
+      this.zerox, 0,
+      this.zerox, this.canvasElm.height
+    )
+    return this
+  }
+}
+```
+
+#### トップレベルの処理
+
+```ts
+// 7-80 draw を呼び出す前に, メソッドを2つ呼び出す
+canvas.drawXAxis(200).drawYAxis(50).draw()
+```
+
+### グラフの曲線を書く
+#### キャンバス上での位置を補正
+
+1. 値が小数であれば, 整数に丸める
+2. X座標, zerox(左端からY軸までの距離)に, xの値を加える
+3. Y座標, zeroy(上端からX軸までの距離)から, そのyの値を差し引く
+
+```ts
+// 7-82 座標の補正メソッド
+class GraphCanvas {
+  ...
+  realX(x:number):number {
+    return this.zerox + Math.round(x)
+  }
+  realY(y:number):number {
+    return this.zeroy - Math.round(y)
+  }
+}
+```
+
+#### x と func(x) の関係をプロット drawFunc
+
+```ts
+class GraphCanvas {
+  ...
+  drawFunc(func:(x:number)=>number, xmin:number, xmax:number):GraphCanvas {
+    this.ctx.lineWidth = 4
+    this.ctx.strokeStyle = '#800000'
+    
+    let x = xmin
+    while (x <= xmax) {
+      this.drawLine(
+        this.realX(x), this.realY(func(x)),
+        this.realX(x + 1), this.realY(func(x + 1))
+      )
+      x++
+    }
+    return this
+  }
+}
+```
+
+### ラベルを置く
+#### キャンバスにテキストを置くメソッド putText
+
+```ts
+// 7-84 関数 putText
+class GraphCanvas {
+  ...
+  putText(textStr:string, size:number, posx:number, posy:number):GraphCanvas {
+    this.ctx.beginPath()
+    this.ctx.font = size + 'px'
+    this.ctx.strokeText(textStr, posx, posy)
+    return this
+  }
+}
+```
+
+#### 決まった位置にラベルを置く, putBasicLabel
+
+```ts
+// 7-84 メソッド putBasicLabel
+class GraphCanvas {
+  ...
+  putBasicLabel():GraphCanvas {
+    let size = 16
+    
+    this.ctx.strokeStyle = '#ff0000'
+    this.putText('X', size, 
+      this.canvasElm.width - 20, this.realY(-20))
+    this.putText('Y', size,
+      this.realX(-20), 20)
+
+    return this
+  }
+}
+```
+
+### 関数のグラフを描いてみよう
+#### メソッド drawFunc に関数を渡す
+
+```ts
+// 7-86 トップレベルで変数 canvas を処理
+let canvas = GraphCanvas.createCanvas(600, 400)
+canvas.drawXAxis(200).drawYAxis(50)
+  .pugBasicLabel()
+  .drawFunc(function(x:number):number {
+    return 100 * Math.sin(x / 20)
+  }, 0, 600)
+  .draw()
+```
