@@ -239,4 +239,79 @@ DOMの世界では, `element.addEventListener` を使ってイベントリスナ
 </script>
 ```
 
-このコードは正しく
+このコードは正しく機能し, パフォーマンスも良好ですが問題点もあります.
+
+- UIのコンポーネントから離れた場所でイベントリスナーが宣言されており, コードを探したりデバッグしたりする際に面倒です
+- イベントの発生元に応じて場合分けが必要になり, コードの量が不必要に増大します
+- ここでは省略していますが, ブラウザごとの違いに対処するためのコードがさらに必要になります
+  - `addEventListener` だけでなく `attachEvent` も必要です
+  - イベントリスナーの先頭行で `var event = event || window.event` と記述します
+  - button の宣言を `var button = event.target || event.srcElement` に変更します
+  
+### React でのイベント処理
+
+React ではキャメルケース形式の名前でイベントハンドラを指定します. 
+例えば `onclick` ではなく `onClick` のように指定します.
+
+## プロパティとステート
+プロパティとは, 外側の世界から<sup>（つまりコンポーネントのユーザー）</sup>コンポーネントの設定を行うための仕組みです.
+ステートは, 内部のデータ構造です. オブジェクト指向プログラミングの用語を借りるなら, `this.props` はコンストラクタに渡す引数で,
+`this.state` はプライベート変数です.
+
+## 初期状態をプロパティとして渡す（アンチパターン）
+
+`getInitialState()` の中で `this.props` にアクセスしている例がありましたが,
+このようなコードはアンチパターンだとされています.
+
+```js
+getInitialState: function() {
+  retun {
+    text: this.props.text
+  }
+}
+```
+
+`render()` メソッドで UI を組み立てる際には, `this.state` と `this.props` を自由に併用できるのが理想です.
+
+```
+propTypes: {
+  defaultValue: React.PropTypes.string,
+},
+
+getInitialState: function() {
+  return {
+    text: this.props.defaultValue
+  }
+}
+```
+
+## 外部からコンポーネントへのアクセス
+
+コンポーネントへの参照を取得する: `React.render()` からの戻り値として参照を受け取り, コンポーネントを外から操作します.
+
+```js
+var myTextAreaCounter = ReactDOM.render(
+  React.createElement(TextAreaCounter, {
+    defaultValue: 'Bob',
+  }),
+  document.getElementById('app')
+)
+```
+
+変数 `myTextAreaCounter` を使えば, コンポーネント内からの場合と同様にメソッドやプロパティにアクセスできます.
+
+```js
+myTextAreaCounter.setState({ text: 'Hello outside world!' })
+```
+
+```js
+var reactAppNode = ReactDOM.findDOMNode(myTextAreaCounter)
+reactAppNode.parentNode === document.getElementById('app') // true
+```
+
+```js
+myTextAreaCounter.props // Object {defaultValue: 'Bob'}
+myTextAreaCounter.state // Object {text: 'Hello outside world!'}
+```
+
+## プロパティの事後変更:
