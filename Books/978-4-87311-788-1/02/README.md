@@ -128,4 +128,115 @@ var Component = React.createClass({
 ## ステート
 静的で内部状態を持たないコードをステートレスであると言います.
 
-`this.props` で
+`this.props` でプロパティにアクセスできるのと同じように, `this.state` を使うとステートにアクセスできます.
+ステートを変更するには, `this.setState()` を使います.
+
+## ステートを持ったテキストエリアのコンポーネント
+
+```js
+var TextAreaCounter = React.createClass({
+  propTypes: {
+    text: React.PropTypes.string,
+  },
+  
+  getDefaultProps: function() {
+    return {
+      text: ''
+    }
+  },
+  
+  render: function() {
+    return React.DOM.div(null, 
+      React.DOM.textarea({
+        defaultValue: this.props.text // <-
+      }),
+      React.DOM.h3(null, this.props.text.length)
+    )
+  }
+})
+
+ReactDOM.render(
+  React.createElement(TextAreaCounter, {
+    text: 'Bob'
+  }),
+  document.getElementById('app')
+)
+```
+このコンポーネントがステートを持つように変更しましょう
+
+```js
+var TextAreaCounter = React.createClass({
+  propTypes: {
+    ...
+  },
+
+  getDefaultProps: {
+    ...  
+  },
+
+  getInitialState: function() {
+    return {
+      text: this.props.text
+    }
+  },
+  
+  _textChange: function(ev) {
+    this.setState({
+      text: ev.target.value
+    })
+  },
+  
+  render: function() {
+    return React.DOM.div(null,
+      React.DOM.textarea({
+        value: this.state.text,
+        onChange: this._textChange,
+      }),
+      React.DOM.h3(null, this.state.text.length)
+    )
+  }
+})
+```
+
+## DOM のイベント
+
+```
+onChange: this._textChange,
+```
+
+### 従来のイベント処理
+
+```html
+<button onclick="処理"></button>
+```
+
+イベントリスナーがUIとともに記述されているというのは便利で読みやすいのですが,
+このようなイベントリスナーが何ヶ所にも散らばっていると非効率です.
+
+DOMの世界では, `element.addEventListener` を使ってイベントリスナーを設定し, コードを複数箇所に記述できるようにしています.
+
+```html
+<div id="parent">
+  <button id="ok">OK</button>
+  <button id="cancel">キャンセル</button>
+</div>
+
+<script>
+  document.getElementById('parent').addEventListener('click', function(event) {
+    var button = event.target
+    
+    switch(button.id) {
+      case 'ok':
+        console.log('OK')
+        break
+      case 'cancel':
+        console.log('Cancel')
+        break
+      default:
+        new Error('Invalid ID')
+    }
+  })
+</script>
+```
+
+このコードは正しく
