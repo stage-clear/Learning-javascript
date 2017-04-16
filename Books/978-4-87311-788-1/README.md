@@ -9,3 +9,7 @@
 6. アプリケーションのビルド
 7. 品質チェック, 型チェック, テスト, そして繰り返し
 8. Flux
+
+## 外部リンク
+
+- [React ビギナーズガイド](https://www.oreilly.co.jp/books/9784873117881/) - O'Reilly Japan
