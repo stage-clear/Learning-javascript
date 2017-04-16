@@ -156,7 +156,6 @@ React.DOM.h1(
 
 ## 予告: カスタムコンポーネント
 
-
-
-
-
+- React ライブラリのインストールとセットアップそして利用
+- DOM 上の指定された位置にReactコンポーネントを描画する方法. `React.render(Component, position)` を使用.
+- DOM の要素がラップされた, 組み込みのコンポーネントの利用方法. `React.DOM.div(Property, ChildComponent)`
