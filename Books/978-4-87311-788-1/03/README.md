@@ -20,7 +20,7 @@ var data = [
 
 ## 表のヘッダーを描画するループ
 
-```
+```js
 var Excel = React.createClass({
   render: function() {
     return (
