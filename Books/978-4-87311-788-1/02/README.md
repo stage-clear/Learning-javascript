@@ -526,6 +526,8 @@ var Counter = React.createClass({
 
 ## PureRenderMixin
 
+- [PureRenderMixin](https://facebook.github.io/react/docs/pure-render-mixin.html)
+
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-with-addons.js"></script>
 ```
