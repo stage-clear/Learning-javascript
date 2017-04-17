@@ -34,7 +34,7 @@ ReactDOM.render(
 `React.createElement()` はコンポーネントのインスタンスを作る方法の1つです.
 複数のインスタンスを作る場合は, ファクトリーのオブジェクトを経由して作成するようにしてもよういでしょう.
 
-```
+```js
 var ComponentFactory = React.createFactory(Component)
 
 ReactDOM.render(
@@ -74,7 +74,7 @@ ReactDOM.render(
 
 ## `propTypes`
 
-```
+```js
 var Component = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired
@@ -274,15 +274,27 @@ getInitialState: function() {
 `render()` メソッドで UI を組み立てる際には, `this.state` と `this.props` を自由に併用できるのが理想です.
 
 ```
-propTypes: {
-  defaultValue: React.PropTypes.string,
-},
+var TextAreaCounter = React.createClass({
+  propTypes: {
+    defaultValue: React.PropTypes.string,
+  },
 
-getInitialState: function() {
-  return {
-    text: this.props.defaultValue
+  //getDefaultProps: function() {
+  //  defaultValue: this.props.defaultValue
+  //}
+
+  getInitialState: function() {
+    return {
+      text: this.props.defaultValue
+    }
   }
-}
+})
+
+var myTextAreaCounter = ReactDOM.render(
+  React.createElement(TextAreaCounter, {
+    defaultValue: 'Bob'
+  })
+)
 ```
 
 ## 外部からコンポーネントへのアクセス
@@ -314,4 +326,7 @@ myTextAreaCounter.props // Object {defaultValue: 'Bob'}
 myTextAreaCounter.state // Object {text: 'Hello outside world!'}
 ```
 
-## プロパティの事後変更:
+## プロパティの事後変更
+プロパティはコンポーネントの初期設定のために使われます.
+
+## ライフサイクルのメソッド:
