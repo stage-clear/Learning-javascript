@@ -330,7 +330,6 @@ myTextAreaCounter.state // Object {text: 'Hello outside world!'}
 プロパティはコンポーネントの初期設定のために使われます.
 
 ## ライフサイクルのメソッド
-`componentWillReceiveProps()` メソッドはライフサイクルメソッドの1つです.
 
 - `componentWillUpdate()`
   - 2回目以降にコンポーネントの描画が行われる前に呼び出されます
@@ -343,4 +342,208 @@ myTextAreaCounter.state // Object {text: 'Hello outside world!'}
 - `componentWillUnmount()`
   - コンポーネントがDOMから削除される直前に呼び出されます
 - `shouldComponentUpdate(newProps, newState)`
-  - `componentWillUpdate()` の前に呼び出されます:
+  - `componentWillUpdate()` の前に呼び出されます. ここで `false` を返すと更新がキャンセルされ, `render()` メソッドは呼び出されなくなります.
+
+## ライフサイクルの例: すべてをログに記録する
+
+```js
+var TextAreaCounter = React.createClass({
+  _log: function(methodName, args) {
+    console.log(methodName, args)
+  },
+  componentWillUpdate: function() {
+    this._log('componentWillUpdate', arguments)
+  },
+  componentDidUpdate: function() {
+    this._log('componentDidUpdate', arguments)
+  },
+  componentWillMount: function() {
+    this._log('componentWillMount', arguments)
+  },
+  componentDidMount: function() {
+    this._log('componentDidMount', arguments)
+  },
+  componentWillUnmount: function() {
+    this._log('componentWillUnmount', arguments)
+  },
+  
+  // ...
+  
+})
+```
+
+無法者がコンポーネントの外から `setState()` を呼び出してしまう可能性もあります.
+コンポーネントの一貫性と健全性を保つために, `componentDidUpdate()` の中でチェックを行うことにします.
+
+```js
+{
+  componentDidUpdate: function(oldProps, oldState) {
+    if (this.state.text.length > 3) {
+      this.replaceState(oldState)
+    }
+  }
+}
+```
+
+> ここでは `setState()` ではなく `replaceState()` を使っています.
+> `setState()` では引数のオブジェクトの既存の `this.state` がマージされるのに対し, `replaceState()` では `this.state` が完全に置き換わります
+
+## ライフサイクルの例: ミックスイン
+
+> ミックスインとはJavaScriptのオブジェクトの一種で, メソッドやプロパティの集合が保持されています.
+> 単体での利用は想定されておらず, 他のオブジェクトに取り込まれるのが目的です.
+
+```js
+var logMixin = {
+  _log: function(methodName, args) {
+    console.log(this.name + '::' + methodName, args)
+  },
+  componentWillUpdate: function() {
+    this._log('componentWillUpdate', arguments)
+  },
+  componentDidUpdate: function() {
+    this._log('componentDidUpdate', arguments)
+  },
+  componentWillMount: function() {
+    this._log('componentWillMount', arguments)
+  },
+  componentDidMount: function() {
+    this._log('componentDidMount', arguments)
+  },
+  componentWillUnmount: function() {
+    this._log('componentWillUnmount', arguments)
+  }
+}
+```
+
+```js
+var MyComponent = React.createClass({
+  mixins: [obj1, obj2, obj3],
+
+  // 他のメソッド
+})
+```
+
+`TextAreaCounter` に `logMixin` を取り込むには, 以下のように記述します.
+```js
+var TextAreaCounter = React.createClass({
+  name: 'TextAreaCounter',
+  mixins: [logMixin],
+  // 残りのプロパティ
+})
+```
+`name` プロパティは呼び出し元を識別するために使われます.
+
+## ライフサイクルの例: 子コンポーネントの使用
+
+```js
+var Counter = React.createClass({
+  name: 'Counter',
+  mixins: [logMixin],
+  propTypes: {
+    count: React.PropTypes.number.isRequired,
+  },
+  render: function() {
+    return React.DOM.span(null, this.props.count)
+  }
+})
+```
+このコンポーネントは単なるカウンターでステートを保持しません.
+親から与えられた `count` プロパティの値を, そのまま描画します
+
+```js
+// TextAreaCounter
+{
+  render: function() {
+    var counter = null
+    if (this.state.text.length > 0) {
+      counter = React.DOM.h3(null,
+        React.createElement(Counter, {
+          count: this.state.text.length,
+        })
+      )
+    }
+    return React.DOM.div(null,
+      React.DOM.textarea({
+        value: this.state.text,
+        onChange: this._textChange,
+      }),
+      counter,
+    )
+  }
+}
+```
+
+テキストエリアの文字列を削除して, 長さがゼロになると子コンポーネントである `Counter` は `null` になり, 対応するDOMのノードはドキュメント木構造から削除されます.
+その直前に, 削除を通知するためのコールバックとして `componentWillUnmount()` が呼び出されます.
+
+## パフォーマンスの向上: コンポーネントの更新を阻止する
+
+コンポーネントの中には, `render()` メソッドの中で `this.props` と `this.state` だけを利用し, 他の関数呼び出しを行わないものがあります.
+このようなコンポーネントはピュアコンポーネントと呼ばれます.
+ピュアコンポーネントには `shouldComponentUpdate()` を実装しましょう.
+
+また, `props` も `state` も参照しないピュアかつ静的なコンポーネントも考えられます. このようなコンポーネントでは, 無条件に `false` を返すべきです.
+
+```js
+// render() が呼ばれるたびに console 出力するよう変更
+var Counter = React.createClass({
+  name: 'Counter',
+  // mixins: [logMixin],
+  propTypes: {
+    count: React.PropTypes.number.isRequired
+  },
+  render() {
+    console.log(this.name + '::render()')
+    return React.DOM.span(null, this.props.count)
+  }
+})
+
+var TextAreaCounter = React.createClass({
+  name: 'TextAreaCounter',
+  // mixins: [logMixin],
+
+  // その他のメソッド
+
+  render: function() {
+    console.log(this.name + '::render()')
+    // ...
+  }
+})
+```
+
+文字数が変わっていない場合に `false` を返すようにします.
+
+```js
+// Counter
+var Counter = React.createClass({
+  ...
+  shouldComponentUpdate(nextProps, nextState_ignore) {
+    return nextProps.count !== this.props.count
+  }
+})
+```
+
+## PureRenderMixin
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-with-addons.js"></script>
+```
+
+```
+var Counter = React.createClass({
+  ...
+  mixins: [React.addons.PureRenderMixin],
+  ...
+})
+```
+
+全てのアドオンをインクルードしたくないという場合や, 自分でミックスインを定義したい場合の実装例:
+```js
+var ReactComponentWithPureRenderMixin = {
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return !shallowEqual(this.props, nextProps) ||
+           !shallowEqual(this.state, nextState)
+  }
+}
+```
