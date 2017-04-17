@@ -329,4 +329,18 @@ myTextAreaCounter.state // Object {text: 'Hello outside world!'}
 ## プロパティの事後変更
 プロパティはコンポーネントの初期設定のために使われます.
 
-## ライフサイクルのメソッド:
+## ライフサイクルのメソッド
+`componentWillReceiveProps()` メソッドはライフサイクルメソッドの1つです.
+
+- `componentWillUpdate()`
+  - 2回目以降にコンポーネントの描画が行われる前に呼び出されます
+- `componentDidUpdate()`
+  - `render()` メソッドの処理が完了し, DOMへの変更が適用された後に呼び出されます
+- `componentWillMount()`
+  - ノードがDOMに挿入される直前に呼び出されます
+- `componentDidMount()`
+  - ノードがDOMに挿入された直後に呼び出されます
+- `componentWillUnmount()`
+  - コンポーネントがDOMから削除される直前に呼び出されます
+- `shouldComponentUpdate(newProps, newState)`
+  - `componentWillUpdate()` の前に呼び出されます:
