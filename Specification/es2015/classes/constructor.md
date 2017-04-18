@@ -49,3 +49,7 @@ Uncaught RangeError: Maximum call stack size exceeded
     at Parent.get area [as area] ((index):50)
     at Parent.get area [as area] ((index):50)
 ```
+
+## External links
+
+- [constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor) - MDN
