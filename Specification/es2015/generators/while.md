@@ -1,4 +1,4 @@
-# `While` で順に実行する
+# Using `While`
 
 ```js
 function* gen() {
