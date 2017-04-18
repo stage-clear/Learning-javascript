@@ -56,3 +56,6 @@ const myChild = new Child('Goku', 'Gohan')
 const myChild2 = Child.create('Goku', 'Goten')
 > myChild2.print() // My parent is Goku. My name is Goten.
 ```
+
+## External links
+- [extends](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends) - MDN
