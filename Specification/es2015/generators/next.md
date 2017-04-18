@@ -1,4 +1,4 @@
-# Using `next()`
+# `Generator.prototype.next()`
 
 ```js
 function* gen() {
@@ -41,5 +41,5 @@ console.log(gen.next().value)
 
 
 ## External Links
-
+- [Generator.prototype.next()](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Generator/next)
 - [Generator](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Generator) - MDN
