@@ -14,7 +14,7 @@ ES2015の学習や情報収集のまとめ
   - [Rest parameters](FunctionParameters.md#restParameter) - _レストパラメータ_
   - [Spread Operator](FunctionParameters.md#spredOperator) - _スプレッドオペレータ_
 - [Destructuring Assingment](DestructuringAssignment.md) - _分割代入_
-- [Iterators](Iterator.md) - _イテレータ_
+- [Iterators](iterator) - _イテレータ_
 - [Template literals](TempleteLiteral.md) - _テンプレートリテラル_
 - [Promises](Promise.md) - _プロミス_
 - [Generators](generators) - _ジェネレータ_
