@@ -166,7 +166,9 @@ propTypes: {
   ),
   initialData: React.PropTypes.arrayOf(
     React.PropTypes.arrayOf(
-      React.PropTypes.string
+      React.PropTypes.arrayOf(
+        React.PropTypes.strng
+      )
     )
   )
 }
@@ -261,7 +263,7 @@ getInitialState: function() {
 
 ```js
 var descending = this.state.sortby === column && !this.state.descending
-```:
+```
 
 降順で並べ替えを行うために, コールバック関数を以下のように変更します.
 
@@ -282,5 +284,90 @@ this.props.headers.map(function(title, idx) {
   }
 })
 ```
+
+## データの編集
+
+1. ユーザーはセルをダブルクリックします. Excel は対象のセルを識別し, 単なる文字列から入力フィールドに変更します. ここには編集前の文字列があらかじめ表示されています.
+2. ユーザーは入力フィールドのコンテンツを編集します.
+3. ユーザーは Enter キーを押します. すると入力フィールドは消え, 新しい文字列が表示されます.
+
+### 編集可能なセル
+
+イベントハンドラを用意します:
+
+```js
+React.DOM.tbody({onDoubleClick: this._showEditor}, ...)
+```
+
+> W3Cが規定した `nodblclick` ではなく, 読みやすく理解も容易な `onDoubleClick` というプロパティ名が使われています.
+
+`_showEdotor` のコードは以下の通りです:
+
+```js
+_showEdotor: function(e) {
+  this.setState({edit: {
+    row: parseInt(e.target.dataset.row, 10),
+    cell: e.target.cellIndex,
+  }})
+},
+```
+
+`getInitalState()` メソッドの中で `edit` プロパティを初期化します.
+
+```js
+getInitialState: function() {
+  return {
+    data: this.props.initialData,
+    sortby: null,
+    descending: false,
+    edit: null, // {row: 行番号, cell: 列番号}
+  }
+},
+```
+
+`data-row` プロパティを追加し, 行番号を指定するためのコード:
+```js
+React.DOM.tbody({onDoubleClick: this._showEditor},
+  this.state.data.map(function(row, rowidx) {
+    return(
+      React.DOM.tr({key: rowidx},
+        row.map(funtion(cell, idx) {
+          var content = cell
+          
+          // TODO
+          
+          return React.DOM.td({
+            key: idx,
+            'data-row': rowidx
+          }, content)
+        }, this)
+      )
+    )
+  }, this)
+)
+```
+
+### 入力フィールドのセル
+
+```js
+var edit = this.state.edit
+```
+
+```js
+if (edit && edit.row === rowidx && edit.cell === idx) {
+  //...
+}
+```
+
+```js
+content = React.DOM.form({onSubmit: this._save},
+  React.DOM.input({
+    type: 'text',
+    defaultValue: content,
+  })
+)
+```
+
+### データの保存:
 
 - [サンプル](https://codepen.io/kesuiket/pen/aWOxox)
