@@ -26,7 +26,7 @@ const myParent = new Parent('Goku')
 
 ## Error
 
-```
+```js
 class Parent {
   set name(value) {
     this.name = value
