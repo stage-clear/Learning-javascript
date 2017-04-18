@@ -3,7 +3,7 @@
 - `class` キーワードを使って定義する
 - 変数の巻き上げが発生しない
 
-## Basic:
+## Basic
 
 ```js
 class Parent {
@@ -21,3 +21,6 @@ const myParent = Parent()
 // Calling a method
 > new Parent().print()
 ```
+
+## External links
+- [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) - MDN
