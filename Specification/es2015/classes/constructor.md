@@ -53,3 +53,4 @@ Uncaught RangeError: Maximum call stack size exceeded
 ## External links
 
 - [constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor) - MDN
+- [JavaScript classes with getter and setter cause RangeError: Maximum call stack size exceeded](http://stackoverflow.com/questions/31484535/javascript-classes-with-getter-and-setter-cause-rangeerror-maximum-call-stack-s)
