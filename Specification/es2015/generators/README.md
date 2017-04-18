@@ -57,6 +57,7 @@ f.next();
 - [`Generator.prototype.return()`](return.md)
 - [`yield`](yield.md)
 - [`yield*`](yield*.md)
+- [Using `this`](this.md)
 - [Using `for...of`](for_of.md)
 - [Using `while`](while.md)
 - [Using "Spread operator"](spread.md)
