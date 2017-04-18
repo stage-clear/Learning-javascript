@@ -7,57 +7,21 @@
 - Generator は、`yield` と `next` によって関数を停止・再開する
 - 関数の呼び出し先と呼び出し元で値を交換できる
 
-## 基本
-### Generator を生成する
+## Syntax
 
 ```js
-// Generator の基本
-function* generator1() {
-  // yield でイテレータの区切りを指定
+function* gen() {
   yield 1;
   yield 2;
   return 3;
 }
 ```
 
-__Constructor として生成することで this 参照を扱う__
-
-```js
-function* F() {
-  this.a = 1;
-  yield this.b = 2;
-  yield this.c = 3;
-}
-
-let obj = {};
-let f = F.call(obj); // obj を this に指定して呼び出す
-// または
-let f = F.call(F.prototype); // 自分の prototype を this とする
-
-// または、コンストラクターを生成する関数を定義する
-function* gen() {
-  this.a = 1;
-  yield this.b = 2;
-  yield this.c = 3;
-}
-
-function F() {
-  return gen.call(gen.prototype);
-}
-
-let f = new F();
-
-// test
-f.next();
-f.next();
-f.next();
-```
-
-- [`Generator.prototype.next()`](next.md)
-- [`Generator.prototype.return()`](return.md)
-- [`yield`](yield.md)
-- [`yield*`](yield*.md)
-- [Using `this`](this.md)
+- [`Generator.prototype.next()`](next.md) - method
+- [`Generator.prototype.return()`](return.md) - method
+- [`yield`](yield.md) - operation
+- [`yield*`](yield*.md) - operation
+- [Using `this`](this.md) - constructor
 - [Using `for...of`](for_of.md)
 - [Using `while`](while.md)
 - [Using "Spread operator"](spread.md)
