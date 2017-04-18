@@ -9,7 +9,7 @@ var iterable = obj[Symbol.iterator]() //=> Iterator
 - [`for...of`](for_of.md)
 - [Spread operator](spread.md) - スプレッドオペレータと分割代入
 - [Iterable and Iterator](iterable_and_iterator.md) - イテラブルとイテレータ
-- [Tips](tips.md)
+- [Tips](tips.md) - 便利な使い方
 
 
 ## External links
