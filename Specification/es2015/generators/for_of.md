@@ -1,4 +1,4 @@
-# `for/of` で順に実行する
+# `for...of` で順に実行する
 
 ```
 function* gen() {
