@@ -38,3 +38,8 @@ console.log(gen.next().value)
 console.log(gen.next().value)
 > 2
 ```
+
+
+## External Links
+
+- [Generator](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Generator) - MDN
