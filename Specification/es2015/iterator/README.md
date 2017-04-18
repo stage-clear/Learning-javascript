@@ -13,4 +13,5 @@ var iterable = obj[Symbol.iterator]() //=> Iterator
 
 
 ## External links
+- [Iteration protocols](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Iteration_protocols) - MDN
 - [JavaScript のイテレータを極める！](http://goo.gl/XaKgMI)
