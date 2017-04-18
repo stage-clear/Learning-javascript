@@ -1,4 +1,4 @@
-# Static methods
+# Static
 
 - インスタンスからではなく, クラスから使用するメソッド
 
@@ -17,3 +17,7 @@ class Parent {
 
 console.log(Parent.count())
 ```
+
+## External links
+
+- [static](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static) - MDN
