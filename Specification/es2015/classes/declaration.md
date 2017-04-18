@@ -1,6 +1,6 @@
-# Class declarations
+# Class declaration
 
-- `class` キーワードを使って定義する
+- `class` keyword
 - 変数の巻き上げが発生しない
 
 ## Basic
