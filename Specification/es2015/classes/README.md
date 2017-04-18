@@ -1,9 +1,9 @@
 # Classes 
 
-1. [Class declarations](defining.md) - __クラスの宣言__
-1. [Static methods](static_methods.md) - __静的メソッド__
-1. [Constructor](constructor.md) - __コンストラクタ__
-1. [Extends](extends.md) - __継承__
+1. [Class declarations](defining.md) - _クラスの宣言_
+1. [Static methods](static_methods.md) - _静的メソッド_
+1. [Constructor](constructor.md) - _コンストラクタ_
+1. [Extends](extends.md) - _継承_
 
 ## クラスの定義
 
