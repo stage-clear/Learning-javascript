@@ -17,7 +17,7 @@ ES2015の学習や情報収集のまとめ
 - [Iterators](Iterator.md) - _イテレータ_
 - [Template literals](TempleteLiteral.md) - _テンプレートリテラル_
 - [Promises](Promise.md) - _プロミス_
-- [Generators](Generator.md) - _ジェネレータ_
+- [Generators](generators) - _ジェネレータ_
 - [Map, Set, WeakMap, WeakSet](MapSet.md)
 - [Typed Array](TypedArray.md) - _型付き配列_
 - [Symbol](Symbol.md) - _シンボル_
