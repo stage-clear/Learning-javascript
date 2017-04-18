@@ -4,7 +4,7 @@ ES2015の学習や情報収集のまとめ
 - [tc39/ecma262](https://github.com/tc39/ecma262)
 
 ## Featured list
-- [Classes](Class.md) - _クラス_
+- [Classes](classes) - _クラス_
 - [Modules](Modules.md) - _モジュール_
 - [Arrow functions](ArrowFunctions.md) - _アロー関数_
 - [Object literals](objectLiteral.md) - _オブジェクトリテラル拡張_
