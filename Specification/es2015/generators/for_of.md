@@ -1,6 +1,6 @@
-# `for...of` で順に実行する
+# Using `for...of`
 
-```
+```js
 function* gen() {
   console.log('start')
   yield 1
