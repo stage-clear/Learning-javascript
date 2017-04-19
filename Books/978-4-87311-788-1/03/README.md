@@ -555,7 +555,107 @@ this.setState(newState)
 this._logSetState(newState)
 ```
 
-`_logSeetState()` は
+```js
+var Excel = React.createClass({
+  _log: [],
+  
+  _logSetState: function(newState) {
+    // ステートのクローンを作成して記録します
+    this._log.push(JSON.parse(JSON.stringify(
+      this._log.length === 0 ? this.state: newState
+    )))
+    this.setState(newState)
+  },
+  ...
+})
+```
 
+キーボード操作を補足するイベントリスナーを用意して, この中で `_replay()` 関数を呼び出します
+
+```js
+componentDidMount: function() {
+  document.onkeydown = function(e) {
+    // Alt または Options + Shift + R 
+    if (e.altKey && e.shiftKey && e.keyCode === 82) {
+      this._replay()
+    }
+  }.bind(this)
+}
+```
+
+`_replay()` メソッドを追加します.
+`setInterval()` を使い, 記録されているステートを1秒ごとに1つずつ取り出して `setState()` に渡します.
+
+```js
+_replay: function() {
+  if (this._log.length === 0) {
+    console.warn('There are not states')
+    return 
+  }
+  var idx = -1
+  var interval = setInterval(funtion() {
+    idx++
+    if (idx === this._log.length - 1) { // 末尾に到達
+      clearInterval(interval)
+    }
+    this.setState(this._log[idx])
+  }.bind(this), 1000)
+},
+```
+
+### 再生への機能追加
+
+アンドゥやリドゥの機能も追加してみましょう. 例えば `Alt+Z` が押されたらオンドゥを行い
+`Alt+Shift+Z`が押されたらリドゥを行うというのはどうでしょうか
+
+### 別の実装方法
+
+`setState()` への呼び出しを変更せずに, 再生やアンドゥなどの機能を実装する方法はないか考えてみましょう
+
+## 表データのダウンロード
+
+```js
+_renderToolbar: function() {
+  return React.DOM.div({className: 'toolbar'},
+    React.DOM.button({
+      onClick: this._toggleSearch
+    }, '検索'),
+    React.DOM.a({
+      onClick: this._download.bind(this, 'json'),
+      href: 'data.json'
+    }, 'JSONで保存'),
+    React.DOM.a({
+      onClick: this._download.bind(this, 'csv'),
+      href: 'data.csv'
+    }, 'CSVで保存')
+  )
+}
+```
+
+JSONへのエクスポートはとても簡単ですが, CSVではやや複雑な処理が必要です.
+すべての行のすべてのセルに対してループを実行し, 1つの長い文字列を生成します.
+変換できたら, `window.URL` を使って生成したオブジェクトを `href` 属性にセットし, `download` 属性を指定してダウンロードを開始します.
+
+```js
+_download: function(format, ev) {
+  var contents = format === 'json'
+    ? JSON.stringify(this.state.data)
+    : this.state.data.reduce(function(result, row) {
+      return result
+        + row.reduce(function(rowresult, cell, idx) {
+          return rowresult
+            + '"'
+            + cell.replace(/"/g, '""')
+            + '"'
+            + (idx < row.length - 1 ? ',' : '')
+        }, '')
+        + '\n'
+    }, '')
+  var URL = window.URL || window.webkitURL
+  var blob = new Blob([contents], {type: 'text/' + format})
+  ev.target.href = URL.createObjectURL(blob)
+  ev.target.download = 'data.' + format
+}
+```
 
 - [サンプル](https://codepen.io/kesuiket/pen/aWOxox)
