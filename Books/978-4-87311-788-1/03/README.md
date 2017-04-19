@@ -370,4 +370,192 @@ content = React.DOM.form({onSubmit: this._save},
 
 ### データの保存:
 
+```
+_save: function(e) {
+  e.preventDefault() // <- ページの再読み込みが発生しないよう
+  var input = e.target.firstChild
+  // `this.state` を直接変更しないよう, データをクローンします
+  var data = this.state.data.slice()
+
+  data[this.state.edit.row][this.state.edit.cell] = input.value
+ 
+  this.setState({
+    edit: null, // 編集は終了しました
+    data: data,
+  })
+ 
+},
+```
+
+### まとめと仮想DOMの差分
+
+- `this.state.edit` を使い, 編集対象のセルを管理ます
+- ユーザーがダブルクリックしたセルについては, 表の描画の際に入力フィールドを表示します
+- 入力フィールドの新しい値を使って, データの配列を更新します
+
+React のパフォーマンスは良好です.
+UIの更新の際に, 以下のような特徴が見られます.
+
+- DOMへの操作を最小限にします
+- ユーザーによる操作に応答する際に, イベントの委譲のしくみを利用します.
+
+
+## 検索
+
+検索の機能を追加します.
+
+- 検索機能のオンとオフを切り替えるボタンを追加します
+- オンの状態では, 検索条件を入力するための行を表示します. 条件が入力された列に対して検索が行われます
+- ユーザーが検索条件を入力すると, 配列 `state.data` に対してフィルタリングを行い, 条件に合致した行だけが表示されます
+
+### ステートとUI
+
+`this.state` に `search` プロパティを追加します
+
+```js
+getInitialState: function() {
+  return {
+    data: this.props.initialData,
+    sortby: null,
+    descending: false,
+    edit: null,
+    search: false, // <-
+  }
+}
+```
+
+`render()` 関数を機能ごとに分割します.
+
+```js
+render: function() {
+  return (
+    React.DOM.div(null, 
+      this._renderToolbar(),
+      this._renderTable()
+    )
+  )
+},
+
+_renderToolbar: function() {
+  // TODO
+},
+
+_renderTable: function() {
+  // これまでの render() 関数と同じ
+}
+```
+
+```js
+_renderToolbar: function() {
+  return React.DOM.button(
+    {
+      onClick: this._toggleSearch,
+      className: 'toolbar',
+    },
+    '検索'
+  )
+}
+```
+
+`_renderSeatch`
+
+```js
+_renderSearch: function() {
+  if (!this.state.search) {
+    return null
+  }
+  return (
+    React.DOM.tr({onChange: this._search},
+      this.props.headers.map(function(_ignore, idx) {
+        return React.DOM.td({key: idx},
+          React.DOM.input({
+            type: 'text',
+            'data-idx': idx,
+          })
+        )
+      })
+    )
+  )
+}
+```
+
+### コンテンツのフィルタリング
+
+元のデータを失わないように, 検索の前にデータをコピーしておきます.
+このコピーされたデータ(への参照)を `_preSearchClass` と呼ぶことにします.
+
+```js
+var Excel = React.createClass({
+  ...
+  _preSearchData: null,
+})
+```
+
+ユーザーが検索ボタンをクリックすると, `_toggleSerch()` メソッドが呼び出されます.
+この関数の役目は, 検索機能のオンとオフを切り替えることです.
+
+- `this.state.search` に `true` または `false` をセットします
+- 検索機能を有効化する際に, 現時点のデータを記憶しておきます
+- 検索機能を無効化する際に, データを記憶しておいたものに戻します
+
+```js
+_toggleSearch: function() {
+  if (this.state.search) {
+    this.setState({
+      data: this._preSearchData,
+      search: false,
+    })
+    this._preSearchData = null
+  } else {
+    this._preSearchData = this.state.data
+    this.setState({
+      search: true
+    })
+  }
+}
+```
+
+`_search()` 関数を実装します. いずれかの入力フィールドの内容を変化するごとに, この関数が呼び出されます.
+
+```js
+_search: function(e) {
+  var needle = e.target.value.toLowerCase()
+  if (!needle) { // 検索文字列は削除されました
+    this.setState({data: this._preSearchData})
+    return 
+  }
+  var idx = e.target.dataset.idx
+  var searchdata = this._preSearchData.filter(function(row) {
+    return row[idx].toString().toLowerCase().indexOf(needle) > -1
+  })
+  this.setState({data: searchdata})
+},
+```
+
+これで検索機能は完成です.
+必要だったのは以下の3点です。
+
+- 検索のUI
+- 要求に応じて UI の表示と非表示を切り替える
+- 検索の「ビジネスロジック」, つまり配列に対する `filter()` の呼び出し
+
+### 検索への機能追加
+
+ユーザーがある列で検索文字列を入力して, そのまま別の列の入力フィールドに入力した場合,
+最後に入力された列についての検索しか行われないというのは不自然です
+
+## 操作手順の再実行
+
+今回の実装では, 実際にユーザーが操作を行った間隔については考慮せず, 全ての操作を1秒おきに「再生」することにします.
+
+```js
+// 変更前
+this.setState(newState)
+// 変更後
+this._logSetState(newState)
+```
+
+`_logSeetState()` は
+
+
 - [サンプル](https://codepen.io/kesuiket/pen/aWOxox)
