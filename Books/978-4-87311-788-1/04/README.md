@@ -378,7 +378,80 @@ ReactDOM.render(
 )
 ```
 
-> このような
+> このような命名法は, 読者自身のコンポーネントにも適用するべきです.
+> `value` や `data` のように, 最新の状態であることが期待されるようなプロパティを受け取るなら, 実際に最新に保ちましょう
+
+### `<textarea>` の値
+
+`<input>` との整合性のために, React での `<textarea>` nimo `value` と `defaultValue` の各プロパティが用意されています.
+
+```js
+function log(event) {
+  console.log(event.target.value)
+  console.log(event.target.defaultValue)
+}
+
+ReactDOM.render(
+  <textarea defaultValue="hello\nworld" onChange={log}></textarea>,
+  document.getElementById('app1')
+)
+
+ReactDOM.render(
+  <textarea defaultValue="hello\nworld" onChange={log}></textarea>,
+  document.getElementById('app2')
+)
+
+ReacDOM.render(
+  <textarea onChange={log}>hello
+world
+  </textarea>,
+  document.getElementById('app3')
+)
+
+ReactDOM.render(
+  <textarea onChange={log}>{"hello\n\
+world"}
+  </textarea>,
+  document.getElementById('app4')
+)
+```
+
+### `<select>` の値
+
+`<select>` 要素を使う場合, 従来のHTMLでは次のように `<option>` 要素の `selected` 属性を使ってデフォルトの選択肢を表します.
+
+```html
+<!-- 古くからの HTML -->
+<select>
+  <option value="stay">とどまるべきか</option>
+  <option value="move" selected>さるべきか</option>
+</select>
+```
+
+React では, `<select>` 要素でデフォルトの選択肢を指定できます.
+`value` 属性も使えますが, `defaultValue` を使うのがよいでしょう.
+
+```jsx
+// React/JSX
+<select defaultValue="move">
+  <option value="stay">とどまるべきか</option>
+  <option value="move">さるべきか</option>
+</select>
+```
+
+複数選択が可能な場合
+
+```jsx
+<select defaultValue={['stay', 'move']} multiple={true}>
+  <option value="stay">とどまるべきか</option>
+  <option value="move">さるべきか</option>
+  <option value="trouble">とどまれば災あり</option>
+</select>
+```
+
+`<select>` 要素に `defalutValue` ではなく `value` を指定することもできますが, これは __推奨されていません__ .
+
+## JSX版Excelコンポーネント
 
 
 - [サンプル](http://codepen.io/kesuiket/pen/bWEPob)
