@@ -171,4 +171,16 @@ sh scripts/build.sh
 
 # JavaScript のミニファイ
 uglify -s bundle.js -o __deployme/bundle.js
+# CSSのミニファイ
+cssshrink bundle.css > __deployme/bundle.css
+# HTMLと画像のコピー
+cp index.html __deployme/index.html
+cp -r images __delployme/images/
+
+# 完了
+date; echo;
 ```
+
+## これからの作業
+
+
