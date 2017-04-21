@@ -159,3 +159,16 @@ $ sh scripts/watch.sh
 ```
 
 ## デプロイ
+
+```sh
+// scripts/deploy.sh
+# 以前のバージョンのクリーンアップ
+$ rm -rf __deployme
+mkdir __deployme
+
+# ビルド
+sh scripts/build.sh
+
+# JavaScript のミニファイ
+uglify -s bundle.js -o __deployme/bundle.js
+```
