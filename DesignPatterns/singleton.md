@@ -183,3 +183,56 @@ Namespace.Util.util_method();
 Namespace.Ajax.ajax_method();
 Namespace.some_method();
 ```
+
+## ES2015
+
+```js
+/**
+ * @see https://gist.github.com/ilfroloff/76fa55d041b6a1cd2dbe
+ */
+const singleton = Symbol('singleton')
+export default class Singleton {
+  static get instance() {
+    if (!this[singleton]) {
+      this[singleton] = new this
+    }
+    
+    return this[singleton]
+  }
+  
+  constructor() {
+    let Class = new.target
+    
+    if (!Class[singleton]) {
+      Class[singleton] = this
+    }
+    
+    return Class[singleton]
+  }
+}
+```
+
+```
+import Singleton from 'Singleton'
+
+class ClassA extends Singleton {
+  constructor() {
+    super()
+  }
+  
+  singletonMethod1() {
+    //...
+  }
+  
+  singletonMethod2() {
+    //...
+  }
+}
+
+console.log(
+  ClassA.instance === ClassA.instance,
+  ClassA.instance === new ClassA,
+  new ClassA === new ClassA
+)
+// true, true, true
+```
