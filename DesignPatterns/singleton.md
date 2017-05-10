@@ -3,6 +3,8 @@
 > 同じコンストラクタを使って `new` でオブジェクトを作るとき、シングルトンの実装でやることは、
 > まったく同じオブジェクトを指す新しいポインタを取得することだけです。
 
+- [Singleton Desing Pattern](https://sourcemaking.com/design_patterns/singleton)
+
 ## 例1) "JavaScript Patterns" での実装
 
 __静的プロパティにインスタンスをキャッシュする__
