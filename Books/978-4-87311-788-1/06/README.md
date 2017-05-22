@@ -16,7 +16,7 @@ __分割統治__ の考え方に従って、より小さく再利用可能なコ
 
 ### セットアップ
 
-```
+```bash
 $ cp -r ~/reactbook/whinepad\ v0.0.1 ~/reactbook/whinepad
 $ cd ~/reactbook/whinepad
 $ sh scripts/watch.sh
