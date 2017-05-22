@@ -14,3 +14,7 @@
 
 - [React ビギナーズガイド](https://www.oreilly.co.jp/books/9784873117881/) - O'Reilly Japan
 - [stoyan/reactbook](https://github.com/stoyan/reactbook/) - Repository
+
+## その他の参考リンク
+- [React 15.5へのアップデート手順(prop-typesとReact.createClass)](http://qiita.com/azu/items/9d1985bf0140576894aa) - 本書サンプルは最新版ではないのでマイグレーションが必要
+- [prop-types](https://github.com/facebook/prop-types)
