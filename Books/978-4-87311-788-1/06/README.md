@@ -97,5 +97,151 @@ const cssclasses = classNames('Button', props.className)
 ```js
 import React, { PropTypes } from 'react'
 
-// 次のように
+// 次のように書き換えできます
+import React from 'react'
+const PropTypes = React.PropTypes
 ```
+
+#### ステートを持たない関数のコンポーネント
+
+コンポーネントがシンプルで、ステートを保持する必要がない場合には、関数を使ってコンポーネントを定義できます.
+
+```js
+const Button = props => {
+  //  ...
+}
+```
+
+また, 完全に1つの文として処理を記述するなら, 下のように `{` と `}` そして `return` も不要になります.
+
+```
+const Button = props => 
+  props.href
+    ? <a {...props} className={classNames('Button', props.className)}/>
+    : <button {...props} className={classNames('Button', props.className)}/>
+```
+
+#### `propTypes`
+
+```js
+var PropTypes = React.PropTypes
+var Button = React.createClass({
+  propTypes: {
+    href: PropTypes.string
+  },
+  render: function() {
+    /* 描画 */
+  }
+})
+```
+
+```js
+import React, {Component, PropTypes} from 'react'
+
+class Button extends Component {
+  render() {
+    /* 描画 */
+  }
+}
+
+Button.propTypes = {
+  href: PropTypes.string,
+}
+```
+
+ステートのない関数のコンポーネントを使う場合も同様
+
+```js
+import React, {Component, PropTypes} from 'react'
+
+const Button = props => {
+  /* 描画 */
+}
+
+Button.propTypes = {
+  href: PropTypes.string,
+}
+```
+
+### フォーム
+
+### `<Suggest>` コンポーネント
+
+#### `ref`
+
+```jsx
+<input ref="domelement" id="hello"/>
+
+console.log(this.refs.domelement.id === 'hello') // true
+```
+
+`ref`属性を使うと, Reactのコンポーネントに名前をつけることができます.
+後でこの名前を使って、それぞれのコンポーネントを参照できます.
+
+> `ref`を使うというのは応急処置であり, 通常は同じことをするための方法が他にもあります.
+
+```js
+class Suggest extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {value: props.defaultValue}
+  }
+  
+  getValue() {
+    return this.state.value // ref はもう必要ありません
+  }
+  
+  render() {
+    // ...
+  }
+}
+```
+
+`<input>` にも `ref` は必要なくなります
+
+```js
+<input
+  list={randomid}
+  defaultValue={this.props.defaultValue}
+  onChange={e => this.setState({value: e.target.value})}
+  id={this.props.id}/>
+```
+
+`constructor()` の中に記述されている `this.state = {...}` は, ECMAScript6以前のコードでの `getInitialState()` に相当します.
+
+### `<Rating>` コンポーネント
+
+この Whinepad は, 試してみたものについてメモを記録するためのアプリケーションです.
+
+- 星の最大数 - デフォルトは5個ですが, たとえば11個でもかまいません
+- 読み取り専用か否か - 星をクリックするだけでデータが書き換わってしまうのは避けたいという場合もあるでしょう
+
+`this.reset.bind(this)` には必然性が感じられないかもしれません.
+実は, これは ECMAScript でクラスを使う際に必須のものなのです. バインドつまり関連付けには3つの方法があります.
+
+- 上のコードのように, `this.method.bind(this)` を使う
+- `(event) => this.method()` のように, アロー関数を使って自動的にバインドを行う
+- コンストラクタの中で定義する
+
+コンストラクタの中での定義とは, 具体的には次のようなコードをさします.
+
+```js
+class Comp extends Component {
+  constructor(props) {
+    this.method = this.method.bind(this)
+  }
+  
+  render() {
+    return <button onClick={this.method}/>
+  }
+}
+```
+
+### ファクトリーとなる `<FormInput>` コンポーネント
+### `<Form>` コンポーネント
+
+これまでに用意できたもの
+
+- カスタムの入力フィールド(`<Rating/>`など)
+- 組み込みの入力フィールド(`<textarea>`など)
+- `<FormInput>`(`type`プロパティの値に応じて入力フィールドを生成するファクトリー)
