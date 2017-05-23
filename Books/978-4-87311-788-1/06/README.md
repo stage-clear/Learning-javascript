@@ -65,3 +65,37 @@ ReactDOM.render(
 ```
 
 ### `<Button>` コンポーネント
+### Button.css
+### Button.js
+#### classnames パッケージ
+
+```bash
+$ npm install --save-dev classnames
+```
+
+```js
+import classNames from 'classnames'
+```
+
+> 各コンポーネントは自分専用のクラスを定義して利用するというのが一般的ですが,
+> 親から指定されたクラス名を使ってカスタマイズできるような柔軟さも求められます.
+
+```js
+const cssclasses = classNames('Button', props.className)
+```
+
+```js
+<div className={classNames({
+  'mine': true, // 無条件に指定される
+  'highlighted': this.state.active, // コンポーネントのステートに応じて指定
+  'hidden': this.props.hide, // プロパティによる場合分けも可能
+})}>
+```
+
+#### 分割代入
+
+```js
+import React, { PropTypes } from 'react'
+
+// 次のように
+```
