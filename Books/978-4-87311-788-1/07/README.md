@@ -495,4 +495,73 @@ data[this.state.edit.row][this.state.edit.key] = value
 ```
 
 ## テスト
+問題を起こしにくい形でアプリケーションが成長を続けてゆくには, 自動化されたテストも必要です.
+テストにはさまざまな選択肢が用意されています.
+React では [Jest](https://facebook.github.io/jest/) を使ってテストを行っているため, 本書でもこのツールを使ってみることにしましょう.
+React に含まれている `readt-addons-test-utils` パッケージも役立つでしょう.
 
+### セットアップ
+
+```bash
+$ npm install -save-dev jest-cli
+```
+
+テストをECMAScript6スタイルで記述するための babel-jest` と, Reactのテスト用ユーティリティパッケージもインストールしてください.
+
+```bash
+$ npm install --save-dev babel-jest react-addons-test-utils
+```
+
+続いて, `package.json` を以下のように変更します.
+
+```json
+{
+  ...
+  "scripts": {
+    "watch": "watch \"sh scripts/build.sh\" js/source js/__tests__ css/",
+    "test": "jest"
+  },
+  "eslintConfig": {
+    "env": {
+      ...
+      "jest": true
+    }
+  },
+  ...
+  "jest": {
+    "unmockedModulePathPatterns": [
+      "node_modules/react",
+      "node_modules/react-dom",
+      "node_modules/react-addons-test-utils",
+      "node_modules/fbjs"
+    ]
+  },
+  ...
+}
+```
+
+```bash
+$ jest テスト名.js
+$ npm test テスト名.js
+```
+
+Jest では, テストコードが `__test__` ディレクトリにあると想定されています.
+本書でも, まず, `js/__test__` ディレクトリに作成することにします.
+
+そしてビルドのスクリプトの中で, テストのコードに対して構文チェックを行ってからテストを行うようにします.
+
+```shell
+# コードの品質を保証します
+eslint js/source js/__test__
+flow
+npm test
+```
+
+`watch.sh` も修正し, テストのコードを監視対象に加えます.
+なお, この機能は `package.json` からも利用できます.
+
+```js
+watch "sh scripts/build.sh" js/source js/__test__ css/
+```
+
+### 最初のテスト
