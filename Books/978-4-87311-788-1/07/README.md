@@ -288,3 +288,211 @@ if (!storage) {
 ```
 
 ### プロパティとステートの型チェックに関する補足
+
+ステートを持たない関数としてReactコンポーネントを作成する場合, 次のようにして `props` にアノテーションを行えます.
+
+```js
+type Props = {/* ... */}
+const Button = (props: Props) => {/* ... */}
+```
+
+クラスのコンストラクタについても同様です
+
+```js
+type Props = {/* ... */}
+class Rating extends Component {
+  constructor(props: Props) {/* ... */}
+}
+```
+
+一方, 以下のようにコンストラクタが必要ないという場合にはどうなるでしょう.
+
+```js
+class Form extends Component {
+  getData(): Object {}
+  render() {}
+}
+```
+
+ここでは, ECMAScript の新しい機能が役立ちます.
+クラスにプロパティを追加できます.
+
+```js
+type Props = {/* ... */}
+class Form extends Component {
+  props: Props
+  getData(): Object {}
+  render() {}
+}
+```
+
+同様に, コンポーネントのステートについてもアノテーションを記述できます.
+型をチェックするというメリットだけでなく, 先頭に定義が記述されることによってコードがドキュメンんととして機能するという効果もあります.
+
+```js
+type Props = {
+  defaultValue: number,
+  readonly: boolean,
+  max: number,
+}
+
+type State = {
+  rating: number,
+  tmpRating: number,
+}
+
+class Rating extends Component {
+  props: Props,
+  state: State,
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      rating: props.defaultValue,
+      tmpRating: props.defaultValue,
+    }
+  }
+  
+  componentWillReceiveProps(nextProps: Props) {
+    this.setRating(nextProps.defaultValue)
+  }
+}
+```
+
+### 型のインポートとエクスポート
+
+```js
+type FormInputFieldType = 'year' | 'suggest' | 'rating' | 'text' | 'input'
+
+export type FormInputFieldValue = string | number
+
+export type FormInputField = {
+  type: FormInputFieldType,
+  defaultValue?: FormInputFieldValue,
+  id?: string,
+  options?: Array<string>,
+  label?: strng,
+}
+
+class FormInput extends Component {
+  props: FormInputField
+  getValue(): FormInputFieldValue {}
+  render() {}
+}
+```
+
+- カスタムの型(`FormInputFieldType`)を別のカスタムの型(`FormInputField`)で使うことも可能です
+- 型はエクスポートもできます.1つのコンポーネントでエクスポートすれば, 別のコンポーネントでインポートできます
+
+```
+import type FormInputField from './FormInput'
+
+type Props = {
+  fields: Array<FormInputField>,
+  initialData?: Object,
+  readonly: boolean,
+}
+```
+
+実際には `FormInputFieldValue` も必要になるので, 正しいコードは次のようになります.
+
+```
+import type {FormInputField, FormInputFieldValue} from './FormInput'
+```
+
+### 型変換
+Flow が想定しているのとは異なる型を指定することも可能です.
+たとえば, イベントハンドラに渡されたイベントのオブジェクトについて考えてみましょう.
+
+```js
+_showEditor(e: Event) {
+  const target = e.target
+  
+  this.setState({eidt: {
+    row: parseInt(target.dataset.row, 10),
+    key: target.dataset.key,
+  }})
+}
+```
+
+このコードを Flow はお気に召さないようです.
+
+[flow/lib/dom.js](https://github.com/facebook/flow/blob/master/lib/dom.js) で EventTarget の定義を調べると,
+ここには `dataset` は含まれていません.
+しかし, HTMLElement には確かに `dataset` が含まれています.
+このような場合に役立つのが型変換です.
+
+```js
+const target = ((e.target: any): HTMLElement)
+```
+
+内側のカッコの中で指定された型の値が, 外側の型になります.  
+上のコードでは, 任意の型を持つ `e.target` が, 値を変えずに `HTMLElement` 型になります.
+
+### インバリアント
+
+```
+type EditState = {
+  row: number,
+  key: string,
+}
+
+type DialogState = {
+  idx: number,
+  type: string,
+}
+
+type state = {
+  data: Data,
+  sortby: ?string,
+  descending: boolean,
+  edit: ?EditState,
+  dialog: ?DialogState,
+}
+```
+
+値が `null` かもしれず, そうでないかもしれないという問題がここで発生します.
+これは望ましくない状態であり, もちろん __Flow は見逃しません__ .
+Flow は次のようなエラーを発生させます.
+
+```bash
+Property cannot be accessed on possibly null value
+```
+
+Flow にエラーを発生させず, かつ前提に反するコードを防ぐためには, 次のように値が `null` ではないことを確認するようにします.
+
+```js
+// Before:
+data[this.state.edit.row][this.state.edit.key] = falue
+
+//After:
+if (!this.state.edit) {
+  throw new Error('ステート edit が不正です')
+}
+```
+
+これですべてが望ましい状態になります.
+条件分岐や `throw` 文を何度も書くのは面倒だという場合には, `invariant()` 関数を使ってインバリアント（不変条件）を記述するというのもよいでしょう.
+
+- [invariant](https://github.com/zertosh/invariant)
+
+```bash
+$ npm install --save-dev invariant
+```
+
+この場合, `.flowconfig` は次のようになります.
+
+```
+[include]
+...
+node_modules/invariant
+```
+
+そして, コードはこのようになります.
+
+```js
+invariant(this.state.edit, 'ステート edit が不正です')
+data[this.state.edit.row][this.state.edit.key] = value
+```
+
+## テスト
+
