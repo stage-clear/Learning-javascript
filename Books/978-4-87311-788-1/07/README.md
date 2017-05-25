@@ -565,3 +565,244 @@ watch "sh scripts/build.sh" js/source js/__test__ css/
 ```
 
 ### 最初のテスト
+Jest は広く使われている Jasmine フレームワークをベースにしています.
+
+```js
+describe('a suite', () => {
+  it('is a spec', () => {
+    expect(1).toBe(1)
+  })
+})
+```
+
+```bash
+$ npm test js/__tests__/dummy-test.js
+```
+
+明らかに誤ったアサーション:
+
+```js
+// 「1 は false を期待する」という意味
+expect(1).toBeFalsy()
+```
+
+### React でのテスト
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import TestUtils from 'react-dom/test-utils'
+```
+
+テストスイートの骨組み:
+```js
+describe('ボタンの描画', () => {
+  it('クリックされると文字列が変化します', () => {
+    // ...
+  })
+})
+```
+
+```js
+const Button TestUtils.renerIntoDocument(
+  <button
+    onClick={ev => ev.target.innerHTML = 'さようなら'}>
+    こんにちは
+  </button>
+)
+```
+
+描画が済んだら, その表示が期待通りのものかどうかチェックします.
+```js
+expect(ReactDOM.findDOMNode(button).textContent).toEqual('こんにちは')
+```
+
+UIの操作に関するテストも行えます.
+まさにこのために用意されたのが `TestUtils.Simulate` です.
+
+```js
+TestUtils.Simulate.click(button)
+```
+
+そして最後に, UIが操作に反応したかどうかを確認します.
+
+```js
+expect(ReactDOM.findDOMNode(button).textContent).toEqual('さようなら')
+```
+
+この章では他にもコード例やAPIを紹介しますが, メインとなるのは以下の3つです.
+- `TestUtils.renerIntoDocument(任意のJSX)`
+- UIを操作するための `TestUtils.Simulate.*`
+- DOMのノードへの参照を取得してチェックを行うための, `ReactDOM.findDOMNode()` といくつかの `TestUtils` のメソッド
+
+### `<Button>` のテスト
+以下の点についてテストを行うことにします.
+
+1. `href` プロパティの有無に応じて `<a>` または `<button>` を描画します
+2. カスタムのクラス名を指定できます
+
+テストのコードの先頭部分は以下のとおりです.
+
+```js
+jest
+  .dontMock('../source/components/Button')
+  .dontMock('classnames')
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+//import TestUtils from 'react-addons-test-utils'
+import TestUtils from 'react-dom/test-utils'
+```
+
+Jest では, 「デフォルトで, すべてにモックが用意されている」というアプローチがとられています.
+そこで, `dontMock()` を呼び出し, テスト対象のコードについてはモックが使われないようにしています.
+
+続いて, `<Button>` がインクルードされるコードが記述されます.
+
+```js
+const Button = require('../source/components/Button')
+```
+
+> Jest のドキュメントではこのように呼び出すのが正しいとされていますが, 翻訳時点では上のコードは正しく機能しません.
+> 次のように記述する必要があります
+
+```
+const Button = require('../source/components/Button').default
+```
+
+> 同様に, 次のような `import` 文も機能しません
+
+```js
+import _Button from '../source/components/Button'
+const Button = _Button.default
+```
+
+#### 1つ目のスペック
+
+```js
+describe('Button コンポーネントの描画', () => {
+  it('<a>または<button>を描画します', () => {
+    /* ... 描画と expect() ... */
+  })
+})
+```
+
+シンプルなボタンを描画してみます.
+href が指定されていないので, `<button>` が描画されるはずです.
+
+```js
+const button = TestUtils.renderIntoDocument(
+  <div>
+    <Button>
+      こんにちは
+    </Button>
+  </div>
+)
+```
+
+`<Button>` のようにステートを持たないコンポーネントは, 別のDOMのノードで囲む必要があります.
+こうしないと, ReactDOMがコンポーネントを発見できなくなってしまいます.
+
+`ReactDOM.findDOMNode(button)` はボタンの外側にある `<div>` を返すので, `<button>` にアクセスするには, `<div>` の最初の子要素を取得します.
+
+```js
+expect(ReactDOM.findDOMNode(button).children[0].nodeName).toEqual('BUTTON')
+```
+
+同じスペックの中で, `href` が指定されている場合には `<a>` が描画されるというアサーションも行います.
+
+```js
+const a = TestUtils.renderintoDocument(
+  <div>
+    <Button href="#">
+      こんにちは
+    </Button>
+  </div>
+)
+expect(ReactDOM.findDOMNode(button).children[0].nodeName).toEqual('A')
+```
+<sup>\* 1つのスペックにアサーションを複数記述するべきではないという考え方もあります. 「assertion roulette」</sup>
+
+#### 2つ目のスペック
+カスタムのクラス名を指定し, 正しくセットされるかどうかを確認します.
+
+```js
+describe('...', () => {
+  // ...
+  it('カスタムのCSSクラスを指定できます', () => {
+    const button = TestUtils.renderIntoDocument(
+      <div>
+        <Button className="Good bye">
+          こんにちは
+        </Button>
+      </div>
+    )
+    
+    const buttonNode = ReactDOM.findDOMNode(button).children[0]
+    expect(buttonNode.getAttribute('class')).toEqual('Button good bye')
+  })
+})
+```
+
+Jest ではモックが自動的に用意されるということを, 常に忘れないようにしましょう.
+
+振る舞いを確認する:
+```
+const button = TestUtils.renderIntoDocument(
+  <div><Button className="good bye">Hello</Button></div>
+)
+console.log(ReactDOM.findDOMNode(button).outerHTML)
+```
+
+### `<Actions>` のテスト
+
+```js
+const actions = TestUtils.renderIntoDocument(
+  <div>
+    <Actions />
+  </div>
+)
+ReactDOM.findDOMNode(actions).children[0] // <Actions>のルートノード
+```
+
+#### コンポーネントのラッパー
+
+```js
+import React from 'react'
+
+class Wrap extends React.Component {
+  render() {
+    return <div>{this.props.children}</div>
+  }
+}
+
+export default Wrap
+```
+
+```js
+jest
+  .dontMock('../source/components/Actions')
+  .dontMock('./Wrap')
+;
+
+import React from 'react'
+import TestUtils from 'react-dom/test-utils'
+
+const Actions = require('../source/components/Actions')
+const Wrap = require('./Wrap')
+
+describe('クリックで操作を呼び出します', () => {
+  it('コールバックが呼び出されます', () => {
+    /* 描画 */
+    const actions = TestUtils.renderIntoDocument(
+      <Wrap>
+        <Actions />
+      </Wrap>
+    )
+    
+    /* ... コンポーネントの取得とチェック ... */
+  })
+})
+```
+
+#### モック関数
