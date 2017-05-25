@@ -806,3 +806,180 @@ describe('クリックで操作を呼び出します', () => {
 ```
 
 #### モック関数
+テストのスペックの中でモック関数を作成し, コールバック関数として `Actions` に渡します.
+
+```js
+const callback = jest.getMockFunction()
+const actions = TestUtils.renderIntoDocument(
+  <Wrap>
+    <Actions onAction={callback}/>
+  </Wrap>
+)
+```
+
+次にボタンをクリックします.
+
+```js
+TestUtils
+  .scryRenderedDOMComponentsWithTag(actions, 'span')
+  .forEach(span => TestUtils.Simulate.click(span))
+```
+
+3つの `<span>` ノードの配列が返されるので, それぞれに対してクリックの操作をシミュレートしています.  
+クリックの結果, コールバック関数は3回呼び出されるはずです. `expect()` を使い, このことを確認します.
+
+```js
+const calls = callback.mock.calls
+expect(calls.length).toEqual(3)
+```
+
+`callback.mock.calls` は配列です.
+それぞれの要素の中には, 呼び出された際の引数が配列としてさらにセットされています.  
+1つ目のボタンでは `props.onAction.bind(null, 'info')` というコードが実行され, `onAction`には引数として `info` という文字列が渡されます.
+したがって, モック関数が初回に呼び出された際の先頭の引数は `info` のはずです.
+
+
+```js
+expect(calls[0][0]).toEqual('info')
+expect(calls[1][0]).toEqual('edit')
+expect(calls[2][0]).toEqual('delete')
+```
+
+#### `find`と`scry`の違い
+
+[TestUtils](https://facebook.github.io/react/docs/test-utils.html) には, React によって描画されたDOMのノードを探すための関数が用意されています.
+例えば, タグ名やクラス名を使った探索が可能です.
+
+```js
+TestUtils.scryRenderedDOMComponentsWithTag(actions, 'span')
+```
+
+次のようなコードも可能です
+
+```js
+TestUtils.scryRenderedDOMComponentsWithClass(actions, 'ActionsInfo')
+```
+
+関数の中には `scry` で始まるものと `find` で始まるものがあります.
+
+```js
+TestUtils.findRenderedDOMComponentWithClass(actions, 'ActionsInfo')
+```
+
+`find`から始まる関数の名前には, `Components` ではなく `Component` が含まれています.
+`scry`で始まる関数では, 該当したコンポーネントが配列として返されます. 該当したものが1個でもゼロ個でも, 返されるのは配列です.
+一方, `find` では必ず1個だけ返されます.
+ゼロ個または複数個該当する場合にはエラーが発生します.
+
+### その他の操作のシミュレーション
+Rating のテスト:
+
+```
+TestUtils.Simulate.mouseOver(stars[3])
+expect(stars[0].className).toBe('RatingOn')
+expect(stars[3].className).toBe('RatingOn')
+expect(stars[4].className).toBeFalsy()
+expect(input.state.rating).toBe(0)
+expect(input.state.tmpRating).toBe(4)
+
+TestUtils.Simulate.mouseOut(stars[3])
+expect(stars[0].className).toBeFalsy()
+expect(stars[3].className).toBeFalsy()
+expect(stars[4].className).toBeFalsy()
+expect(input.state.rating).toBe(0)
+expect(input.state.tmpRating).toBe(0)
+
+TestUtils.Simulate.click(stars[3])
+expect(input.getValue()).toBe(4)
+expect(stars[0].className).toBe('RatingOn')
+expect(stars[3].className).toBe('RatingOn')
+expect(stars[4].className).toBeFalsy()
+expect(input.state.rating).toBe(4)
+expect(input.state.tmpRating).toBe(4)
+```
+
+### インタラクション全体のテスト
+Excel のテスト:
+
+```js
+jest.autoMockOff()
+
+import React from 'react'
+import TestUtils from 'react-dom/test-utils'
+
+const Excel = require('../source/components/Excel')
+const schema = require('../source/schema')
+
+let data = [{}]
+schema.forEach(item => data[0][item.id] = item.sample)
+
+describe('データの編集', () => {
+  it('新規データを保存します', () => {
+    /* ... Assersions ... */
+  })
+})
+```
+
+先頭に `jest.autoMockOff()` というコードが見られます.
+Excel か直接あるいは間接的に利用するコンポーネントをすべて列挙することなしに, すべてのモックを一括で無効化できます.
+
+描画のコードです.
+
+```js
+const callback = jest.genMockFunction()
+const table = TestUtils.renderIntoDocument(
+  <Excel
+    schema={schema}
+    initialData={data}
+    onDataChange={callback}
+  />
+)
+```
+
+1行目の先頭のセルの値を変更して見ます
+
+```js
+const newname = '2.99ドルのジャック'
+```
+
+対象のセルは次のように取得します
+
+```js
+const cell = TestUtils.scryRenderedDOMComponentsWithTag(table, 'td')[0]
+```
+
+> 翻訳時点では, Jestが利用するDOMの実装には `dataset` が実装されていません.
+> `dataset` にアクセスするには, ちょっとした細工が必要になります.
+
+```js
+cell.dataset = {
+  row: cell.getAttribute('data-row'),
+  key: cell.getAttribute('data-key'),
+}
+```
+
+セルをダブルクリックすると, 表示は入力フィールドを含むフォームに変化します.
+
+```js
+TestUtils.Simulate.doubleClick(cell)
+```
+
+入力フィールドの値を変更し, フォームを送信します.
+
+```js
+cell.getElementsByTagName('input')[0].value = newname
+TestUtils.Simulate.submit(cell.getElementsByTagName('form')[0])
+```
+
+するとフォームはなくなり, セルのコンテンツはプレーンテキストに戻ります.
+
+```js
+expect(cell.textContent).toBe(newname)
+```
+
+このとき, コールバック関数 `onDataChange` が呼び出されます.
+セルのデータがキーと値をの組みを持つオブジェクトとして表され, このオブジェクトの配列が `onDataChange` に渡されます.
+
+```js
+expect(callback.mock.calls[0][0][0].name).toBe(newname)
+```
