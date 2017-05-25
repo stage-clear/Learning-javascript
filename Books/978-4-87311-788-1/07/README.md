@@ -983,3 +983,56 @@ expect(cell.textContent).toBe(newname)
 ```js
 expect(callback.mock.calls[0][0][0].name).toBe(newname)
 ```
+
+> `TestUtils.Simulate.submit` の代わりに, `TestUtils.keDown` を使って Enter キーが押されたというイベントを発生させることもできます.
+> この方法でもフォームを送信できます.
+
+2つ目のスペックでは, 次のように1行分のデータを削除します.
+
+```js
+describe('...', () => {
+  // ...
+  it('データを削除します', () => {
+    const callback = gest.genMockFunction()
+    const table = TestUtils.renderIntoDocument(
+      <Excel
+        schema={schema}
+        initialData={data}
+        onDataChange={callback}
+      />
+    )
+    
+    TestUtils.Simulate.click( // Xボタン
+      TestUtils.findRenderedDOMComponentWithClass(table, 'ActionDelete')
+    )
+    
+    TestUtils.Simulate.click( // 確認ダイアログ
+      TestUtils.findRenderedDOMComponentWithClass(table, 'Button')
+    )
+    
+    expect(callback.mock.calls[0][0].length).toBe(0)
+  })
+})
+```
+
+### カバレージ <sup>[参考](https://kotobank.jp/word/%E3%82%AB%E3%83%90%E3%83%AC%E3%83%83%E3%82%B8-465626#E3.83.87.E3.82.B8.E3.82.BF.E3.83.AB.E5.A4.A7.E8.BE.9E.E6.B3.89)</sup>
+
+カバレージの機能を使うと, ある意味でゲームのようにテストを作成してゆけるようになります.
+```bash
+$ jest --coverage
+```
+
+```js
+describe('...', () => {
+  // ...
+  it('入力値を返します', () => {
+    let input = TestUtils.renderIntoDocument(<FormInput type="year"/>)
+    expect(input.getValue()).toBe(String(new Date().getFullYear()))
+    input = TestUtils.renderIntoDocument(
+      <FormInput type="rating" defaultValue="3" />
+    )
+    expect(input.getValue()).toBe(3)
+  })
+})
+```
+
