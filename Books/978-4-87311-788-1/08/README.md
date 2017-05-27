@@ -45,7 +45,7 @@ Flux のアーキテクチャでは, 複数の Store を配置することも可
 
 これから実装する CRUDStore は, React とは全く関係がありません.
 
-```
+```js
 /* @flow */
 
 let data
@@ -84,7 +84,7 @@ Store では, 信頼できる情報源が `data` と `schema` というモジュ
 
 合計の行数と特定の行のデータを返すメソッドも Store に追加します
 
-```
+```js
 {
   // ...
 
@@ -212,4 +212,115 @@ CRUDStore = {
 これで CRUDStore の機能は完成です.
 
 ### `<Whinepad>` から Store を利用する
+
+- 各機能の実装が `CRUDActions` へと移されるためシンプルになる
+- `CRUDStore` も `<Excel>` に `this.state.data` を渡す必要がなくなるためシンプルかに貢献します
+  - 新しい `<Excel>` は Store を通じてデータにアクセスします
+
+以前のコードでは, `<Whinepad>` の `constructor()` でステートをセットしていました
+
+```js
+this.state = {
+  data: props.initialData,
+  addnew: false,
+}
+```
+
+新しいコードでは, `data` は必要ありません.
+しかし, 件数については次のようにして `Store` から取得します.
+
+```js
+/* @flow */
+
+// ...
+import CRUDStore from '../flux/CRUDStore'
+// ...
+
+class Whinepad extends Component {
+  constructor() {
+    super()
+    this.state = {
+      addnew: false,
+      count: CURDStore.getCount() // <-
+    }
+  }
+  /* ... */
+}
+
+export default  Whinepad
+```
+
+`constructor()` ではもう1つの処理が必要です.
+Store での変更を監視し, `this.state` の中に保持されている件数を更新できるようにします.
+
+```
+class Whinepad extends Component {
+  constructor() {
+    super()
+    this.state = {
+      addnew: false,
+      count: CRUDStore.getCount(),
+    }
+    
+    CRUDStore.addListener('change', () => {
+      this.setState({
+        count: CRUDStore.getCount()
+      })
+    })
+  }
+  /* ... */
+}
+
+export default Whinepad
+```
+
+Store との間に必要なインタラクションはこれだけです.
+なんらかの理由で Store を更新され, CRUDStore の `setData()` が呼び出されるたびに, Store は `change` イベントを発生させます.
+
+- `<Whinepad>` はイベントを監視しており, イベントの発生のたびに自らのステートを変化させます
+- ステートが変化すると, 再描画つまり `render()` メソッドが実行されます.
+
+```jsx
+render() {
+  return (
+    {/* ... */}
+    <input 
+      placeholder={`${this.state.count}件から検索`}
+    />
+  )
+}
+```
+
+`<Whinepad>` のもう1つの工夫として, `shouldComponentUpdate()` メソッドを.
+データへの変更の中には, 合計の件数に影響しないものもあります.
+<sup>例えば, レコードやその中のフィールドを編集するだけでは件数は変化しません.</sup>
+このような場合には, 再描画の必要はありません.
+このことを表現したのが次のコードです.
+
+```js
+shouldComponentUpdate(newProps: Object, newState: State): boolean {
+  return (
+    newState.addnew !== this.state.addnew ||
+    newState.count !== this.state.count
+  )
+}
+```
+
+新しい `<Whinepad>` では, データやスキーマを表すプロパティを `<Excel>` 渡す必要があり前sん.
+また, すべての変更は Store からの `change` イベントとして伝達されるため, `onDataChange` イベントを監視する必要もありません.
+`render()` メソッドの該当する部分は次のようになります.
+
+```js
+render() {
+  return(
+    {/* ... */}
+    <div className="WhinepadDatagrid"}>
+      <Excel />
+    </div>
+    {/* ... */}
+  )
+}
+```
+
+### `<Excel>` から Store を利用する
 
