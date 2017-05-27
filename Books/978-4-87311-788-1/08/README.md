@@ -323,4 +323,266 @@ render() {
 ```
 
 ### `<Excel>` から Store を利用する
+`<Whinepad>` と同様に, `<Excel>` でもプロパティは必要なくなりました.
+コンストラクタは Store からスキーマを読み込み, `this.schema` として保持します.
+`this.schema` ではなく `this.state.schema` に保持してもよいでのですが, `state` は変化するものという位置付けです.
+変化しないスキーマの保存場所としてはふさわしくありません.
+
+データについては, Store から `this.state.data` として読み込まれます.
+そして, Store の `change` イベントを監視し, ステートとして保持しているデータを最新に保てるようにします.
+
+```js
+class Excel extends Component {
+  constructor() {
+    super()
+    this.state = {
+      data: CRUDStore.getData(),
+      sortby: null, // schema.id
+      descending: false,
+      edit: null, // [ row index, cell index]
+      dialog: null, // { type, idx }
+    }
+    this.schema = CRUDStore.getSchema()
+    CRUDStore.addListener('change', () => {
+      this.setState({
+        data: CRUDStore.getData(),
+      })
+    })
+  }
+}
+```
+
+Store のデータを `this.state` にコピーしなければならないのはなぜかと思われたでしょうか.
+`render()` メソッドの中で Store のデータを直接読み込むということも, 実は可能です.
+しかしこうすると, コンポーネントの純粋さが失われてしまいます。
+ここまでの「純粋」なコンポーネントでは, `props` と `state` だけに基づいて描画が行われていました.
+一方, `render()` の中で外部の関数を呼び出すというのは「疑わしい」行為です.
+外部から返されるデータは予測できません.
+
+### `<Form>` から Store を利用する
+
+```js
+/* @flow */
+
+import CRUDStore from '../flux/CRUDStore'
+
+// ...
+
+type Props = {
+  readonly?: boolean,
+  recordId: ?number,
+}
+
+class Form extends Component {
+  fields: Array<Object>
+  initialData: ?Object
+  constructor(props: Props) {
+    super(props)
+    this.fields = CRUDStore.getSchema()
+    if ('recordId' in this.props) {
+      this.initialData = CRUDStore.getRecord(this.props.recordId)
+    }
+  }
+  // ...
+}
+```
+
+### Store とプロパティの使い分け
+
+pro:
+- Store には容易にアクセスでき, 必要なデータをすべて取得できます
+- プロパティを多重に渡す必要がなくなります
+
+con:
+- コンポーネントの再利用性が低下します
+
+
+ボタンや入力フィールドといった低階層のコンポーネントは, Store に関知しないように作成するのがよいでしょう.
+プロパティを使っても特にデメリットはありません.
+
+一方, シンプルなウィジェットと階層構造の頂点に位置するコンポーネントとの間には,
+判断が難しいグレーゾーンが広がっています.
+与えられた要件と, 今後の再利用の可能性を考慮した判断が求められます.
+
+## Action
+Action とは, Store のデータを変更するための方法です.
+ユーザーが View 上でデータを変更すると, Store のデータを更新するための Action が実行され, 更新を監視しているビューにイベントが通知されます.
+
+CRUDStore を更新する CRUDAction も, 次のようにシンプルな JavaScript のオブジェクトとして実装できます.
+
+```
+/* @flow */
+
+import CRUDStore = from './CRUDStore'
+
+const CRUDActions = {
+  /* メソッド */
+}
+```
+
+### CRUD の Action
+
+```js
+/* @flow */
+
+const CRUDActions = {
+  create(newRecord: Object) {
+    let data = CRUDStore.getData()
+    data.unshift(newRecord)
+    CRUDStore.setData(data)
+  },
+  
+  delete(recordId: number) {
+    let data = CRUDStore.getData()
+    data.splice(recordId: 1)
+    CRUDStore.setData(data)
+  },
+  
+  updateRecord(recordId: number, newRecord: Object) {
+    let data = CRUDSsore.getData()
+    data[recordId] = newRecord
+    CRUDStore.setData(data)
+  },
+  
+  /* ... */
+}
+```
+
+> CRUD のうち R(read) の機能は, Store が提供しているためここでは必要ありません.
+
+### 検索と並べ替え
+以前の実装では, `<Whinepad>` が検索の機能を受け持っていました.
+たまたま, このコンポーネントの `render()` の中で検索フィールドが描画されていたためです.
+しかし本来は, もっとデータに近接させた形で実装するべきです.
+
+並べ替えの機能は `<Excel>` に含めていましたが, これも表のヘッダーを描画していたからという理由にすぎません.
+並べ替えについても, データに近い形での実装が望まれます.
+
+検索や並べ替えを, Action と Store のどちらで行うべきかという点については議論の余地があります.
+どちらでも, とくに大きな問題はありません.
+
+今回の実装では, Store を可能なかぎりシンプルに保つことにします.
+Store はゲッターとセッターそしてイベントの送出だけを受け持つようにします.
+
+データへの加工を Action に担当させるという方針で, 検索と並べ替えの機能をUIのコンポーネントから CRUDActions に移動させます.
+
+```js
+/* @flow */
+
+/* ... */
+
+const CRUDActions = {
+  /* ... */
+  _preSearchData: null,
+  
+  startSearching() {
+    this._preSearchData = CRUDStore.getData()
+  },
+  
+  search(e: Event) {
+    const target = ((e.target: any): HTMLInputElement)
+    const needle: string = target.value.toLowerCase()
+    if (!needle) {
+      CRUDStore.setData(this._preSearchDtata)
+      return 
+    }
+    const fields = CRUDStore.getSchema().map(item => item.id)
+    if (!this._preSearchData) {
+      return 
+    }
+    const searchdata = this._preSearchData.filter(row => {
+      for (let f = 0; f < fields.length; f++) {
+        if (row[fields[f]].toString().toLowerCase().indexOf(needle) > -1) {
+          return needle
+        }
+      }
+    })
+    CRUDStore.setData(searchdata, /* commit */ false)
+  },
+  
+  _sortCallback(
+    a: (string|number), b: (string|number), descending: boolean
+  ): number {
+    let res: number = 0
+    if (typeof a === 'number' && typeof b === 'number') {
+      res = a -b
+    } else {
+      res = String(a).localeCompare(String(b))
+    }
+    return descending ? -1 * res : res
+  },
+  
+  sort(key: string, descending: boolean) {
+    CRUDStore.setData(CRUDStore.getData().sort(
+      (a ,b) => this._sortCallback(a[key], b[key], descending)
+    ))
+  },
+
+}
+```
+
+CRUDActions の機能を全て実装できました.
+これらの機能を呼び出す `<Whinepad>` や `<Excel>` について見てみましょう
+
+> `sort()` 関数のうち以下の部分は, CRUDActions で実装するべきではないという考え方もあります.
+
+```js
+search(e: Event) {
+  const target = ((e.target: any): HTMLInputElement)
+  const needle: string = target.value.toLowerCase()
+  /* ... */
+}
+```
+
+> つまり, Action のモジュールはUIについて関知するべきではなく, 検索文字列は次のようにしてモジュール外部から与えられるほうがよいという考え方です.
+
+```js
+search(needle: string) {
+  /* ... */
+}
+```
+
+> これは正当な考え方です. 実装するには, `<Whinepad>` での `<input>` で `CRUDActions.search()` を呼び出している部分を変更して, 検索文字列を渡すようにします.
+
+### `<Whinepad>` から Action を利用する
+
+```js
+/* @flow */
+
+/* ... */
+import CRUDActions from '../flus/CRUDActions'
+/* ... */
+
+class Whinepad extends Component {/* ... */}
+
+export default Whinepad
+```
+
+データの更新は Action のモジュールに任されます.
+Store は信頼できる唯一の情報源としての役割を果たします.
+
+```js
+_addNew(action: string) {
+  this.setState({addnew: false})
+  if (action === 'confirm') {
+    CRUDActions.create(this.refs.form.getData())
+  }
+}
+```
+
+```jsx
+render() {
+  return (
+    <input 
+      placeholder={
+        `${this.state.count}件から検索...`
+      }
+      onChange={CRUDActions.search.bind(CRUDActions)}
+      onFocus={CRUDActions.startSearching.bind(CRUDActions)}
+    /> 
+  )
+}
+```
+
+### `<Excel>` から Action を利用する
 
