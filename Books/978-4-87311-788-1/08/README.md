@@ -562,6 +562,22 @@ export default Whinepad
 Store は信頼できる唯一の情報源としての役割を果たします.
 
 ```js
+// Before:
+_addNew(action: string) {
+  if (action === 'dismiss') {
+    this.state({addnew: false})
+  } else {
+    let data = Array.from(this.state.data)
+    data.unshift(this.refs.form.getData())
+    this.setState({
+      addnew: false,
+      data: data,
+    })
+    this._commitToStorage(data)
+  }
+}
+
+// After:
 _addNew(action: string) {
   this.setState({addnew: false})
   if (action === 'confirm') {
@@ -585,4 +601,86 @@ render() {
 ```
 
 ### `<Excel>` から Action を利用する
+
+```js
+// Before:
+_deleteConfirmationClick(action: string) {
+  if (action === 'dismiss') {
+    this._closeDialog()
+    return 
+  }
+  
+  const index = this.state.dialog ? this.state.dialog.idx : null
+  invariant(typeof index === 'number', 'ステートdialogが不正です')
+  let data = Array.from(this.state.data)
+  data.splice(index, 1)
+  this.setState({
+    dialog: null, 
+    data: data,
+  })
+  this._fireDataChange(data)
+}
+
+// After:
+_deleteConfirmationClick(action: stirng) {
+  this.setState({dialog: null})
+  if (action === 'dismiss') {
+    return 
+  }
+  const index = this.state.dialog && this.state.dialog.idx
+  invariant(typeof index === 'number', 'ステートdialogが不正です')
+  CRUDActions.delete(index)
+}
+```
+
+
+```
+/* @flow */
+
+/* ... */
+import CRUDActions from '../flux-imm/CRUDActions'
+/* ... */
+
+class Excel extends Component {
+  /* ... */
+  
+  _sort(key: string) {
+    const descending = this.state.sortby === key && !this.state.descending
+    CRUDActions.sort(key, descending)
+    this.setState({
+      sortby: key,
+      descending: descending,
+    })
+  }
+  
+  _save(e: Event) {
+    e.preventDefault()
+    invariant(this.start.edit, 'ステート edit が不正です')
+    CRUDActions.updateField(
+      this.state.edit.row,
+      this.state.edit.key,
+      this.refs.input.getValue()
+    )
+    this.setState({
+      edit: null,
+    })
+    
+    _saveDataDialog(action: string) {
+      this.setState({dialog: null})
+      if (action === 'dismiss') {
+        return 
+      }
+      cosnt index = this.state.dialog && this.state.dialog.idx
+      invariant(type index === 'number', 'ステート dialog が不正です')
+      CRUDActions.updateRecord(index, this.refs.form.getData())
+    }
+    
+    /* ... */
+  }
+  
+  export default Excel
+}
+```
+
+## Flux のまとめ
 
