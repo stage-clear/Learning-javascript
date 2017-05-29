@@ -684,3 +684,142 @@ class Excel extends Component {
 
 ## Flux のまとめ
 
+View が Action を呼び出し, Action は Store を更新します.
+そして, Store はイベントを発生させます.
+View はイベントを受け取り, 表示を更新させます.
+このように, 3者の関係は循環しています.
+
+この概念を発展させたアーキテクチャも考えられています.
+成長したアプリケーションでは, このアーキテクチャが役立つこともあるでしょう.
+
+例えば, Action を呼び出すのは View だけとはかぎりません.
+サーバーが Action を呼び出すこともあります.
+あるいは, 時間の経過に起因する何らかの処理が必要になることもあるでしょう.
+
+Action の呼び出し元が複数の場合, 単一の Dispatcher という考え方が役立ちます.
+Dispatcher とは, すべての Action の呼び出しを Store へと受け渡す役割を担います.
+
+さらに複雑で面白いアプリケーションでは, UIから呼び出される Action とサーバーなどから呼び出される Action が混在しています.
+Store も複数あり, それぞれが異なるデータを扱っています.
+
+## イミュータブル
+
+```js
+npm i --save-dev immutable
+```
+
+`.flowconfig` には以下の行を追加しましょう
+
+```
+# ...
+
+[include]
+# ...
+node_modules/immutable
+
+# ...
+```
+
+### イミュータブルな Store のデータ
+
+```js
+/* @flow */
+
+import {EventEmitter} from 'fbemitter'
+import {List} from 'immutable'
+
+let data: List<Object>
+let schema
+const emitter = new EventEmitter()
+```
+
+これで, data の型はイミュータブルな `List` になりました.
+
+```js
+const CRUDStore = {
+  init(initialSchema: Array<Object>) {
+    schema = initialSchema
+    const storage = 'localStorage' in window
+      ? localStorage.getItem('data')
+      : null
+     
+    if (!storage) {
+      let initialRecord = {}
+      schema.forEach(item => initialRecord[item.id] = item.sample)
+      data = List([initialRecord])
+    } else {
+      data = List(JSON.parse(storage))
+    }
+  },
+  
+  /* ... */
+}
+```
+
+`List` は配列を使って初期化されています.
+以降は, `List` の API を使ってデータを操作してゆくことになります.
+ただし, この `List` はイミュータブルなので変更はできません.
+
+初期化処理と型のアノテーション以外には, Store に対して大きな必要はありません.
+
+イミュータブルなリストには `length` プロパティがないため, `getCount()` を以下のように変更します.
+
+```js
+// Before:
+getCount(): number {
+  return data.length
+}
+
+// After:
+getCount(): number {
+  return data.count() // data.size でも可
+}
+```
+
+添え字を使ったアクセスもできないため, `getRecord()` にも変更が必要です.
+
+```js
+// Before:
+getRecord(recordId: number): ?Object {
+  return recordId in data ? data[recordId] : null
+}
+
+// After:
+getRecord(recordId: number): ?Object {
+  return data.get(recordId)
+}
+```
+
+### イミュータブルなデータの操作
+
+```js
+/* @flow */
+
+import CRUDStore from './CRUDStore'
+import {List} from 'immutable'
+
+const CRUDStore = {
+  /* ... */
+  
+  delete(recordId: number) {
+    // Before:
+    // let data = CRUDStore.getData()
+    // data.splice(recordId, 1)
+    // CRUDStore.setData(data)
+    
+    // After:
+    let data: List<Object> = CRUDStore.getData()
+    CRUDStore.setData(data.remove(recordId))
+  },
+  
+  /* ... */
+}
+
+export default 
+```
+
+
+
+
+```js
+```
