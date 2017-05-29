@@ -1,4 +1,4 @@
-# 初めての Three.js
+# 初めての Three.js 第2版
 
 1. [初めての3Dシーン作成](01/README.md)
 2. [シーンの基本要素](02/README.md)
