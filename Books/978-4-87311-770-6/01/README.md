@@ -81,11 +81,12 @@ URLバーに `about:config` と入力し, `危険性を承知の上で使用す�
 
 ## HTML のスケルトンを作成
 
+```html
 <!doctype html>
 <html>
   <head>
     <title>Example 01.01 - Basic skelton</title>
-    <script src="../libs/three.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js"></script>
     <style>
       body {
         margin: 0;
@@ -96,5 +97,33 @@ URLバーに `about:config` と入力し, `危険性を承知の上で使用す�
   <body>
     <div id="WebGL-output">
     </div>
+
+    <script>
+      function init() {
+      
+      }
+
+      window.onload = init
+    </script>
   </body>
 </html>
+```
+
+## 3Dオブジェクトの表示
+
+- plane - 2次元の長方形で, 地面に相当する
+- cube - 3次元の立方体で, 赤色で描画される
+- sphere - 3次元の球体で, 青色で描画される
+- camera - カメラは画面にはなにも表示されないが, 何を出力に含めるかを決定する
+- axes - x, y, z軸. これは便利なデバッグ用のツールでオブジェクトが3D空間のどこに描画されるかを確認できる
+
+サンプルの一番最初で `scene` と `camera`, `renderer` を定義しています.
+`scene` オブジェクトは表示したいすべての物体と光源を保持して変更を監視するコンテナオブジェクトです.
+`THREE.Scene` オブジェクトがなければ Three.js は何も描画できません.
+
+- [サンプル 01-02](https://jsfiddle.net/stageclear/wzet7x4k/)
+
+> [Three.js のソースコードドキュメント](https://threejs.org/)を読むと, WebGLベースのレンダラ以外にもレンダラがあることに気づくかもしれません.
+> 他にも canvas ベースのレンダラやSVGベースのレンダラ, CSSベースのレンダラがあります.
+
+`renderer` の背景色を `setClearColor()` を使用してほぼ真っ白に設定し, `setSize()` で描画すべきシーンの大きさがどのくらいかを `renderer` に通知します.
