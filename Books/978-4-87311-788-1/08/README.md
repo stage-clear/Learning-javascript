@@ -818,8 +818,40 @@ const CRUDStore = {
 export default 
 ```
 
-
-
+継ぎ合わせるという意味を持った JavaScript の `splice()` メソッドは, 元の配列を変更し, 削除された要素を返します.
+そのため, 1行のコードで `delete()` を実装するのは不可能でした.
+一方, イミュータブルな `List` では1行での処理が可能です.
 
 ```js
+delete(recordId: number) {
+  CRUDStore.setData(CRUDStore.getData().remove(recordId))
+},
 ```
+
+```js
+create(newRecord: Object) {
+  CRUDStore.setData(CRUDStore.getData().set(recordId, newRecord))
+},
+
+updateRecord(recordId: number, newRecord: Object) { // [] がないので `set()` を使います
+  CRUDStore.setData(CRUDStore.getData().set(recordId, newRecord))
+},
+
+updateField(recordId: number, key: string, value: string|number) {
+  let record = CRUDStore.getData().get(recordId)
+  record[key] = value
+  CRUDStore.setData(CRUDStore.getData().set(recordId, record))
+},
+```
+
+以上で完成です.
+このアプリケーションではさまざまなものが利用されています.
+
+- UIを定義する React コンポーネント
+- コンポーネントを組み立てるJSX
+- データの流れを整理する Flux
+- イミュータブルなデータ
+- ECMAScript の最新の機能を利用するための Babel
+- 型チェックなどのための Flow 
+- 構文チェックのための ESLint 
+- ユニットテストのための ESLint
