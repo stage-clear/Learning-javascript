@@ -17,12 +17,12 @@
           , b2DebugDraw = Box2D.Dynamics.b2DebugDraw
           , b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef
         ;
+
+        var world = new b2World(
+          new b2Vec2(0, 9.8),
+          true
+        )
       }
-      
-      var world = new b2World(
-        new b2Vec2(0, 9.8),
-        true
-      )
     </script>
   </head>
   <body onload="init">
