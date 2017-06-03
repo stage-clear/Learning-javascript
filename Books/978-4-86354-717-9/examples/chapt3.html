@@ -4,7 +4,6 @@
     <script src="Box2D.js"></script>
     <script>
       function init() {
-        console.log('start')
         var b2Vec2 = Box2D.Common.Math.b2Vec2
           , b2AABB = Box2D.Collision.b2AABB
           , b2BodyDef = Box2D.Dynamics.b2BodyDef
@@ -37,6 +36,16 @@
         bodyDef.position.Set(25, 49);;
         world.CreateBody(bodyDef).CreateFixture(fixDef);
 
+        // ボールを作成
+        bodyDef.type = b2Body.b2_dynamicBody;
+        fixDef.shape = new b2CircleShape(2.0);
+        fixDef.density = 0.8;
+        fixDef.friction = 0.4;
+        fixDef.restitution = 0.5;
+        bodyDef.position.Set(10, 46);
+        var ball = world.CreateBody(bodyDef);
+        ball.CreateFixture(fixDef);
+
         // 表示
         var debugDraw = new b2DebugDraw();
         debugDraw.SetSprite(document.getElementById('canvas').getContext('2d'));
@@ -49,10 +58,30 @@
         // 表示の自動更新
         window.setInterval(update, 1000 / 60);
 
+        // クリックイベント
+        document.addEventListener('click', click, true);
+
+        function click(e) {
+          var force = new b2Vec2(2500, -15000);
+          var point = ball.GetPosition();
+          ball.ApplyForce(force, point);
+        }
+
+        function clickToTorque(e) {
+          ball.ApplyTorque(30000);
+        }
+
         function update() {
           world.Step(1 / 60, 10, 10);
           world.DrawDebugData();
           world.ClearForces();
+
+          var position = ball.GetPosition();
+          var x = position.x;
+          var y = position.y;
+          var angle = ball.GetAngle();
+          document.getElementById('canvas').getContext('2d')
+            .fillText('座標:('+ x +', '+ y +'), 角度: '+ angle, 10, 10);
         }
       }
     </script>
