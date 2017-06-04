@@ -13,5 +13,6 @@
 - `ball.ApplyForce(new b2Vec2(50000, 0))` - 第2引数がないとエラーが出力される (85)
 
 ## 外部リンク
+- [書籍詳細 | 株式会社C&R研究所](http://www.c-r.com/book/detail/917)
 - [Amazon](https://www.amazon.co.jp/dp/486354717X)
 - [honto](https://honto.jp/ebook/pd_28339461.html)
