@@ -22,6 +22,10 @@ Box2Dは物理シミュレーションの一種で、「2D剛体シミュレー�
 
 ## Box2D を使う
 ### Box2DWeb のファイル構成
+- Box2DWeb-2.1.a.3.js
+- Box2DWeb-2.1.a.3.min.js
+- demo.html
+- example.html
 
 ### ソースコードの書き方
 
