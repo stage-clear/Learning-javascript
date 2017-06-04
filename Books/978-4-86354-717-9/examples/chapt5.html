@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="Box2D.js"></script>
+    <script>
+      function init() {
+        var b2Vec2 = Box2D.Common.Math.b2Vec2
+          , b2AABB = Box2D.Collision.b2AABB
+          , b2BodyDef = Box2D.Dynamics.b2BodyDef
+          , b2Body = Box2D.Dynamics.b2Body
+          , b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+          , b2Fixture = Box2D.Dynamics.b2Fixture
+          , b2World = Box2D.Dynamics.b2World
+          , b2MassData = Box2D.Collision.Shapes.b2MassData
+          , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+          , b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+          , b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+          , b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef
+          , b2ContactListener = Box2D.Dynamics.b2ContactListener
+        ;
+        var world = new b2World(
+          new b2Vec2(0, 9.8),
+          true
+        )
+
+        var fixDef = new b2FixtureDef;
+        var bodyDef = new b2BodyDef;
+
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(25, 1);
+        fixDef.restitution = 0.5;
+        fixDef.friction = 0.4;
+        bodyDef.position.Set(25, 49);
+        var floor = world.CreateBody(bodyDef);
+        floor.CreateFixture(fixDef);
+
+        // 坂を作成する
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(12, 1);
+        fixDef.density = 1.0;
+        fixDef.friction = 1.0;
+        fixDef.restitution = 0.1;
+        bodyDef.position.Set(15, 10);
+        bodyDef.angle = 35 * 3.14 / 180;
+        world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(12, 1);
+        fixDef.density = 1.0;
+        fixDef.friction = 1.0;
+        fixDef.restitution = 0.1;
+        bodyDef.position.Set(35, 23);
+        bodyDef.angle = -35 * 3.14 / 180;
+        world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+        // 箱を作成する
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(6, 0.5);
+        fixDef.density = 1.0;
+        fixDef.friction = 1.0;
+        fixDef.restitution = 0.1;
+        bodyDef.position.Set(15, 43);
+        bodyDef.angle = 0;
+        world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(0.5, 3);
+        fixDef.density = 1.0;
+        fixDef.friction = 0.4;
+        bodyDef.position.Set(9.5, 39.5);
+        bodyDef.angle = 0;
+        world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(0.5, 3);
+        fixDef.density = 1.0;
+        fixDef.friction = 0.4;
+        fixDef.restitution = 0.5;
+        bodyDef.position.Set(20.5, 39.5);
+        bodyDef.angle = 0;
+        world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+        // 障害物を作成する
+        bodyDef.type = b2Body.b2_dynamicBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(2, 2);
+        fixDef.density = 4;
+        fixDef.friction = 2;
+        fixDef.restitution = 0;
+        bodyDef.position.Set(22, 12);
+        bodyDef.angle = 35 * 3.14 / 180;
+        world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+        // センサーを作成する
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        var vertices = new Array();
+        vertices[0] = new b2Vec2(-1.4, 2);
+        vertices[1] = new b2Vec2(-1.4, -2);
+        vertices[2] = new b2Vec2(1.4, 0);
+        fixDef.shape.SetAsArray(vertices, 3);
+        bodyDef.position.Set(28, 23, 5);
+        bodyDef.angle = 0;
+        var sensorFixture = world.CreateBody(bodyDef).CreateFixture(fixDef);
+        sensorFixture.SetSensor(true);
+
+        // ボールを作成する
+        bodyDef.type = b2Body.b2_dynamicBody;
+        fixDef.shape = new b2CircleShape(2.0);
+        fixDef.density = 0.5;
+        fixDef.friction = 0.4;
+        fixDef.restitution = 0.6;
+        bodyDef.position.Set(10, 4);
+        var ball = world.CreateBody(bodyDef);
+        ball.CreateFixture(fixDef);
+
+        var debugDraw = new b2DebugDraw();
+        debugDraw.SetSprite(document.getElementById('canvas').getContext('2d'));
+        debugDraw.SetDrawScale(10.0);
+        debugDraw.SetFillAlpha(0.5);
+        debugDraw.SetLineThickness(1.0);
+        debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+        world.SetDebugDraw(debugDraw);
+
+        var listener = new b2ContactListener;
+        listener.BeginContact = function(contact) {
+          // 床とボールが衝突したら
+          if ((contact.GetFixtureA().GetBody() === ball &&
+            contact.GetFixtureB().GetBody() === floor) ||
+            (contact.GetFixtureA().GetBody() === floor &&
+            contact.GetFixtureB().GetBody() === ball)) {
+            // メッセージを表示する
+            alert('Clear');
+          }
+
+          // センサーの通過だったら
+          if ((contact.GetFixtureA().GetBody() === ball &&
+               contact.GetFixtureB() === sensorFixture) ||
+              (contact.GetFixtureA() === sensorFixture &&
+               contact.GetFixtureB().GetBody() === ball)) {
+            ball.ApplyImpulse(new b2Vec2(50000, 0), ball.GetPosition());
+          }
+        }
+
+        listener.EndContact = function(contact) {
+          // 衝突が終わった
+        }
+
+        // 仮想世界に対してリスナーを登録する
+        world.SetContactListener(listener);
+
+        window.setInterval(update, 1000 / 60);
+
+        // クリックイベント登録する
+        var elem = document.getElementById('canvas');
+        elem.addEventListener('click', click, true);
+
+        function click(e) {
+          // 座標上にある物体を列挙する
+          function getBodyAtPosition(objX, objY) {
+            //  座標をベクトルにする
+            var mousePVec = new b2Vec2(objX, objY);
+            // b2AABB を作成する
+            var aabb = new b2AABB();
+            aabb.lowerBound.Set(objX - 0.001, objY - 0.001);
+            aabb.upperBound.Set(objX + 0.001, objY + 0.001);
+            var selectedBody = null;
+
+            // フィクスチャーを列挙する
+            world.QueryAABB(function(fixture) {
+              // フィクスチャーの上に正しく座標があるかチェックする
+              if (fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), mousePVec)) {
+                // 配列に物体を入れていく
+                if (selectedBody === null) {
+                  selectedBody = new Array();
+                }
+                var found = false;
+                // フィクスチャーから物体を取得する
+                var body = fixture.GetBody();
+                // すでに保存されている物体は追加しない
+                for (var i = 0; i < selectedBody.length; i++) {
+                  if (selectedBody[i] === body) {
+                    found = true;
+                    break;
+                  }
+                }
+                if (!found) {
+                  selectedBody.push(body);
+                }
+              }
+              // 列挙を続ける
+              return true;
+            }, aabb);
+            return selectedBody;
+          }
+
+          // クリックされた座標の物体を取得する
+          var body = getBodyAtPosition(
+            (e.clientX - elem.offsetLeft) / 10,
+            (e.clientY - elem.offsetTop) / 10,
+          )
+
+          if (body != null) {
+            // 物体があれば
+            for (var i = 0; i < body.length; i++) {
+              if (body[i] != ball && body[i].GetType() === b2Body.b2_dynamicBody) {
+                // クリックされた座標の物体を削除する
+                world.DestroyBody(body[i]);
+              }
+
+            }
+          } else {
+            // 物体がなければ, クリックされた場所に矩形を作成する
+            bodyDef.type = b2Body.b2_dynamicBody;
+            fixDef.shape = new b2PolygonShape;
+            fixDef.shape.SetAsBox(2, 2);
+            fixDef.density = 4;
+            fixDef.friction = 2;
+            fixDef.restitution = 0;
+            bodyDef.position.Set(e.clientX / 10, e.clientY / 10);
+            bodyDef.angle = 0;
+            world.CreateBody(bodyDef).CreateFixture(fixDef);
+          }
+        }
+
+        function update() {
+          world.Step(1 / 60, 10, 10);
+          world.DrawDebugData();
+          world.ClearForces();
+        }
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas id="canvas" width="500" height="500" style="background-color: #333;">
+
+    </canvas>
+  </body>
+</html>
