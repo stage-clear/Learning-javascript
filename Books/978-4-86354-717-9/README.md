@@ -8,6 +8,10 @@
 6. [ジョイント](06/)
 7. [Box2D の設定](07/)
 
+## エラー
+- `ApplyLinearImpulse()` が存在しない
+- `ball.ApplyForce(new b2Vec2(50000, 0))` - 第2引数がないとエラーが出力される (85)
+
 ## 外部リンク
 - [Amazon](https://www.amazon.co.jp/dp/486354717X)
 - [honto](https://honto.jp/ebook/pd_28339461.html)
