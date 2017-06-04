@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="Box2D.js"></script>
+    <script>
+      function init() {
+        var b2Vec2 = Box2D.Common.Math.b2Vec2
+          , b2AABB = Box2D.Collision.b2AABB
+          , b2BodyDef = Box2D.Dynamics.b2BodyDef
+          , b2Body = Box2D.Dynamics.b2Body
+          , b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+          , b2Fixture = Box2D.Dynamics.b2Fixture
+          , b2World = Box2D.Dynamics.b2World
+          , b2MassData = Box2D.Collision.Shapes.b2MassData
+          , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+          , b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+          , b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+          , b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef
+          , b2FilterData = Box2D.Dynamics.b2FilterData
+        ;
+        var world = new b2World(
+          new b2Vec2(0, 9.8),
+          true
+        )
+
+        // 1つ目の物体を作成する
+        var body1Sd = new b2BodyDef();
+        body1Sd.position.Set(30, 0);
+        body1Sd.type = b2Body.b2_dynamicBody;
+        var body1 = world.CreateBody(body1Sd);
+        // 1つ目の物体のフィルターを作成する
+        var filter1 = new b2FilterData();
+        filter1.maskBits = 0x5; // フィルター1のマスク
+        filter1.categoryBits = 0x1; // フィルター1のカテゴリ
+        // フィクスチャーを定義
+        var body1Fd = new b2FixtureDef();
+        body1Fd.shape = new b2CircleShape(6);
+        // 物体にフィクスチャーを作成する
+        var fixture1 = body1.CreateFixture(body1Fd);
+        fixture1.SetFilterData(filter1); // フィクスチャーにフィルターを設定する
+
+        // 2つ目の物体を作成する
+        var body2Sd = new b2BodyDef();
+        body2Sd.position.Set(20, 0);
+        body2Sd.type = b2Body.b2_dynamicBody;
+        var body2 = world.CreateBody(body2Sd);
+        // 形状を定義する
+        var box2 = new b2PolygonShape();
+        box2.SetAsBox(6, 6);
+        // 2つ目の物体のフィルターを作成する
+        var filter2 = new b2FilterData();
+        filter2.maskBits = 0x6; // フィルター2のマスク
+        filter2.categoryBits = 0x2; // フィルター2のカテゴリ
+        // フィクスチャーを定義する
+        var body2Fd = new b2FixtureDef();
+        body2Fd.shape = box2;
+        // 物体にフィクスチャーを作成する
+        var fixture2 = body2.CreateFixture(body2Fd);
+        fixture2.SetFilterData(filter2); // フィクスチャーにフィルターを設定する
+
+        // 3つ目の物体を作成する
+        var body3Sd = new b2BodyDef();
+        body3Sd.position.Set(25, 49);
+        body3Sd.type = b2Body.b2_staticBody;
+        var body3 = world.CreateBody(body3Sd);
+        // 形状を定義する
+        var box3 = new b2PolygonShape();
+        box3.SetAsBox(25, 1);
+        // 3つ目の物体のフィルターを作成する
+        var filter3 = new b2FilterData();
+        filter3.maskBits = 0x7; // フィルター3のマスク
+        filter3.categoryBits = 0x4; // フィルター3のカテゴリ
+        // フィクスチャーを定義する
+        var body3Fd = new b2FixtureDef();
+        body3Fd.shape = box3;
+        // 物体にフィクスチャーを作成する
+        var fixture3 = body3.CreateFixture(body3Fd);
+        fixture3.SetFilterData(filter3); // フィクスチャーにフィルターを設定する
+
+        var debugDraw = new b2DebugDraw();
+        debugDraw.SetSprite(document.getElementById('canvas').getContext('2d'));
+        debugDraw.SetDrawScale(10.0);
+        debugDraw.SetFillAlpha(0.5);
+        debugDraw.SetLineThickness(1.0);
+        debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+        world.SetDebugDraw(debugDraw);
+
+        window.setInterval(update, 1000 / 60);
+
+        function update() {
+          world.Step(1 / 60, 10, 10);
+          world.DrawDebugData();
+          world.ClearForces();
+        }
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas id="canvas" width="500" height="500" style="background-color: #333;">
+
+    </canvas>
+  </body>
+</html>
