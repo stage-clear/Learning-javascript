@@ -12,6 +12,10 @@
 - `ApplyLinearImpulse()` が存在しない
 - `ball.ApplyForce(new b2Vec2(50000, 0))` - 第2引数がないとエラーが出力される (85)
 
+## ライブラリ
+- [box2dweb](https://github.com/hecht-software/box2dweb)
+- [Box2D-js](http://box2d-js.sourceforge.net/)
+
 ## 外部リンク
 - [書籍詳細 | 株式会社C&R研究所](http://www.c-r.com/book/detail/917)
 - [Amazon](https://www.amazon.co.jp/dp/486354717X)
