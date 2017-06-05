@@ -2,6 +2,10 @@
  * @see http://buildnewgames.com/box2dweb/
  */
 
+
+/**
+ * Bootstrapping
+ */
 var b2Vec2 = Box2D.Common.Math.b2Vec2;
 var b2BodyDef = Box2D.Dynamics.b2BodyDef;
 var b2Body = Box2D.Dynamics.b2Body;
@@ -13,8 +17,9 @@ var b2PolygonShape = Box2D.Collision.Shapes.b2polugonShape;
 var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-
-
+/**
+ * Creating the world
+ */
 var Physics = window.Physics = function(element, scale) {
   var gravity = new b2Vec2(0, 9.8);
   this.world = new b2World(gravity, true);
@@ -25,6 +30,9 @@ var Physics = window.Physics = function(element, scale) {
   this.stepAmount = 1 / 60;
 };
 
+/**
+ * Stepping the world
+ */
 Physics.prototype.step = function(dt) {
   this.dtRemaining += dt;
   while (this.dtRemaining > this.stepAmount) {
@@ -70,7 +78,6 @@ function init() {
 }
 
 window.addEventListener('load', init);
-
 
 /**
  * Adding in Bodies
@@ -246,3 +253,187 @@ Physics.prototype.click = function(callback) {
 physics.click(function(body) {
   body.ApplyImpulse({ x: 1000, y: -1000 }, body.GetWorldCenter());
 })
+
+
+/**
+ * Listening for collisions
+ */
+Physics.prototype.collision = function() {
+  this.listener = new Box2D.Dynamics.b2ContactListener();
+  this.listener.PostSolve = function(contact, impulse) {
+    var bodyA = context.GetFixtureA().GetBody().GetUserData();
+    var bodyB = context.GetFixtureB().GetBody().GetUserData();
+    
+    if (bodyA.contact) {
+      bodyA.contact(contact, impulse, true);
+    }
+    
+    if (bodyB.contact) {
+      bodyB.contact(contact, impulse, false);
+    }
+  };
+  
+  this.world.SetContactListener(this.listener);
+}
+
+var body = new Body(physics, {
+  color: 'blue',
+  x: 8,
+  y: 3,
+});
+
+body.contact = function(contact, impulse, first) {
+  var magnitude = Math.sqrt(
+    impulse.normalIMpulses[0] * impulse.normalImpulses[0] + impulse.normalImpulses[1] * impulse.normalImpulses[1]
+  );
+  var color = Math.round(magnitude / 2);
+  
+  if (magnitude > 10) {
+    this.details.color = 'rgb(' color + ', 50, 50)';
+  }
+}
+
+/**
+ * Adding Joints
+ */
+Physics.prototype.dragNDrop = function() {
+  var self = this;
+  var obj = null;
+  var joint = null;
+  
+  function calculateWorldPosition(e) {
+    return point = {
+      x: (e.offsetX || e.layerX) / self.scale,
+      y: (e.offsetY || e.layerY) / self.scale,
+    }
+  }
+  
+  this.element.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    var point = calculateWorldPosition(e);
+    self.world.QueryPoint(function(fixture) {
+      obj = fixture.GetBody().GetUserData();
+    }, point);
+  });
+  
+  this.element.addEventListener('mousemove', function(e) {
+    if (!obj) {
+      return ;
+    }
+    
+    var point = calculateWorldPosition(e);
+    
+    if (!joint) {
+      var jointDefinition = new Box2D.Dynamics.Joints.b2MouseJointDef();
+
+      jointDefinition.bodyA = self.worldGetGroundBody();
+      jointDefinition.bodyB = obj.body;
+      jointDefinition.target.Set(point.x, point.y);
+      jointDefinition.maxForce = 100000;
+      jointDefinition.timeStep = self.stepAmount;
+      joint = self.world.CreateJoint(JointDefinition);
+    }
+    
+    joint.SetTarget(new b2Vec2(point.x, point.y));
+  });
+  
+  this.element.addEventListener('mouseup', function(e) {
+    obj = null;
+    if (joint) {
+      self.world.DestroyJoint(joint);
+      joint = null;
+    }
+  });
+}
+
+// Distance Joints:
+body1 = new Body(physics, {
+  color: 'red',
+  x: 15,
+  y: 12,
+}).body;
+
+def = new Box2D.Dynamics.Joints.b2DistanceJointDef();
+def.Initialize(
+  body1,
+  body2,
+  body1.GetWorldCenter(),
+  body2.GetWorld.Center(),
+);
+var joint = world.CreateJoint(def);
+
+// Revolute Joints:
+body1 = new Body(physics, { color: 'red', x: 20, y: 12 }).body;
+body2 = new Body(physics, { image: img, x: 24, y: 12 }).body;
+def = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
+def.Initialize(
+  body1, 
+  body2,
+  new b2Vec2(22, 14),
+);
+var joint = world.CreateJoint(def);
+
+// Prismatic Joints:
+body1 = new Body(physics, { color: 'red', x: 15, y: 12 }).body;
+body2 = new Body(physics, { image: img, x: 25, y: 12 }).body;
+def = new Box2D.Dynamics.Joints.b2PrismaticJointDef();
+def.Initialize(
+  body1, 
+  body2,
+  new b2Vec2(20, 14),
+  new b2Vec2(1, 0),
+);
+def.enableLimit = true;
+def.lowerTranslation = 4;
+def.upperTranslation = 15;
+var joint = world.CreateJoint(def);
+
+// Pulley Joints:
+body1 = new Body(physics, { color: 'red', x: 15, y: 12 }).body;
+body2 = new Body(physics, { image: img, x: 25, y: 12}).body;
+def = new Box2D.Dynamics.Joints.b2PulleyJointDef();
+def.Initialize(
+  body1,
+  body2,
+  new b2Vec2(13, 0),
+  new b2Vec2(25, 0),
+  body1.GetWorldCenter(),
+  body2,GetWorldCenter(),
+  1,
+);
+
+var joint = world.CreateJoint(def);
+
+// Gear Joints:
+body1 = new Body(physics, { color: 'red', x: 15, y: 12 }).body;
+body2 = new Body(physics, { image: img, x: 25, y: 12 }).body;
+var def1 = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
+def1.Initialize(
+  physics.world.GetGroundBody(),
+  body1,
+  body1.GetWorldCenter(),
+);
+
+var joint1 = physics.world.CreateJoint(def1);
+
+var def2 = new Box2D.Dynamics.Joints.b2RevoluteJointDef()
+def2.Initialize(
+  physics,
+  body2,
+  body2.GetWorldCenter(),
+);
+var joint2 = physics.world.CreateJoint(def2);
+
+def = new Box2D.Dynamics.Joints.b2GearJointDef();
+
+def.bodyA = body1;
+def.bodyB = body2;
+
+def.joint1 = joint1;
+def.joint2 = joint2;
+def.ratio = 2;
+var joint = world.CreateJoint(def);
+
+/**
+ * Wrapping Up:
+ */
