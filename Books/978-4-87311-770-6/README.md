@@ -32,4 +32,4 @@ https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js
 ## 外部リンク
 - [初めての Three.js](https://www.oreilly.co.jp/books/9784873117706/) - O'Reilly Japan
 - [josdirksen/learning-threejs](https://github.com/josdirksen/learning-threejs) - サンプルコード
-- [oreilly-japan/learning-three-js-2e-ja-support](oreilly-japan/learning-three-js-2e-ja-support) - サンプル日本語版
+- [oreilly-japan/learning-three-js-2e-ja-support](https://github.com/oreilly-japan/learning-three-js-2e-ja-support) - サンプル日本語版
