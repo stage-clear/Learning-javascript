@@ -21,6 +21,8 @@
 
 ```
 https://cdnjs.cloudflare.com/ajax/libs/three.js/78/three.min.js
+https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js
+https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js
 ```
 
 ## 外部リンク
