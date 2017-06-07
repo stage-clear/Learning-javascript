@@ -17,6 +17,12 @@
 - [A: Google Cardboardを使用したモバイルVR](appendix-a/README.md)
 - [B: THREE.MMDLoader による3Dモデルの制御](appendix-b/README.md)
 
+この書籍でのサンプルのバージョンは 78 です:
+
+```
+https://cdnjs.cloudflare.com/ajax/libs/three.js/78/three.min.js
+```
+
 ## 外部リンク
 - [初めての Three.js](https://www.oreilly.co.jp/books/9784873117706/) - O'Reilly Japan
 - [josdirksen/learning-threejs](https://github.com/josdirksen/learning-threejs) - サンプルコード
