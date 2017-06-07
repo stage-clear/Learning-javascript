@@ -30,9 +30,15 @@
         renderer.setClearColor(new THREE.Color(0xEEEEEE))
         renderer.setSize(window.innerWidth, window.innerHeight)
         renderer.shadowMap.enabled = true
-
         
+        // Contents
+
+        document.getElementById('WebGL-output').appendChild(renderer.domElement)
+        
+        var step = 0
+
         render()        
+
         function render() {
           stats.update()
           requestAnimationFrame(render)
