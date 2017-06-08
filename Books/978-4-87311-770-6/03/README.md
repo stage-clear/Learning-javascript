@@ -75,25 +75,100 @@ pointLight.distance = 15
 
 ### `THREE.SpotLight`
 - [three.js docs - SpotLight](https://threejs.org/docs/#api/lights/SpotLight)
+- [03-spot-light.html](https://codepen.io/kesuiket/pen/GEpyMX)
 
 `THREE.SpotLight` は（影を使いたいと思った場合に特に）もっとも頻繁に使用することになるライトのひとつで,
 効果の範囲が円錐状になります.<br>
 つまり, 懐中電灯やランタンのようなものと考えるとよいでしょう.
 
-- `angle`
-- `castShadow`
-- `color`
-- `decay`
-- `distance`
-- `intensity`
-- `penumbra`
+- `angle` - 光線がどのくらいの幅を持つか.（単位: ラジアン）（デフォルト値: `Math.PI / 3`）
+- `castShadow` - `true` にするとライトは影を落とす
+- `color` - ライトの色
+- `decay` - ライトからの距離に応じて光が減衰する量.（デフォルト値: `1`）
+- `distance` - ライトの光がどこまで届くかを表す距離（デフォルト値: `0`）
+- `intensity` - 単位面積当たりの光の輝く強さ（デフォルト値: `1`）
+- `penumbra` - `THREE.SpotLight` では発せられる光の強さが光源から遠ざかるほど弱まる. `penumbra` はこの光の強さがどのくらい急速に減速するかを決定する
 - `position`
 - `power`
-- `shadow.bias`
+- `shadow.bias` - 指定される距離だけ影の位置を影が落ちるオブジェクトの奥または手前に移動する
 - `shadow.camera.aspect`
 - `shadow.camera.far`
 - `shadow.camera.fov`
 - `shadow.camera.near`
 - `shadow.camera.width` `shadow.camera.height`
-- `target`
+- `target` - `<THREE.Object3D>`
 - `visible`
+
+`THREE.SpotLight` の作成は非常に簡単です.
+ただ色を指定し, 好きなプロパティを設定してシーンに追加するだけです.
+
+```js
+var pointColor = '#ffffff'
+var spotLight = new THREE.SpotLight(pointColor)
+spotLight.position.set(-40, 60, -10)
+spotLight.castShadow = true
+spotLight.target = plane
+scene.add(spotLight)
+```
+
+```
+// Example:
+var target = new THREE.Object3D()
+target.position = new THREE.Vector3(5, 0, 0)
+
+spotlight.target = target
+
+// `THREE.spotLight` の作成直後であれば target プロパティにはデフォルトで `THREE.Object3D`
+// が設定されているので, 直接 position を設定しても構いません
+spotlight.target.position.set(5, 0, 0)
+```
+
+`distance` と `angle` は光がどのような円錐形になるかを定義します.
+`angle` は円錐の幅を定義し, `distance` で円錐の高さを指定します.
+
+`penumbra` は円錐の頂点から円錐の底面まで, どのくらい早く光が減衰するかを決定します.
+ここでは円錐の頂点から底面に向かって急速に暗くなる（大きな `penumbra`）非常に明るい光（大きな `intensity`）が使われています.
+
+```
+// Example:
+spotlight.color = '#ffffff'
+spotlight.angle = 0.1
+spotlight.intensity = 1
+spotlight.decay = 1
+spotlight.distance = 0
+spotlight.penumbra = 30
+spotlight.castShadow = true
+```
+
+```
+// Example 急速に暗くなる非常に明るい光の設定:
+spotlight.angle = 4
+spotlight.intensity = 5
+spotlight.decay = 1
+spotlight.distance = 10
+spotlight.penumbra = 30
+spotlight.castShadow = true
+```
+
+`THREE.CameraHelper` は次のように使用します.
+
+```js
+var cameraHelper = new THREE.Camerahelper(spotLight.shadow.camera)
+scene.add(cameraHelper)
+```
+
+影に関する設定が多いのはそれだけ問題が起きやすいからです.
+
+- `THREE.CameraHelper` を活用しましょう. ライトが影を表示するために影響を与えている領域を可視化してくれます
+- 影がブロック状に見えるなら, `shadow.mapSize.width` と `shadow.mapSize.height` の両方を大きくするか, 影を計算するために使用される領域が対象のオブジェクトと比較して広すぎないことを確認してください. この領域を設定するには `shadow.camera.far` `shadow.camera.near` `shadow.camera.fov` が利用できます.
+- 影を落とすようにライトを設定するだけでなく, ジオメトリに対しても影を受ける/落とすには `castShadow` `receiveShadow` を設定しなければいけないことを忘れないようにしてください.
+- シーン内で厚みの薄いオブジェクトを使用しているなら, 影を描画した時に奇妙なアーチファクトを目にするかもしれません. この場合, `shadow.bias` を使用して影にわずかにオフセットを追加すると問題を解決できることがあります.
+- 淡い影が欲しければ, `THREE.WebGLRenderer` の `shadowMap.type` をデフォルトの値から変更することもできます. デフォルトではこのプロパティは `THREE.PCFShadowMap` に設定されていますが, このプロパティを `PCFSoftShadowMap` に変更すると, より柔らかい影になります.
+
+### `THREE.DirectionalLight`
+- [three.js docs - DirectionalLight](https://threejs.org/docs/#api/lights/DirectionalLight)
+- [04-directional-light.html](https://codepen.io/kesuiket/pen/BZorJm)
+
+このライトは非常に遠くから届く光であると考えることができます.
+発するすべての光線はお互いに平行です.<br>
+太陽の光がよい例でしょう. 太陽は非常に遠くにあるので我々が地球上で受ける光線はお互いに（ほぼ）平行であると考えられます.
