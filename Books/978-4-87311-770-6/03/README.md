@@ -220,6 +220,45 @@ scene.add(hemiLight)
 flare = new THREE.LensFlare(texture, size, distance, blending, color)
 ```
 
+- `texture` - テクスチャはフレアの形を決定する画像
+- `size` - フレアがどのくらい大きいか指定できる. サイズはピクセル値で指定し, `-1` を指定するとテクスチャ自身のサイズが使用される
+- `distance` - 光源(0)からカメラ(1)までの距離. レンズフレアを正しい位置に配置するために使用する
+- `blending` - フレアのための画像は複数指定することができる. ブレンディングモードはそれらをどのようにお互いを混ぜ合わせるかを決定する. LensFlare に使用されるデフォルト値は `THREE.AdditiveBlending`.
+- `color` - フレアの色
+
+```js
+var textureFlare0 = textureLoader.load('path/to/image')
+var flareColor = new THREE.Color(0xffaacc)
+var lensFlare = new THREE.LensFlare(
+  textureFlare0, 350, 0.0, THREE.AdditiveBlending, flareColor,
+)
+lensFlare.position.copy(spotLight.position)
+scene.add(lensFlare)
 ```
+
+真ん中当たりにたくさんあった小さな丸いアーチファクトを追加します.<br>
+`add()` を使用します. このメソッドにはテクスチャ, 大きさ, 距離, ブレンディングモードを指定します.
+`color`プロパティと`opacity`プロパティを指定すると新しく追加するフレアの色と透明度を指定できます.
+
+```js
+var textureFlare3 = THREE.ImageUtils.loadTexture('path/to/image')
+
+lensFlare.add(textureFlare3, 60, 0.6, THREE.AdditiveBlending)
+lensFlare.add(textureFlare3, 70, 0.7, THREE.AdditiveBlending)
+lensFlare.add(textureFlare3, 120, 0.9, THREE.AdditiveBlending)
+lensFlare.add(textureFlare3, 70, 1.0, THREE.AdditiveBlending)
+```
+
+```
+// Memo:
+// THREE.WebGLRenderer を設定しないと適用されなかった
 var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 ```
+
+## まとめ
+- `THREE.AmbientLight`の色はシーン内のすべてに色に追加され, 強すぎる色や影を抑えるためによく使用されます.
+- `THREE.PointLight` はすべての方向に光を発しますが, 影を落とす目的では利用できません.
+- `THREE.SpotLight` は懐中電灯のようなライトです. 円錐状の形状で距離に応じて弱まるように設定でき, 影を落とすこともできます.
+- `THREE.DirectionalLight` は, 太陽光のような非常に遠方からの光に例えることができ, その光線はお互いに平行で, 設定されたターゲットからどんなに遠くにあとしてもその明るさは減衰しません.
+- 屋外での自然な効果を出すための `THREE.HemisphereLight` は, 空からの光だけでなく地面からの照り返しも考慮します.
+- `THREE.lensFlare` は, 写真のようなレンズフレアを追加できます.
