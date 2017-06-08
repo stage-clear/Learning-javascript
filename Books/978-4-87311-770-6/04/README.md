@@ -77,4 +77,18 @@ material.transparency = true
 ```
 
 ### `THREE.MeshBasicMaterial`
+非常に単純なマテリアルでライトの影響を考慮しません.
+
+- `color`
+- `wireframe`
+- `wireframeLinewidht`
+- `wireframeLinecap`
+- `wireframeLinejoin`
+- `vertexColors`
+- `fog`
+
+```
+var meshMaterial = new THREE.MeshBasicMaterial({color: 0x7777ff})
+```
+
 
