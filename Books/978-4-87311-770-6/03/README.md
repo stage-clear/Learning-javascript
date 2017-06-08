@@ -2,7 +2,7 @@
 
 > WebGL自体にはライトのサポートは組み込まれていません.
 > 本章で紹介するようなさまざまな種類のライトをシミュレートするWebGLのシェーダープログラムを個別に自分で書かなければいけなくなります.
-> https://developer.mozilla.org/ja/docs/Web/API/WebGL_API/Tutorial/Lighting_in_WebGL
+> - [WebGL でのライティング](https://developer.mozilla.org/ja/docs/Web/API/WebGL_API/Tutorial/Lighting_in_WebGL)
 
 ## Three.js で利用可能なライティング
 
@@ -172,3 +172,54 @@ scene.add(cameraHelper)
 このライトは非常に遠くから届く光であると考えることができます.
 発するすべての光線はお互いに平行です.<br>
 太陽の光がよい例でしょう. 太陽は非常に遠くにあるので我々が地球上で受ける光線はお互いに（ほぼ）平行であると考えられます.
+
+影を適用するには光の四角錐を定義する必要がありましたが,
+すべての光線がお互いに平行なので光の四角錐はなく, 代わりに立方体状の領域が影を作成するために使用されます.
+
+この立方体の中に存在するものはすべてライトによって影を落とし, また影を受けることができます.
+
+```js
+directionalLight.shadow.camera.near = 2
+directionalLight.shadow.camera.far = 200
+directionalLight.shadow.camera.left = -50
+directionalLight.shadow.camera.right = 50
+directionalLight.shadow.camera.top = 50
+directionalLight.shadow.camera.bottom = -50
+```
+
+`THREE.SpotLight` では `shadow.camera` の実際の値は `THREE.PerspectiveCamera` でしたが,
+`THREE.DirectionalLight` の場合は `THREE.OrthographicCamera` が設定されています.
+
+## 特殊なライト
+### `THREE.HemisphereLight`
+- [three.js docs - HemisphereLight](https://threejs.org/docs/#api/lights/HemisphereLight)
+- [05-hemisphere-light.html](https://codepen.io/kesuiket/pen/MoaGmw)
+
+屋外にいるような見た目の自然なライティングを実現できます.
+
+```js
+var hemiLight = new THREE.HemisphereLight(0x0000ff, 0x00ff00, 0.6)
+hemiLight.position.set(0, 500, 0)
+scene.add(hemiLight)
+```
+
+- `groundColor` - 地面からの光の色
+- `color` - 空からの光の色
+- `intensity` - 光の強度
+- `position` - 空からの光の向き.（デフォルト値: `[0,1,0]`）
+
+### `THREE.LensFlare`
+- [three.js docs - LensFlare](https://threejs.org/docs/#api/objects/LensFlare)
+- [07-lensflare.html](https://codepen.io/kesuiket/pen/JJYZjL)
+
+太陽やその他の明るい光源を直接写真に撮ると現れるあの光輪です.<br>
+写真であれば基本的にレンズフレアは避けたいものですが, ゲームや3D画像でレンズフレアを使うと, 
+シーンがより現実的に見えるという効果があります.
+
+```js
+flare = new THREE.LensFlare(texture, size, distance, blending, color)
+```
+
+```
+var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+```
