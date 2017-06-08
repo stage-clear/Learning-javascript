@@ -15,5 +15,85 @@
 
 ## 基本的なライト
 ### `THREE.AmbientLight`
-
+- [three.js docs - AmbientLight](https://threejs.org/docs/#api/lights/AmbientLight)
 - [01-ambient-light.html](https://codepen.io/kesuiket/pen/zzvPvb)
+
+```js
+var ambiColor = '#0c0c0c'
+var ambientLight = new THREE.AmbientLight(ambiColor)
+scene.add(ambientLight)
+...
+
+var controls = new function() {
+  this.ambientColor = ambiColor
+}
+
+var gui = new dat.GUI()
+gui.addColor(controls, 'ambientColor').onChange(function(e) {
+  ambientLight.color = new THREE.Color(e)
+})
+```
+
+#### `THREE.Color` オブジェクトの利用
+- [three.js docs - Color](https://threejs.org/docs/#api/math/Color)
+
+### `THREE.PointLight`
+- [three.js docs - PointLight](https://threejs.org/docs/#api/lights/PointLight)
+- [02-point-light.html](https://codepen.io/kesuiket/pen/zzvPJY)
+
+> この例には影が全くないことに気づいたでしょうか.
+> Three.js の `THREE.PointLight` は影を落としません.
+> `THREE.PointLight` は全方向に光を発するので, 影の計算がGPUにとって非常に重たい処理になるためです.
+
+- `color` - ライトの色
+- `decay` - ライトからの距離に応じて光が減衰する量.（デフォルト値: `1`）
+- `distance` - ライトの光が届く距離.（デフォルト値: `0`）これは光の強さが距離によって弱められることがないことを意味する
+- `intensity` - 単位面積あたりの光の輝きの強さ.（デフォルト値: `1`）
+- `position` - `THREE.Scene` 内でのライトの位置
+- `power` - 光源の発する光の強さ `intensity` の `4 * Math.PI`倍になり, 内部的には独自のプロパティを持たず, `intensity` から計算される
+- `visible` - `true` に設定されていればライトは点灯し, `false` なら消灯する
+
+```js
+// Example:
+var pointColor = '#ccffcc'
+var pointLight = new THREE.PointLight(pointColor)
+pointLight.position.set(10, 10, 10)
+scene.add(pointLight)
+```
+
+```js
+// Example:
+pointLight.intensity = 2.4
+```
+
+`distance` プロパティは, `intensity` プロパティが0になるまでに光が光源からどのくらい遠くまで進めるかを決定します.
+
+```js
+// Example:
+pointLight.distance = 15
+```
+
+### `THREE.SpotLight`
+- [three.js docs - SpotLight](https://threejs.org/docs/#api/lights/SpotLight)
+
+`THREE.SpotLight` は（影を使いたいと思った場合に特に）もっとも頻繁に使用することになるライトのひとつで,
+効果の範囲が円錐状になります.<br>
+つまり, 懐中電灯やランタンのようなものと考えるとよいでしょう.
+
+- `angle`
+- `castShadow`
+- `color`
+- `decay`
+- `distance`
+- `intensity`
+- `penumbra`
+- `position`
+- `power`
+- `shadow.bias`
+- `shadow.camera.aspect`
+- `shadow.camera.far`
+- `shadow.camera.fov`
+- `shadow.camera.near`
+- `shadow.camera.width` `shadow.camera.height`
+- `target`
+- `visible`
