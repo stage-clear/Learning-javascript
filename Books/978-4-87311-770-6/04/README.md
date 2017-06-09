@@ -115,10 +115,49 @@ spGui.add(controls, 'clippingPlaneZ', -5.0, 5.0).onChange(e => {
 - `wireframe` - ワイヤーフレームを表示するかどうか
 - `wireframeLinewidth` - ワイヤーフレームの幅を指定する
 
+カメラの `near` と `far` の間の距離によりオブジェクトの色の変化の速さが決まります.<br>
+その距離が非常に大きければ, オブジェクトがカメラから遠ざかってもあまり変化しません.
+距離が小さければ非常に速く変化します.
 
 ### マテリアルの組み合わせ
+- [three.js docs - SceneUtils](https://threejs.org/docs/#api/extras/SceneUtils)
+- [03-combined-material.html](https://codepen.io/kesuiket/pen/Qgygxr)
+
+```js
+var cubeMaterial = new THREE.MeshDepthMaterial()
+var colorMaterial = new THREE.MeshBasicMaterial({
+  color: 0x00ff00,
+  transparent: true, 
+  blending: THREE.MultiplyBlending,
+})
+var cube = new THREE.SceneUtils.createMultiMaterialObject(
+  cubeGeometry, [colorMaterial, cubeMaterial]
+)
+cube.children[1].scale.set(0.99, 0.99, 0.99)
+```
+
+まず, マテリアルを2つ作成する必要があります.
+`THREE.MeshDepthMatarial` にはなにもありませんが, `THREE.MeshBasicMaterial` では `transparent` を `true` にし, ブレンディングモードを設定しています.<br>
+`transparent` プロパティを `true` にしないとすでに描画されている色を考慮する必要がないと判断してしまうため, 全体が緑色のオブジェクトが表示されます.
+`transparent` を `true` にすれば, `blending` プロパティを確認して, 緑色の `THREE.meshBasicMaterial` が背景の影響をどのように受けるべきかを知ることができます.
+
+ところでこのサンプルでは `THREE.MultiplyBlending` を使用しました.
+このブレンドモードは前景の色と背景の色を掛け合わせることで臨む効果を得ます.
+
+`THREE.SceneUtils.createMultiMaterialObject()` でメッシュを作成すると, 
+ジオメトリをコピーして, 2つの厳密に同じメッシュをグループ内に入れて返します.
+最後の行を追加せずにこれらを描画するとチラツキ発生するのがわかるでしょう.
+この現象はあるオブジェクトが別のオブジェクトの上に描画された片方が半透明である時に発生することがあります.
+`THREE.MeshDepthMaterial` で作成されたメッシュを縮小すると, この現象が避けられます.
+
+```js
+cube.children[1].scale.set(0.99, 0.99, 0.99)
+```
 
 ### `THREE.MeshNormalMaterial`
+- [three.js docs - MeshNormalMaterial](https://threejs.org/docs/#api/materials/MeshNormalMaterial)
+- [04-mesh-normal-material.html](https://codepen.io/kesuiket/pen/weMqJE)
+
 
 ### `THREE.MultiMaterial`
 
