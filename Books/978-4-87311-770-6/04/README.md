@@ -91,4 +91,51 @@ material.transparency = true
 var meshMaterial = new THREE.MeshBasicMaterial({color: 0x7777ff})
 ```
 
+```js
+var clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), 0)
+meshMaterial.clippingPlanes = [clippingPlane]
 
+spGui.add(controls, 'clippingEnabled').onChange(e => {
+  webGLRenderer.localClippingEnabled = e
+})
+
+spGui.add(controls, 'clippingPlaneZ', -5.0, 5.0).onChange(e => {
+  meshMaterial.clippingPlanes[0].constant = e
+})
+```
+
+### `THREE.MeshDepthMaterial`
+- [three.js docs - MeshDepthMaterial](https://threejs.org/docs/#api/materials/MeshDepthMaterial)
+- [02-depth-material.html](https://codepen.io/kesuiket/pen/zzrZRB)
+
+このマテリアルを使用した場合, オブジェクトの見た目はライトやマテリアルの何かの特定のプロパティにはよらず,
+オブジェクトからカメラの距離だけで決まります.<br>
+これは単独ではあまり利用する場合がありませんが, ほかのマテリアルと組み合わせるとおもしろい効果効果を得ることができます.
+
+- `wireframe` - ワイヤーフレームを表示するかどうか
+- `wireframeLinewidth` - ワイヤーフレームの幅を指定する
+
+
+### マテリアルの組み合わせ
+
+### `THREE.MeshNormalMaterial`
+
+### `THREE.MultiMaterial`
+
+## 高度なマテリアル
+
+### `THREE.MeshLambertMaterial`
+
+### `THREE.MeshPhongMaterial`
+
+### `THREE.MeshStandardMaterial`
+
+### `THREE.ShaderMaterial` を使用した独自シェーダーの作成
+
+## ジオメトリで利用できるマテリアル
+
+### `THREE.LlineBasicMaterial`
+
+### `THREE.LineDashedMaterial`
+
+## まとめ
