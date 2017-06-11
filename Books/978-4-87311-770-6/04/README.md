@@ -158,12 +158,62 @@ cube.children[1].scale.set(0.99, 0.99, 0.99)
 - [three.js docs - MeshNormalMaterial](https://threejs.org/docs/#api/materials/MeshNormalMaterial)
 - [04-mesh-normal-material.html](https://codepen.io/kesuiket/pen/weMqJE)
 
+メッシュの各部分がそれぞれ少し違う色で描画されていて, 球が回転しているにもかかわらず同じ場所の色は同じままです.
+これは各部の色が外向きの法線に基づいて決められているからです.
+法線とは面に対して垂直なベクトルで, Three.js のさまざまな場所で利用されています.
+
+```
+for (var f = 0; fl = sphere.geometry.faces.length; f < fl; f++) {
+  var face = sphere.geometry.faces[f]
+  var centroid = new THREE.Vector3(0, 0, 0)
+  centroid.add(sphere.geometry.vertices[face.a])
+  centroid.add(sphere.geometry.vertices[face.b])
+  centroid.add(sphere.geometry.vertices[face.c])
+  centroid.divideScalar(3)
+
+  var arror = new THREE.ArrowHelper(
+    face.normal,
+    centroid,
+    2, 
+    ox3333ff,
+    0.5,
+    0.5,
+  )
+
+  sphere.add(arrow)
+}
+```
 
 ### `THREE.MultiMaterial`
+- [three.js docs - Group](https://threejs.org/docs/#api/objects/Group)
+- [05-multi-material.html](https://codepen.io/kesuiket/pen/QgNGoK)
+
+実際にはマテリアルではなく, むしろ他のマテリアルのためのコンテナのようなものです.
+`THREE.MultiMaterial` を使用するとジオメトリの面に個別に異なるマテリアルを指定できます.
+
+```js
+var matArray = []
+matArray.push(new THREE.MeshBasicMaterial({color: 0x009e60}))
+matArray.push(new THREE.MeshBasicMaterial({color: 0x009360}))
+...
+
+var faceMaterial = new THREE.MultiMaterial(matArray)
+
+var cubeGeom = new THREE.BoxGeometry(3, 3, 3)
+var cube = new THREE.Mesh(cubeGeom, faceMaterial)
+```
 
 ## 高度なマテリアル
 
 ### `THREE.MeshLambertMaterial`
+- [three.js docs MeshLambertMaterial](https://threejs.org/docs/#api/materials/MeshLambertMaterial)
+- [06-mesh-lambert-material.html](https://codepen.io/kesuiket/pen/mwPREy)
+
+シーン内の高原に反応する非常に使いやすいマテリアルで, くすんだ見た目の光沢のない表面を作成するために使用できます.
+
+- `emissive` - マテリアルが発する色
+
+このマテリアルの反射はすこし鈍く見えます.
 
 ### `THREE.MeshPhongMaterial`
 
