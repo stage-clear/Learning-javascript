@@ -216,10 +216,149 @@ var cube = new THREE.Mesh(cubeGeom, faceMaterial)
 このマテリアルの反射はすこし鈍く見えます.
 
 ### `THREE.MeshPhongMaterial`
+- [three.js docs - meshPhongMaterial](https://threejs.org/docs/#api/materials/MeshPhongMaterial)
+- [07-mesh-phong-material](https://codepen.io/kesuiket/pen/ZyWLvR)
+
+光沢のあるマテリアルを作成できます.
+
+- `emissive` - マテリアルが発する色
+- `specular` - マテリアルにどのくらい光沢があるかと, その光沢の色を指定する
+- `shininess` - 反射するハイライトがどのくらい明るいかを指定する
+- `shading` - シェーディングがどのように適用されるかを定義する. `THREE.smoothShading|THREE.NoShading|THREE.FlatShading`
 
 ### `THREE.MeshStandardMaterial`
+- [three.js docs - MeshStandardMaterial](https://threejs.org/docs/#api/materials/MeshStandardMaterial)
+- [11-mesh-standard-material.html](https://codepen.io/kesuiket/pen/NgNpKy)
+
+簡易的な物理ベースレンダリング(Physically-based rendering:PBR)を実現するマテリアルです
+物理ベースレンダリングではオブジェクトの質感をより物理現象に則した形で表現しようとします.
+ただし, `THREE.MeshStandardMaterial`は将来本格的な物理ベースレンダリングを導入することを視野に入れつつ,
+必要なパラメーターを大幅に省略した簡易的な実装になっています.
+
+- `metalness` - 金属性. この値によって光をどの程度どのような色で反射するかが決定される. 0から1の値をとる. (デフォルト値: `0.5`)
+- `metalnessMap` - `metalness`をより細かく指定するためのテクスチャ
+- `roughness` - 表面の粗さ. 光沢の度合いを指定する. 0から1の値をとる. (デフォルト値; `0.5`)
+- `roughnessMap` - `roughness` をより細かく指定するためのテクスチャ
+
+```js
+var meshMaterial = new THREE.MeshStandardMaterial({color: 0x7777ff})
+```
 
 ### `THREE.ShaderMaterial` を使用した独自シェーダーの作成
+- [three.js docs - ShaderMaterial](https://threejs.org/docs/#api/materials/ShaderMaterial)
+- [08-shader-material.html](https://codepen.io/kesuiket/pen/qjZroq)
+
+マテリアルの中でもっとも強力ですが, その分非常に複雑なマテリアルです.
+このマテリアルには, WebGLのコンテキストで直接実行される独自シェーダーを設定することができます.<br>
+シェーダーとは JavaScript で記述された Three.js のメッシュを画面上のピクセルに変更するためのもです,
+独自シェーダーを使用するとオブジェクトの描画方法や Three.js のデフォルトの表示を上書きする方法を厳密に指定できます.
+
+これまで見てきたような多くのプロパティを設定できます.<br>
+ただし, Three.js はこれらのプロパティに関係する情報をすべてシェーダーに渡しますが,
+`THREE.ShaderMaterial` の場合, この情報の処理は自作シェーダープログラム内で自分で記述する必要があります.
+
+- `wireframe`
+- `wireframeLinewidth`
+- `linewidth`
+- `shading`
+- `vertexColors`
+- `fog`
+
+これらのプロパティ以外にも, 独自シェーダーに追加の情報をわたすことができる特殊なプロパティがたくさんあります.
+
+- `fragmentShader`
+- `vertexShader`
+- `uniforms`
+- `defines`
+- `attributes`
+- `lights`
+
+#### `vertexShader`
+ジオメトリの頂点それぞれについて実行されます.
+このシェーダーを利用すると, 頂点の位置を変更してジオメトリを変形させることができます.
+
+#### `fragmentShader`
+ジオメトリのフラグメントそれぞれについて実行されます.
+`fragmentShader` は特定のフラグメントについて表示すべき色を返します.
+
+簡単なサンプルを使用します.
+サンプルでは立方体の頂点の x, y, z 座標を変更する非常に簡単な `vertexShader` プログラムと
+[http://glslsandbox.com/](http://glslsandbox.com/) にあるシェーダーを利用する `fragmentShader`
+プログラムを使用して, アニメーションするマテリアルを作成します.
+
+シェーダーは JavaScript で記述するわけではないことに注意してください.
+シェーダーは次のように GLSL(WebGLはOpenGL ESシェーダー言語1.0をサポートしています) と呼ばれるC言語のような言語で記述します.
+
+- [GLSL](https://www.khronos.org/webgl/)
+
+```glsl
+<script id="vertex-shader" type="x-shader/x-vertex">
+uniform float time;
+
+void main() {
+  vec3 postChanged = position;
+  posChanged.x = posChanged.x * (abs(sin(time * 1.0)));
+  posChanged.y = posChanged.y * (abs(cos(time * 1.0)));
+  posChanged.z = posChanged.z * (abs(sin(tiem * 1.0)));
+  gl_Position = projectionMatrix * modeViewMatrix * vec4(posChanged, 1.0);
+}
+</script>
+```
+
+1. JavaScript からシェーダーに情報を渡すためには, `uniforms` と呼ばれる変数を使用します.
+2. `gl_Position` は特殊な変数で, ここに代入された値が最終的な座標として返されます.
+3. 次に, `shaderMaterial` を作成して, `vertexShader` を渡さなければいけません.
+   `var meshMaterial = createMaterial('vertex-shader', 'fragment-shader-1')` のようにして利用します.
+
+```js
+function createMaterial(vertexShader, fragmentShader) {
+  var vertShader = document.getElementById(vertexShader).innerHTML
+  ver fragShader = document.getElementById(fragmentShader).innerHTML
+  var uniforms = {
+    time: {type: 'f', value: 0.2},
+    scale: {type: 'f', value: 0.2},
+    alpha: {type: 'f', value: 0.6},
+    resolution: {type: 'v2', value: new THREE.Vector2()}
+  }
+  uniforms.resolution.value.x = window.innerWidth
+  uniforms.resolution.value.y = window.innerHeight
+  
+  var meshMaterial = new THREE.ShaderMaterial({
+    uniforms: uniforms,
+    vertexShader: vertShader,
+    fragmentShader: fragShader,
+    transparent: true
+  })
+
+  return meshMaterial
+}
+```
+
+`uniforms` 変数を準備していますが, この変数はレンダラからシェーダーに情報を渡すためのものです.<br>
+この `uniforms` 変数には次のように描画ループ内で値が設定されます.
+
+```js
+function render() {
+  stats.update()
+  
+  cube.rotation.y = step += 0.01
+  cube.rotation.x = step
+  cube.rotation.z = step
+  
+  cube.material.materials.forEach(function(e) {
+    e.uniforms.time.value += 0.01
+  })
+
+  requestAnimationFrame(render)
+  renderer.render(scene, camera)
+}
+```
+
+このサンプルでは, fragmentShader オブジェクトはすべて [GLSL Sandbox Gallery](http://glslsandbox.com/) からコピーしたものです.
+
+最終的に返される色は `gl_FragColor = color_final` で設定された値です.
+
+次のマテリアルの説明に進む前に, 独自 `vertexShader` プログラム 
 
 ## ジオメトリで利用できるマテリアル
 
