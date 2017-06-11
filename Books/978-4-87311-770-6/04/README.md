@@ -358,12 +358,84 @@ function render() {
 
 最終的に返される色は `gl_FragColor = color_final` で設定された値です.
 
-次のマテリアルの説明に進む前に, 独自 `vertexShader` プログラム 
+次のマテリアルの説明に進む前に, [独自 `vertexShader` プログラム](https://www.shadertoy.com/view/4dXGR4) でなにができるかを示す例をもうひとつ紹介します.
 
-## ジオメトリで利用できるマテリアル
+## ラインジオメトリで利用できるマテリアル
+`THREE.Line` でだけ利用できます.<br>
+このジオメトリは単純な線で, 頂点と辺だけで構成されていて面を持ちません.
+
+- `THREE.LineBasicMaterial` - ラインのための基本的なマテリアルで, `linewidth` `linecap` `linejoin` といったプロパティを設定できます.
+- `THREE.LineDashedMaterial` - `THREE.LineBasicMaterial` と同じプロパティを持っていますが, それ以外にも線と線間の長さを指定して点線を作ることができます
 
 ### `THREE.LlineBasicMaterial`
 
+- `color`
+- `linewidth`
+- `linecap`
+- `linejoin`
+- `vertexColors`
+- `fog`
+
+```js
+var points = gosper(4, 60)
+
+var lines = new THREE.Geometry()
+var colors = []
+var i = 0
+points.forEach(function(e) {
+  lines.vertices.push(new THREE.Vector3(e.x, e.z, e.y))
+  colors[i] = new THREE.Color(0xffffff)
+  colors[i].setHSL(e.x / 100 + 0.5, (e.y * 20) / 300, 0.8)
+  i++
+})
+
+lines.colors = colors
+
+var material = new THREE.LineBasicMaterial({
+  opacity: 1.0,
+  linewidth: 1,
+  vertexColors: THREE.VertexColors
+})
+
+var line = new THREE.Line(lines, material)
+```
+最初の部分では, x座標とy座標の組みを生成しています.
+今回の例では, `gosper()` を使用して2次元領域を満たす簡単なアルゴリズムである[ゴスパー曲線](https://en.wikipedia.org/wiki/Gosper_curve)上の各点を得ています.
+
+[HSL color values](https://www.w3.org/TR/2003/CR-css3-color-20030514/#hsl-color)
+
+- [three.js docs - LineBasicMaterial](https://threejs.org/docs/#api/materials/LineBasicMaterial)
+- [09-line-material.html](https://codepen.io/kesuiket/pen/gRrRBL?editors=0010)
+
+
 ### `THREE.LineDashedMaterial`
 
+- `scale` - `dashSize` と `gapSize` を拡大縮小する
+- `dashSize` - 点の長さ
+- `gapSize` - 点の長さ
+
+```js
+lines.computeLineDistances()
+var material = new THREE.LineDashdedMaterial({
+  vertexColor: true,
+  color: 0xffffff,
+  dashSize: 10,
+  gapSize: 1, 
+  scale: 0.1,
+})
+```
+
+- [three.js docs - LineDashedMaterial](https://threejs.org/docs/#api/materials/LineDashedMaterial)
+- [10-line-material-dashed.html](https://codepen.io/kesuiket/pen/OgNjPx)
+
+`THREE.LineBasicMaterial` との唯一の違いは `THREE.Geometry` オブジェクトの `computeLineDistances()` を呼び出す必要があるということです.
+これを呼び出さなければ点間が正確に設定されません.
+
 ## まとめ
+
+ライティングに影響を受けるマテリアルが必要なら, `THREE.MeshPhongMaterial`, `THREE.MeshLambertMaterial`, `THREE.meshStandardMaterial` のいずれかを使用しましょう.
+
+マテリアルのプロパティのほとんどは実行時に変更できるということも忘れないでください.
+ただし（例えば `side` など）いくつかの値は実行時には変更できません.
+それらの値を変更した場合には, `needsUpdate` プロパティを `true` に設定する必要があります.
+実行時になにが変更できて何が変更できないのか全体的に把握するには[How to update things](https://threejs.org/docs/#manual/introduction/How-to-update-things)を参照してください.
