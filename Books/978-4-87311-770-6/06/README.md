@@ -85,6 +85,92 @@ function generatePoints(segments, phiStart, phiLength) {
 - [three.js docs - ExtrudeGeometry](https://threejs.org/docs/#api/geometries/ExtrudeGeometry)
 - [03-extrude-geometry.html](https://codepen.io/kesuiket/pen/awNxEO)
 
+```js
+var options = {
+  amount: 10,
+  bevelThickness: 2,
+  bevelSize: 1,
+  bevelSegments: 3,
+  bevelEnabled: true,
+  curveSegments: 12,
+  steps: 1,
+}
+
+shape = createMesh(new THREE.ExtrudeGeometry(drawShape(), options))
+```
+
+- `shapes`
+- `amount`
+- `bevelThickness`
+- `bevelSize`
+- `bevelSegments`
+- `bevelEnabled`
+- `curveSegments`
+- `steps`
+- `extrudePath`
+- `uvGenerator`
+- `frames`
+
+#### `THREE.TubeGeometry`
+- [three.js docs - __TubeGeometry__](https://threejs.org/docs/#api/geometries/TubeGeometry)
+- [04-exturude-tube.html](https://codepen.io/kesuiket/pen/OgXJqW)
+
+```js
+var points = []
+for (var i = 0; i < controls.numberOfPoints; i++) {
+  var randomX = -20 + Math.round(Math.random() * 50)
+  var randomY = -15 + Math.round(Math.random() * 40)
+  var randomZ = -20 + Math.round(Math.random() * 40)
+  
+  points.push(new THREE.Vector3(randomX, randomY, randomZ))
+}
+
+var tubeGeometry = new THREE.TubeGeometry(
+  new THREE.CatmullRomCurve3(points),
+  segments, radius, radiusSegments, closed
+)
+tubeMesh = createMesh(tubeGeometry)
+scene.add(tubeMesh)
+```
+
+`THREE.ConvexGeometry`や`THREE.LatheGeometry`の場合と同じように, まず初めに `THREE.Vector3`型の頂点群を作成する必要があります.
+ただし, これらの点列を直接使用してチューブを作成するのではなく, まず点列を `THREE.CatmullRomCurve3`に変換します.
+
+- `path`
+- `segments`
+- `radius`
+- `radiusSegumets`
+- `closed`
+- `taper`
+
+#### SVGの押し出し
+- [05-exturude-svg.html](https://codepen.io/kesuiket/pen/PjzwEO)
+- [asutherland/d3-threeD](https://github.com/asutherland/d3-threeD) - 少し修正するだけで特定の関数を単独で利用できるようになります
+
+```
+function drawShape() {
+  var svgString = document.querySelector('#batman-path').getAttribute('d')
+  var shape = transformSVGPathExposed(svgString)
+  return shape
+}
+
+var options = {
+  amount: 10,
+  bevelThickness: 2,
+  bavelSize: 1,
+  bevelSegments: 3,
+  bevelEnabled: true,
+  curveSegments: 12,
+  steps: 1,
+}
+
+shape = createMesh(new THREE.ExtrudeGeometry(
+  drawShape(), options
+))
+```
+
+#### `THREE.ParametricGeometry`
+
 ## 3Dテキスト作成
 ### テキストの描画
 ### 独自フォントの追加
