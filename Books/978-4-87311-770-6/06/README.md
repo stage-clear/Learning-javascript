@@ -173,9 +173,92 @@ shape = createMesh(new THREE.ExtrudeGeometry(
 
 ## 3Dテキスト作成
 ### テキストの描画
-### 独自フォントの追加
+- [07-text-geometry.html](https://codepen.io/kesuiket/pen/qjaoeg)
+
+```js
+var options = {
+  size: 90,
+  height: 90,
+  font: helvetikerFont, // THREE.FontLoader で事前に読み込まれたフォント
+  bevelThickness: 9,
+  bevelSize: 4,
+  bevelSegments: 3,
+  bevelEnabled: true,
+  curveSegments: 12,
+  steps: 1,
+}
+
+text1 = createMesh(new THREE.TextGeometry('Learning', options))
+text1.position.z = -100
+text1.position.y = 100
+scene.add(text1)
+
+text2 = createMesh(new THREE.TextGeometry('Three.js', options))
+scene.add(text2)
+```
+
+- `size`
+- `height`
+- `width`
+- `font`
+- `bevelThickness`
+- `bevelSize`
+- `bevelEnabled`
+- `steps`
+- `extrudePath`
+- `uvGenerator`
+- `frames`
+
+> もしフォントを2次元で描画したいのであれば, 例えばそれらをテクスチャとして設定したマテリアルを使うなどして,
+> `THREE.TextGeometry` の使用は避けるべきです.
+
+### 独自のフォントの追加
+- [facetype.js](http://gero3.github.io/facetype.js/)
+
+```js
+var fontFile = 'path/to/{font}.typeface.json'
+var fontLoader = new THREE.FontLoader()
+fontLoader.load(fontFile, function(fontData) {
+  init()
+})
+```
+
 ## ブーリアン演算を使用したメッシュの結合
-### `subtract`関数
+CSG(Constructive Solid Geometry) として知られる技術を用いて,
+基本的なジオメトリの組み合わせから新しい形状を作成する方法を紹介します
+
+- [skalnik/ThreeBSP](https://github.com/skalnik/ThreeBSP)
+
+この拡張ライブラリを使うと3つの機能が利用できます.
+
+- `intersect`
+- `union`
+- `subtract`
+
+これら3つの関数はメッシュの絶対座標を計算に使用しています.
+そのためこの関数適用前にメッシュをグループ化していたりマルチマテリアルを使用していると
+おそらく結果がおかしなことになります
+
+- [08-binary-operation.html](https://codepen.io/kesuiket/pen/xrEjQK)
+
+### `subtract` 関数
+メッシュ同士の重なっている部分を取り除く
+
 ### `intersect`関数
+メッシュ同士の重なっている部分だけを残します
+
 ### `union`関数
+2つのメッシュを統合したひとつの新しいメッシュを作成します
+
+メッシュ同士の結合は `THREE.Geometry.merge` として Three.js でも提供しています.
+ThreeBSPのunion関数を使用した場合はジオメトリ同士が交差した部分にある頂点や面は取り除かれ,
+ジオメトリの境界部分に矛盾がないように新しく頂点や面が追加されます.<br>
+ほとんどの場合はオブジェクトの内部を気にかける必要はないので, ジオメトリの結合には
+`THREE.Geometry.merge`を使用すると良いでしょう.
+ただし, メッシュが半透明な場合や, CADのようにソリッドなオブジェクトが必要なアプリケーションを
+作成する場合はオブジェクトの内部を気にかける必要があるので ThreeBSP を使用してください.
+
+
+
+
 ## まとめ
