@@ -147,7 +147,7 @@ scene.add(tubeMesh)
 - [05-exturude-svg.html](https://codepen.io/kesuiket/pen/PjzwEO)
 - [asutherland/d3-threeD](https://github.com/asutherland/d3-threeD) - 少し修正するだけで特定の関数を単独で利用できるようになります
 
-```
+```js
 function drawShape() {
   var svgString = document.querySelector('#batman-path').getAttribute('d')
   var shape = transformSVGPathExposed(svgString)
