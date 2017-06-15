@@ -29,6 +29,7 @@ https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js
 https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js
 
 https://threejs.org/examples/js/renderers/CanvasRenderer.js
+// * `three.js.org` のリソースは最新版なので 78 と一緒には使用できない
 ```
 
 ## 外部リンク
