@@ -17,7 +17,7 @@
 - [A: Google Cardboardを使用したモバイルVR](appendix-a/README.md)
 - [B: THREE.MMDLoader による3Dモデルの制御](appendix-b/README.md)
 
-この書籍でのサンプルのバージョンは 78 です:
+この書籍でのサンプルのバージョンは __78__ です:
 
 ```
 https://cdnjs.com/libraries/three.js/
@@ -27,6 +27,8 @@ https://cdnjs.com/libraries/dat-gui
 https://cdnjs.cloudflare.com/ajax/libs/three.js/78/three.min.js
 https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js
 https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js
+
+https://threejs.org/examples/js/renderers/CanvasRenderer.js
 ```
 
 ## 外部リンク
