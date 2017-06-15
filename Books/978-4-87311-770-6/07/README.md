@@ -381,3 +381,158 @@ scene.children.forEach(function(child) {
 ```
 
 ## スプライトマップの利用
+- [08-sprite.html](https://codepen.io/kesuiket/pen/awBOxp?editors=0010)
+
+`THREE.Sprite` のオブジェクトのまた別の利用法として, `THREE.OrthographicCamera` インスタンスを
+もうひとつ使用して作成した3Dコンテンツ上に表示されるヘッドアップディスプレイ（HUD）のような
+レイヤーを`THREE.Sprite`を使用して作成する方法を紹介します.
+
+さらにスプライトマップを使用して `THREE.Sprite` オブジェクトの画像を選択する方法を紹介します.
+
+```js
+var sceneOrtho = new THREE.Scene()
+var cameraOrthio = new THREE.OrthographicCamera(
+  0, window.innerWidth, window.innerHeight, 0, -10, 10
+)
+
+var getTexture = function() {
+  var textureLoader = new THREE.TextureLoader()
+  var texture = new textureLoader.load('path/to/sprite-sheet')
+  return texture
+}
+
+function createSprite(size, transparent, opacity, color, spriteNumber) {
+  var spriteMaterial = new THREE.SpriteMaterial({
+    opacity: opacity,
+    color: color,
+    transparent: transparent,
+    map: getTexture(),
+  })
+  
+  // 1行にスプライトは5つ
+  spriteMaterial.map.offset = new THREE.Vector2(0.2 * spriteNumber, 0)
+  spriteMaterial.map.repeat = new THREE.Vector2(1 / 5, 1)
+  // オブジェクトは必ず前面に表示
+  spriteMaterial.depthText = flse
+
+  spriteMaterial.blending = THREE.AdditiveBlending
+  
+  var sprite = new THREE.Sprite(spriteMaterial)
+  sprite.scale.set(size, size, size)
+  sprite.position.set(100, 50, -10)
+  sprite.velocityX = 5
+  
+  sceneOrtho.add(sprite)
+}
+```
+
+`map.offset` プロパティと `map.repeat`プロパティを使用して画面に表示するスプライトを設定します.
+`map.offset` プロパティでは読み込んだテクスチャ画像のx軸（u）とy軸（v）のオフセットを指定します.
+これらのプロパティは0から1の範囲の値を取ります.
+
+#### `THREE.SpriteMaterial`のプロパティ
+- `color`
+- `map`
+- `rotation`
+- `opacity`
+- `blending`
+- `fog`
+
+3D内で `THREE.Sprite`を配置する時にスプライトマップももちろん利用できます.
+- [09-sprite-3D.html](https://codepen.io/kesuiket/pen/awBvaY)
+
+```js
+function createSprites() {
+  group = new THREE.Group()
+  var range = 200
+  for (var i = 0; i < 400; i++) {
+    group.add(createSprite(10, false, 0.6, 0xffffff, i % 5, range))
+  }
+  scene.add(group)
+}
+
+function createSprite(size, transparent, opacity, color, spriteNumber, range) {
+  var spriteMateril = new THREE.SpriteMaterial({
+    opacity: opacity,
+    color: color,
+    transparent: transparent,
+    map: getTexture()
+  })
+  
+  spriteMaterial.map.offset = new THREE.Vector2(0.2 * spriteNumber, 0)
+  spriteMaterial.map.repeat = new THREE.Vector2(1/ 5, 1)
+  spriteMaterial.depthTest = false
+  spriteMaterial.blending = THREE.AdditiveBlending
+  
+  var sprite = new THREE.Sprite(spriteMaterial)
+  sprite.scale.set(size, size, size)
+  sprite.position.set(
+    Math.random() * range - range / 2,
+    Math.random() * range - range / 2,
+    Math.random() * range - range / 2,
+  )
+  sprite.velocityX = 5
+  
+  return sprite
+}
+```
+
+次のようにすると全体を簡単に回転できます.
+
+```
+group.rotation.x += 0.1
+```
+
+## 高度なジオメトリから `THREE.Points`を作成
+- [10-create-particle-system-from-model.html](https://codepen.io/kesuiket/pen/jwVWqw)
+
+```js
+function generateSprite() {
+  var canvas = document.createElement('canvas')
+  canvas.width = 16
+  canvas.height = 16
+  
+  var context = canvas.getContext('2d')
+  var gradient = context.createRadialGradient(
+    canvas.width / 2, canvas.height / 2, 0,
+    canvas.width / 2, canvas.height / 2, canvas.width / 2
+  )
+  gradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
+  gradient.addColorStop(0.2, 'rgba(0, 255, 255, 1)')
+  gradient.addColorStop(0.6, 'rgba(0, 0, 64, 1)')
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 1)')
+  
+  context.fillStyle = gradient
+  context.fillRect(0, 0, canvas.width, canvas.height)
+  
+  var texture = new THREE.Texture(canvas)
+  texture.needsUpdate = true
+  return texture
+}
+
+function createPoints(geom) {
+  var material = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 3,
+    transparent: true,
+    blendiing: new THREE.AdditiveBlending,
+    map: generateSprite(),
+    depthWrite: false,
+  })
+  
+  var cloud = new THREE.Points(geom, material)
+  cloud.sortParticles = true
+  return cloud
+}
+
+var geom = new THREE.TorusKnotGeometry(...)
+var knot = createPoints(geom)
+```
+
+## まとめ
+大量のパーティクルを作成したいのであれば `THREE.Points`を使うべきです.
+`THREE.Points`を使用するとすべてのパーティクルが同じマテリアルを共有します.<br>
+個別のパーティクルごとに変更が可能な唯一のプロパティはその色で, マテリアルの
+`vertexColors`プロパティを`THREE.VertexColors`に設定し, `THREE.Points`を作成するのに使用した
+`THREE.Geometry`の `colors`配列に色を与えるとパーティクルごとに個別の色を使用できます.
+
