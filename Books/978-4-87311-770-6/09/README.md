@@ -97,3 +97,67 @@ object: THREE.Mesh        // クリックされたメッシュ
 point: THREE.Vector3      // クリックされたメッシュ上の正確な位置
 uv: THREE.Vector2         // 
 ```
+
+### Tween.js を使用したアニメーション
+- [Tween.js](https://github.com/sole/tween.js/)
+- [tween.js graphs](http://sole.github.io/tween.js/examples/03_graphs.html) - 利用できる曲線の一覧
+- [03-animation-tween.html](https://codepen.io/kesuiket/pen/owBYzj)
+
+例えば, メッシュのx座標を10から3まで10秒かけて変化させる場合
+
+```js
+var tween = new TWEEN.Tween({x: 10}).to({x: 3}, 1000)
+  .easing(TWEEN.Easing.Elastic.InOut)
+  .onUpdate(function() {
+    // メッシュの座標を更新
+  })
+```
+
+```js
+var posSrc = {pos: 1}
+var tween = new TWEEN.Tween(posSrc).to({pos: 0}, 5000)
+tween.easing(TWEEN.Easing.Sinusoidal.InOut)
+
+var tweenBack = new TWEEN.Tween(posSrc).to({pos: 1}, 5000)
+tweenBack.easing(TWEEN.EasingSinusoidal.InOut)
+
+tween.chain(tweenBack)
+tweenBack.chain(tween)
+
+var onUpdate = function() {
+  var count = 0
+  var pos = this.pos
+  
+  loadedGeometry.vertices.forEach(function(e) {
+    var newY = ((e.y + 3.22544) * pos) - 3.22544
+    pointCloud.geometry.vertices[count++].set(e.x, newY, e.z)
+  })
+  
+  pointCloud.geometry.verticesNeedUpdate = true
+}
+
+tween.onUpdate(onUpdate)
+tweenBack.onUpdate(onUpdate)
+```
+
+モデルの読み込みが完了するのを待ってからトゥイーンを開始します
+```js
+var loader = new THREE.PLYLoader()
+loader.load('../assets/models/test.ply', function(geometry) {
+  ...
+  tween.start()
+  ...
+})
+```
+
+トゥイーンを開始した後は, Tween.js ライブラリの管理しているすべてのトゥイーンをいつ更新すべきかを
+ライブラリに指定する必要があります
+
+```js
+function render() {
+  TWEEN.update()
+  requestAnimationFrame(render)
+  webGLRenderer.render(scene, camera)
+}
+```
+
