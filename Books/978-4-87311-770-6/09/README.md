@@ -336,7 +336,310 @@ Three.js は両方サポートしていますが, 一般的にはモーフター
 この方法には欠点もあり, 巨大なメッシュに巨大なアニメーションを定義するとモデルファイルが非常に大きくなってしまいます.
 これはそれぞれのキーフレームにすべての頂点群が繰り返し定義されるためです.
 
-#### `THREE.AnimationMixer`を使用したモーフアニメーション
-- [10-morph-targets.html]()
-
 <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Sintel-hand.png" width="200">
+
+#### `THREE.AnimationMixer`を使用したモーフアニメーション
+- [three.js docs - __AnimationMixer__](https://threejs.org/docs/#api/animation/AnimationMixer)
+- [three.js docs - __AnimationClip__](https://threejs.org/docs/#api/animation/AnimationClip)
+- [10-morph-targets.html](https://codepen.io/kesuiket/pen/vZggMv)
+
+```js
+var loader = new THREE.JSONLoader()
+loader.load('../assets/models/horse.js', function(geometry, mat) {
+  geometry.computeVertexNormals()
+  
+  var mat = new THREE.MeshLambertMaterial({
+    morphTargets: true,
+    vertexColors: THREE.FaceColors,
+  })
+  
+  mesh = new THREE.Mesh(geometry, mat)
+  mesh.position.x = 200
+  scene.add(mesh)
+  
+  mixer = new THREE.AnimationMixer(mesh)
+  var clip = THREE.AnimationClip.CreateFromMorphTargetSequence(
+    'gallop', geometry.morphTargets, 30
+  )
+  var action = mixer.clipAction(clip)
+  action.setDuration(1).play()
+}, '../assets/modles')
+```
+
+`THREE.AnimationMixer` はアニメーションを統一的に扱うためのコンテナオブジェクトで,
+その `clipAction` メソッドに特定のアニメーションシーケンスを表すクリップオブジェクトを渡すことで
+実行可能なアクションが得られます.<br>
+なお, アニメーションを読み込む場合は `{morphTargets: true}` に設定されていることを確認してください.
+
+次に描画ループ内でアニメーションを更新します.
+
+```js
+function render() {
+  stats.update()
+  
+  var delta = clock.getDelta()
+  webGLRenderer.clear()
+  if (mixer) {
+    mixer.update(delta)
+    mesh.rotation.y = 0.01
+  }
+  
+  requestAnimationFrame(render)
+  webGLRenderer.render(scene, camera)
+}
+```
+
+#### `morphTargetInfluence` プロパティを設定してアニメーションを作成
+- [11-morph-targets-manually.html](https://codepen.io/kesuiket/pen/eRgvWy)
+
+```js
+// 立方体を作成
+var cubeGeometry = new THREE.BoxGeometry(4, 4, 4)
+var cubeMaterial = new THREE.MeshLambertMaterial({
+  morphTargets: true,
+  color: 0xff0000,
+})
+
+// モーフターゲットを定義. これらのジオメトリの頂点を使用します
+var cubeTarget1 = new THREE.BoxGeometry(2, 10, 2)
+var cubeTarget2 = new THREE.BoxGeometry(8, 2, 8)
+
+// モーフターゲットを設定
+cubeGeometry.morphTargets[0] = {
+  name: 't1',
+  vertices: cubeTarget2.vertices,
+}
+cubeGeometry.morphTargets[1] = {
+  name: 't2',
+  vertices: cubeTarget1.vertices,
+}
+
+var cube = THREE.Mesh(cubeGeometry, cubeMaterial)
+```
+
+手動でモーフターゲットを作成する場合, モーフターゲットの頂点数は元となるジオメトリと
+同じでなければいけません.
+
+ジオメトリが複数のモーフターゲットの影響を同時に受ける場合もあるということに注意してください
+
+モーフアニメーションは非常に簡単でした.
+モーフターゲットに全頂点の移動後の座標が設定されていて, それぞれの頂点をある位置から
+別のモーフターゲットの位置に移動するだけです.
+
+### ボーンとスキンを使用したアニメーション
+ボーンの移動に合わせてボーンに関連付けられたスキン（頂点群）をどこに移動するかを決定しなければいけません.
+
+- [12-bones.manually.html](https://codepen.io/kesuiket/pen/jwyBeG)
+
+```js
+var loader = new THREE.JSONLoader()
+loader.load('../assets/models/hand-1.js', function(geometry, mat) {
+  var mat = new THREE.MeshLambertMaterial({
+    color: 0xf0c8c9,
+    skinning: true,
+  })
+  mesh = new THREE.SkinnedMesh(geometry, mat)
+  
+  // 手全体を回転
+  mesh.rotation.x = 0.5 * Math.PI
+  mesh.rotation.y = 0.7 * Math.PI
+ 
+  // メッシュを追加
+  scene.add(mesh)
+  
+  // アニメーションを開始
+  tween.start()
+}, '../assets/models')
+```
+
+Three.js には `THREE.SkinnedMesh` という名前のボーンとスキンが設定されたジオメトリ専用のメッシュがあります.
+ボーンの移動に合わせてスキンも移動するのは, 使用するマテリアルの `{skinning: true}` に設定する必要があります.
+
+```js
+var tween = new TWEEN.Tween({pos: -1})
+  .to({pos: 0}, 3000)
+  .easing(TWEEN.Easing.Cubic.InOut)
+  .yoyo(true)
+  .repeat(Infinity)
+  .onUpdate(onUpdate)
+```
+
+```js
+var onUpdate = function() {
+  var pos = this.pos
+  
+  // 指を回転
+  mesh.skeleton.bones[5].rotation.set(0, 0, pos)
+  mesh.skeleton.bones[6].rotation.set(0, 0, pos)
+  mesh.skeleton.bones[10].rotation.set(0, 0, pos)
+  mesh.skeleton.bones[11].rotation.set(0, 0, pos)
+  mesh.skeleton.bones[15].rotation.set(0, 0, pos)
+  ....
+  
+  // 手首を回転
+  mesh.skelton.bones[1.rotation.set(pos, 0 ,0)
+}
+```
+
+## 外部モデルを使用したアニメーション
+
+__Blenderアニメーション__<br>
+
+__Colladaモデルアニメーション__<br>
+
+__MD2モデルアニメーション__<br>
+
+### Blender アニメーション
+フォルダ内に hand.blend ファイルがありますので, Blender に読み込んでください
+
+- モデルの頂点はすべて少なくともひとつの頂点グループに関連付けられていなければいけません
+- Blender 内で使用する頂点グループの名前はそれを制御するボーンの名前と一致しなければいけません.
+  それによってボーンが移動したときに Three.js はどの頂点を移動する必要があるのか決定することができます
+- 最初の「アクション」だけがエクスポートされます. そのためエクスポートしたいアニメーションが一番最初に来るようにしてください
+- キーフレームを作成するときにもし変更されていないものがあったとしてもすべてのボーンを選択しておくとよいでしょう
+- モデルをエクスポートするときにモデルが [Rest Pose] になっていることを確認してください.
+  もしそうなっていないと非常に奇妙なアニメーションになります
+
+- [three.js docs - __SkeletonHelper__](https://threejs.org/docs/#api/helpers/SkeletonHelper)
+- [13-animation-from-blender.html](https://codepen.io/kesuiket/pen/gRgWjX)
+
+```js
+var loader = new THREE.JSONLoader()
+loader.load('../assets/models/hand-2.js', function(geometry, mat) {
+  var mat = new THREE.MeshLambertMaterial({
+    color: 0xf0c8c9,
+    skinning: true,
+  })
+  mesh = new THREE.SkinnedMesh(geometry, mat)
+  
+  mesh.rotation.x = 0.5 * Math.PI
+  mesh.rotation.z = 0.7 * Math.PI
+  
+  mixer = new THREE.AnimationMixer(mesh)
+  bonesClip = geometry.animations[0]
+  var action = mixer.clipAction(bonesClip)
+  action.play()
+}, '../assets/modles')
+```
+
+アニメーションを再生するには, メッシュから `THREE.AnimationMixer` インスタンスを作成し,
+ジオメトリに設定されているクリップを mixer から取り出してそのアクションを `play()` で呼び出します.
+さらに, `mixer.update(clock.getDelta())` を呼び出すとアニメーションが更新され, ボーンの位置に応じてモデルが変形します.
+
+Three.js にはモデルのボーンの位置を確認するための簡単なヘルパーがあります
+
+```js
+helper = new THREE.SkeletonHelper(mesh)
+helper.material.linewidth = 2
+scene.add(helper)
+```
+
+アニメーションさせるには描画ループ内で `helper.update()` を呼び出すのを忘れないようにしてください
+
+### Collada モデルのアニメーション
+- [three.js docs - __Animation__](https://threejs.org/docs/#api/constants/Animation)
+- [14-animation-from-collada.html](https://codepen.io/kesuiket/pen/pwRPBB)
+
+ColladaLoader に関してはまだ新しいアニメーションフレームワークに対応してないようで, 
+古いアニメーションシステムに関係するファイルも合わせて読み込む必要があります.
+
+```js
+<script src="../libs/loaders/collada/Animation.js"></script>
+<script src="../libs/loaders/collada/AnimationHandler.js"></script>
+<script src="../libs/loaders/collada/KeyFrameAnimation.js"></script>
+<script src="../libs/loaders/collada/ColladaLoader.js"></script>
+```
+
+```js
+var loader = new THREE.ColladaLoader()
+loader.load('../assets/models/monster.dae', function(collada) {
+  var child = collada.skins[0]
+  scene.add(child)
+  
+  var animation = new THREE.Animation(
+    child, child.geometry.animation
+  )
+  animation.play()
+  
+  child.scale.set(0.15, 0.15, 0.15)
+  child.rotation.x = -0.5 * Math.PI
+  child.position.x = -100
+  child.position.y = -60
+})
+```
+
+```js
+function render() {
+  ...
+  var delta = clock.getDelta()
+  THREE.AnimationHandler.update(delta)
+  ...
+}
+```
+
+### MD2モデルのアニメーション
+- [15-animation-from-md2.html](https://codepen.io/kesuiket/pen/JJEJob)
+
+MD2フォーマットは1996年から続くすばらしいゲーム『Quake』のキャラクターをモデリングするために作成されました.<br>
+MD2フォーマットを読み込むにはこれまでと同様 MD2Loader も利用できますが, それよりも
+MD2Character を使用したほうが作業が簡単です
+
+```html
+<script src="../libs/loaders/MD2Loader.js"></script>
+<script src="../libs/MD2Character.js"></script>
+```
+
+```js
+var character = new THREE.MD2Character()
+character.loadParts({
+  baseUrl: '../assets/models/ogre/', // モデル本体やスキン, 武器を読み込む際のベースとなるURL
+  body: 'ogro.md2', // モデル本体のファイル名
+  skins: ['skin.jpg'], // モデルで使用されるスキンのファイル名を配列で指定する
+  weapons: [], // 利用できるすべての武器モデルのファイル名を配列で指定する
+})
+```
+
+```js
+scene.add(character.root)
+```
+
+キャラクターにアニメーションさせるには, モデルの読み込み完了した後で
+`THREE.MD2Character` オブジェクトの `setAnimation()` を呼び出す必要があります.
+それには次のようなコードを `character.loadParts()` の呼び出しの前に追加してください
+
+```js
+character.onLoadComplete = function() {
+  ...
+  
+  character.setAnimation(controls.animations)
+  character.setPlaybackRate(controls.fps)
+}
+```
+
+`onLoadComplete()` を設定することで `loadParts()` 呼び出し後の処理を定義できます.
+`setAnimation()` でアニメーションの名前を指定し, `setPlaybackRate()` でアニメーションのFPSを指定します.
+
+```js
+var animations = character.meshBody.geometry.animations
+var animLabels = []
+
+animations.forEach(function(anim) {
+  animLabels.push(anim.name)
+})
+
+gui.add(controls, 'animations', animLabels).onChange(function(e) {
+  character.setAnimation(controls.animmations)
+})
+
+gui.add(controls, 'fps', 1, 20).step(1).onChange(function(e) {
+  character.setPlaybackRate(controls.fps)
+})
+```
+
+最後に描画ループ内で `character.update()` を呼び出すと実際にアニメーションが開始します.
+```js
+var delta = clock.getDelta()
+character.update(delta)
+```
+
+## まとめ
