@@ -162,4 +162,26 @@ function createMesh(geom, imageFile, normal) {
 これらのツールを使用すると高解像度のレンダリング結果やテクスチャの入力として法線マップを作成できます.
 
 ### ライトマップを使用した擬似シャドウ
+- [04-light-map.html](https://codepen.io/kesuiket/pen/EXZopd)
 
+ライトマップは事前レンダリングされた影（事前に焼き込まれた影とも呼ばれます）で、見ている人の実際の影のような錯覚を起こさせます
+
+```js
+var textureLoader = new THREE.TextureLoader()
+var lm = textureLoader.load('../assets/textures/lightmap/lm-1.png')
+var wood = textureLoader.load('../assets/textures/general/floor-wood.jpg')
+var groundMaterial = new THREE.MeshStandardMaterial({
+  color: 0x777777,
+  lightMap: lm,
+  map: wood,
+})
+groundGeom.faceVertexUvs[1] = groundGeom.faceVertexUvs[0]
+```
+
+ライトマップを表示させるにはいくつかの設定が必要です.
+ライトマップを使用するにはUVマッピング（テクスチャのどの部分を面のどの部分を面のどの部分に表示するか）の明示的な定義が必要になります.
+
+### 環境マップを使用した擬似環境反射
+環境反射の計算は非常にCPU負荷が高く, 通常はレイトレーシングを使用する必要があります.
+
+- [05-env-map-static.html](https://codepen.io/kesuiket/pen/QgdQLO)
