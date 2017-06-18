@@ -510,6 +510,7 @@ video要素の内容をcanvas要素上に描画して, それをテクスチャ�
 
 - [three.js docs - __VideoTexture__](https://threejs.org/docs/#api/textures/VideoTexture)
 - [11-video-texture.html](https://codepen.io/kesuiket/pen/rwjoXZ)
+- [11-video-texture-alternative.html](https://codepen.io/kesuiket/pen/eRgxgb)
 
 ```html
 <video
