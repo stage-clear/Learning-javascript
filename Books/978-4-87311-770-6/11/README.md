@@ -359,3 +359,193 @@ this.changeRGBShifter = function() {
 #### 高度なシェーダー
 - [06-shaderpass-advanced.html](https://codepen.io/kesuiket/pen/xrqEZp)
 
+## 独自ポストプロセッシングシェーダー
+頂点シェーダーとフラグメントシェーダーの作成は非常に大きなトピックであることを忘れないでください
+より詳細な内容が知りたい場合は[WebGLの仕様](https://www.khronos.org/webgl/)を見てください
+[Shadertoy](https://www.shadertoy.com/)もよい情報源で, さらにたくさんのサンプルを見ることができます.
+
+### 独自グレースケールシェーダー
+独自シェーダーを作成するには, 2つのコンポーネントを実装しなければいけません.
+それが頂点シェーダーとフラグメントシェーダーです.
+
+頂点シェーダーを使用すると個別の頂点の位置を変更でき, 
+フラグメントシェーダーを使用すると個別のピクセルの色を設定できます.
+ただし, ポストプロセッシングシェーダーに必要なのはフラグメントシェーダーの実装だけで, 
+頂点シェーダーは Three.js が提供しているものがそのまま利用できます.
+
+```js
+// custom-shader.js
+THREE.CustomGrayScaleShader = {
+  uniforms: {
+    'tDiffuse': {type: 't', value: null},
+    'rPower': {type: 'f', value: 0.2126},
+    'gPower': {type: 'f', value: 0.7152},
+    'bPower': {type: 'f', value: 0.0722},
+  },
+  vertexShader: [
+    'varying vec2 vUv;'
+    
+    'void main() {',
+      'vUv = uv;',
+      'gl_position = projectionMatrix * ' + 
+        'modelViewMatrix * vec4( position, 1.0 );',
+    '}'
+  ].join('\n'),
+  fragmentShader: [
+    'uniform float rPower;',
+    'uniform float gPower;',
+    'uniform float bPower;',
+    'uniform sampler2D tDiffuse;',
+    
+    'varying vec2 vUv;',
+    
+    'void main() {',
+      'vec4 texel = texture2D( tDiffuse, vUv );',
+      'float gray = texel.r * rPower + texel.g * gPower + ' +
+        'texel.b * bPower;'
+      'gl_FragColor = vec4( vec3(gray), textl.w );',
+    '}'
+  ].join('\n')
+}
+```
+
+シェーダーに記述するには, C言語によく似たOpenGL Shading Language(GLSL)という言語を使用します.
+
+まず頂点シェーダー見ます:
+
+```js
+[
+  'varying vec2 vUv;',
+  
+  'void main() {',
+    'vUv = uv;',
+    'gl_Position = projectionMatrix * ' +
+      'modelViewMatrix * vec4( position, 1.0 );',
+  '}'
+].join('\n')
+```
+
+ポストプロセッシングでは, このシェーダーは実際には何もする必要がありません.
+これは Three.js が実装している標準的な頂点シェーダーです.<br>
+カメラからの投影である `projectionMatrix` と, オブジェクトの位置を世界座標に対応づける
+`modelViewMatrix` とを組み合わせて利用して, オブジェクトを画面のどこに描画するかを決定します.
+
+ここで唯一興味深いのはテクスチャからどのテクセルを読み取るかを指定する`uv`値を `varying vec2 vUv` 変数を使用して
+フラグメントシェーダーに渡しているところです.
+
+フラグメントシェーダーを見ます:
+```js
+[
+  'uniform float rPower',
+  'uniform float gPower',
+  'uniform float bPower',
+  'uniform sampler2D tDiffuse;',
+  
+  'varying vec2 vUv',
+  ...
+].join('\n')
+```
+
+`uniforms`プロパティが持つインスタンスが4つあることがわかります.
+`uniforms`プロパティは JavaScript からシェーダーに渡される変数で, それぞれのフラグメントで同じ値が使用されます.
+
+テクスチャは Three.js がシェーダーに渡してくれますが, 他の `uniforms` プロパティのインスタンスは
+JavaScript から自分で設定する必要があります.<br>
+JavaScript からこれらの `uniforms` プロパティを使用するには,
+このシェーダーで利用できる `uniforms` プロパティを定義しておく必要があります.
+
+```js
+{
+  uniforms: {
+    'tDiffuse': {type: 't', value: null},
+    'rPower': {type: 'f', value: 0.2126},
+    'gPower': {type: 'f', value: 0.7152},
+    'bPower': {type: 'f', value: 0.0722}
+  },
+  ...
+}
+```
+
+次にそれぞれのピクセルを灰色に変換するコードを見てみましょう
+
+```js
+[
+  ...
+  'void main() {',
+    'vec4 texel = texture2D( tDiffuse, vUv);',
+    'float gray = texel.r * rPower + texel.g * gPower + ' +
+      'texel.b * bPower;',
+    'gl_FragColor = vec4( vec3(gray), texel.w );'
+  '}'
+].join('\n')
+```
+
+
+```js
+var renderPass = new THREE.RenderPass(scene, camera)
+var effectCopy = new THREE.ShaderPass(THREE.CopyShader)
+effectCopy.renderToScreen = true
+
+var shaderPass = new THREE.SHaderPass(THREE.CustomGrayScaleShader)
+
+var composer = new THREE.EffectComposer(webGLRenderer)
+composer.addPass(renderPass)
+composer.addPass(shaderPass)
+composer.addPass(effectCopy)
+```
+
+```js
+shaderPass.enabled = controls.grayscale
+shaderPass.uniforms.rPower.value = controls.rPower
+shaderPass.uniforms.gPower.value = controls.gPower
+shaderPass.uniforms.bPower.value = controls.bPower
+```
+
+- [07-shaderpass-custom.html](https://codepen.io/kesuiket/pen/rwyWKb)
+
+### 独自ビットシェーダーの作成
+このシェーダーは24ビットの出力を自動的に8ビットの色深度に変換します.
+
+```js
+uniforms: {
+  'tDiffuse': {type: 'f', value: null},
+  'bitSize': {type: 'i', value: 4}
+}
+```
+
+フラグメントシェーダー
+
+```js
+fragmentShader: [
+  'uniform int bitSize;',
+  'uniform sampler2D tDiffuse;',
+  
+  'varying vec2 vUv;',
+  
+  'void main() {',
+    'vec4 texel = texture2D(tDiffuse, vUv);',
+    'float n = pow(float(bitSize), 2.0);',
+    'float newR = floor(texel.r * n) / n;',
+    'float newG = floor(texel.g * n) / n;',
+    'float newB = floor(texel.b * n) / n;',
+    
+    'gl_FragColor = vec4(vec3(newR, newG, newB), 1.0);',
+  '}'
+].join('\n')
+```
+
+- まず `vUv`で渡されたピクセルの位置に基づいて `tDiffuse` からテクセルを取得します
+- `bitSize`プロパティに基づいて `bitSize` の二乗を計算して `pow(float(bitSize), 2.0)` 利用できる色の数を計算します
+- 次に `n` の値を掛け合わせた後で端数を切り捨て `floor(texel.r * n)`, 再び `n` で割ってテクセルの新しい値を計算します
+- 結果（赤, 緑, 青, 透明度）は　`gl_FragColor` に設定され, 画面に表示されます
+
+## まとめ
+
+- すべてのパスの結果が画面に出力されるわけではありません
+- コンポーザーに追加する順序は重要です
+- 特定の `THREE.EffectComposer`インスタンスの結果を再利用したければ, `THREE.TexturePass`を使用してください
+- `RenderPass`を複数指定したければ, `clear`プロパティを `false`に設定することを忘れないでください
+- 特定のオブジェクトにだけエフェクトを適用したい時には, `THREE.MaskPass` が利用できます
+- マスクの利用が終わったら `THREE.ClearMaskPass`でマスクをクリアしてください
+- 独自シェーダーを作成する必要があるのはフラグメントシェーダーだけです.
+
