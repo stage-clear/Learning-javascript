@@ -309,3 +309,53 @@ var clearMask = new THREE.ClearMaskPass()
 var effectColorify = new THREE.ShaderPass(THREE.ColorifyShader)
 effectColorify.uniforms['color'].value.setRGB(0.5, 0.5, 1)
 ```
+
+### `THREE.ShaderPass` を使用して独自エフェクトを作成
+##### Three.js で利用できるシェーダー
+- `THREE.MirrorShader` - 画面の一部に対してミラーエフェクトを作成する
+- `THREE.HueSaturationShader` - 色と色相と彩度を変更する
+- `THREE.VignetteShader` - ビネットエフェクトを適用する. このエフェクトは画像の中心を囲むような暗い境界を表示する
+- `THREE.ColorCorrectionShader` - 色の分布を変更できる
+- `THREE.RGBShiftShader` - 色を赤, 緑, 青に分解する
+- `THREE.BrightnessContrastShader` - 画像の明度とコントラストを変更する
+- `THREE.ColorifyShader` - 画面に色の付いたオーバーレイを適用する
+- `THREE.SepiaShader` - 画面にセピアのようなエフェクトを適用する
+- `THREE.KaleidoShader` - シーンに万華鏡のようなエフェクトを追加して, シーンの中心に円状の反射を追加する
+- `THREE.LuminosityShader` - シーンの明度が見えるようになるエフェクトを追加する
+- `THREE.TechnicolorShader` - 古い映画のような見た目になる二色法テクニカラーエフェクトを模擬する
+
+##### ブラーに関係するシェーダー
+- `THREE.NorizontalBlueShader` `THREE.VerticalBlurShader` - シーン全体にブラーエフェクトを適用する
+- `THREE.HorizontalTiltShiftShader` `THREE.VerticalTiltShiftShader` - ティルトシフトエフェクトを再生成する. ティルトエフェクトを使用すると, 画像の一部だけを鮮明に見せることでシーンがミニチュアであるかのように感じさせることができる
+- `THREE.TriangleBlueShader` - 三角フィルタを使用したブラーエフェクトを適用する
+
+##### 高度なエフェクトを実現するシェーダー
+- `THREE.BleachBypassShader` - ブリーチバイパスエフェクトを作成する. 画像に銀残しのようなオーバーレイを適用する
+- `THREE.EdgeShader` - 画像のエッジを検出してその部分をハイライトするために利用できる
+- `THREE.FXAAShader` - ポストプロセッシングフェーズでアンチエイリアスエフェクトを適用する. 描画時にアンチエイリアスを適用する処理が高価な場合はこのシェーダーを使用する
+- `THREE.FocusShader` - 中央をシャープに描画して周辺にブラーをかける
+
+> Three.js にはシーンにボケエフェクトを適用する高度なポストプロセッシングエフェクトが2つあります.
+> ボケエフェクトはシーンの一部にブラーエフェクトを適用する一方でメインの物体は非常に鮮明に描画するものです
+> `THREE.BrokerPass` はボケエフェクトに利用できます.
+> また `THREE.BokehShader2` と `THREE.DOFMipMapShader` は `THREE.ShaderPass` と組み合わせることでボケエフェクトを実現できます
+> - [three.js webgl - postprocessing - depth-of-field](https://threejs.org/examples/webgl_postprocessing_dof2.html)
+> - [three.js webgl - postprocessing - depth-of-field](https://threejs.org/examples/webgl_postprocessing_dof.html)
+
+#### 単純なシェーダー
+- [04-shaderpass-simple.html](https://codepen.io/kesuiket/pen/BZWKQR)
+
+```js
+// RGBShiftShader
+this.changeRGBShifter = function() {
+  rgbShift.uniforms.amount.value = controls.rgbAmount
+  rgbShift.uniforms.angle.value = controls.angle
+}
+```
+
+#### ブラーシェーダー
+- [05-shaderpass-blur.html](https://codepen.io/kesuiket/pen/gRmMXj)
+
+#### 高度なシェーダー
+- [06-shaderpass-advanced.html]()
+
