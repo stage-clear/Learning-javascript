@@ -357,5 +357,5 @@ this.changeRGBShifter = function() {
 - [05-shaderpass-blur.html](https://codepen.io/kesuiket/pen/gRmMXj)
 
 #### 高度なシェーダー
-- [06-shaderpass-advanced.html]()
+- [06-shaderpass-advanced.html](https://codepen.io/kesuiket/pen/xrqEZp)
 
