@@ -204,4 +204,108 @@ effectGlitch.renderToScreen = true
 ```
 
 ### EffectComposer にマスクを設定
+1. 背景画像として使用されるシーンを作成する
+2. 地球のような見た目をもつ球を含むシーンを作成する
+3. 火星のような見た目をもつ球を含むシーンを作成する
+4. EffectComposer を作成して, これら3つをひとつの画像として描画する
+5. 火星として使用されている球に `colorify` エフェクトを適用する
+6. 地球として使用されている球に `sepia` エフェクトを適用する
 
+- [03-post-processing-masks.html](https://codepen.io/kesuiket/pen/zzZvWK)
+
+まず描画するさまざまなシーンをセットアップする必要がありまs
+```js
+var sceneEarth = new THREE.Scene()
+var sceneMars = new THREE.Scene()
+var sceneBG = new THREE.Scene()
+```
+
+地球と火星を作成するには, 対応するマテリアルとテクスチャを持つ球を作成し, 適切なシーンにそれらを追加するだけです.
+```js
+var sphere = createEarthMesh(new THREE.SpehreGeometry(10, 40, 40))
+sphere.rotation.x = -10
+
+var sphere2 = createMarsMesh(new THREE.SphereGeometr(5, 40, 40))
+sphere2.position.x = 10
+sceneEarth.add(sphere)
+sceneMars.add(sphere2)
+```
+
+背景画像を作成するには `THRE.OrthoGraphicCamera` を使用します.
+
+```js
+var cameraBG = new THREE.OrthographicCamera(
+  -window.innerWidth, window.innerWidth,
+   window.innerHeight, -window.innerHeight,
+  -10000, 10000,
+)
+cameraBG.position.z = 50
+
+var textureLoader = new THREE.TextureLoader()
+var materialColor = new THREE.MeshBasicMaterial({
+  map: textureLoader.load(
+    '../assets/textures/starry-deep-outer-space-galaxy.jpg'
+  ),
+  depthTest: false,
+})
+var bgPlane = new THREE.Mesh(
+  new THREE.PlaneGeometry(1, 1),
+  materialColor,
+)
+bgPlane.position.z = -100
+bgPlane.scale.set(
+  window.innerWidth * 2,
+  window.innerHeight * 2,
+  1,
+)
+bgPlane.add(bgPlane)
+```
+
+まず背景に使用する画像をテクスチャとして設定したマテリアルを作成し,
+そのマテリアルを単純な平面に適用します.
+次にその平面をシーンに追加して画面全体をちょうど覆うサイズに変更simasu.
+
+これで3つのシーンが準備できたので, パスと `THREE.EffectCompser` の設定に移れます.
+```js
+var composer = new THREE.EffectComposer(webGLRenderer)
+composer.renderTarget1.stencilBuffer = true
+composer.renderTarget2.stencilBuffer = true
+
+composer.addPass(bgPass)
+composer.addPass(renderPass)
+composer.addPass(renderPass2)
+
+composer.addPass(marsMask)
+composer.addPass(effectColorify)
+composer.addPass(clearMask)
+
+composer.addPass(earthMask)
+composer.addPass(effectSepia)
+composer.addPass(clearMask)
+
+composer.addPass(effectCopy)
+```
+
+今回は `THREE.WebGLRenderTarget` を新しく作成して内部的に使用される
+`renderTarget` の `stencilBuffer` を `true` に設定しなければikemasenn.
+ステンシルバッファは描画領域を制限するために使用する特殊なバッファです.
+そのためマスクを利用するにはステンシルバッファを有効にする必要があります.
+
+```js
+var bgPass = new THREE.RenderPass(sceneBG, cameraBG)
+var renderPass = new THREE.RenderPass(sceneEarth, camera)
+renderPass.clear = false
+var renderPass2 = new THREE.Renderpass(sceneMars, camera)
+renderPass2.clear = false
+```
+
+地球と火星のパスに `.clear = false` が設定されています.
+もし `clear` を `false` に設定しなければ, 描画開始前に画面がすべてクリアされてしまい,
+結果的に `renderPass2` の出力だけが表示されることになります.
+
+```js
+var marsMask = new THREE.MaskPass(sceneMars, camera)
+var clearMask = new THREE.ClearMaskPass()
+var effectColorify = new THREE.ShaderPass(THREE.ColorifyShader)
+effectColorify.uniforms['color'].value.setRGB(0.5, 0.5, 1)
+```
