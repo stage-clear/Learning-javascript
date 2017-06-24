@@ -155,15 +155,15 @@ sphere = new Physijs.SphereMesh(
 
 ## サポートされている基本形状
 ##### Physijsのメッシュ
-- `Physijs.PlaneMesh` - 
-- `Physijs.BoxMesh` - 
-- `Physijs.SphereMesh` - 
-- `Physijs.CylinderMesh` - 
+- `Physijs.PlaneMesh` - このメッシュは厚さのない平面を作成するために利用できる. 厚みの薄い `THREE.BoxGeometry であれば `Physijs.BoxMesh` を利用することもできる
+- `Physijs.BoxMesh` - 立方体のようなジオメトリであればこのメッシュを利用する
+- `Physijs.SphereMesh` - 球状の形状にはこのメッシュを使用する. このジオメトリは `THREE.SphereGeometry` のためによく利用される
+- `Physijs.CylinderMesh` - `THREE.Cylinder` を使用するとさまざまな円柱状の形状を作成できるが, Three.js とは異なり Physijs には円柱のタイプに応じてさまざまなメッシュがある
 - `Physijs.ConeMesh` - 
 - `Physijs.CapsuleMesh` - 
-- `Physijs.ConvexMesh` - 
-- `Physijs.ConcaveMesh` - 
-- `Physijs.HeightfieldMesh` - 
+- `Physijs.ConvexMesh` - 複雑なオブジェクトのために利用できる粗い形状である. 
+- `Physijs.ConcaveMesh` - 粗い形状だが, 複雑なジオメトリのさらに詳細な表現である. 計算負荷がたかいということに注意してほしい
+- `Physijs.HeightfieldMesh` - ハイトフィールドを作成できる
 
 ```js
 var plane = new Physijs.PlaneMesh(
@@ -172,5 +172,113 @@ var plane = new Physijs.PlaneMesh(
 )
 scene.add(plane)
 ```
+- [03-shapes.html](https://codepen.io/kesuiket/pen/mwMgOB)
 
-- [03-shapes.html]()
+形状のいくつかを作成しているコードを確認してみましょう.
+```js
+new Physijs.SphereMesh(new THREE.SphereGeometry(3, 20), mat)
+new Physijs.BoxMesh(new THREE.BoxGeometry(4 ,2, 6), mat)
+new Physijs.CylinderMesh(new THREE.CylinderGeometry(2, 2, 6), mat)
+new Physijs.ConeMesh(new THREE.CylinderGeometry(0, 3, 7, 20, 10), mat)
+```
+
+Three.js にはカプセル状のジオメトリはありません.
+そのためカプセル形状を自分で作成する必要があります.
+
+```js
+var merged = new THREE.Geometry()
+var cyl = new THREE.CylinderGeometry(2, 2, 6)
+var top = new THREE.SpehreGeometry(2)
+var bot = new THREE.SpehreGeometry(2)
+
+var matrix = new THREE.Matrix4()
+matrix.makeTranslation(0, 3, 0)
+top.applyMatrix(matrix)
+
+var matrix = new THREE.Matrix4()
+matrix.makeTranslation(0, -3, 0)
+bot.applyMatrix(matrix)
+
+// マージしてカプセルを作成
+merged.merge(top)
+merged.merge(bot)
+merged.merge(cyl)
+
+// physijs のカプセルメッシュの作成
+var capsule = new Physijs.CapsuleMesh(
+  merged, 
+  getMaterial(),
+)
+```
+
+ハイトフィールドを使用すれば凸凹のある地形を簡単に作成して, 他の全ての物体をこの地形の高低差に適切に反応させることができます.
+
+```
+var date = new Date()
+var pn = new Perlin('rnd' + date.getTime())
+var map = createHeightMap(pn)
+scene.add(map)
+
+function createHeightMap(pn) {
+  var textureLoader = new THREE.TextureLoader()
+  var groundMaterial = Physijs.createMaterial(
+    new THREE.MeshLambertMaterial({
+      map: textureLoader.load('../assets/textures/ground/grasslight-big.png')
+    }),
+    0.3, // 高摩擦係数
+    0.8, // 低反発係数
+  )
+
+  var groundGeometry = new THREE.PlaneGeometry(
+    120, 100, 100, 100
+  )
+
+  for (var i = 0; i < groundGeometry.vertices.length; i++) {
+    var vertex = groundGeometry.vertices[i]
+    var value = pn.noise(vertex.x / 10, vertex.y / 10, 0)
+    vertex.z = value * 10
+  }
+  groundGeometry.computeFaceNormals()
+  groundGeometry.computeVertexNormals()
+
+  var ground = new Physijs.HeightfieldMesh(
+    groundGeometry,
+    groundMaterial,
+    0, // 質量
+    100,
+    100,
+  )
+
+  ground.rotation.x = Math.PI / -2
+  ground.rotation.y = 0.4
+  ground.receiveShadow = true
+
+  return ground
+}
+```
+
+- まず Physijs マテリアルと `PlaneGeometry` を作成します
+- `PlaneGeoemtry` の頂点を走査して, zプロパティの値をランダムに設定し凸凹のある地形を作成します
+- テクスチャ, ライティング, 影を正しく描画するために `computeFaceNormals()` と `computeVertexNormals()` を呼び出す必要があります
+- この `PlaneGeometry` を使用すると `Physijs.HeightfieldMesh` が作成できます
+- `Physijs.HeightfieldMesh` コンストラクタの最後の2つの引数は `PlaneGeometry`コンストラクタの2つの引数と等しくなければいけません
+- 最後に `Physijs.HeightfiledMesh` を期待する位置まで回転してシーンに追加します
+
+## 制約を使用してオブジェクトの動きを制限
+Physijs にはさらに高度な要素としてオブジェクトの動きに制限を加える機能があります.<br>
+Pysijs ではこれらのオブジェクトは制約（constrait）と呼ばれています.
+
+##### 制約
+- PointConstraint - 
+- HingeConstraint -
+- SliderConstraint - 
+- ConeTwistConstraint - 
+- DOFConstraint - 
+
+### PointConstraint を使用して2点間の動きを制限
+
+
+
+
+
+
