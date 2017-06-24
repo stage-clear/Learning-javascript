@@ -275,10 +275,129 @@ Pysijs ではこれらのオブジェクトは制約（constrait）と呼ばれ�
 - ConeTwistConstraint - 
 - DOFConstraint - 
 
+- [04-constraints.html](https://codepen.io/kesuiket/pen/owervV)
+
 ### PointConstraint を使用して2点間の動きを制限
+- __Physijs.PointConstraint__
 
+2点間の距離を一定に保って両方の球がつられて動くのがわかります
 
+```js
+function createPointToPoint() {
+  var obj1 = new THREE.SphereGeometry(2)
+  var obj2 = new THREE.SphereGeometry(2)
+  var objectOne = new Physijs.SphereMesh(obj1,
+    Physijs.createMaterial(new THREE.MeshPhongMaterial({
+      color: 0xff4444,
+      transparent: true,
+      opacity: 0.7,
+    }))
+  )
+  objectOne.position.z = -18
+  objectOne.position.x = -10
+  objectOne.position.y = 2
+  objectOne.castShadow = true
+  scene.add(objectOne)
+  
+  var objectTwo = new Physijs.SphereMesh(obj2,
+    Physijs.createMaterial(new THREE.MeshPhongMaterial({
+      color: 0xff4444,
+      transparent: true,
+      opacity: 0.7,
+    }))
+    objectTwo.position.z = -5
+    objectTwo.position.x = -20
+    objectTwo.position.y = 2
+    objectTwo.castShadow = true
+    scene.add(objectTwo)
+    
+    var constraint = new Physijs.PointConstraint(
+      objectOne, objectTwo, objectTwo.position
+    )
+    scene.addConstraint(constraint)
+  )
+}
+```
 
+- 初めの2つの引数はお互いに接続したいオブジェクトを指定します
+- 3つめの引数は制約で束縛する位置を指定します.
+  例えばあるオブジェクトを別の非常に大きなオブジェクトに束縛する時に, この値を巨大なオブジェクトの右端に設定するようなことができます.
+  通常は2体をただ接続したいだけでしょうから, 2つめのオブジェクトの座標を値として指定するとよいでしょう
 
+### HingeConstraint でドアのように動きを制限
+- __Physijs.HingeConstraint__
 
+[hinge]メニューで[enableMotor]メニューをクリックします.
+そうすると, [general]メニューで指定した速度までフリッパーが加速されます.
 
+```js
+var constraint = new Physijs.HingeConstraint(
+  flipperLeft,
+  flipperLeftPivot,
+  flipperLeftPivot.position,
+  new THREE.Vector3(0, 1, 0),
+)
+scene.addConstraint(constraint)
+constraiont.setLimits(-2.2, -0.6, 0.1, 0)
+```
+
+##### `Physijs.HingeConstraint` コンストラクタの引数
+- mesh_a - 動きを制約されるオブジェクト
+- mesh_b - mesh_a が制約されるオブジェクト
+- position - 制約が適用される位置
+- axis - ヒンジが回転する軸. サンプルでは水平面状に動きを制限するヒンジとして `0, 1, 0` を指定している
+
+##### `setLimits()` の引数
+- low - ラジアンで指定される, 動きの最小角度
+- hight - ラジアンで指定される, 動きの最大角度
+- bias_factor - 位置が不正だった場合に制約がそれを補正するために使用する変化量を定義する（0.5より小さな値にすることが推奨されている）
+- relaxation_factor - 制約によって速度が変更される割合. 大きな値を指定すると動きの最大角または最小角に到達した時にオブジェクトが跳ね返る
+
+```js
+constraint.enableAngularMotor(
+  controls.velocity,
+  controls.acceleration,
+)
+```
+
+```js
+constraint.disableMotor()
+```
+
+### SliderConstranit でひとつの軸方向に動きを制限
+- __Physijs.SliderConstraint__
+
+```js
+var constraint = new Physijs.SliderConstraint(
+  sliderMesh, 
+  new THREE.Vector3(0, 0, 0),
+  new THREE.Vector3(0, 1, 0),
+)
+
+scene.addConstraint(constraint)
+constraint.setLimits(-10, 10, 0, 0)
+constraint.setRestitution(0.1, 0.1)
+```
+
+##### Physijs.SliderConstraint のコンストラクタ引数
+- mesh_a - 制約されるオブジェクト
+- mesh_b - mesh_a が制約されるオブジェクト. この引数は任意で, 今回のサンプルでは省略されている. 省略するとメッシュはシーンに対して制約される
+- position - 制約が適用される位置. mesh_a を mesh_b に制約する場合に特に重要になる
+- axis - mesh_a がスライドする軸
+  - x軸: `new THREE.Vector3(0, 1, 0)`
+  - y軸: `new THREE.Vector3(0, 0, Math.PI / 2)`
+  - z軸: `new THREE.Vector3(Math.PI / 2, 0, 0)`
+
+##### `setLimits()` の引数
+- linear_lower - 移動距離制限の下限
+- linear_upper - 移動距離制限の上限
+- angular_lower - 回転角制限の下限
+- angular_higher - 回転角制限の上限
+
+### ConeTwistConstraint で玉継手のように制限
+- __Physijs.ConeTwistConstraint__
+
+あるオブジェクトを基準に別のオブジェクトのx, y, z軸周りの回転の最小角度と最大角度を指定できます.
+
+```js
+```
