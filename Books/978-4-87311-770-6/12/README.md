@@ -400,4 +400,139 @@ constraint.setRestitution(0.1, 0.1)
 あるオブジェクトを基準に別のオブジェクトのx, y, z軸周りの回転の最小角度と最大角度を指定できます.
 
 ```js
+var baseMesh = new THREE.SphereGeometry(1)
+var armMesh = new THREE.BoxGeometry(2, 12, 3)
+
+var objectOne = new Physijs.BoxMesh(baseMesh,
+  Physijs.createMaterial(new THREE.MeshPhongMaterial({
+    color: 0x4444ff, transparent: true, opacity: 0.7
+  }), 0, 0), 0
+)
+objectOne.position.z = 0
+objectOne.position.x = 20
+objectOne.position.y = 15.5
+objectOne.castShadow = true
+scene.add(objectOne)
+
+var objectTwo = new Physijs.SphereMesh(armMesh,
+  Physijs.createMaterial(new THREE.MeshPhongMaterial({
+    color: 0x4444ff, transparent: true, opacity: 0.7
+  }), 0, 0), 0
+)
+
+objectTwo.position.z = 0
+objectTwo.position.x = 0
+objectTwo.position.y = 7.5
+objectTwo.castShadow = true
+scene.add(objectTwo)
+
+var constraint = Physijs.ConeTwistConstraint(
+  objectOne, objectTwo, objectOne.position
+)
+
+scene.addConstraint(constraint)
+constraint.setLimit(
+  0.5 * Math.PI, 
+  0.5 * Math.PI, 
+  0.5 * Math.PI,
+)
+constraint.setMaxMotorImpulse(1) //モーターが与える力
+constraint.setMotorTarget(new THREE.Vector3(0, 0, 0))
 ```
+
+### DOFConstraint で制限を細かく制御
+- [05-dof-constraint.html](https://codepen.io/kesuiket/pen/VWMjLO)
+
+自由度制約（the degree of freedom）とも呼ばれる DOFConstraint を使用するとオブジェクトの線形移動や回転移動を正確に制御できます.
+
+車輪の作成から始めましょう
+```js
+function createWheel(position) {
+  var wheelMaterial = Physijs.createMaterial(
+    new THREE.MeshLambertMaterial({
+      color: 0x444444, opacity: 0.9, transparent: true,
+    }),
+    1.0, // 高い摩擦係数
+    0.5, // 中程度の反発係数
+  )
+  
+  var wheel_geometry = new THREE.CylinderGeometry(4, 4, 2, 10)
+  var wheel = new Physijs.CylinderMesh(
+    wheel_geometry,
+    wheelMaterial, 
+    100,
+  )
+  
+  wheel.rotation.x = Math.PI / 2
+  wheel.castShadow = true,
+  wheel.position.copy(position)
+
+  return wheel
+}
+```
+
+次に車体を作成し, それらをすべてシーンに追加する必要があります.
+```js
+var car = {}
+var car_material = Physijs.createMaterial(
+  new THREE.MeshLambertMaterial({
+    color: 0xff4444,
+    opacity: 0.9,
+    transparent: true,
+  }), 0.5, 0.5
+)
+
+var geom = new THREE.BoxGeometry(15, 4, 4)
+var body = new Physijs.BoxMesh(geom, car_material, 500)
+body.position.set(5, 5, 5)
+body.castShadow = true
+scene.add(body)
+
+var fr = createWheel(new THREE.Vector3(0, 4, 10))
+var fl = createWheel(new THREE.Vector3(0, 4, 0))
+var rr = createWheel(new THREE.Vector3(10, 4, 10))
+var rl = createWheel(new THREE.Vector3(10, 4, 0))
+
+scene.add(fr)
+scene.add(fl)
+scene.add(rr)
+scene.add(rl)
+```
+
+車輪をそれぞれ車体に対して接続する制約は次のようにして作成します
+
+```js
+var frConstraint = createWheelConstraint(fr, body, new THREE.Vector3(0, 4, 8))
+var flConstraint = createWheelConstraint(fl, body, new THREE.Vector3(0, 4, 2))
+var rrConstraint = createWheelConstraint(rr, body, new THREE.Vector3(10, 40, 8))
+var rlConstraint = createWheelConstraint(rl, body, new THREE.Vector(10, 4, 2))
+
+scene.addConstraint(frConstraint)
+scene.addConstraint(flConstraint)
+scene.addConstraint(rrConstraint)
+scene.addConstraint(rlConstraint)
+```
+
+前輪については単に自動車を駆動できるようにz軸だけに沿って回転できればよく, 
+それ以外の軸に関しては回転できなくしておく必要があります。
+
+```js
+frConstraint.setAngularLowerLimit({x: 0, y: 0, z: 0})
+frConstraint.setAngularUpperLimit({x: 0, y: 0, z: 0})
+flConstraint.setAngularLowerLimit({x: 0, y: 0, z: 0})
+flConstraint.setAngularUpperLimit({x: 0, y: 0, z: 0})
+```
+下限と上限を同じ値に設定すると指定した方向以外には一切回転できなくなります.
+つまりこの指定ではz軸周りにも回転できません.<br>
+特定の軸についてモーターを有効にするとその軸に対してはこの制限が無視されます.
+そのため, この時点でz軸に制限を加えても最終的には前輪の動きになにも影響はありません.
+
+後輪が下に落ちてしまわないようにx軸を固定します.
+
+```js
+rrConstraint.setAngularLowerLimit({x: 0, y: 0.5, z: 0.1})
+rrConstraint.setAngularUpperLimit({x: 0, y: 0.5, z: 0})
+rlConstraint.setAngularLowerLimit({x: 0, y: 0.5, z: 0.1})
+rlConstraint.setAngularUpperLimit({x: 0, y: 0.5, z: 0})
+```
+
