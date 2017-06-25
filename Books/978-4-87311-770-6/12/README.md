@@ -536,3 +536,22 @@ rlConstraint.setAngularLowerLimit({x: 0, y: 0.5, z: 0.1})
 rlConstraint.setAngularUpperLimit({x: 0, y: 0.5, z: 0})
 ```
 
+### シーンに音源を追加
+- [three.js docs - __AudioListener__](https://threejs.org/docs/#api/audio/AudioListener)
+- [three.js docs - __PositionalAudio__](https://threejs.org/docs/#api/audio/PositionalAudio)
+- [Web Audio API](https://webaudio.github.io/web-audio-api/)
+- [06-audio.html](https://codepen.io/kesuiket/pen/QgqEOq)
+
+音源のもっとも興味深いところはカメラの位置に応じて聞こえ方が変化することです
+
+- 音源とカメラの間の距離によって音の大きさが決まります
+- カメラの右側にあるか左側にあるかによって左側のスピーカーと右側のスピーカーの音量がそれぞれ決まります
+
+##### THREE.PositionalAudio のプロパティ
+- `autoplay` -
+- `load` - 再生するファイル
+- `setRefDistance` - 音量が下がり始めるオブジェクトからの距離
+- `setLoop` - デフォルトでは一度だけ再生されますが, `true` に設定すると音がループします
+- `setRolloffFactor` - 音源から遠ざかった時にどのくらいすぐに音量がさがるか
+
+## まとめ
