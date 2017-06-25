@@ -10,7 +10,9 @@
 > __THREE.CardboardEffect__ は Three.js の __r76__ で削除されました
 
 ## サンプルVRアプリの概要
-- [01-cardboard.html]()
+- [01-cardboard.html](https://codepen.io/kesuiket/pen/gRGwqj) - codepen
+- [01-cardboard.html](https://kesuiket.github.io/samples/threejs/cardboard/) - raw
+- [03-stereo.html](https://codepen.io/kesuiket/pen/zzEoWE)
 
 ## 立体視
 - [THREE.StereoEffect](https://threejs.org/docs/#api/cameras/StereoCamera)
@@ -120,7 +122,7 @@ canvas.addEventListener('click', function() {
 
 ### 本格的なVRヘッドマウントディスプレイ対応
 - [WebVR](https://w3c.github.io/webvr/)
-- [02-webbr.html]()
+- [02-webvr.html]()
 
 サンプルの変更点:
 - `THREE.CardboardEffect` → `THREE.VREffect`
