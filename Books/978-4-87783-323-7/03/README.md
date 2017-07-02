@@ -693,3 +693,143 @@ function initObject() {
   scene.add(points)
 }
 ```
+
+### PointsMaterial クラス
+- [three.js docs - __PointsMaterial__](https://threejs.org/docs/#api/materials/PointsMaterial)
+
+```js
+var material = new THREE.PointsMaterial(parameters)
+```
+
+### 異なる色点の描画
+1. 形状オブジェクトに「頂点色」を追加
+2. PoitsMaterial クラスのコンストラクタの引数を変更
+
+```js
+var axis
+var particles
+function initObject() {
+  // ... 軸オブジェクトの描画を省略
+  var geometry = new THRE.Geometry()
+  geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+  geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+  geometry.vertices[2] = new THREE.Vector3(0, 0, 50)
+  
+  geometry.colors[0] = new THREE.Color(0xff0000)
+  geometry.colors[1] = new THREE.Color(0x00ff00)
+  geometry.colors[2] = new THREE.Color(0x0000ff)
+  
+  var material = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 10.0,
+    vertexColors: true,
+  })
+  
+  particles = new THREE.Points(geometry, material)
+  scene.add(particles)
+}
+```
+
+### 点オブジェクトの生成方法（Canvas2D レンダラー）
+Canvas2Dレンダラーでは, SpriteMaterial クラスと Sprite クラスを利用する必要があります
+
+```js
+var material = new THREE.SpriteMaterial({ color: 0xff0000 })
+particle = new THREE.Points(material)
+scene.add(particle)
+```
+
+### SpriteMaterial クラス
+- [three.js docs - __SpriteMaterial__](https://threejs.org/docs/#api/materials/SpriteMaterial)
+
+```js
+var material = new THREE.SpriteMaterial(parameters)
+```
+
+### Sprite クラス
+- [three.js docs - __Sprite__](https://threejs.org/docs/#api/objects/Sprite)
+
+旧リビジョンの Particle クラスと同等です
+
+```js
+Particle(material)
+```
+
+### 任意の形状の点オブジェクト
+Particle クラスでは PointsMaterial クラスの size プロパティが有効ではないため,
+点のサイズを変更することができません.<br>
+Canvas2D では, 任意の形状の点オブジェクトを生成するための材質オブジェクト SpriteCanvasMaterial クラスが用意されています
+
+```js
+var material = new THREE.SpriteCanvasMaterial({
+  program: function(context) {
+    context.beginPath()
+    context.arc(0, 0, 20, 0, 2 * Math.PI, true)
+    context.closepath()
+    context.strokeStyle = '#ff0000'
+    context.lineWidth = 4
+    context.stroke()
+    context.fillStyle = 'blue'
+    context.fill()
+  }
+})
+
+particle = new THREE.Particle(material)
+```
+
+```js
+function canvas2DContext(context) {
+  ...
+}
+
+var material = new THREE.SpriteCanvasMaterial({ program: canvas2DContext })
+```
+
+##### rect メソッドと clearRect メソッドによる描画
+
+```js
+var material = new THREE.ParticleCanvasMaterial({
+  program: function(context) {
+    context.beginPath()
+    context.rect(-20, -20, 40, 40)
+    context.closePath()
+    context.strokeStyle = '#ff0000'
+    context.lineWidth = 4
+    context.stroke()
+    context.fillStyle = 'blue'
+    context.fill()
+    context.clearRect(0, -5, 23, 10)
+  }
+})
+```
+
+Canvas2D を利用するときにはこの SpriteCanvasMaterial を使いこなすことでさまざまな効果を実装することができます.
+
+### SpriteCanvasMaterial クラス
+- [three.js docs - __SpriteCanvasMaterial__](https://threejs.org/docs/#examples/SpriteCanvasMaterial) - Canvas2D
+
+```js
+var material = new THREE.SpriteCanvasMaterial(parameters)
+```
+
+## 線オブジェクト
+### 線オブジェクトの生成方法
+
+```js
+var axis 
+var lines
+function initObject() {
+  // ... 軸オブジェクトを省略
+  var geometry = new THREE.Geometry()
+  geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+  geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+  geometry.vertices[2] = new THREE.Vector3(0, 0, 50)
+  geometry.vertices[3] = new THREE.Vector3(50, 0, 0)
+  var material = new THREE.LineBasicMaterial({
+    color: 0xff0000,
+    linewith: 5,
+  })
+  lines = new THREE.Line(geometry, material)
+  scene.add(lines)
+}
+```
