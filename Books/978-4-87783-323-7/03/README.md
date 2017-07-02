@@ -554,3 +554,142 @@ teapot = new THEE.Mesh(geometry, material)
 ```
 
 ## 材質オブジェクトの基底クラス
+### Material クラス
+- [three.js docs - __Material__](https://threejs.org/docs/#api/materials/Material)
+
+```js
+var material = new THREE.Material()
+```
+
+##### 透明度の設定
+
+```js
+var material = new THREE.MeshNormalMaterial({ opacity: 0.3, transparent: true })
+
+// or
+var material = new THREE.MeshNormalMaterial()
+material.opacity = 0.3
+material.transparent = true
+```
+
+### MeshBasicMaterial クラス
+- [three.js docs - __MeshBasicMaterial__](https://threejs.org/docs/#api/materials/MeshBasicMaterial)
+
+```js
+var material = new THREE.MeshBasicMaterial(parameters)
+```
+
+##### MeshBasicMaterial クラスの適用例
+
+```js
+var material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+```
+
+### MeshDepthMaterial クラス
+- [three.js docs - __MeshDepthMaterial__](https://threejs.org/docs/#api/materials/MeshDepthMaterial)
+
+```js
+var material = new THREE.MeshDepthMaterial(parameters)
+```
+
+##### MeshDepthMaterial クラスの適用例
+
+```js
+var material = new THREE.MeshDepthMaterial()
+```
+
+### Color クラス
+- [three.js docs - __Color__](https://threejs.org/docs/#api/math/Color)
+
+```js
+var color = new THREE.Color(color)
+```
+
+##### コンストラクタによるさまざまな色の指定
+
+```js
+var color = new THREE.Color(0xff0000)           // Hex
+var color = new THREE.Color('#ff0000')          // CSS Hex
+var color = new THREE.Color('red')              // CSS keyword
+var color = new THREE.Color('rgb(255, 0, 0)')   // CSS rgb
+```
+
+## 形状オブジェクトの基底クラス
+### Geometry クラス
+- [three.js docs - __Geometry__](https://threejs.org/docs/#api/core/Geometry)
+
+```js
+var geometry = new THREE.Geometry()
+```
+
+### Face3 クラス
+- [three.js docs - __Face3__](https://threejs.org/docs/#api/core/Face3)
+
+Geometry クラスの faces プロパティに与えるポリゴン面を表現するオブジェクトを生成するクラス
+
+```js
+var face = new THREE.Face3(a, b, c, normal, color, materialIndex)
+```
+
+### Path クラス
+- [three.js docs - __Path__](https://threejs.org/docs/#api/extras/core/Path)
+
+2次元のパスを保持するオブジェクトを生成するクラス
+
+```js
+var path = new THREE.Path(points)
+```
+
+### Shape クラス
+- [three.js docs - __Shape__](https://threejs.org/docs/#api/extras/core/Shape)
+
+```js
+var shape = new THREE.Shape()
+```
+
+### Font クラス
+- [three.js docs - __Font__](https://threejs.org/docs/#api/extras/core/Font)
+
+```js
+var font = new THREE.Font(data)
+```
+
+##### generateShapes メソッドの利用例
+
+```js
+var fontPass = 'droid_sans_bold.typeface.js'
+var loader = new THREE.FontLoader()
+loader.load(fontPass, function(font) {
+  var textShape = font.generateShape('three.js', 100)
+  var geometry = new THREE.ShapeGeometry(textShapes)
+  var material = new THREE.MeshNormalMaterial()
+  text = new THREE.Mesh(geometry, material)
+  scene.add(text)
+})
+```
+
+### FontLoader クラス
+- [three.js docs - __FontLoader__](https://threejs.org/docs/#api/loaders/FontLoader)
+
+```js
+var loader = new THREE.FontLoader(manager)
+```
+
+## 点オブジェクト
+### 点オブジェクトの生成方法（WebGLレンダラー）
+
+```js
+var axis
+var points 
+
+function initObject() {
+  // ... 軸オブジェクトの描画を省略
+  var geometry = new THREE.Geometry()
+  geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+  geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+  geometry.vertices[2] = new THREE.Vector3(0, 0, 50)
+  var material = new THREE.PointMaterial({ color: 0xff0000, size: 10.0 })
+  points = new THREE.Points(geometry, material)
+  scene.add(points)
+}
+```
