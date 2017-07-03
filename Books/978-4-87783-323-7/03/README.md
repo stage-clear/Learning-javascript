@@ -833,3 +833,389 @@ function initObject() {
   scene.add(lines)
 }
 ```
+
+### LineBasicMaterial クラス
+- [three.js docs - __LineBasicMaterial__](https://threejs.org/docs/#api/materials/LineBasicMaterial)
+
+```js
+var material = new THREE.LineBasicMaterial(parameters)
+```
+
+### Line クラス
+- [three.js docs - __Line__](https://threejs.org/docs/#api/objects/Line)
+
+```js
+var line = new THREE.Line(geometry, material)
+```
+
+### LineSegments クラス
+- [three.js docs - __LineSegments__](https://threejs.org/docs/#api/objects/LineSegments)
+
+```js
+var line = new THREE.LineSegments(geometry, material)
+```
+
+### 色補完直線の描画
+異なる色点を描画したのと同様の手順にて頂点色を与えることで, 線分の色を線形補完させることができます.
+
+```js
+var geometry = new THREE.Geometry()
+geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+geometry.vertices[2] = new THREE.Vector3(0, 0, 50)
+geometry.vertices[3] = new THREE.Vector3(50, 0, 0)
+
+geometry.colors[0] = new THREE.Color(0xff0000)
+geometry.colors[1] = new THREE.Color(0x00ff00)
+geometry.colors[2] = new THREE.Color(0x0000ff)
+geometry.colors[3] = new THREE.Color(0xff0000)
+
+var material = new THREE.LineBasicMaterial({
+  color: 0xffffff,
+  linewidth: 5,
+  vertexColors: true,
+})
+
+lines = new THREE.Line(geometry, material)
+```
+
+### 破線の描画
+破線を生成する LineDashedMaterial クラスが用意されています.
+dashSize と gapSize を指定することで任意の破線を描画することができます.
+
+### lineDashedMaterial クラス
+- [three.js docs - __LineDashedMaterial__](https://threejs.org/docs/#api/materials/LineDashedMaterial)
+
+```js
+var material = new THREE.LineDashedMaterial(parameters)
+```
+
+## 三角形オブジェクト
+### 三角形オブジェクトの生成方法
+
+```js
+var axis
+var triangle
+
+function initObject() {
+  // ... 軸オブジェクトの生成を省略
+  var geometry = new THREE.Geometry()
+  geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+  geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+  geometry.vertices[2] = new THREE.Vector3(0, 0, 50)
+  
+  geometry.faces[0] = new THREE.Face3(0, 1, 2)
+  var material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+  triangle = new THREE.Mesh(geometry, material)
+  scene.add(triangle)
+}
+```
+
+##### 三角形の裏表
+頂点を反時計回りにつないだ三角形の面が表面となり, 時計回りにつないだ三角形の面が裏面となります.
+これは, 三角形の頂点座標から計算される法線ベクトルの方向と一致します.
+
+##### 法線材質（MeshNormalMaterial クラス）による三角形オブジェクト
+
+材質オブジェクトを差し替えるだけでは意図通りの描画が行われません.
+というのも法線材質は法線ベクトルが与えられている必要があるので, Geometry クラスの computeFaceNormals メソッドを利用して
+三角面の法線ベクトルをあらかじめ計算しておく必要があるからです.
+
+```js
+geometry.computeFaceNormals()
+
+var material = new THREE.MeshNormalMaterial()
+```
+
+### 色補完三角形の描画手順
+頂点ごとに異なる色を指定することで描画する三角形オブジェクトの生成を行います.
+
+```js
+var axis
+var triangle
+
+function initObject() {
+  // ... 軸オブジェクトの生成を省略
+  var geometry = new THREE.Geometry()
+  
+  geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+  geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+  geometry.vertices[2] = new THREE.Vector3(0, 0, 50)
+  
+  var colors = new Array()
+  colors[0] = new THREE.Color(0xff0000)
+  colors[1] = new THREE.Color(0x00ff00)
+  colors[2] = new THREE.Color(0x0000ff)
+  
+  geometry.faces[0] = new THREE.Face3(0, 1, 2, null, colors)
+  var material = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    vertexColors: THREE.VertexColors,
+  })
+  
+  triangle = new THREE.Mesh(geometry, material)
+  scene.add(triangle)
+}
+```
+
+### 四角形オブジェクトの描画
+コンピューターグラフィックスにおける3次元形状は三角形の組み合わせで表現されます.
+
+```js
+var geometry = new THREE.Geometry()
+
+geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+geometry.vertices[2] = new THREE.Vector3(0, 15, 50)
+geometry.vertices[3] = new THREE.Vector3(15, 0, 50)
+
+geometry.faces[0] = new THREE.Face3(0, 1, 2)
+geometry.faces[1] = new THREE.Face3(0, 2, 3)
+```
+
+指定する4点は同一平面上にある必要はありません.
+Face3 クラスで指定される面は2つの三角形で表現されることになります.
+
+
+##### 色補完四角形の描画
+
+```js
+//　三角形1の頂点色
+geometry.faces[0].vertexColors[0] = new THREE.Color(0xff0000)
+geometry.faces[1].vertexColors[1] = new THREE.Color(0x00ff00)
+geometry.faces[2].vertexColors[2] = new THREE.Color(0x0000ff)
+
+// 三角形2の頂点色
+geometry.faces[0].vertexColors[0] = new THREE.Color(0xff0000)
+geometry.faces[1].vertexColors[1] = new THREE.Color(0x0000ff)
+geometry.faces[2].vertexColors[2] = new THREE.Color(0x0000ff)
+
+// 材質
+var material = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  vertexColors: THREE.VertexColors,
+})
+```
+
+## その他のオブジェクト
+### LOD オブジェkつお
+Level of Detail の頭文字で, カメラ位置からの距離に応じてオブジェクトの細かさを生業するという概念です.
+
+```js
+// 形状オブジェクトの宣言と生成
+var geometry = [
+  [new THREE.IcosahedronGeometry(30, 4), 60],
+  [new THREE.IcosahedronGeometry(30, 3), 90],
+  [new THREE.IcosahedronGeometry(30, 2), 120],
+  [new THREE.IcosahedronGeometry(30, 1), 150],
+  [new THREE.IcosahedronGeometry(30, 0), 180],
+]
+
+var material = new THREE.MeshNormalMaterial({
+  wireframe: true,
+})
+
+// LODオブジェクトの生成
+var lod = new THREE.LOD()
+
+for (var i = 0; i < geometry.length; i++) {
+  var mesh = new THREE.Mesh(geometry[i][0], material)
+  lod.addLevel(mesh, geometry[i][1])
+}
+
+
+function render() {
+  // LODオブジェクトの更新
+  lod.update(camera)
+  
+  requestAnimationFrame(render)
+}
+```
+
+### LOD クラス
+- [three.js docs - __LOD__](https://threejs.org/docs/#api/objects/LOD)
+
+### マルチ材質による直方体オブジェクト
+
+```js
+var geometry = new THREE.BoxGeometry(50, 50, 50)
+
+var materials = []
+materials[0] = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+materials[1] = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+materials[2] = new THREE.MeshBasicMaterial({ color: 0x0000ff })
+materials[3] = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+materials[4] = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+materials[5] = new THREE.MeshBasicMaterial({ color: 0x00ffff })
+
+var material = newTHREE.MultiMaterial(materials)
+cube = new THREE.MultiMaterial(material)
+
+scene.add(cube)
+```
+
+### MultiMaterial クラス
+<sup>`r85` で削除されました</sup>
+
+```js
+var materials = new THREE.MultiMaterial(materials)
+```
+
+### 3次元オブジェクト概形可視化用オブジェクト
+[概形](https://dictionary.goo.ne.jp/jn/245475/meaning/m0u/)を可視化するためのクラスが2つ定義されています
+
+1. ポリゴン面を線でつないで線で表現するワイヤーフレームオブジェクトを生成するための WireframeGeometry
+2. ポリゴン面のうち, 角ばった部分を線で表現するエッジオブジェクトを生成する EdgesGeometry
+
+##### WireframeGeometry クラスの例
+
+```js
+var geometry = new THREE.WireframeGeometry(
+  new THREE.BoxGeometry(50, 50, 50)
+)
+
+var material = new THREE.LineBasicMaterial({
+  color: 0xff00ff,
+})
+// line = neweTHREE.Line(geometry, material)
+lines = new THREE.LineSegments(geometry, material)
+```
+
+##### EdgesGeometry クラスの例
+
+```js
+var geometry = new THREE.EdgesGeometry(
+  new THREE.SphereGeometry(50, 20, 20), 9
+)
+
+var material = new THREE.LineBasicMaterial({
+  color: 0xff00ff
+})
+// line = new THREE.Line(geometry, material)
+lines = new THREE.LineSegments(geometry, material)
+```
+
+### WireframeGeometry クラス
+- [three.js docs - __WireframeGeometry__](https://threejs.org/docs/#api/geometries/WireframeGeometry)
+
+```js
+var geometry = new THREE.WireframeGeometry(geometry)
+```
+
+### EdgesGeometry クラス
+
+```js
+var geometry = new THREE.EdgesGeometry(geometry, thresholdAngle)
+```
+
+## 形状オブジェクト可視化用補助クラス
+### 重要サンプルの紹介
+特に重要なのが頂点座標, 面法線ベクトル, 頂点法線ベクトルといった頂点データですが,
+これらをデバッガーなどでチェックしていくことは容易ではありません.
+three.js ではこれらをグラフィックスとして可視化するための補助クラスが用意されています.
+
+### FaceNormalsHelper クラス
+- [three.js docs - __FaceNormalsHelper__](https://threejs.org/docs/#api/helpers/FaceNormalsHelper)
+
+3次元オブジェクトを構成するポリゴンの面法線ベクトル可視化用のオブジェクトを生成するクラスです.<br>
+対象とする３次元オブジェクトは通常の Geometry クラスの派生クラスで生成される形状オブジェクトのみに対応し,
+BufferGeometry クラスの派生クラスの場合はエラーが発生します.
+
+```js
+var helper = new THREE.FaceNormalshelper(object, size, hex, linewidth)
+```
+
+##### 面法線ベクトルの可視化例
+
+```js
+var faceNormalHelper = new THREE.FaceNormalsHelper(sphere, 5)
+scene.add(faceNormalHelper)
+```
+
+### VertexNromalsHelper クラス
+- [three.js docs - __VertexNormalsHelper__](https://threejs.org/docs/#api/helpers/VertexNormalsHelper)
+
+3次元オブジェクトを構成するポリゴンの頂点法線ベクトル可視化用のオブジェクトを生成するクラスです.<br>
+本オブジェクトの生成前に頂点法線ベクトルが計算されている必要があります.
+
+```js
+var helper = new THREE.VertexNormalsHelper(object, size, hex, linewidth)
+```
+
+##### 頂点法線ベクトルの可視化例
+
+```js
+sphere.geometry.computeVertexNormals()
+
+var vertexNormalsHelper = new THREE.VertexNormalsHelper(sphere, 5)
+scene.add(vertexNormalsHelper)
+```
+
+> フラット化後であっても computeVertexNormals メソッドを実行することで, ふたたび面法線ベクトルから頂点法線ベクトルを計算することができます
+
+### BoundingBoxHelper クラス
+<sup>`r83` で削除されているクラスです</sup>
+
+```js
+var helper = new THREE.BoundingBoxHelper(object, hex)
+```
+
+##### バウンディングボックスの可視化の例
+
+```js
+var boundingBoxHelper = new THREE.BoundingBoxHelper(sphere)
+scene.add(boundingBoxHelper)
+
+boundingBoxHelper.update()
+```
+
+### BoxHelper クラス
+- [three.js docs - __BoxHelper__](https://threejs.org/docs/#api/helpers/BoxHelper)
+
+3次元オブジェクトのバウンディングボックスを可視化するための線分オブジェクト（LineSegments）を生成するためのくらすです.<br>
+対角線はひょうじされません
+
+```js
+var helper = new THREE.BoxHelper(object)
+```
+
+##### バウンディングボックスの可視化例
+
+```js
+var boxHelper = new THREE.BoxHelper(sphere)
+scene.add(boxHelper)
+```
+
+
+### WireframeHelper クラス
+<sup>In duprecated list</sup>
+
+3次元オブジェクトのワイヤーフレームを可視化するためのオブジェクトを生成するクラスです.
+WireframeGeometry　よりも実用性の高い実装となっています
+
+```js
+var helper = new THREE.WireframeHelper(object, hex)
+```
+
+##### ワイヤーフレームの可視化例
+```js
+var wireframeHelper = new THREE.WireframeHelper(cube)
+scene.add(wireframeHelper)
+```
+
+### EdgesHelper クラス
+<sup>In duprecated list</sup>
+
+```js
+var helper = new THREE.EdgesHelper(object, hex, thresholdAngle)
+```
+
+
+##### ポリゴンエッジの可視化例
+
+```js
+var edgesHelper = new THREE.EdgesHelper(sphere)
+scene.add(edgesHelper)
+```
+
+
