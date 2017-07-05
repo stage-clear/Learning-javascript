@@ -231,3 +231,189 @@ function initObject() {
 ```js
 arrows.rotation = new THREE.Vector3(α:回転角度, β:回転角度, γ:回転角度)
 ```
+
+```js
+arrows.rotation.set(Math.PI / 6,           0,           0)
+arrows.rotation.set(Math.PI / 6, Math.PI / 6,           0)
+arrows.rotation.set(Math.PI / 6, Math.PI / 6, Math.PI / 6)
+```
+
+オイラー角を用いること3次元オブジェクトは任意の回転角を指定することができます.
+しかしながら, 任意の回転軸に対して回転させたい場合に, どのようにオイラー角を指定していいのか直感的にはわかりません.
+またらさらに, 回転演算を繰り返して行なっていくときに特定の条件で __ジンバルロック__ と呼ばれる問題が生じることが知られています.
+
+コンピューターグラフィックでは, もっぱらクォータニオンと呼ばれる代数を用いた回転角の指定が一般に行われます.
+
+### クォータニオンによる回転角の指定
+任意の回転軸に対する回転を軸ベクトルと回転角で表したものです.
+three.js では, この `x, y, z` と `θ` を与えることで, 3次元オブジェクトの回転を実装することができます.
+
+##### クォータニオンによる任意回転軸の実装手順
+1. クォータニオンを利用することで宣言
+2. 軸ベクトル Vector3 クラスのオブジェクトを用いて定義
+3. 回転角を指定
+4. クォータニオンクラスのオブジェクトを宣言
+5. 軸ベクトルと回転角からクォータニオンを計算
+6. 3次元オブジェクト（3軸矢印オブジェクト）にクォータニオンを代入
+
+```js
+// クォータニオンの利用を宣言
+/* arrows.useQuaternion = true */
+// 回転ベクトルを宣言
+var axis = new THREE.Vector3(1, 1, 1)
+// 回転軸ベクトルを規格化
+axis.normalize()
+// 回転角度を指定
+var angle = Math.PI / 3
+// クォータニオンオブジェクトの宣言
+var q = new THREE.Quaternion()
+// 3軸矢印オブジェクトの「quaternion プロパティ」に代入
+arrows.quaternion.copy(q)
+```
+
+###### プログラミングメモ: メソッドチェーンの利用
+
+```js
+var axis = new THREE.Vector3(1, 1, 1).normalize()
+```
+
+```js
+var q = new THREE.Quaternion().setFromAxisAngle(axis, angle)
+```
+
+```js
+var q = new THREE.Quaternion().setFromAxisAngle(
+  new THREE.Vector3(1, 1, 1).normalize(),
+  Math.PI / 3
+)
+```
+
+```js
+arrows.quaternion.setFromAxisAngle(
+  new THREE.Vector3(1, 1, 1).normalize(),
+  Math.PI / 3
+)
+```
+copy メソッドは利用していません.
+
+### 3次元オブジェクトの拡大と縮小
+##### three.js における拡大率の指定方法
+
+```js
+// 3軸オブジェクトの拡大率を設定
+arrows.scale.set(x:x軸方向の拡大率, y:y軸方向の拡大率, z:z軸方向の拡大率)
+```
+
+```js
+// x軸方向に0.5倍, y軸方向に1.2倍, z軸方向に0.8倍
+arrows.scale.set(0.5, 1.2, 0.8)
+```
+
+拡大率も位置座標と同様に, プロパティに直接指定することもできます.
+```js
+arrows.scale.x = 0.5
+arrows.scale.y = 1.2
+arrows.scale.z = 0.8
+```
+
+## three.js によるアニメーション
+### JavaScript によるアニメーション
+
+```js
+function loop() {
+  // 各時間ステップによる描画
+  requestAnimationFrame(loop)
+}
+```
+
+### アニメーション実行のための構成
+##### アニメーション実装までの手順
+1. three.js スタート関数の定義にて無限ループ関数を実行
+2. オブジェクト初期化関数の定義に3つの直方体オブジェクトを準備
+3. 描画実行関数を削除し → 無限ループ関数の定義
+
+##### three.js スタート関数の定義
+
+```js
+function threeStart() {
+  initThree()
+  initCamera()
+  initLight()
+  initObject()
+  loop()
+}
+```
+
+##### オブジェクト初期化関数の定義
+
+```js
+var axis 
+var cubes = []
+
+function initObject() {
+  // ... 軸オブジェクトを省略
+  var geometry = new THREE.BoxGeometry()
+  var material = new THREE.MeshNormalMaterial()
+
+  // 直方体のオブジェクト
+  cubes[0] = new THREE.Mesh(geometry, material)
+  scene.add(cube[0])
+  cubes[0].position.set(0, -50, 0)
+  
+  // 直方体オブジェクト2個目
+  cubes[1] = new THREE.Mesh(geometry, material)
+  scene.add(cube[1])
+  cubes[1].position.set(0, 0, 0)
+  
+  // 直方体オブジェクト3個目
+  cubes[2] = new THREE.Mesh(geometry, material)
+  scene.add(cube[2])
+  cubes[2].position.set(0, 50, 0)
+}
+```
+
+##### 無限ループ関数の定義
+```js
+var step = 0
+function loop() {
+  // ステップ数のインクリメント
+  step++
+  // 各直方体の角度の変更
+  cubes[0].rotation.set(step / 100, 0, 0)
+  cubes[1].rotation.set(0, step / 100, 0)
+  cubes[2].rotation.set(0, 0, step / 100)
+  // レンダリング
+  renderer.render(scene, camera)
+  // loop関数の呼び出し
+  requestAnimationFrame(loop)
+}
+```
+
+### カメラ移動のアニメーション
+
+```js
+var cameraX = 150 * Math.cos(step / 100)
+var cameraY = 150 * Math.sin(step / 100)
+var cameraZ = 150 * Math.cos(step / 100)
+```
+
+```js
+var step = 0
+function loop() {
+  // カメラ位置座標の計算
+  var cameraX = 150 * Math.cos(step / 100)
+  var cameraY = 150 * Math.sin(step / 100)
+  var cameraZ = 150 * Math.cos(step / 100)
+  
+  // カメラ位置座標の変更
+  camera.position.set(cameraX, cameraY, cameraZ)
+  camera.up.set(0, 0, 1)
+  camera.lookAt({x: 0, y: 0, z: 0 })
+  
+  ...
+}
+```
+> カメラオブジェクトは position プロパティを変更しただけでは位置の変更結果は反映されません.
+> lookAt メソッドを実行する必要があります
+
+## マウスによるカメラ操作
