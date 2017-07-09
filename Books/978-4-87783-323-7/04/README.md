@@ -417,3 +417,295 @@ function loop() {
 > lookAt メソッドを実行する必要があります
 
 ## マウスによるカメラ操作
+### トラックボールコントロール
+マウスドラッグ, マウスホイールによるカメラの移動を行うための __TrackballControls クラス__ が準備されています.
+- [three.js examples - TrackballControls](https://threejs.org/examples/#misc_controls_trackball)
+
+##### TrackballControls.js の読み込み方法
+
+``js
+<script src="three.js"></script>
+<script src="examples/js/controls/TrackballControls.js"></script>
+```
+
+##### トラックボールの利用方法(1) - カメラ初期化関数
+トラックボールは, カメラ初期化関数内でトラックボールオブジェクトの宣言とプロパティを設定することで利用可能となります.
+
+```js
+// カメラ初期化関数の定義
+var camera 
+function initCamera() {
+  camera = new THREE.PrespectiveCamera(
+    45,
+    canvasFrame.clientWidth / canvasFrame.clientHeight,
+    1, 10000
+  )
+
+  camera.position.set(100, 100, 100)
+  camera.up.set(0, 0, 1)
+  camera.lookAt({x: 0, y: 0, z: 0}) // トラックボール利用時は自動的に無効
+                                    // その代わりに, トラックボールオブジェクトの target を設定します
+  trackball = new THREE.TrackballControls(camera, canvasFrame)
+  // トラックボール（左ボタンクリック）による回転無効化と回転速度
+  trackball.noRotate = false 
+  trackball.rotateSpeed = 2.0
+  // トラックボール（ホイール回転）による拡大無効化と拡大速度の設定
+  trackball.noZoom = false
+  trackball.zoomSpeed = 1.0
+  // トラックボール（右ドラッグ）によるカメラ視野中心座標移動の無効化と中心速度の設定
+  trackball.noPan = false
+  trackball.zoomSpeed = 1.0
+  trackball.target = new THREE.Vector3(0, 0, 10)
+  // トラックボールのスタティックムーブの有効化（false にするとダイナミックムーブ）
+  // （左ボタンドラッグ終了と同時に, カメラ位置座標回転をストップさせる動作）
+  trackall.staticMoving = true
+  // トラックボールのダイナミックムーブ時の減衰定数
+  // (左ボタンドラッグ終了後も回転を続けます) 
+  trackball.dynamicDampingFactor = 0.3
+}
+```
+
+##### トラックボールの利用方法（2）- 無限ループ関数
+
+```js
+// トラックボールによるカメラオブジェクトのプロパティの更新
+trackball.update()
+```
+
+### TrackballControls クラス
+- [TrackballControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/TrackballControls.js)
+
+PerspectiveCamera クラス専用です
+
+```js
+var trackball = new THREE.TrackballControls(camera:Camera, domElement:domElement)
+```
+
+### OrthographicTrackballControls クラス
+- [OrthographicTrackballControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/OrthographicTrackballControls.js)
+
+OrthographicCamera クラス専用です.
+
+```js
+var trackball = new THREE.OrthographicTrackballControls(camera:Camera, domElement:domElement)
+```
+
+### フライコントロール
+空を飛ぶような視覚効果を得るためのクラスです.
+- [three.js example - FlyControls](https://threejs.org/examples/#misc_controls_fly)
+
+##### フライコントロールの利用方法（1）- カメラ初期化関数
+
+```js
+var camera
+var control
+function initCamera() {
+  camera = new THREE.PerspectiveCamera(
+    45,
+    canvasFrame.clientWidth / canvasFrame.clientHeight,
+    1, 10000
+  )
+  
+  camera.position.set(0, 0, 200)
+  camera.up.set(0, 0, 1)
+  camera.lookAt({ x: 0, y: 0, z: 0 })
+  control = new THREE.FlyControls(camera, canvasFrame)
+  // カメラの前進・後退速度
+  control.movementSpeed = 100.0
+  // カメラの回転速度
+  control.rollSpeed = Math.PI / 6
+  // 自動前進の有無（canvas要素がアクティブの状態である必要があります）
+  control.autoForward = false
+  // マウスドラッグによるカメラの回転の有無
+  control.dragToLook = false
+}
+```
+
+##### フライコントロールの利用方法（2）- 無限ループ価数
+
+```js
+var nowTime = new Date()                  // 現在時刻オブジェクトの取得
+var delta = (nowTime - lastTime) / 1000   // 1フレームあたりの経過時間
+lastTime = nowTime
+// フライコントロールによるカメラオブジェクトのプロパティの更新
+control.update(delta)
+```
+
+### FlyControls クラス
+- [FlyControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/FlyControls.js)
+
+```js
+var control = new THREE.FlyControls(camera:Camera, domElement:domElement)
+```
+
+### ポインターコントロール
+HTML5で採用されたAPIの1つである[マウスポインターを非表示にする機能](https://developer.mozilla.org/ja/docs/API/Pointer_Lock_API)を利用して
+マウスポインターを非表示にして, マウスを前後左右に動かすとカメラの方向を変えるという操作を実現する仕組みです.
+- [three.js examples - pointerlock](https://threejs.org/examples/#misc_controls_pointerlock)
+
+``` js
+var camera
+var control
+function initCamera() {
+  camera = new THREE.PerspectiveCamera(
+    60,
+    canvasFrame.clientWidth / canvasFrame.clientWidth,
+    1, 10000
+  )
+  
+  camera.position.set(20, 0, 100)
+  camera.up.set(0, 0, 1) // ポインターロックコントロール時は無効
+  camera.lookAt({ x: 0, y: 0, z: 0 }) // ポインターロックコントロール時は無効
+  // ポインターロックコントロールオブジェクト
+  control = new THREE.PointerLockControls(camera)
+  scene.add(controls.getObject())
+  // キャンバスフレーム要素をクリックした時のイベント登録
+  canvasFrame.addEventListener('click', function(event) {
+    document.body.requestPointerLock()
+  }, false)
+  // ポインターロックイベントの追加
+  document.addEventListener('pointerlockchange', pointerlockchange)
+  // ポインターロックの変更時に呼び出される関数
+  function pointerlockchange(event) {
+    if (document.pointerLockElement === document.body) {
+      // ポインターロックコントロールを有効化
+      control.enabled = true
+    } else {
+      // ポインターロックコントロールの無効化
+      control.enabled = false
+    }
+  }
+}
+```
+
+### ポインターロックコントロール＆キーボードによるカメラコントロール
+1. カメラ位置の移動に関するフラグと速度ベクトルの準備（カメラ初期化関数）
+2. キーボードイベントの登録（カメラ初期化関数）
+3. 各種フラグに対応したカメラ位置の更新（無限ループ関数）
+
+##### （1）（2）カメラ初期化関数
+
+```js
+function initCamera() {
+  ...
+  control.moveForward = false   // 前進
+  control.moveBackward = false  // 後進
+  control.moveLeft = false      // 左進
+  control.moveRight = false     // 右進
+  control.canJump = false       // ジャンプ可能
+  // 速度ベクトル
+  control.velocity = new THREE.Vector3()
+  // キーダウンイベント
+  document.addEventListener('keydown', function(event) {
+    // キーの種類の判定
+    switch(event.keyCode) {
+      case 38: // ↑
+      case 87: // w
+        control.moveForward = true
+        break
+      case 37: // ←
+      case 65: // a
+        control.moveLeft = true
+        break
+      case 40: // ↓
+      case 83: // s
+        control.moveBackward = true
+        break
+      case 39: // →
+      case 68: // d
+        control.moveRight = true
+        break
+      case 32: // スペース
+        if (control.canJump === true) control.velocity.y += 300
+        control.canJump = false
+        break
+    }
+  }, false)
+  
+  // キーアップイベント
+  document.addEventListener('keyup', function(event) {
+    switch(event.keyCode) {
+      case 38: //
+      case 87:
+        control.moveForward = false
+        break
+      case 37:
+      case 65:
+        control.moveLeft = false
+        break
+      case 37:
+      case 65:
+        control.moveBackward = false
+        break
+      case 40:
+      case 83:
+        control.moveRight = false
+        break
+    }
+  }, false)
+}
+```
+
+##### （3）無限ループ関数
+
+```js
+var lastTime = new Date()
+function loop() {
+  ...
+  // ポインターロックが有効の場合
+  if (control.enabled) {
+    var nowTime = new Date()
+    var delta = (nowTime - lastTime) / 1000
+    lastTime = nowTime
+    // 減速
+    control.velocity.x -= control.velocity.x * 10.0 * delta
+    control.velocity.z -= control.velocity.z * 10.0 * delta
+    control.velocity.y -= 0.8 * 100 * delta
+    // カメラの移動速度の更新
+    if (control.moveForward) control.velocity.z -= 400.0 * delta
+    if (control.moveBackward) control.velocity.z += 400.0 * delta
+    if (control.moveLeft) control.velocity.x -= 400.0 * delta
+    if (control.moveRight) control.velocty.x += 400.0 * delta
+    // カメラの位置座標の更新
+    control.getObject().translateX(control.velocity.x * delta)
+    control.getObject().translateY(control.velocity.y * delta)
+    control.getObject().translateZ(control.velocity.z * delta)
+    // yの最小値の判定
+    if (control.getObject().position.y < 10) {
+      // 速度0, 位置10に固定
+      control.velocity.y = 0
+      control.getObject().position.y = 10
+      // ジャンプ可能フラグを設定
+      control.canJump = true
+    }
+  }
+}
+```
+
+### PointerLockControls クラス
+- [PointerLockControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/PointerLockControls.js)
+
+```js
+var control = new THREE.PointerLockControls(camera:Camera)
+```
+
+### orbitControls クラス
+- [OrbitControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/OrbitControls.js)
+- [three.js exapmle orbit](https://threejs.org/examples/#misc_controls_orbit)
+
+マウスドラッグによるカメラ位置座標の移動を実現するクラスです.
+カメラの制御にクォータニオンを利用しておらず, カメラの位置座標ベクトルとy軸とのなす角である PolarAngle が0やπとなる場合に,
+カメラは特異的な動きとなる点に注意が必要です.
+
+```js
+controls = new THREE.OrbitControls(object:Camera, domElement:domElement)
+```
+
+### FirstPersonControls クラス
+- [FirstPersonControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/FirstPersonControls.js)
+
+```js
+var control = new THREE.FirstPersonControls(camera:Camera: domElement:domElement)
+```
+
+## マウスによるオブジェクト操作
