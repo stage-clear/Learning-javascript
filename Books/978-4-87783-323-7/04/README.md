@@ -709,3 +709,53 @@ var control = new THREE.FirstPersonControls(camera:Camera: domElement:domElement
 ```
 
 ## マウスによるオブジェクト操作
+### DragControls クラスによるオブジェクトの実装
+- [three.js examples - draggablecubes](https://threejs.org/examples/#Boxes_DragControls)
+r75では, 3次元オブジェクトをマウスドラッグで平行移動させることができるクラスが用意されました.
+
+```js
+var dragcontrols
+function initCamera() {
+  ...
+  dragcontrols = new THREE.DragControls(camera, null, renderer.domElement)
+  // ドラッグコントロールを有効
+  dragcontrols.enabled = true
+  // マウスドラッグ対象オブジェクト
+  var dragObject = null
+  // マウスオーバーイベントの登録
+  dragcontrols.on('hoveron', function(e) {
+    // トラックボールオブジェクトを無効化
+    trackball.enabled = false
+    // マウスドラッグ対象オブジェクトが存在する場合
+    if (dragObject) dragObject.material.opacity = 1.0
+    // マウスドラッグ対象オブジェクトを更新
+    dragObject = e.target
+    // マウスオーバーした3次元オブジェクトを半透明化
+    dragObject.material.opacity = 0.5
+  })
+  
+  // マウスアウトイベントの登録
+  dragcontrols.on('hoveroff', function(e) {
+    // トラックボールオブジェクトを有効化
+    trackball.enabled = true
+    // マウスオーバーした3次元オブジェクトを不透明化
+    if (e) e.object.material.opacity = 1.0
+    // マウスドラッグ対象オブジェクトを解除
+    dragObject = null
+  })
+}
+```
+
+### DragControls クラス
+- [DragControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/DragControls.js)
+
+```js
+var dragcontrols = new THREE.DragControls(camera:Camera, objects:Mesh|Scene, domElement:DOM)
+```
+
+##### DragControls クラスによるマウスドラッグの問題点
+###### (1) トラックボールコントロールとの併用時
+
+###### (2) マウスドラッグ中にマウスドラッグ対象要素を外れた場合
+
+###### 解決の方針
