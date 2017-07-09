@@ -423,7 +423,7 @@ function loop() {
 
 ##### TrackballControls.js の読み込み方法
 
-``js
+```js
 <script src="three.js"></script>
 <script src="examples/js/controls/TrackballControls.js"></script>
 ```
