@@ -755,7 +755,378 @@ var dragcontrols = new THREE.DragControls(camera:Camera, objects:Mesh|Scene, dom
 
 ##### DragControls クラスによるマウスドラッグの問題点
 ###### (1) トラックボールコントロールとの併用時
+マウスドラッグでカメラパラメータを変更している最中に, マウスポインターが3次元オブジェクト上を横切ったときに,
+DragControls クラスで登録したマウスオーバーイベントが実行され, 意図しない動作が起こってしまう可能性があります.
 
 ###### (2) マウスドラッグ中にマウスドラッグ対象要素を外れた場合
+3次元オブジェクトをマウスドラッグ中に, マウスドラッグ対象要素を外れた場合, 次にマウスドラッグ対象要素にマウスポインターが乗った時に
+先の3次元オブジェクトがマウスポインターに張り付いてしまう現象が起こります.
 
 ###### 解決の方針
+TrackballControls クラスと DragControls クラスにてあらかじめ用意されたプロパティやメソッドだけでは, この問題を解決することができません.
+対処するにはそれぞれのコンストラクタ内にてローカル変数として定義されている `_state` と `_selected` をそれぞれ操作するメソッドを定義する必要があります.
+
+### 平行移動, 回転, 拡大縮小のコントロール
+3次元オブジェクトの平行移動, 回転, 拡大縮小をマウス操作で行う TransformControls でクラスです.
+- [three.js examples - Transform](https://threejs.org/examples/#misc_controls_transform)
+
+```js
+function initCamera() {
+  ...
+  // トランスフォームオブジェクトの生成
+  transform = new THREE.TransformControls(camera, renderer.domElement)
+  // トランスフォームオブジェクトのシーンへの追加
+  scene.add(transform)
+}
+```
+
+マウスドラッグで操作したい3次元オブジェクトとトランスフォームオブジェクトを関連づけします.
+attach メソッドの引数に3次元オブジェクトを与えるだけです.
+
+```js
+function initObject() {
+  ...
+  // トランスフォームオブジェクトに関連づける
+  transform.attach(/* ... */)
+}
+```
+
+最後にマウスドラッグによる操作を反映するには update メソッドを無限ループ関数内で実行します.
+
+```js
+function loop() {
+  ...
+  // トランスフォームコントロールの更新
+  transform.update()
+}
+```
+
+### TransformControls クラス
+- [TransformControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/TransformControls.js)
+
+```js
+var transform = new THREE.TransformControls(camera:Camera, domElement:domElement)
+```
+
+##### TransformControls クラスの実装例
+
+```js
+// キーボードイベント
+window.addEventListener('keydown', function(e) {
+  // キーボードイベント時のキー取得
+  var keyChar = String.fromCharCode(e.keyCode).toLowerCase()
+  // キーボードの w が押された場合
+  if (keyChar === 'w') {
+    transform.setMode('translate')
+  }
+  
+  // キーボードの e が押された場合
+  if (keyChar === 'e') {
+    transform.setMode('rotate')
+  }
+  
+  // キーボードの r が押された場合
+  if (keyChar === 'r') {
+    transform.setMode('scale')
+  }
+})
+```
+
+### TransformControls クラスと DragControls クラスの合わせ技
+対象となる3次元オブジェクトに TransformControls クラスで自動生成されるコントローラが常時表示されてしまいます.<br>
+マウスポインターが3次元オブジェクトをさしている時のみコントローラーが表示されるようにして, それ以外の場合には非表示とする方法を解説します.
+
+```js
+var transform
+var dragcontrols
+
+function initCamera() {
+  // トランスフォームオブジェクトの作成
+  transform = new THREE.TransformControls(camera, renderer.domElement)
+  // トランスフォームオブジェクトのシーンへの追加
+  scene.add(transform)
+  // ドラグコントロールオブジェクトの生成
+  dragcontrols = new THREE.DragControls(camera, null, renderer.domElement)
+  // マウスオーバーイベントの登録
+  dragcontrols.on('hoveron', function(e) {
+    // トラックボールオブジェクトを無効化
+    trackball.enabled = false
+    // マウスドラッグ中はキャンセル
+    if (transform.object) return 
+    // オブジェクトに関連づける
+    transform.attach(e.object)
+  })
+  
+  // マウスアウトイベントの登録
+  dragcontrols.on('hoveroff', function(e) {
+    // トラックボールオブジェクトを有効化
+    trackball.enabled = true
+    // マウスアウト時に関連づけを解除
+    if (e) transform.detach(transform.object)
+  })
+}
+```
+
+## 光線による3次元オブジェクト情報の取得と操作
+### マウスポインターによるオブジェクトの選択
+1. 直方体オブジェクトの name プロパティを指定
+2. マウスポインターで判定するボジェクトの配列を用意
+3. マウスイベントを準備
+
+##### 1. 直方体オブジェクトに name プロパティを指定
+
+```js
+cubes[0].name = 'box1'
+cubes[1].name = 'box2'
+cubes[2].name = 'box3'
+```
+
+##### 2. マウスポインターで判定するオブジェクトの配列を用意
+
+```js
+var rayReceiveObjects = []
+```
+
+##### 3. マウスイベントを準備
+
+a. マウスクリック時のポインター座標を取得する
+b. 3次元空間中におけるマウスポインターが指している方角を計算する
+c. 3次元空間中のマウスポインター座標から光線（Ray）を発射し, 光線が貫いたオブジェクトを取得する
+d. 光線が貫いたオブジェクトがある場合に, そのオブジェクトの name プロパティをアラートで表示する
+
+```js
+function initEvent() {
+  var elementOffsetLeft
+  var elementOffsetTop
+  // マウスポインターの位置
+  var mouse = new THREE.Vector2()
+  // 光線発射オブジェクト
+  var raycast = new THREE.Raycaster()
+  // マウスダウンイベント
+  canvasFrame.addEventListener('mousedown', onDocumentMouseDown, false)
+
+  function onDocumentMouseDown(event) {
+    // canvas要素の絶対座標
+    elementOffsetLeft = canvasFrame.getBoundingClientRect().left
+    elementOffsetTop = canvasFrame.getBoundingClientRect().top
+    // クリップ座標におけるマウスポインターの位置座標の取得
+    mouse.x = ((event.clientX - elementOffsetLeft) / canvasFrame.clientWidth) * 2 - 1
+    mouse.y = ((event.clientY - elementOffsetTop) / canvasFrame.clientHeight) * 2 + 1
+    // マウスクリックしたときのポインター座標を, canvas要素の中心を (0, 0) とし,
+    // 左下 (-1, -1) 右下 (1, -1) 右上 (1, 1) 左上 (-1, 1) に規格化を行います
+    
+    // マウスポインターの位置とカメラの設定
+    raycaster = setFromCamera(mouse, camera)
+    // 光線と交わるオブジェクトを収集
+    var intersects = raycaster.intersectObjects(rayReceiveObjects)
+    // 交わるオブジェクトが1個以上の場合
+    if (intersects.length > 0) {
+      // 最も近いオブジェクトの名前をアラート表示する
+      alert(intersects[0].object.name + 'がクリックされました!')
+      console.log('カメラ位置座標からの距離: ' + intersects[0].distance)
+      console.log('光線との交差座標(' + intersects[0].point.x + '-' + intersects[0].point.y + '-' + intersects[0].point.z + ')')
+    }
+  }
+}
+```
+
+```js
+function threeStart() {
+  initThree()
+  initObject()
+  initCamera()
+  initEvent()
+  loop()
+}
+```
+
+### Raycaster クラス
+- [three.js docs - __Raycaster__](https://threejs.org/docs/#api/core/Raycaster)
+任意の基準座標（origin）から任意の方向へ発射した光線を取り扱うためのクラス
+
+```js
+var raycaster = new THREE.Raycaster(origin:Vector3, direction:Vector3, near:float, far:float)
+```
+
+### Ray クラス
+- [three.js docs - __Ray__](https://threejs.org/docs/#api/math/Ray)
+
+光線オブジェクトを生成するクラス.
+Raycaster クラスやさまざまな形状オブジェクトの raycast メソッド内で利用されます
+
+```js
+var ray = new THREE.Ray(origin:Vector3, direction:Vector3)
+```
+
+### マウスドラッグによるオブジェクトの移動
+マウスドラッグにてオブジェクトを移動させるための動作原理について.<br>
+この内容は, ユーザー側のディスプレイとコンピュータ内の仮想3次元空間とをつなぐユーザーインタラクティブなアプリケーションを
+つなぐためのさまざまな応用の基本となります.
+
+基本的な考え方は, カメラの状態（位置座標, 方向）とマウスのクリック座標に応じて,
+3次元空間内に仮想の平面オブジェクトを用意し, マウスドラッグでオブジェクトがその平面城を移動するというもおです.
+
+1. イベント準備関数の定義
+2. 平面オブジェクトの準備
+3. mousemove イベントの定義
+4. mousedown イベントの定義
+5. mouseup イベントの定義
+6. mouseout イベントの定義
+
+##### 平面オブジェクトの準備
+
+```js
+var plane
+function initObject() {
+  ...
+  // 形状オブジェクトの宣言と生成
+  var geometry = new THREE.PlaneGeoemtry(2000, 2000, 8, 8)
+  // 材質オブジェクトの宣言と生成
+  var material = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    wireframe: true,
+    /* transparent: true, */
+    /* opacity: 0, */
+  })
+  
+  // 平面オブジェクトの生成
+  plane = new THREE.Mesh(geometry, material)
+  // 平面オブジェクトのシーンへの追加
+  scene.add(plane)
+}
+```
+
+##### マウス関連イベントの準備
+
+```js
+function initEvent() {
+  canvasFrame.addEventListener('mousemove', onDocumentMouseMove, false)
+  canvasFrame.addEventListener('mousedown', onDocumentMouseDown, false)
+  canvasFrame.addEventListener('mouseup', onDocumentMouseUp, false)
+  canvasFrame.addEventListener('mouseout', onDocumentMouseUp, false)
+  
+  // マウスクリック時の選択したオブジェクト中心からのマウスポインターのズレ
+  var offset = new THREE.Vector3()
+  var INTERSECTED // マウスポインターが指しているオブジェクト
+  var SELECTED    // マウスドラッグ中のオブジェクト
+  // HTML要素の位置による補正量の取得
+  var elementOffsetLeft
+  var elementOffsetTop
+  
+  function onDocumentMouseMove(event) {
+    // ...
+  }
+  function onDocumentMouseDown(event) {
+    // ...
+  }
+  function onDocumentMouseUp(event) {
+    // ...
+  }
+}
+```
+
+##### mousemove イベントの定義
+
+```js
+function onDocumentMouseMove(event) {
+  // canvas要素の絶対座標の取得
+  elementOffsetLeft = canvasFrame.getBoundingClientRect().left
+  elementOffsetTop = cavnasFrame.getBoundingClientRect().top
+  // クリップ座標系におけるマウスポインターの位置座標の取得
+  mouse.x = ((event.clientX - elementOffsetLeft) / canvasFrame.clientWidth) * 2 - 1
+  mouse.y = ((event.clientY - elementOffsetTop) / canvasFrame.clientHeight) * 2 + 1
+  // マウスポインターの位置と現時点のカメラ関連パラメータを設定
+  raycaster.setFromCamera(mouse, camera)
+  // オブジェクトがマウスドラッグされているとき
+  if (SELECTED) {
+    // 光線と交わる平面オブジェクトを収集
+    var intersects = raycaster.intersectObject(plane)
+    // マウスドラッグ時のマウスポインターの指している平面オブジェクトの3次元空間中の位置座標
+    var vec3 = intersects[0].point
+    var v = vec3.sub(offset)
+    // マウスドラッグされているオブジェクトを移動
+    SELECTED.position.copy(v)
+    return 
+  }
+  
+  // 光線と交わるオブジェクトを収集
+  var intersets = raycaster.intersectObjects(rayReceiveObjects)
+  // マウスポインターがオブジェクト上にある場合
+  if (intersects.length > 0) {
+    if (INTERSECTED != intersects[0].object) {
+      // 一番手前のオブジェクトの位置座標をINTERSECTEDに登録されたオブジェクトと同じ位置座標とする
+      plane.position.copy(INTERSECTED.position)
+      // 平面オブジェクトの上ベクトルをカメラの位置座標の方向へ向ける
+      plane.lookAt(camera.position)
+    }
+    // マウスポインターのカーソルを変更
+    canvasFrame.style.cursor = 'pointer'
+  } else {
+    // マウスポインターがオブジェクトから離れている場合
+    INTERSECTED = null
+    // マウスポインターのカーソルを変更
+    canvasFrame.style.cursor = 'auto'
+  }
+}
+```
+
+##### mousedown イベントの定義
+
+```js
+function onDocumentMouseDown(event) {
+  // 光線と交わるオブジェクト収集
+  var intersects = raycaster.intersectObjects(rayReceiveObjects)
+  // 交わるオブジェクトが1個以上の場合
+  if (intersects.length > 0) {
+    // (トラックボールコントロールの無効化)
+    // クリックされたオブジェクトを SELECTED に登録
+    SELECTED = intersects[0].object
+    // 光線と交わる平面オブジェクトを収集
+    var intersects = raycaster.intersectObject(plane)
+    // クリック時のマウスポインターの指した平面オブジェクトの3次元空間中の位置座標
+    var vec3 = intersects[0].point
+    // 平面オブジェクトの中心から見た相対的な位置座標
+    offset.copy(vec3).sub(plane.position)
+    // マウスポインターのカーソルを変更
+    canvasFrame.style.cursor = 'move'
+  }
+}
+```
+
+##### mouseup イベントの定義
+
+```js
+function onDocumentMouseUp(event) {
+  // (トラックボールコントロールの有効化)
+  // マウスアップ時にマウスポインターがオブジェクト上にある場合
+  if (INTERSECTED) {
+    // 平面オブジェクトの位置座標をオブジェクトの位置座標に合わせる
+    plane.position.copy(INTERSECTED.position)
+    // マウスドラッグの解除
+    SELECTED = null
+  }
+  
+  // マウスポインターのカーソルを変更
+  canvasFrame.style.cursor = 'auto'
+}
+```
+
+### マウスドラッグによるオブジェクトの移動 + トラックボールコントロール
+さらにトラックボールコントロールを加えます.
+
+1. トラックボールコントロール用のオブジェクトの生成と配置を行う
+2. マウスドラッグによるオブジェクト移動時にトラックボールコントロールを無効化する
+3. マウスボタンアップ時にトラックボールコントロールを有効化する
+
+```js
+// トラックボールの無効化
+tracball.enabled = false
+```
+
+```js
+// トラックボールの有効化
+trackball.enabled = true
+```
+
+- [three.js examples - Draggablecubes](https://threejs.org/examples/#webgl_interactive_draggablecubes)
+
