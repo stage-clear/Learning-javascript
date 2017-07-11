@@ -11,8 +11,8 @@
 3. 法線の設定 → 法線ベクトルの計算
 
 ### 光源の設定
-OpenGL にて3次元空間を照らす光源には, __点光源__と__スポットライト光源__の2種類があります.
-さらに, 点光源の特殊な例として__平行光源（無限遠光源）__を設定することができます.
+OpenGL にて3次元空間を照らす光源には, __点光源__ と __スポットライト光源__ の2種類があります.
+さらに, 点光源の特殊な例として __平行光源（無限遠光源）__ を設定することができます.
 
 ##### 光源の種類
 - DirectionalLight 平行光源
@@ -23,8 +23,8 @@ OpenGL にて3次元空間を照らす光源には, __点光源__と__スポッ�
 ### 反射材室の設定
 光源に対して, オブジェクト表面の質感を決めるのが反射材質です.<br>
 反射材質オブジェクトに反射材質を指定することで, シェーディングを実装することができます.
-反射材質には, マット紙のようなザラつきのある__ランバート反射材質__と, コート紙のような光沢のある__フォン反射材質__,
-ファン反射材質を拡張した__標準反射材質__が用意されています.
+反射材質には, マット紙のようなザラつきのある __ランバート反射材質__ と, コート紙のような光沢のある __フォン反射材質__ ,
+ファン反射材質を拡張した __標準反射材質__ が用意されています.
 
 - MeshLambertMaterial ランバート反射材質
 - MeshPhongMaterial フォン反射材質
@@ -46,3 +46,90 @@ WebGLの場合, 行列演算を理解し自前で実装する必要がありま�
 3. 光源の位置座標 - x, y, z
 4. 光線の中心とするオブジェクト - target
 
+##### 高原の設定手順
+1. 平行光源オブジェクトをグローバル変数として宣言
+2. 平行光源の設定
+3. 平行光線ベクトルの設定
+4. 光源をシーンに追加
+
+```js
+// 光源初期化関数の定義
+var directionalLight // 平行光源オブジェクト
+function initLight() {
+  // 平行光源オブジェクトの生成
+  directionalLight = new THREE.DirectionalLight(oxffffff, 1.0)
+  // 平行光源オブジェクトの光源位置座標の設定
+  directionalLight.position.set(50, 20, 100)
+  // 平行光源オブジェクトのシーンへの追加
+  scene.add(directionalLight)
+}
+```
+
+##### 白色光とは
+__光の三原則__ と呼ばれる赤, 緑, 青をすべて混ぜると白色になります.
+物理学的には, そもそも色という概念はありません.
+
+この3色が最大値の時の色を白色と読んでいます.
+そして我々の認識できる電磁波の波長領域は, 可視領域と呼ばれています.
+
+##### 平行光源オブジェクトを生成するコンストラクタ
+
+```js
+directionalLight = new THREE.DirectionalLight(hex, intensity)
+```
+
+#### 平行光源の光源の位置座標の指定
+
+```js
+directionalLight.position.set(x, y, z)
+
+// or
+directionalLight.position.x = x
+directionalLight.position.y = y
+directionalLight.position.z = z
+```
+
+##### three.js スタート関数への追記
+```js
+function threeStart() {
+  initThree()
+  initCamera()
+  initLight()
+  initObject()
+  draw()
+}
+```
+
+
+## Light クラス
+- [three.js docs - __Light__](https://threejs.org/docs/#api/lights/Light)
+
+```js
+var light = new THREE.Light(color:hex, intensity:float)
+```
+
+### DirectionalLight クラス
+- [three.js docs - __DiretionalLight__](https://threejs.org/docs/#api/lights/DirectionalLight)
+
+```js
+var light = new THREE.DirectionalLight(hex:hex, intensity:float)
+```
+
+### DirectionalLightHelper クラス
+- [three.js docs - __DirectionalLightHelper__](https://threejs.org/docs/#api/helpers/DirectionalLightHelper)
+
+```js
+var lighthelper = new THREE.DirectionalLightHelper(light:Light, size:float)
+```
+
+```js
+// 平行光源可視化オブジェクトの生成
+lighthelper = new THREE.DirectionalLightHelper(directionalLight, 10)
+```
+
+## 反射材質オブジェクトの準備
+光源に対する3次元オブジェクトの表面の見え方（質感など）を決定する材質オブジェクトの準備を行います.
+
+three.js ではシェーディングの対象となる材質として, ランバート反射材質, フォン反射材質, 標準反射材質の3種類が用意されています
+
+### 反射材質
