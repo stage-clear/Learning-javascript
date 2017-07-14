@@ -1,11 +1,17 @@
 # Vue.js
 
-## Plugins
-- [Vuex](https://github.com/vuejs/vuex) - [Vuex はじめに](https://vuex.vuejs.org/ja/index.html)
-- [vue-resource](https://github.com/vuejs/vue-resource)
+## Documents:
+- [Vue.js](https://v1-jp.vuejs.org/guide/) - v1
+- [Vue.js](https://jp.vuejs.org/v2/guide/) - v2
+- [Vuex はじめに](https://vuex.vuejs.org/ja/index.html)
+- [vue-loader](https://vue-loader.vuejs.org/ja/)
+
+## Repositories:
+- [Vue](https://github.com/vuejs/vue)
+- [Vuex](https://github.com/vuejs/vuex)
 - [vue-router](https://github.com/vuejs/vue-router)
-- [vueify](https://github.com/vuejs/vueify) - With Browserify
 - [vue-loader](https://github.com/vuejs/vue-loader) - With Webpack
+- [vueify](https://github.com/vuejs/vueify) - With Browserify
 
 ## サンプルコード
 - [Vue.extend](https://jsfiddle.net/stageclear/ek69zqs4/) 
@@ -17,13 +23,6 @@
 - [Intro to Vue.js: Vuex](https://css-tricks.com/intro-to-vue-4-vuex/)
 - [Intro to Vue.js: Animations](https://css-tricks.com/intro-to-vue-5-animations/)
 - [How To Build A Simple Single Page Application Using Vue2](https://scotch.io/tutorials/how-to-build-a-simple-single-page-application-using-vue-2-part-1)
-
-## CDN
-
-```
-https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js
-<script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
-```
 
 ## References
 - [Next Vue.js 2.0 by kazupon](https://speakerdeck.com/kazupon/next-vue-dot-js-2-dot-0)
