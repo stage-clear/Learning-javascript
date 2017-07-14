@@ -13,9 +13,6 @@
 - [vue-loader](https://github.com/vuejs/vue-loader) - With Webpack
 - [vueify](https://github.com/vuejs/vueify) - With Browserify
 
-## サンプルコード
-- [Vue.extend](https://jsfiddle.net/stageclear/ek69zqs4/) 
-
 ## Online tutorials
 - [Intro to Vue.js: Rendering, Directives, and Events](https://css-tricks.com/intro-to-vue-1-rendering-directives-events/)
 - [Intro to Vue.js: Components, Props, and Slots](https://css-tricks.com/intro-to-vue-2-components-props-slots/)
