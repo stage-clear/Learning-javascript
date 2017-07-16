@@ -26,6 +26,7 @@ https://cdnjs.com/libraries/rxjs/
 ## References: 
 - [An Animated Intro to RxJS](https://css-tricks.com/animated-intro-rxjs/)
 - [Introduction to RxJS](https://www.slideshare.net/brainhubpl/introduction-to-rxjs)
+- [Functional Reactive Game Programming - RxJS Breakout](https://manu.ninja/functional-reactive-game-programming-rxjs-breakout)
 - [それRxJSでできるよ](https://www.slideshare.net/tikibou1/rxjs-67070374)
 
 ## Links:
