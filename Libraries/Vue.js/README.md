@@ -15,7 +15,7 @@
 
 ## Snipetts:
 - [Basic](snippets/basic.md)
-- [Use any library with Vue.js](snipetts/use-any-library.md)
+- [Use any library with Vue.js](snippets/use-any-library.md.md)
 
 ## Online tutorials
 - [Intro to Vue.js: Rendering, Directives, and Events](https://css-tricks.com/intro-to-vue-1-rendering-directives-events/)
