@@ -11,7 +11,11 @@
 - [Vuex](https://github.com/vuejs/vuex)
 - [vue-router](https://github.com/vuejs/vue-router)
 - [vue-loader](https://github.com/vuejs/vue-loader) - With Webpack
-- [vueify](https://github.com/vuejs/vueify) - With Browserify
+- ~~[vueify](https://github.com/vuejs/vueify) - With Browserify~~ I've been using webpack. so I never use browserify.
+
+## Snipetts:
+- [Basic](snippets/basic.md)
+- [Use any library with Vue.js](snipetts/use-any-library.md)
 
 ## Online tutorials
 - [Intro to Vue.js: Rendering, Directives, and Events](https://css-tricks.com/intro-to-vue-1-rendering-directives-events/)
