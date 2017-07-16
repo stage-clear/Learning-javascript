@@ -36,6 +36,7 @@ function* gen() {
 ## References:
 - [ES6 Generators in Depth](https://ponyfoo.com/articles/es6-generators-in-depth)
 - [ES6 Iterators and Generators in Practice](http://www.zsoltnagy.eu/es6-iterators-and-generators-in-practice/)
+- [The Hidden Power of ES6 Generators: Observable Async Flow Control](https://medium.com/javascript-scene/the-hidden-power-of-es6-generators-observable-async-flow-control-cfa4c7f31435)
 - [2 cases where JavaScript generators rock](https://goshakkk.name/javascript-generators-understanding-sample-use-cases/)
 - [ジェネレータについて](http://js-next.hatenablog.com/entry/2014/08/07/174147)
 - [JavaScript のジェネレータを極める！](http://goo.gl/KBRGxb)
