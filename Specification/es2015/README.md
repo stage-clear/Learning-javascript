@@ -45,3 +45,4 @@ ES2015の学習や情報収集のまとめ
 ## References
 - [ES6 Overview in 350 Bullet Points](https://ponyfoo.com/articles/es6)
 - [ES6 Interactive Guide](http://projects.formidablelabs.com/es6-interactive-guide/#/)
+- [Stupid ES6 tricks](https://engineering.haus.com/dumb-es6-tricks-53ecadd1b29f)
