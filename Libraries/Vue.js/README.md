@@ -27,3 +27,4 @@
 
 ## References
 - [Next Vue.js 2.0 by kazupon](https://speakerdeck.com/kazupon/next-vue-dot-js-2-dot-0)
+- [The Power of Custom Directives in Vue](https://css-tricks.com/power-custom-directives-vue/)
