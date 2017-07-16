@@ -33,9 +33,12 @@ function* gen() {
 ## Related
 - [Iterator](./Iterator.md)
 
-# External links
+## References:
 - [ES6 Generators in Depth](https://ponyfoo.com/articles/es6-generators-in-depth)
+- [ES6 Iterators and Generators in Practice](http://www.zsoltnagy.eu/es6-iterators-and-generators-in-practice/)
 - [ジェネレータについて](http://js-next.hatenablog.com/entry/2014/08/07/174147)
 - [JavaScript のジェネレータを極める！](http://goo.gl/KBRGxb)
 - [最近のjs非同期処理 PromiseとGeneratorの共存](http://qiita.com/kidach1/items/d997df84a0ede39d76ad)
+
+## Polyfills:
 - [co](https://github.com/tj/co)
