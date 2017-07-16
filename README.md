@@ -27,6 +27,7 @@ JavaScript の学習や情報収集のまとめ
 - [fablic.js](Libralies/fablic.js/)
 
 ## Tutorials:
+- [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
 - [jQueryにはもう頼らない！無限スクロールをネイティブで実装する最新テクニック](https://www.webprofessional.jp/intersectionobserver-api/)
 
 ## References
