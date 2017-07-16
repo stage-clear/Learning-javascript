@@ -1,4 +1,4 @@
-# Learniing React
+# Learning React
 
 ## Links:
 - [React](https://facebook.github.io/react/)
