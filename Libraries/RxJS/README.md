@@ -14,7 +14,7 @@ https://cdnjs.com/libraries/rxjs/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.all.min.js"></script>
 ```
 
-## Sample
+## Online tutorials:
 - [RxJS チュートリアル (1)](https://jsfiddle.net/stageclear/kobmcc4t/) - Observable
 - [RxJS チュートリアル (2)](https://jsfiddle.net/stageclear/ymv7m2b7/) - Observables as generalizations of functions
 - [RxJS チュートリアル (3)](https://jsfiddle.net/stageclear/ervmx938/) - Subscribing to Observables
@@ -23,8 +23,10 @@ https://cdnjs.com/libraries/rxjs/
 - [RxJS チュートリアル (6)](https://jsfiddle.net/stageclear/yeLz5ztp/) - Observer
 - [RxJS サンプル (1)](https://jsfiddle.net/stageclear/odenhtLe/)
 
+## References: 
+- [An Animated Intro to RxJS](https://css-tricks.com/animated-intro-rxjs/)
 
-## Links 
+## Links:
 
 - [ReactiveX](http://reactivex.io/)
 - [ReactiveX/rxjs](https://github.com/ReactiveX/RxJS) - 5.x
