@@ -35,8 +35,9 @@ console.log(proxy.bar);
 //=> undefined
 ```
 
-## Links
+## Reference:
 - [ES6 Proxy Traps in Depth](https://ponyfoo.com/articles/es6-proxy-traps-in-depth)
+- [10 Use Cases for Proxy](http://dealwithjs.io/es6-features-10-use-cases-for-proxy/)
 
-## Related
+## Related:
 - [Reflection](Reflection.md) - _リフレクション_
