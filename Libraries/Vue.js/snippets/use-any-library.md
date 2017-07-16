@@ -1,4 +1,5 @@
 # 他のライブラリと一緒に使う場合:
+- [Use Any Javascript Library With Vue.js](http://vuejsdevelopers.com/2017/04/22/vue-js-libraries-plugins/)
 
 ## Global variable:
 
