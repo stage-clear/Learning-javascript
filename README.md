@@ -1,7 +1,7 @@
 # Learning JavaScript
 JavaScript の学習や情報収集のまとめ
 
-## Menu
+## Contents:
 - [Specifications](Specification/) - 仕様やその記述パターンなど
   - [ES2015](Specification/es2015/README.md)
   - [ES2016](Specification/es2016/README.md)
@@ -13,7 +13,7 @@ JavaScript の学習や情報収集のまとめ
 - [Reading Books](Books/) - 読んで注釈やメモした書籍など
 
 
-## Libraries / Frameworks
+## Libraries;
 - [Node.js](Libraries/Node/) - learn to Node.js
 - [AngularJS](Libraries/AngularJS/) - learn to AngularJS
 - [React](Libraries/React/) - learn to React.js
@@ -33,3 +33,4 @@ JavaScript の学習や情報収集のまとめ
 
 ## References
 - [JavaScript Standard Style](http://standardjs.com/)
+- [Upgrading Ele.me to Progressive Web App](https://medium.com/elemefe/upgrading-ele-me-to-progressive-web-app-2a446832e509)
