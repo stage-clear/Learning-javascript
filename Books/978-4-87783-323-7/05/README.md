@@ -132,4 +132,112 @@ lighthelper = new THREE.DirectionalLightHelper(directionalLight, 10)
 
 three.js ではシェーディングの対象となる材質として, ランバート反射材質, フォン反射材質, 標準反射材質の3種類が用意されています
 
-### 反射材質
+### 反射材質とは
+#### 光源色と材質色の関係
+
+#### 光源ベクトルと法線ベクトルの関係
+### ランバート反射材質
+入射光が物体の表面で拡散反射する光による色（ **拡散色** ）によって,
+カメラの位置座標によらず同じ色に見えると近似する点にあります.
+
+ランバート反射材質は, 木材やコンクリートといったざらついた材質表面を表現するのに適しています.
+比較的低負荷で材質の質感を出すモデルとして, 3次元コンピュータグラフィックスで利用されます.
+
+```js
+// 材質オブジェクトの宣言と生成
+var material = new THREE.MeshLambertMaterial({ color: 0xff0000 })
+```
+
+### MeshLambertMaterial クラス
+光源に対するシェーディングを表現できるランバート反射材質を生成するクラス
+
+```js
+var material = new THREE.MeshLambertMaterial(parameters)
+```
+
+### フォン反射材質
+入射光に対して物体表面の色の見え方が決定するモデルの1つです.
+ランバート反射材質の拡張版として知られています.
+このモデルの特徴は, ランバート反射材質の拡散色に加えて, 物体の表面による鏡面反射する光の色（ **鏡面色** ）も考慮する点です.
+
+フォン反射材質は, プラスチックや金属といった光を鈍く反射させる材質表面を表現するのに適しています.
+
+鏡面光を特徴付けるパラメータとして, 光沢の強さを表す **鏡面指数** と呼ばれるものが存在します.
+鏡面指数が大きいほど, カメラに飛び込んでくる鏡面光の条件が厳しくなります.
+
+鏡面指数が大きいほどコート紙のようなツルツル感が表現され, 
+反対に小さいほどマット紙のようなザラつき感を表現することができます.
+
+```js
+var material = new THREE.MeshPhongMaterial({
+  color: 0xff0000,
+  specular: 0x333333,
+  shininess: 50,
+})
+```
+
+### MeshPhongMaterial クラス
+
+```js
+var material = new THREE.MeshPhongMaterial(parameters)
+```
+
+### 標準反射材質
+物理ベースレンダリングと呼ばれる物理学に則ったものの見え方を再現する昨日も含んでいます.
+標準反射材質では, ザラザラ感を表す `roughness` プロパティと金属感を表す `metalness` プロパティが用意されています
+表現力としてランバート反射材質とフォン反射材質を包括しています.
+
+### MeshStandardMaterial クラス
+
+```js
+var material = new THREE.MeshStandardMaterial(parameters)
+```
+
+## 法線の設定
+平面オブジェクトでは暗黙のうちに法線ベクトルが設定されています.
+しかしながら, 任意の3次元形状をポリゴンで表現するには別途法線ベクトルを指定する必要があります.
+
+### メソッドによる自動計算
+
+三角形を構成する3つの頂点座標から三角形面の法線ベクトルを計算するメソッド `computeFaceNormals()` を実行します
+
+```js
+// 形状オブジェクトの宣言と生成
+var geometry = new THREE.Geometry()
+// 頂点座標のデータの追加
+geometry.vertices[0] = new THREE.Vector3(50, 0, 0)
+geometry.vertices[1] = new THREE.Vector3(0, 50, 0)
+geometry.vertices[2] = new THREE.Vector3(-50, -50, 0)
+// 面指定用頂点インデックスを追加
+geometry.faces[0] = new THREE.Face3(0, 1, 2)
+// 面の法線ベクトルを計算
+geometry.computeFaceNormals() // <-
+```
+
+`computedFaceNormals()` は `faces` プロパティで指定されているすべての面に対する法線ベクトルを自動的に計算してくれるため, 非常に便利です.
+
+### Face3 クラスのプロパティへの手動設定（1）
+法線ベクトルを任意に設定することができれば, 反射材質の拡散色を変更することなしにさまざまな効果を得ることができます.
+
+```js
+// 法線ベクトル
+var normal = new THREE.Vector3(0, 0, 1)
+// 面指定用頂点インデックスを追加
+geometry.faces[0] = new THREE.Face3(0, 1, 2, normal)
+```
+
+### Face3 クラスのプロパティへの手動設定（2）
+法線ベクトルを配列で指定することもでき, これによって頂点ごとに法線ベクトルを指定することができます.
+
+
+```js
+// 5.5 頂点ごとに法線ベクトルを指定する方法:
+// 法線ベクトル配列
+var normals = []
+normals[0] = new THREE.Vector3(1, 0, 0)
+normals[1] = new THREE.Vector3(0, 1, 0)
+normals[2] = new THREE.Vector3(0, 0, 1)
+// 面指定用頂点インデックスを追加
+geometry.faces[0] = new THREE.Face3(0, 1, 2, normals)
+```
+
