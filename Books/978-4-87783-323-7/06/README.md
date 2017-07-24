@@ -218,3 +218,15 @@ function initLight() {
 ```
 
 ### hemisphereLight クラス
+- [three.js docs - __HemisphereLight__](https://threejs.org/docs/#api/lights/HemisphereLight)
+
+```js
+var hemisphereLight = new THREE.HemisphereLight(skyColor:hex, groundColor:hex, intensity:float)
+```
+
+### HemisphereLightHelper クラス
+- [three.js docs - __HemisphereLightHelper__](https://threejs.org/docs/#api/helpers/HemisphereLightHelper)
+
+```js
+var lighthelper = new THREE.HemisphereLightHelper(light:HemisphereLight, sphereSize:float)
+```
