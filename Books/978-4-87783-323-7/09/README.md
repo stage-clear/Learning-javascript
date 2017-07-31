@@ -106,7 +106,7 @@ function generateCanvas() {
   canvas.width = 256
   canvas.height = 256
   // コンテキストの取得
-  var context = canvas.getContext('2d)
+  var context = canvas.getContext('2d')
   // ガウス分布の平均値と分散
   var x_ = canvas.width / 2 // 平均値 (x座標)
   var y_ = canvas.height / 2 // 平均値 (y座標)
