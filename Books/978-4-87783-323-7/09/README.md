@@ -273,3 +273,47 @@ minFilter は反対にテクスチャ画像サイズよりも小さなオブジ�
 
 ### ミップマップの用意
 
+#### ミップマップ用画像データの用意
+
+```js
+function mipmap(size, color) {
+  var canvas = document.createElement('canvas')
+  canvas.width = size
+  canvas.height = size
+  // コンテキストの取得
+  var context = canvas.getContext('2d')
+  context.fillStyle = '#444444'
+  context.fillRect(0, 0, size, size)
+  context.fillStyle = color
+  context.fillRect(0, 0, size / 2, size / 2)
+  context.fillRect(size / 2, size / 2, size / 2)
+  return canvas
+}
+```
+
+#### ミップマップの指定方法
+
+```js
+// 空のimg要素を生成
+var img = new Image()
+// テクスチャオブジェクトの生成
+var texture = new THREE.Texture(img)
+// テクスチャラッピングの設定
+texture.wrapS = THREE.RepeatWrapping
+texture.wrapT = THREE.RepeatWrapping
+// リピートの指定
+texture.repeat.set(100, 100)
+// 補間方法の指定
+texture.magFilter = THREE.LinearFilter
+texture.minFilter = THREE.LinearMipMapLinearFilter
+// ミップマップの指定
+texture.mipmaps[0] = mipmap(128, #ff0000)
+texture.mipmaps[0] = mipmap(64,  #00ff00)
+texture.mipmaps[0] = mipmap(32,  #0000ff)
+texture.mipmaps[0] = mipmap(16,  #440000)
+texture.mipmaps[0] = mipmap(8,   #004400)
+texture.mipmaps[0] = mipmap(4,   #000044)
+texture.mipmaps[0] = mipmap(2,   #004444)
+texture.mipmaps[0] = mipmap(1,   #440044)
+```
+
