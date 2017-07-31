@@ -307,13 +307,13 @@ texture.repeat.set(100, 100)
 texture.magFilter = THREE.LinearFilter
 texture.minFilter = THREE.LinearMipMapLinearFilter
 // ミップマップの指定
-texture.mipmaps[0] = mipmap(128, #ff0000)
-texture.mipmaps[0] = mipmap(64,  #00ff00)
-texture.mipmaps[0] = mipmap(32,  #0000ff)
-texture.mipmaps[0] = mipmap(16,  #440000)
-texture.mipmaps[0] = mipmap(8,   #004400)
-texture.mipmaps[0] = mipmap(4,   #000044)
-texture.mipmaps[0] = mipmap(2,   #004444)
-texture.mipmaps[0] = mipmap(1,   #440044)
+texture.mipmaps[0] = mipmap(128, '#ff0000')
+texture.mipmaps[0] = mipmap(64,  '#00ff00')
+texture.mipmaps[0] = mipmap(32,  '#0000ff')
+texture.mipmaps[0] = mipmap(16,  '#440000')
+texture.mipmaps[0] = mipmap(8,   '#004400')
+texture.mipmaps[0] = mipmap(4,   '#000044')
+texture.mipmaps[0] = mipmap(2,   '#004444')
+texture.mipmaps[0] = mipmap(1,   '#440044')
 ```
 
