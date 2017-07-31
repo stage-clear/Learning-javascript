@@ -230,6 +230,7 @@ wrapS プロパティと wrapT プロパティはテクスチャ画像のラッ�
 - RepeatWrapping: テクスチャ画像を繰り返しマッピングする
 - MirroredRepeatWrapping: テクスチャ画像を反転させながら繰り返しマッピングする
 
+#### リピートラッピング (RepeatWrapping)
 ```js
 // 画像データの読み込みとテクスチャオブジェクトの生成
 var texture = THREE.ImageUtils.loadTexture('simyu-kun256.png')
@@ -239,3 +240,36 @@ texture.wrapT = THREE.RepeatWrapping // y軸方向
 // リピートの指定
 texture.repeat.set(2.5, 2.5)
 ```
+
+#### ミラーリピートラッピング (MirroredRepeatWrapping)
+
+```js
+// テクスチャラッピングの設定
+texture.wrapS = THREE.MirroredRepeatWrapping // x軸方向
+texture.wrapT = THREE.MirroredRepeatWrapping // y軸方向
+// リピートの指定
+texture.repeat.set(2.5, 2.5)
+```
+
+リピートラッピングとミラーリピートラッピングでは, テクスチャ画像に使用する画像データの縦横サイズは2のべき乗である必要があります.
+
+### 補完方法の指定
+テクスチャ画像のサイズとマッピングを施すオブジェクトのサイズが異なる場合には,
+描画色の補間が自動的に行われます.
+あらかじめ用意された補間方法を magFilter と minFilter で指定できます.
+magFilter はテクスチャ画像サイズよりも大きなオブジェクトにマッピングする場合,
+minFilter は反対にテクスチャ画像サイズよりも小さなオブジェクトにマッピングする場合の補間方法を指定することができます.
+
+#### magFilter プロパティと minFilter プロパティに設定可能な値
+
+|magFilter|minFilter|ステート定数|補間方法|
+|:--|:--|:--|:--|
+|◯|◯|NearestFilter|対象ピクセルに対して最も近い点のテクスチャ色で近似|
+|◯|◯|LinearFilter|対象ピクセルに対して最も近い4点のテクスチャ色で線形近似|
+|×|◯|NearestMipMapNearestFilter|最も近いミップマップを選択後, 対象ピクセルに対して最も近い点の値で近似|
+|×|◯|NearestMipMapLinearFilter|最も近いミップマップを選択後, 対象ピクセルに対して最も近い4点の値で線形近似|
+|×|◯|LinearMipMapNearestFilter|近い2つのミップマップで線形補間後, 対象ピクセルに対して最も近い値で近似|
+|×|◯|LinearMipMapLinearFilter|近い2つのミップマップで線形補間後, 対象ピクセルに対して最も近い4点で線形近似|
+
+### ミップマップの用意
+
