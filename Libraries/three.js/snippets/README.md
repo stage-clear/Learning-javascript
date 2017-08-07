@@ -72,3 +72,13 @@ function update() {
   render_stats.update()
 }
 ```
+
+```js
+var getTexture = () => {
+  var data = 'data:image/jpeg;base64,/...'
+  return data
+}
+var textureLoader = new THREE.TextureLoader()
+var texture = textureLoader.load(getTexture())
+someMaterial.map = texture
+```
