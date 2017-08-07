@@ -3,7 +3,8 @@
 ## Quick start
 
 ```html
-<div id="webgl"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/86/three.min.js"></script>
+<div id="canvas"></div>
 ```
 
 ```css
@@ -32,7 +33,7 @@ function init() {
   scene.add(sphere)
 
   var renderer = new THREE.WebGLRenderer()
-  document.getElementById('webgl').appendChild(renderer.domElement)
+  document.getElementById('canvas').appendChild(renderer.domElement)
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.render(scene, camera)
 }
@@ -50,4 +51,8 @@ init()
 ```
 
 ## References: 
+- [textures.com](https://www.textures.com/) - Free textures
+- [Quixel MEGASCANS](https://megascans.se/) - Free textreus
+- [maxTextures.com](http://www.mb3d.co.uk/mb3d/maxTextures_Home_-_Free_Seamless_and_Tileable_High_Res_Textures.html) - Free textures
+- [ezgif](https://ezgif.com/image-to-datauri) - Online image to Data URI conversion tool
 - [クリッピング座標](http://miffysora.wikidot.com/clip-coordinates)
