@@ -21,6 +21,8 @@ function initDirectionalLight() {
 }
 ```
 
+影が不自然だった場合は `light.shadow.camera` 以下のパラメータを調整する
+
 ```js
 var light = new THREE.DirectionalLight(0xffffff)
 vat lightHelper = new THREE.DirectionalLightHelper(light)
