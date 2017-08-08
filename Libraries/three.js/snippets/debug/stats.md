@@ -1,4 +1,4 @@
-# Stat
+# Stats
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
@@ -20,5 +20,13 @@ function initStats() {
 function init() {
   ...
   var stats = initStats()
+  ...
+  render()
+}
+
+function render() {
+  requestAnimationFrame(render)
+  ...
+  stats.update()
 }
 ```
