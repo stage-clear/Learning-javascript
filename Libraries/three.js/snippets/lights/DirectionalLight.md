@@ -24,9 +24,11 @@ function initDirectionalLight() {
 影が不自然だった場合は `light.shadow.camera` 以下のパラメータを調整する
 
 ```js
-var light = new THREE.DirectionalLight(0xffffff)
-vat lightHelper = new THREE.DirectionalLightHelper(light)
+function init() {
+  var light = new THREE.DirectionalLight(0xffffff)
+  vat lightHelper = new THREE.DirectionalLightHelper(light)
 
-scene.add(light)
-scene.add(lightHelper)
+  scene.add(light)
+  scene.add(lightHelper)
+}
 ```
