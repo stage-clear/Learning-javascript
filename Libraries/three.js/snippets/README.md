@@ -1,92 +1,35 @@
 # Snippets
 
 ```js
-var renderer 
-var camera
-function initScene() {
-  renderer = new THREE.WebGLRenderer({ antialias: true })
+function init() {
+  var scene = new THREE.Scene()
+  var renderer = new THREE.WebGLRenderer({ antialias: true })
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setClearColor(new THREE.Color(0x000000))
   renderer.shadowMap.enabled = true
-
-  camera = initCamera()
-  scene.add(camera)
   
-  light = initLight()
-  scene.add(light)
+  var update = function() {
+    window.requestAnimationFrame(update)
+    renderer.render(scene, camera)
+  }
+
+  var resize = function() {
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+
+  var camera = initCamera(scene)
+  var light = initLight(scene)
 
   document.getElementById('viewport').appendChild(renderer.domElement)
   
-  window.addEventListener('resize', onResize, false)
-}
-
-function onResize() {
-  camera.aspect = window.innerWidth / window.innerHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
-}
-```
-
-```js
-function initCamera() {
-  var camera = new THREE.PerspectiveCamera(
-    35,
-    window.innerWidth / window.innerHeight,
-    1, 
-    1000,
-  )
-  camera.position.set(90, 90, 90)
-  camera.lookAt(new THREE.Vector3(30, 0, -20))
+  update()
   
-  return camera
-}
-```
-
-```js
-function initLight() {
-  var light = new THREE.SpotLight(0xffffff)
-  light.position.set(120, 70, 100)
-  light.castShadow = true
-  light.shadow.camera.near = 10
-  light.shadow.camera.far = 200
-  light.shadow.mapSize.width = 4096
-  light.shadow.mapSize.height = 4096
+  window.addEventListener('resize', resize, false)
   
-  return light
+  return { scene, camera, renderer }
 }
-```
 
-```js
-// Stats initialized.
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
-var render_stats = initStats()
-
-function initStats() {
-  var stats = new State()
-  var domElement = stats.domElement
-  domElement.style.position = 'absolute'
-  domElement.style.top = '1px'
-  domElement.style.right = '1px'
-  domElement.style.zIndex = 100
-  document.getElementById('viewport').appendChild(domElement)
-  return stats
-}
-```
-
-```js
-function update() {
-  requestAnimationFrame(update)
-  renderer.render(scene, camera)
-  render_stats.update()
-}
-```
-
-```js
-var getTexture = () => {
-  var data = 'data:image/jpeg;base64,/...'
-  return data
-}
-var textureLoader = new THREE.TextureLoader()
-var texture = textureLoader.load(getTexture())
-someMaterial.map = texture
+window.addEventListener('load', init)
 ```
