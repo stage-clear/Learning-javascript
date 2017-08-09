@@ -13,3 +13,12 @@
 ```bash
 $ npm install pixi.js
 ```
+
+## Quick start
+
+```js
+var app = new PIXI.Application(800, 600, {
+  background: 0x1099bb,
+})
+document.body.appendChild(app.view)
+```
