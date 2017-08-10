@@ -15,3 +15,7 @@
 
 ## DEMOS
 - [AnimatedSprite](https://codepen.io/kesuiket/pen/prPmqX)
+- [Interactivity](https://codepen.io/kesuiket/pen/NvjZrZ)
+- [Transparent Background](https://codepen.io/kesuiket/pen/prPXZE)
+- [Dragging](https://codepen.io/kesuiket/pen/zdwVep)
+- [Text](https://codepen.io/kesuiket/pen/YxVmKM)
