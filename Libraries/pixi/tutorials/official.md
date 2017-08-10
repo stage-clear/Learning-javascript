@@ -1,4 +1,6 @@
-# Offcial tutorials
+# Offcial examples
+- [PixiJS examples](https://pixijs.github.io/examples/#/basics/basic.js)
+
 ## Basics
 - [Basics](https://codepen.io/kesuiket/pen/jLmqaR)
 - [Container](https://codepen.io/kesuiket/pen/oeWxdw)
@@ -19,3 +21,15 @@
 - [Transparent Background](https://codepen.io/kesuiket/pen/prPXZE)
 - [Dragging](https://codepen.io/kesuiket/pen/zdwVep)
 - [Text](https://codepen.io/kesuiket/pen/YxVmKM)
+- [RenderTexture](https://codepen.io/kesuiket/pen/oeWKqK)
+- [RenderTexture(Thoughts)]()
+- [Graphics](https://codepen.io/kesuiket/pen/dzRPeb)
+- [Masking](https://codepen.io/kesuiket/pen/RZgNXG)
+- [Mask + renderTexture](https://codepen.io/kesuiket/pen/PKjqLa)
+- [BlendModes](https://codepen.io/kesuiket/pen/JyJYXJ)
+- [Tinting](https://codepen.io/kesuiket/pen/OjgyOG)
+- [CacheAsBitmap](https://codepen.io/kesuiket/pen/EvXPyR)
+- [Strip](https://codepen.io/kesuiket/pen/xLrZpM)
+- [Texture Swap](https://codepen.io/kesuiket/pen/OjgMEb)
+- [Texture Rotate](https://codepen.io/kesuiket/pen/MvoKqX)
+- [Alpha Mask](https://codepen.io/kesuiket/pen/dzRGxo)
