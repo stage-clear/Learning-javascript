@@ -1,4 +1,4 @@
-# Resize
+# Application Resize
 
 ```js
 var app = new PIXI.Application()
