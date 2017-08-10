@@ -13,6 +13,7 @@ button
   .on('pointerupoutside', onButtonUp)
   .on('pointerover', onButtonOVer)
   .on('pointerout', onButtonOut)
+  .on('pointermove', onButtonMove)
   
   // mouse-only
   .on('mousedown', onButtonDown)
@@ -20,9 +21,11 @@ button
   .on('mouseupoutside', onButtonUp)
   .on('mouseover', onButtonOver)
   .on('mouseout', onButtonOut)
+  .on('mousemove', onButtonMove)
   
   // touch-only
   .on('touchstart', onButtonDown)
   .on('touchend', onButtonUp)
   .on('touchendoutside', onButtonUp)
+  .on('touchmove', onButtonMove)
 ```
