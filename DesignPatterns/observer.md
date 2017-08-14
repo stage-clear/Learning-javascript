@@ -1,5 +1,6 @@
 # Observer
 
+## Overview
 オブザーバーパターンの実装方法には、プッシュとプルの2つがあります。 
 
 - __プッシュメソッド__ - オブザーバーは監視対象オブジェクトをサブスクライブし、監視対象に注目すべき事象が発生した場合にオブザーバーに連絡して知らせます
@@ -8,7 +9,8 @@
 定期的に、または指定された時に、オブザーバーは、監視対象内で変更が発生したかどうかをチェックし、変更があった場合はその変更に反応して何らかの処理を実行します。
   - デスクトップソフトウェアでのアップデート処理など
 
-## 例1) "Adobe Developer Connection" での実装
+## Examples
+### Example 1) "Adobe Developer Connection" での実装
 - [JavaScript design patterns – Part 3: Proxy, observer, and command](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt3-proxy-observer-command.html)
 
 ```js
@@ -70,7 +72,7 @@ observable.publish('Another publish');
 ```
 
 
-## 例2) "JavaScript Patterns" での、プルメソッドによる実装
+### Example 2) "JavaScript Patterns" での、プルメソッドによる実装
 
 ```js
 
@@ -173,7 +175,7 @@ joe.subscribe(paper.readTweets);
 joe.tweet('hated the paper today');
 ```
 
-## 例3) "JavaScript Patterns" での、プッシュメソッドによる実装
+### Example 3) "JavaScript Patterns" での、プッシュメソッドによる実装
 
 ```js
 
@@ -320,4 +322,42 @@ while(1) {
 */
 
 new Player('John', 'n');
+```
+
+### Example 4)
+- [JavaScript Design Patterns: The Observer Pattern](https://www.sitepoint.com/javascript-design-patterns-observer-pattern/)
+
+```js
+class EventObserver {
+  constructor() {
+    this.observers = []
+  }
+  
+  subscribe(fn) {
+    this.observers.push(fn)
+  }
+  
+  unsubscribe(fn) {
+    this.observers = this.observers.filter((subscriber) => {
+      return subscriber !== fn
+    })
+  }
+  
+  broadcast(data) {
+    this.observers.forEach((subscriber) => {
+      subscriber(data)
+    })
+  }
+}
+```
+
+```js
+const observer = new EventObserver()
+cosnt fn = data => console.log(data)
+
+observer.subscribe(fn)
+
+observer.broadcast(true)
+
+observer.unsubscribe(fn)
 ```
