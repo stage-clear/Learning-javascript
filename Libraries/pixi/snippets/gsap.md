@@ -45,3 +45,6 @@ sprite.on('pointerout', () => {
   tl.resume()
 })
 ```
+
+## References
+- [pixi-with-gsap](https://github.com/front-core/pixi-with-gsap/blob/master/scripts/main.js)
