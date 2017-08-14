@@ -3,18 +3,20 @@
 - [TweenMax](https://greensock.com/docs/TweenMax)
 - [TimelineMax](https://greensock.com/docs/TimelineMax)
 
-## Using with TweenMax
+## TweenMax
 ```js
 const sprite = new PIXI.Graphics()
-cosnt duration = 1
+sprite.beginFill(0xeeeeee, 1)
+sprite.drawRect(0, 0, 100, 100)
+sprite.endFill()
 
-TweenMax.to(sprite, duration, {
+TweenMax.to(sprite, 1, {
   x: 100,
   y: 100,
 })
 ```
 
-## Using with TimelineMax
+## TimelineMax
 
 ```js
 const sprite = PIXI.Sprite.fromImage(...)
