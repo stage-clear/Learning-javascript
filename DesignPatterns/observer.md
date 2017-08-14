@@ -16,7 +16,7 @@ __よく使われるメソッド名__
 - `publish` `broadcast` `emit` `fire`
 
 ## Examples
-### Example 1) "Adobe Developer Connection" での実装
+### Example 1) By __Adobe Developer Connection__
 - [JavaScript design patterns – Part 3: Proxy, observer, and command](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt3-proxy-observer-command.html)
 
 ```js
@@ -60,6 +60,7 @@ class Observable {
 }
 ```
 
+#### Use:
 ```js
 // Observer
 let Observer = function(data) {
@@ -78,11 +79,11 @@ observable.publish('Another publish');
 ```
 
 
-### Example 2) "JavaScript Patterns" での、プルメソッドによる実装
+### Example 2) By __JavaScript Patterns__ that is using Pull method.
+既存のオブジェクトにオブサーバーの機能をミックスインする
 
 ```js
-
-let publisher = {
+const publisher = {
   subscribers: {
     any: [] // イベントの型: 購読者の配列
   },
@@ -131,7 +132,10 @@ function makePublisher(o) {
   }
   o.subscribers = { any: [] };
 }
+```
 
+#### Use case 1)
+```js
 // paper オブジェクトは、日刊と月刊の発行を提供します
 let paper = {
   daily() {
@@ -144,7 +148,10 @@ let paper = {
 
 // paper will be became "Publisher".
 makePublisher(paper);
+```
 
+#### Use case 2)
+```js
 // Jos is "Subscriber"" 
 let joe = {
   drinkCoffee(paper) {
@@ -181,156 +188,160 @@ joe.subscribe(paper.readTweets);
 joe.tweet('hated the paper today');
 ```
 
-### Example 3) "JavaScript Patterns" での、プッシュメソッドによる実装
+### Example 3) By __JavaScript Patterns__ that is using Push method.
 
 ```js
-
-
-let publisher = {
+const publisher = {
   subscribers: {
-    any: []
+    any: [],
   },
-
+  
   on(type, fn, context) {
-    type = type || 'any';
-    fn = (typeof fn === 'function') ? fn : context[fn];
+    type = type || 'any'
+    fn = (typeof fn === 'function') ? fn : context[fn]
     if (typeof this.subscribers[type] === 'undefined') {
-      this.subscribers[type] =[];
+      this.subscribers[type] = []
     }
     this.subscribers[type].push({
       fn: fn,
-      context: context || this
-    });
+      context: context || this,
+    })
   },
-
+  
   remove(type, fn, context) {
-    this.visitSubscribers('unsubscribe', type, fn, context);
+    this.visitSubscribers('unsibscribe', type, fn, context)
   },
-
+  
   fire(type, publication) {
-    this.visitSubscribers('publish', type, publication);
-  },
-
+    this.visitSubscribers('publish', type, publication)
+  }
+  
   visitSubscribers(action, type, arg, context) {
-    let pubtype = type || 'any';
-    let subscribers = this.subscribers[pubtype];
-    let i ;
-    let max = subscribers ? subscribers.length : 0;
-
+    let pubtype = type || 'any'
+    let subscribers = this.subscribers[pubtype]
+    let i
+    let max = subscribers ? subscribers.length : 0
+    
     for (i = 0; i < max; i += 1) {
       if (action === 'publish') {
-        subscribers[i].fn.call(subscribers[i].context, arg);
+        subscribers[i].fn.call(subscribers[i].context, arg)
       } else {
         if (subscribers[i].fn === arg && subscribers[i].context === context) {
-          subscribers.splice(i, 1);
+          subscribers.splice(i, 1)
         }
       }
     }
   }
-};
-
-function makePublisher(o) {
-  let i ;
-  for (i in publisher) {
-    if (publisher.hasOwnProperty(i) && typeof publisher[i] === 'function') {
-      o[i] = publisher[i];
-    }
-  }
-  o.subscribers = { any: [] };
 }
 
-function Player(name, key) {
-  this.points = 0;
-  this.name = name;
-  this.key = key;
-  this.fire('newplayer', this);
+function makePublisher(o) {
+  let i
+  for (i in publisher) {
+    if (publisher.hasOwnProperty(i) && typeof publisher[i] === 'function') {
+      o[i] = publisher[i]
+    }
+  }
+  o.subscribers = {
+    any: [],
+  }
+}
+```
+
+#### Use case
+
+```js
+function player(name, key) {
+  this.points = 0
+  this.name = name
+  this.key = key
+  this.fire('newplayer', this)
 }
 
 Player.prototype.play = function() {
-  this.points += 1;
-  this.fire('play', this);
-};
+  this.points += 1
+  this.fire('play', this)
+}
 
-
-// スコアボード
-let scoreboard = {
+const scoreboard = {
   element: document.getElementById('result'),
-
   update(score) {
-    let i, msg = '';
-
+    let i 
+    let msg = ''
+    
     for (i in score) {
-      if (score.hasOwnProperty(i)) {
-        msg += '<p><strong>'+ i +'</strong>:';
-        msg += score[i];
-        msg += '<\/p>';
-      }
+      msg += '<p><strong>'+ i +'</strong>:'
+      msg += score[i]
+      msg + = '<\/p>'
     }
-    this.element.innerHTML = msg;
   }
 }
 
-let game = {
+const game = {
   keys: {},
-
+  
   addPlayer(player) {
-    let key = player.key.toString().charCodeAt(0);
-    this.keys[key] = player;
+    const key = player.key.toString().charCodeAt(0)
+    this.keys[key] = player
   },
-
+  
   handleKeypress(e) {
-    e = e || window.event;
+    e = e || window.event
     if (game.keys[e.which]) {
-      game.keys[e.which].play();
+      game.keys[e.which].play()
     }
   },
-
+  
   handlePlay() {
-    let i;
-    let players = this.keys;
-    let score = {};
-
+    let i
+    let players = this.keys
+    let score = {}
+    
     for (i in players) {
       if (players.hasOwnProperty(i)) {
-        score[players[i].name] = players[i].points;
+        score[players[i].game] = players[i].points
       }
     }
-    this.fire('scorechange', score);
+    
+    this.fire('scorechange', score)
   }
-};
+}
 
 // 発行設定
-makePublisher(Player.prototype);
-makePublisher(game);
+makePublisher(Player.prototype)
+makePublisher(game)
 
 // 購読設定
-Player.prototype.on('newplayer', 'addPlayer', game);
-Player.prototype.on('play', 'handlePlay', game);
-game.on('scorechange', scoreboard.update, scoreboard);
-window.onkeypress = game.handleKeypress;
+Player.prototype.on('newPlayer', 'addPlayer', game)
+Player.prototype.on('play', 'handlePlay', game)
+game.on('scorechange', scoreboard.update, scoreboard)
+window.onkeypress = game.handleKeypress
 
 // Player
-/*
-let playername, key;
-while(1) {
-  playername = prompt('Add player (name)');
+let playername
+let key
+
+// Create a player by manual input
+which(1) {
+  playername = prompt('Add Player (Name)')
   if (!playername) {
-    break;
+    break
   }
+
   while(1) {
-    key = prompt('Key for ' + playername + '?');
+    key = prompt('Key for ' + playername + '?')
     if (key) {
-      break;
+      break
     }
   }
-  new Player(playername, key);
-}
-*/
 
-new Player('John', 'n');
+  new Player(playername, key)
+}
+
+// Create a player by auto
+new Player('John', 'n')
 ```
 
-### Example 4)
+### Example 4) Simply Observer by __Sitepoint.com__
 - [JavaScript Design Patterns: The Observer Pattern](https://www.sitepoint.com/javascript-design-patterns-observer-pattern/)
 
 ```js
