@@ -3,6 +3,10 @@
 - [PIXI Display](http://pixijs.github.io/examples/required/plugins/pixi-display.js) 
   - `PIXI.DisplayList()`
   - `PIXI.DisplayGroup()`
+- [PIXI.Layers](http://pixijs.github.io/examples/required/plugins/pixi-layers.js)
+  - `PIXI.display.Stage()`
+  - `PIXI.display.Layer()`
+  - `PIXI.display.Group()`
 - [PIXI.Filters](http://pixijs.github.io/examples/required/plugins/pixi-extra-filters.js) 
   - `BulgePinchFilter`
   - `ColorReplaceFilter`
