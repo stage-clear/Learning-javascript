@@ -27,5 +27,6 @@ function intersectionChanged(chagnes, observer) {
 ## links 
 
 - [WICG/IntersectionObserver](https://github.com/WICG/IntersectionObserver) 
+- [WICG/IntersectionObserver/Polyfill](https://github.com/WICG/IntersectionObserver/tree/gh-pages/polyfill)
 - [IntersectionObserver’s Coming into View | Web Updates - Google Developers](https://developers.google.com/web/updates/2016/04/intersectionobserver?hl=en) - Chrome 実装
 - [1000ch/lazyload-image](https://github.com/1000ch/lazyload-image/blob/gh-pages/lazyload-image.html) - 実装例
