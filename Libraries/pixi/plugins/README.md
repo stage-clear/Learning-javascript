@@ -7,6 +7,9 @@
   - `PIXI.display.Stage()`
   - `PIXI.display.Layer()`
   - `PIXI.display.Group()`
+- [PIXI.Projection](http://pixijs.github.io/examples/required/plugins/pixi-projection.js)
+  - `PIXI.Projection()`
+  - `PIXI.projection.Container2d()`
 - [PIXI.Filters](http://pixijs.github.io/examples/required/plugins/pixi-extra-filters.js) 
   - `BulgePinchFilter`
   - `ColorReplaceFilter`
