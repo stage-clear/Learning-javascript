@@ -1,5 +1,6 @@
 # PixiJS Plugins
 
+- [Pixi Particles Editor](http://pixijs.github.io/pixi-particles-editor/#)
 - [PIXI Display](http://pixijs.github.io/examples/required/plugins/pixi-display.js) 
   - `PIXI.DisplayList()`
   - `PIXI.DisplayGroup()`
