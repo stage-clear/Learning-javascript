@@ -16,6 +16,7 @@
   - `GlowFilter`
   - `OutlineFilter`
   - `SimpleLightmap`
+- [Pixi.lights](https://github.com/pixijs/pixi-lights) - Not supported v4
 - [PIXI Camera System](http://www.kaleadis.de/lab/04-pixi-cam/)
 - [pixi-tween](https://github.com/Nazariglez/pixi-tween)
-- [Pixi.lights](https://github.com/pixijs/pixi-lights) - Not supported v4
+- [Charm](https://github.com/kittykatattack/charm) - Tweening for Pixi (v3.0.11)
