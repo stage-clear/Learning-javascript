@@ -58,6 +58,7 @@
 - [pixi-vn](https://github.com/lealeelu/pixi-vn)
 
 ## Samples
+- [pixijs-playground](https://github.com/nextorigin/pixijs-playground)
 - [flap-pixi-flap](https://github.com/GoodBoyDigital/flap-pixi-flap)
 - [pixi-ngraph](https://github.com/gouldingken/pixi-ngraph)
 
