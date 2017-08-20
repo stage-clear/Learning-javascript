@@ -1,26 +1,37 @@
 # PixiJS Plugins
 
-- [Pixi Particles](https://github.com/pixijs/pixi-particles)
+- [Pixi-particles](https://github.com/pixijs/pixi-particles)
   - [Pixi Particles Editor](http://pixijs.github.io/pixi-particles-editor/)
-- [PIXI Display](http://pixijs.github.io/examples/required/plugins/pixi-display.js) 
+- [Pixi-display](http://pixijs.github.io/examples/required/plugins/pixi-display.js) 
   - `PIXI.DisplayList()`
   - `PIXI.DisplayGroup()`
-- [PIXI.Layers](http://pixijs.github.io/examples/required/plugins/pixi-layers.js)
+- [Pixi-layers](http://pixijs.github.io/examples/required/plugins/pixi-layers.js)
   - `PIXI.display.Stage()`
   - `PIXI.display.Layer()`
   - `PIXI.display.Group()`
-- [PIXI.Projection](http://pixijs.github.io/examples/required/plugins/pixi-projection.js)
+- [Pixo-projection](http://pixijs.github.io/examples/required/plugins/pixi-projection.js)
   - `PIXI.Projection()`
   - `PIXI.projection.Container2d()`
-- [PIXI.Filters](http://pixijs.github.io/examples/required/plugins/pixi-extra-filters.js) 
+- [Pixi-filters](http://pixijs.github.io/examples/required/plugins/pixi-extra-filters.js) 
   - `BulgePinchFilter`
   - `ColorReplaceFilter`
   - `GlowFilter`
   - `OutlineFilter`
   - `SimpleLightmap`
-- [Pixi.lights](https://github.com/pixijs/pixi-lights) - Not supported v4
-- [PIXI Camera System](http://www.kaleadis.de/lab/04-pixi-cam/)
+- [pixi-lights](https://github.com/pixijs/pixi-lights) - Not supported v4
 - [pixi-tween](https://github.com/Nazariglez/pixi-tween)
+- [gsap-pixi-plugin](https://github.com/noprotocol/gsap-pixi-plugin)
+- [pixi-audio](https://github.com/Nazariglez/pixi-audio)
+- [pixi-raycast](https://github.com/lewispollard/pixi-raycast)
+- [pixi-tiledmap](https://github.com/riebel/pixi-tiledmap)
+- [pixi-tilemap](https://github.com/pixijs/pixi-tilemap)
+- [PixiTexturePacker](https://github.com/SebastianNette/PixiTexturePacker)
+- [pixi-packer](https://github.com/Gamevy/pixi-packer)
+- [pix-custom](https://github.com/edankwan/pixi-custom) Custom shader
+- [pixi-editor](https://github.com/antirek/pixi-editor)
+- [lab-pixicam](https://github.com/georgiee/lab-pixicam) 
+  - [Pixi Camera System](http://www.kaleadis.de/lab/04-pixi-cam/)
+  - [lab-parallax-world-pixi](http://georgiee.github.io/lab-parallax-world-pixi/)
 - [Charm](https://github.com/kittykatattack/charm) - Tweening for Pixi (v3.0.11)
 - [Proton](http://www.a-jie.cn/proton/) 
   - [proto.js render custom pixi.js](http://www.a-jie.cn/proton/example/render/custom/pixijs.html)
