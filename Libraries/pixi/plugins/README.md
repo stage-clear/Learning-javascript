@@ -21,17 +21,19 @@
 - [pixi-lights](https://github.com/pixijs/pixi-lights) - Not supported v4
 - [pixi-tween](https://github.com/Nazariglez/pixi-tween)
 - [gsap-pixi-plugin](https://github.com/noprotocol/gsap-pixi-plugin)
+- [Charm](https://github.com/kittykatattack/charm) - Tweening for Pixi (v3.0.11)
+- [Proton](http://www.a-jie.cn/proton/) 
+  - [proto.js render custom pixi.js](http://www.a-jie.cn/proton/example/render/custom/pixijs.html)
 - [pixi-audio](https://github.com/Nazariglez/pixi-audio)
 - [pixi-raycast](https://github.com/lewispollard/pixi-raycast)
 - [pixi-tiledmap](https://github.com/riebel/pixi-tiledmap)
 - [pixi-tilemap](https://github.com/pixijs/pixi-tilemap)
 - [PixiTexturePacker](https://github.com/SebastianNette/PixiTexturePacker)
 - [pixi-packer](https://github.com/Gamevy/pixi-packer)
+- [pixi-svg-graphics](https://github.com/GreyRook/pixi-svg-graphics)
 - [pix-custom](https://github.com/edankwan/pixi-custom) Custom shader
+- [pixi-vignette](https://github.com/samgiles/pixi-vignette) - Vignette Filter effect
 - [pixi-editor](https://github.com/antirek/pixi-editor)
 - [lab-pixicam](https://github.com/georgiee/lab-pixicam) 
   - [Pixi Camera System](http://www.kaleadis.de/lab/04-pixi-cam/)
   - [lab-parallax-world-pixi](http://georgiee.github.io/lab-parallax-world-pixi/)
-- [Charm](https://github.com/kittykatattack/charm) - Tweening for Pixi (v3.0.11)
-- [Proton](http://www.a-jie.cn/proton/) 
-  - [proto.js render custom pixi.js](http://www.a-jie.cn/proton/example/render/custom/pixijs.html)
