@@ -25,15 +25,39 @@
 - [Proton](http://www.a-jie.cn/proton/) 
   - [proto.js render custom pixi.js](http://www.a-jie.cn/proton/example/render/custom/pixijs.html)
 - [pixi-audio](https://github.com/Nazariglez/pixi-audio)
+- [pixi-haxe](https://github.com/pixijs/pixi-haxe)
 - [pixi-raycast](https://github.com/lewispollard/pixi-raycast)
 - [pixi-tiledmap](https://github.com/riebel/pixi-tiledmap)
 - [pixi-tilemap](https://github.com/pixijs/pixi-tilemap)
 - [PixiTexturePacker](https://github.com/SebastianNette/PixiTexturePacker)
 - [pixi-packer](https://github.com/Gamevy/pixi-packer)
+- [pixi-packer-parser](https://github.com/Gamevy/pixi-packer-parser)
 - [pixi-svg-graphics](https://github.com/GreyRook/pixi-svg-graphics)
+- [pixi-svg-loader](https://github.com/blunt1337/pixi-svg-loader)
+- [pixi-svg](https://github.com/bigtimebuddy/pixi-svg
+- [pixi-shape](https://github.com/snowcxt/pixi-shape)
 - [pix-custom](https://github.com/edankwan/pixi-custom) Custom shader
 - [pixi-vignette](https://github.com/samgiles/pixi-vignette) - Vignette Filter effect
+- [pixi-zoomblur-filter](https://github.com/superguigui/pixi-zoomblur-filter) A filter for Pixi.js
+- [pixi-boxblur-filter](https://github.com/superguigui/pixi-boxblur-filter)
+- [pixi-noise-filter](https://github.com/rjanicek/pixi-noise-filter)
 - [pixi-editor](https://github.com/antirek/pixi-editor)
+- [pixi-text-style](https://github.com/pixijs/pixi-text-style)
+- [pixi-richtext](https://github.com/avgjs/pixi-richtext)
 - [lab-pixicam](https://github.com/georgiee/lab-pixicam) 
   - [Pixi Camera System](http://www.kaleadis.de/lab/04-pixi-cam/)
   - [lab-parallax-world-pixi](http://georgiee.github.io/lab-parallax-world-pixi/)
+- [pixi-camera](https://github.com/beeglebug/pixi-camera)
+- [pixi-transform-tool](https://github.com/mrgoonie/pixi-transform-tool)
+- [pixi-simple-gesture](https://github.com/dekimasoon/pixi-simple-gesture) - Add pinch, Pan Tap gesture
+- [Pixi-Pan-and-Zoom](https://github.com/Arduinology/Pixi-Pan-and-Zoom)
+- [pixizam](https://github.com/eiridescent/pixizam) - PIXI Zoom-At-Mouse
+- [pixi-keyboard](https://github.com/Nazariglez/pixi-keyboard)
+- [PIXI.Nonepatch](https://github.com/SebastianNette/PIXI.NinePatch)
+- [pixi-timer](https://github.com/Nazariglez/pixi-timer)
+- [pixi-vn](https://github.com/lealeelu/pixi-vn)
+
+## Samples
+- [flap-pixi-flap](https://github.com/GoodBoyDigital/flap-pixi-flap)
+- [pixi-ngraph](https://github.com/gouldingken/pixi-ngraph)
+
