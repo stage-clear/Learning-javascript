@@ -17,3 +17,5 @@
   - `OutlineFilter`
   - `SimpleLightmap`
 - [PIXI Camera System](http://www.kaleadis.de/lab/04-pixi-cam/)
+- [pixi-tween](https://github.com/Nazariglez/pixi-tween)
+- [Pixi.lights](https://github.com/pixijs/pixi-lights) - Not supported v4
