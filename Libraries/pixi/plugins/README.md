@@ -22,3 +22,5 @@
 - [PIXI Camera System](http://www.kaleadis.de/lab/04-pixi-cam/)
 - [pixi-tween](https://github.com/Nazariglez/pixi-tween)
 - [Charm](https://github.com/kittykatattack/charm) - Tweening for Pixi (v3.0.11)
+- [Proton](http://www.a-jie.cn/proton/) 
+  - [proto.js render custom pixi.js](http://www.a-jie.cn/proton/example/render/custom/pixijs.html)
