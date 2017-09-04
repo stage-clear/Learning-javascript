@@ -31,3 +31,4 @@
 - [4 Ways To Boost Your Vue.js App With Webpack](http://vuejsdevelopers.com/2017/06/18/vue-js-boost-your-app-with-webpack/)
 - [Vue.js と型](https://speakerdeck.com/ktsn/vue-dot-js-toxing)
 - [What I learnied About VueJS From Building A Chrome Extension](http://vuejsdevelopers.com/2017/05/08/vue-js-chrome-extension/)
+- [4 AJAX Patterns For Vue.js Apps](https://vuejsdevelopers.com/2017/08/28/vue-js-ajax-recipes/)
