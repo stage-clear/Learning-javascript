@@ -19,6 +19,10 @@ class PixiComponent {
     this.scale = data.scale != null ? parseFLoat(data.scale) : 1.0
     
     this.data = data
+
+    /**
+     * Life cycle:
+     */
     
     // Setup 
     if (typeof this.setup === 'function') {
@@ -52,6 +56,9 @@ class PixiComponent {
         func: this.update.bind(this, this.state, this.events)
       })
     }
+    
+    // Bind the context for when this component is destoryed.
+    this.destroy = this.destroy.bind(this)
   }
   
   /**
@@ -90,6 +97,16 @@ class PixiComponent {
         break
       }
     }
+  }
+  
+  /**
+   * PixiComponent.destroy()
+   * @method
+   */
+  destroy() {
+    this.destroy_()
+    this.removeUpdate()
+    this = null
   }
   
   /**
@@ -132,6 +149,13 @@ class PixiComponent {
   set_() {
     this.$el.position.set(this.x, this.y)
     this.$el.scale.set(this.scale)
+  }
+  
+  /**
+   * PixiComponent.destroy_()
+   */
+  destroy_() {
+    this.$el.destroy()
   }
   
   /**
