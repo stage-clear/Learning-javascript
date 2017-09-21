@@ -1,4 +1,4 @@
-# PixiJS Plugins
+# Pixi Plugins
 
 - [Pixi-particles](https://github.com/pixijs/pixi-particles)
   - [Pixi Particles Editor](http://pixijs.github.io/pixi-particles-editor/)
@@ -9,8 +9,9 @@
   - `PIXI.display.Stage()`
   - `PIXI.display.Layer()`
   - `PIXI.display.Group()`
-- [Pixo-projection](http://pixijs.github.io/examples/required/plugins/pixi-projection.js)
+- [Pixi-projection](http://pixijs.github.io/examples/required/plugins/pixi-projection.js)
   - `PIXI.Projection()`
+  - `PIXI.projection.Sprite2d()`
   - `PIXI.projection.Container2d()`
 - [Pixi-filters](http://pixijs.github.io/examples/required/plugins/pixi-extra-filters.js) 
   - `BulgePinchFilter`
