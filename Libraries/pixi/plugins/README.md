@@ -35,7 +35,7 @@
 - [pixi-packer-parser](https://github.com/Gamevy/pixi-packer-parser)
 - [pixi-svg-graphics](https://github.com/GreyRook/pixi-svg-graphics)
 - [pixi-svg-loader](https://github.com/blunt1337/pixi-svg-loader)
-- [pixi-svg](https://github.com/bigtimebuddy/pixi-svg
+- [pixi-svg](https://github.com/bigtimebuddy/pixi-svg)
 - [pixi-shape](https://github.com/snowcxt/pixi-shape)
 - [pix-custom](https://github.com/edankwan/pixi-custom) Custom shader
 - [pixi-vignette](https://github.com/samgiles/pixi-vignette) - Vignette Filter effect
