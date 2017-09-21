@@ -13,21 +13,21 @@ JavaScript の学習や情報収集のまとめ
 - [References](References/) - 参考にできる外部リンクなど
 - [Reading Books](Books/) - 読んで注釈やメモした書籍など
 
-## Libraries;
-- [AngularJS](Libraries/AngularJS/) - Learn to AngularJS
+## Libraries (learn to)
+- [AngularJS](Libraries/AngularJS/)
 - [fablic.js](Libralies/fablic.js/)
-- [GSAP](Librareis/GSAP/) - Learn to GSAP
-- [Leaflet](Libraries/Leaflet/) - Learn to Leaflet
-- [Node.js](Libraries/Node/) - Learn to Node.js
-- [p5js](Libraries/p5/) - learn to p5js
-- [Pixi.js](Libraries/pixi/) - Learn to PIXI
-- [React](Libraries/React/) - Learn to React.js
-- [RxJS](Libraries/RxJS/) - Learn to RxJS
-- [ScrollMagic](Libraries/ScrollMagic) - Learn to ScrollMagic.js
-- [Selenium](Libraries/Selenium/) - Learn to Selenium
-- [three.js](Libraries/three.js/) - Learn to Three.js
-- [TypeScript](Libraries/TypeScript/) - Learn to TypeScript
-- [Vue.js](Libraries/Vue.js/) - Learn to Vue.js
+- [GSAP](Librareis/GSAP/)
+- [Leaflet](Libraries/Leaflet/)
+- [Node.js](Libraries/Node/)
+- [p5js](Libraries/p5/)
+- [Pixi.js](Libraries/pixi/)
+- [React](Libraries/React/)
+- [RxJS](Libraries/RxJS/)
+- [ScrollMagic](Libraries/ScrollMagic)
+- [Selenium](Libraries/Selenium/)
+- [three.js](Libraries/three.js/)
+- [TypeScript](Libraries/TypeScript/)
+- [Vue.js](Libraries/Vue.js/)
 
 ## Tutorials:
 - [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
