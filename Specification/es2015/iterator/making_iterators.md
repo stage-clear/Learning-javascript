@@ -23,3 +23,6 @@ it.next() // { value: 2, done: false }
 it.next() // { value: 3, done: false }
 it.next() // { done: true }
 ```
+
+## References
+- [Iterators in Javascript](https://advancedweb.hu/2017/08/29/iterators_js/)
