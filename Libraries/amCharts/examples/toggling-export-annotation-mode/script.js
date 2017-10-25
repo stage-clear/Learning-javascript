@@ -5,7 +5,7 @@ var chart = AmCharts.makeChart('chartdiv', {
   'dataProvider': [
     {
       'country': 'USA',
-      'visits: 2025,
+      'visits': 2025,
     },
     {
       'country': 'China',
