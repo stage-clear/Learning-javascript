@@ -18,6 +18,7 @@ var chart = AmCharts.makeChart('chartdiv', {
     'dashLength': 0,
   }],
   'gridAboveGraphs': true,
+  'startDuration': 1,
   'graphs': [{
     'balloonText': '[[category]]: <b>[[value]]</b>',
     'fillAlphas': 0.8,
