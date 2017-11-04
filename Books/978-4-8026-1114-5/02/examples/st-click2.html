@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cndjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      // コンポーネントの定義
+      class Hello extends React.Component {
+        constructor (props) {
+          super(props)
+          
+          // イベントハンドラを this で結びつける
+          this.clickHandler =this.clickHandler.bind(this)
+        }
+        
+        clickHandler (e) {
+          const name = this.props.name 
+          window.alert(`こんにちは、${name}さん`)
+        }
+        
+        render () {
+          return (
+            <div onClick={this.clickHandler}>Click Me</div>
+          )
+        }
+      }
+      
+      // コンポーネントを使う
+      ReactDOM.render(
+        <Hello name="あああ" />,
+        document.getElementById('root')
+      )
+    </script>
+  </body>
+</html>
