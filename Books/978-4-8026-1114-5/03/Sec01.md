@@ -10,11 +10,11 @@ render() // コンポーネントが描画される
  ↓
 componentDidMount() // コンポーネントがDOMにマウントされた直後
  ↓
----- コンポーネントを利用
+---- [コンポーネントを利用]
  ↓
 componentWillUnmount(nextProps) // コンポーネントのプロパティが変更された時
  ↓
----- コンポーネントの状態変化
+---- [コンポーネントの状態変化]
  ↓
 componentWillReceiveProps(nextProps, nextState) // コンポーネントのプロパティが更新された時
  ↓
@@ -26,9 +26,15 @@ render() // コンポーネントの描画
  ↓
 componentDidUpdate()
  ↓
------ DOMからのアンマウント
+----- [DOMからのアンマウント]
  ↓
 componentWillUnmount()
 ```
 
 ### ライフサイクルを確認しよう
+
+- [App.js](examples/App.js)
+
+## ストップウォッチを作ろう
+
+- [stopwatch/index.js](examples/stopwatch/src/index.js)
