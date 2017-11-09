@@ -1,0 +1,59 @@
+import React, { Component } from 'react'
+
+// 複数テキストの入力コンポーネント
+export default class MultiForm extends Component {
+  constructor (props) {
+    super(props)
+    // フォームの初期値を設定する
+    this.state = {
+      name: 'aaa',
+      age: 22,
+      hobby: 'Reading'
+    }
+  }
+  
+  // 値が変更された時
+  doChange (e) {
+    const userValue = e.target.value
+    const key = e.target.name 
+    this.setState({[key]: userValue})
+  }
+  
+  // 送信ボタンが押された時
+  doSubmit (e) {
+    e.preventDefault() 
+    const j = JSON.stringify(this.state)
+    window.alert(j)
+  }
+  
+  // 画面の描画
+  render () {
+    // イベントをメソッドにバインド
+    const doSubmit = (e) => this.doSubmit(e)
+    const doChange = (e) => this.doChange(e)
+
+    return (
+      <form onSubmit={doSubmit}>
+        <div>
+          <label>
+            Name: <br/>
+            <input name='name' type='text' value={this.state.name} onChange={onChange}/>
+          </label>
+        </div>
+        <div>
+          <label>
+            Age: <br/>
+            <input name='age' type='number' value={this.state.age} onChange={doChange}/>
+          </label>
+        </div>
+        <div>
+          <label>
+            Hobby: <br/>
+            <input name='hoby' type='text' value={this.state.hobby} onChange={doChange}/>
+          </label>
+        </div>
+        <input type='submit' value='送信'/>
+      </form>
+    )
+  }
+}
