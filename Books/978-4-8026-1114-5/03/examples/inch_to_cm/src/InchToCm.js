@@ -50,3 +50,19 @@ export default class InchToCm extends Component {
     )
   }
 }
+
+/**
+ * アロー関数を使わない例:
+
+const inchChange = (e) => { this.inchChange }
+
+return (
+  <div>
+    <ValueInput title='inch'
+      onChange={inchChange}
+      value={this.state.inch}/>
+    ...
+  </div>
+)
+
+ */
