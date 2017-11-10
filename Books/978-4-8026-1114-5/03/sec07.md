@@ -56,3 +56,30 @@ request.post(URL)
   .send({name: 'hoge', age: 21})
   .end(callback)
 ```
+
+## React アプリで JSON を読んで選択ボックスに表示
+
+- [sagent/App.js](examples/sagent/src/App.js)
+
+`map()` メソッドを利用すれば, option 要素を手軽に生成できるのが, JSXの素晴らしい点です
+
+```js
+{
+  ...
+  const options = this.state.items.map(e => {
+    return <option value={e.price} key={e.name}>
+      {e.name}
+    </option>
+  })
+
+  return (
+    <div className='App'>
+      果物: <select>{options}</select>
+    </div>
+  )
+```
+
+## まとめ
+- Reace でも Ajax 通信を利用できます. ただし, React 自身には, Ajax 通信の機能はnaku, SuperAgent などの別途ライブラリを使用します
+- SuperAgent を使うと, 手軽に非同期通信を利用できます
+- コンポーネント内に表示するデータを非同期通信で読み込む場合, `componentWillMount()` に記述します
