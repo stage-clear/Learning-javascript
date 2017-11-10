@@ -41,3 +41,25 @@ FormInput.defaultProps = {
 #### プログラムで確認しよう
 
 - [input_compo/FormInput.js](input_compo/src/FormInput.js)
+
+#### FormInput を使ったフォームの例
+
+- [input_compo/index.js](input_compo/src/index.js)
+
+```bash
+$ npm install
+$ npm run build 
+$ npm start
+```
+
+#### URLを表す正規表現パターン
+
+```js
+const urlPat = /^https?(:\/\/[-_.!~*'()a-zA-Z0-9;/?@&=+$,%#]+)$/
+...
+<FormInput name='url' label='URL'
+  value={this.state.url}
+  filter={asciiFilter}
+  pattern={urlPat}
+  onChange={doChange}/>
+```
