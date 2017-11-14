@@ -82,3 +82,46 @@ macOSっぽい画面を構成するために, Photon Kit を使います.
 ```bash
 $ npm install --save https://github.com/connors/photon
 ```
+
+- [electron_clipfmt/index.html](examples/electron_clipfmt/index.html)
+- [electron_clipfmt/index.js](examples/electron_clipfmt/src/index.js)
+
+```bash
+$ npm install 
+$ npm run build 
+$ npm start
+```
+
+## アプリを配布しよう
+
+- [electron/asar](https://github.com/electron/asar)
+- [electron-userland/electron-packager](https://github.com/electron-userland/electron-packager)
+
+```bash
+$ npm install -g asar
+$ npm install -g electron-packager
+```
+
+まず, asar を使って, プロジェクトのファイルをアーカイブ化します.
+これは複数のファイルを1つのファイルにまとめるツールです.
+
+```bash
+$ asar pack ./out ./clipfmt.asar
+```
+
+続いて, 次のコマンドを実行します
+
+```bash
+electron-packager ./ clipfmt --platform=darwin,win32 --arch=x64
+```
+
+すると, macOS であれば「clipfmt-darwin-x64」というフォルダが生成され（Windows であれば「clipfmt-win32-x64」）,
+実行ファイルが作成されます.
+
+## まとめ
+- Electron を利用すれば, Windows/macOS/Linux 用のデスクトップアプリを開発できます
+- Electron で React を使うには, Webpack で React のコンパイル環境を作ると便利です
+- Electron では, 外部プログラムの実行やファイルダイアログなど, OS独自の機能を利用できます
+- Electron では, メインプロセスでしか実行できないAPIもあり, メインプロセスとレンダラープロセスが相互に通信して処理を行うモデルとなっています
+
+
