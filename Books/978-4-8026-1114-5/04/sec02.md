@@ -53,6 +53,14 @@ $ npm start
 
 
 ## Electron の仕組みを理解しよう
+Electron はメインプロセスからレンダラープロセスが生成される仕組みです.
+メインプロセスは, アプリを起動してすぐに実行される主となるプロセスであり, 
+レンダラープロセスは, ブラウザ内の描画を行うためのプロセスです.<br>
+メインプロセスとレンダラープロセスは並行して実行されますが, 相互に情報を交換するためには,
+IPC通信をりようして通信をします.
+
+Electron のプロセスが, メインプロセスとレンダラープロセスと分かれているのには理由があります.
+メインプロセスとレンダラープロセスでは, 利用できるAPIが異なるのです.
 
 ```js
 mainWindow = new BrowserWindow({
@@ -69,3 +77,8 @@ mainWindow = new BrowserWindow({
 - [Electron Documentation](https://electron.atom.io/docs/api/)
 
 ## クリップボード整形アプリを作ってみよう
+
+macOSっぽい画面を構成するために, Photon Kit を使います.
+```bash
+$ npm install --save https://github.com/connors/photon
+```
