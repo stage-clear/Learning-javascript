@@ -74,13 +74,13 @@ class ChatApp extends React.Component {
   
   render () {
     // ログひとつずつの描画内容
-    const message = this.state.logs.map(e => {
+    const message = this.state.logs.map(e => (
       <div key={e.key} style={styles.log}>
         <span style={styles.name}>{e.name}</span>
         <span style={styles.msg}>{e.message}</span>
         <p style={{clear: 'both'}}/>
       </div>
-    })
+    ))
     
     return (
       <div>
