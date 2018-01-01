@@ -43,3 +43,11 @@ $ node chat-server.js
 
 ## プログラム - チャット・クライアント側
 - [chat/index.js](examples/chat/src/index.js)
+
+## SPA実装のポイント
+
+## まとめ
+- リアルタイムチャットを作るには, サーバーとクライアント間の双方向通信が必要です
+- 双方向通信を行うには, WebSocket の技術が便利です
+- Socket.IO モジュールを使うと, WebSocket を簡単に実現できるだけでなく, 
+  もしも, WebSocket が利用できない場合に, HTTP による擬似的な双方向通信に切り替えてくれます
