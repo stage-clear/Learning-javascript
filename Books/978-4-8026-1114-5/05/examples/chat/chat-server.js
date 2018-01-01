@@ -24,5 +24,6 @@ io.on('connection', (socket) => {
   // メッセージ受信時の処理を記述
   socket.on('chat-msg', (msg) => {
     // 特定のメッセージを受信した時の処理をここに記述
+    io.emit('chat-msg', msg)
   })
 })
