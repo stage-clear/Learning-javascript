@@ -7,13 +7,13 @@ convertToCSV(path.join(__dirname, 'database'))
 function convertToCSV (dbdir) {
   // ファイル名の指定
   const imgFile = path.join(dbdir, 'images-idx3')
-  const lblFIle = path.join(dbdir, 'labels-idx1')
+  const lblFile = path.join(dbdir, 'labels-idx1')
   const csvFile = path.join(dbdir, 'images.csv')
   
   // ファイルを開く
   const imgF = fs.openSync(imgFile, 'r')
   const lblF = fs.openSync(lblFile, 'r')
-  const outF = fs.openSync(csvFile, 'r')
+  const outF = fs.openSync(csvFile, 'w+')
 
   // 画像データベースのヘッダーを読む
   const ibuf = Buffer.alloc(16)
