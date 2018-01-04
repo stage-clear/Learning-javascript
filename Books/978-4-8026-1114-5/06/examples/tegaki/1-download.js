@@ -3,19 +3,19 @@
   const path = require('path')
   const base = 'http://yann.lecun.com/exdb/mnist'
   await download(
-    base + 't10k-images-idx3-ubyte.gz',
+    base + '/t10k-images-idx3-ubyte.gz',
     path.join(__dirname, 'database', 'images-idx3')
   )
   
   await download(
-    base + 't10k-labels-idx1-ubyte.gz',
+    base + '/t10k-labels-idx1-ubyte.gz',
     path.join(__dirname, 'database', 'labels-idx1')
   )
 })()
 
 // ダウンロードと解凍を行う
 async function download (url, savepath) {
-  console.log('開始', url)
+  console.log('開始:', url)
   const tmp = savepath = '.gz'
   await downloadPromise(url, tmp)
   await gunzip(tmp, savepath)
