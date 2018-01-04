@@ -34,7 +34,7 @@ function loadCSV (fname) {
   const lines = csv.split('\n')
   const data = lines.map(line => {
     const cells = line.split(',')
-    const x = cells.map(v = parseInt(v))
+    const x = cells.map(v => parseInt(v))
     const label = x.shift()
     return [x, label]
   })
