@@ -34,7 +34,7 @@ Vsisual Studio Code の[ビルド]を実行したときに, TypeScript がコン
 3. プロジェクトフォルダに tsconfig.json があると, [tsc: build tsconfig.json] が表示されます. これを選択
 4. 新しく task.json が作成されます
 
-``` json
+```js
 {
   // See https://go.microsoft.com/fwlink/?LinkId=733558
   // for the documentation about the tasks.json format
@@ -77,5 +77,74 @@ $ node app.js
 
 ### Visual Studio Code で Node.js のデバッグ構成（launch.json作成・tsconfig.json変更）
 
+launch.json に `sourceMap: true` を追加します.
+tsconfig.json の `sourceMap` も `true` に設定します。
+これによって, まるで TypeScript のファイルがそのまま実行されているかのように, デバッグで動作を確認できるようになります.
 
+ソースコードの行番号の左の空白の部分をクリックしてブレークポイントを追加しましょう.<br>
+JavaScript ファイルではなく, TypeScript ファイルにブレークポイントを設定することに注意してください.
 
+もし, 赤色の丸ではなくグレーの丸が表示された場合には, `sourceMap` が正しく設定されていないかもしれません.
+
+### Visual Studio Code で単体テスト（Mocha）フレームワークのインストール
+
+```bash
+# npm パッケージを管理するファイル package.json を作成するコマンド
+$ npm init
+```
+
+```bash
+# package.json の内容を基に npm パッケージを再インストールするコマンド
+$ npm update
+```
+
+```bash
+# 単体テストフレームワーク Mocha をインストールするコマンド
+$ npm install --save mocha
+```
+このままでは TypeScript のコンパイラ（tsc コマンド）は Mocha の定義を認識できないので,
+TypeScript 用の型定義ファイルを追加して, TypeScript で Mocha を扱えるようにします
+
+```bash
+# TypeScript 定義を検索する typings をインストールするコマンド
+$ npm install -g typings
+```
+
+```bash
+# typings を使って node の型定義ファイルをインストールするコマンド
+$ typings search node
+$ typings install dt~node --save --global
+```
+
+```bash
+# typings を使って mocha の型定義ファイルをインストールするコマンド
+$ typings search mocha
+$ typings install dt~mocha --save --global
+```
+
+### Visual Studio Code で単体テスト（Mocha）のデバッグ構成（launch.json 変更）
+
+### Visual Studio Code で機能と単体テスト
+
+```js
+// TypeScript への新しい機能の追加（ファイル名: app-talk.ts）
+export namespace App{
+  export class Talk {
+    public static GetGreeting(now: Date) : string {
+      return 'Hello!'
+    }
+  }
+}
+```
+
+```js
+import assert = require('assert')
+import appTalk = require('../app-talk')
+
+describe('App.Talk', () => {
+  it('GetGreeting Test', () => {
+    assert.equal(appTalk.App.Talk.GetGreeting(new Date(2018, 1, 1, 1, 0, 0, 0)), 'Hello!')
+    assert.equal(appTalk.App.talk.GetGreeting(new Date(2018, 1, 1, 13, 0, 0, 0)), 'Good evening!')
+  })
+})
+```
