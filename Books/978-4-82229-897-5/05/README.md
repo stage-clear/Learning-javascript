@@ -253,3 +253,63 @@ results = results
 let top1 = results.firstOrDefault()
 console.info(top1)
 ```
+
+### 条件に合う配列要素に絞り込み filter
+
+```js
+変数名.filter(要素ごとに実行される絞り込みのラムダ式)
+
+変数名.filter((value, index, array) => { 要素ごとに実行される絞り込みの文 })
+変数名.filter((value, index) => { 要素ごとに実行される絞り込みの文 })
+変数名.filter((value) => { 要素ごとに実行される絞り込みの文 })
+```
+
+```js
+// filter メソッドで絞り込みを行う例
+class Product {
+  Name: string;
+  Price: number;
+  IsNew: boolean;
+}
+
+let list : Array<Product> = [
+  { Name: 'A', Price: 10, IsNew: false },
+  { Name: 'B', Price: 11, IsNew: true },
+  { Name: 'C', Price: 100, IsNew: true},
+  ...
+]
+
+let result = list
+  .filter(value => value.Price > 100)
+  .filter(value => value.IsNew)
+
+let orderByDesc = true 
+
+if (orderByDesc) {
+  result.sort((a, b) => b.Price - a.Price)
+}
+
+console.info(list)
+console.info(result)
+```
+
+### 配列要素の並べ替え sort, reverse
+
+```js
+変数名.sort( 2つの値を比較するラムダ式 )
+変数名.reverse()
+```
+
+```js
+// 配列の値を大小によって並べ替え, あるいは全体を逆に並べ替える例
+let list : Array<number> = [10, 11, 100, 101, 1000, 1001, 2, 12, 102, 1002]
+
+list.sort((a, b) => a - b)
+console.log(list)
+
+list.reverse()
+console.info(list)
+```
+
+## 連想配列と要素の列挙, LINQ クエリ
+### 連想配列（object, Map）とクラスの配列の使い分け
