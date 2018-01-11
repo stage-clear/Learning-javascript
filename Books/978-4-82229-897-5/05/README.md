@@ -313,3 +313,467 @@ console.info(list)
 
 ## 連想配列と要素の列挙, LINQ クエリ
 ### 連想配列（object, Map）とクラスの配列の使い分け
+
+```json
+// ビルドする JavaScript のバージョンの指定 tsconfig.json の抜粋
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    
+  }
+}
+```
+
+```js
+import * as Enumerable from 'linq'
+
+{
+  class Product {
+    Name : string;
+    Price : number;
+    IsNew : boolean
+  }
+  
+  let list : Array<Product> = [
+    { Name: 'A', Price: 10, IsNew: false },
+    { Name: 'B', Price: 11, IsNew: true },
+    ...
+  ]
+  
+  let key = 'B'
+  
+  let resutls = Enumerable.from(list)
+    .where(item => item.Name == key)
+
+  let item = results.firstOrDefault()
+  console.info(item)
+}
+```
+
+### 連想配列 Map の宣言とコンストラクターによる初期化
+
+```js
+let 変数名 = new Map<キーのデータ型, 値のデータ型>();
+let 変数名 = new Map<キーのデータ型, 値のデータ型>([
+  [キー1, 初期値1],
+  [キー2, 初期値2],
+  ...
+])
+let 変数名 = new Map([[キー1, 初期値1], [キー2, 初期値2]])
+let 変数名 : Map<キーのデータ型, 値のデータ型> = new Map()
+```
+
+```js
+// 連想配列Mapを, 初期値を指定して初期化する例
+let m = new Map<string, number>([
+  ['A', 10],
+  ['B', 11],
+  ...
+])
+console.info(m)
+```
+
+### 連想配列 Map 要素の追加・削除 set, delete, clear
+
+```js
+変数名.set(キー, 値)
+```
+
+```js
+let m = new Map([
+  ['A', 10],
+  ['B', 11],
+  ...
+])
+
+m.set('A', 0)
+m.set('G', 10000)
+m.delete('B')
+console.info(m)
+m.clear()
+console.info(m)
+```
+
+### 連想配列 Map 要素の参照 get, has
+
+```js
+変数名.get(キー)
+変数名.has(キー)
+```
+
+```js
+// 連想配列 Map の値の参照とキーの確認の例
+let m = new Map([
+  ['A', 10],
+  ['B', 11],
+  ['C', 100],
+  ['D', 101],
+  ['E', 1000],
+  ['F', 1001]
+])
+
+let valueC = m.get('C')
+console.info(valueC)
+
+let valueZ = m.get('Z')
+console.info(valueZ)
+
+let keyA = 'A'
+if (m.has(keyA)) {
+  let valueA = m.get(keyA)
+  console.info(valueA)
+}
+```
+
+### 連想配列 Map 要素の個数 size 
+
+```js
+変数名.size
+```
+
+```js
+let m = new Map([
+  ['A', 10],
+  ['B', 11],
+  ...
+])
+console.info(`size: ${m.size}`)
+```
+
+### forEach で連想配列 Map の要素（キーと値のペア）を列挙
+
+```js
+変数名.forEach( 要素ごとに実行されるラムダ式 )
+変数名.forEach((value, key, array) => { 要素ごとに実行される文 })
+変数名.forEach((value, key) => { 要素ごとに実行される文 })
+変数名.forEach((value) => { 要素ごとに実行される文 })
+```
+
+```js
+let m = new Map([
+  ['A', 10],
+  ['B', 11],
+  ['C', 100],
+  ...
+])
+
+m.forEach((value, key, array) => {
+  console.info(`${key} : ${value}`)
+})
+```
+
+### for in ループは連想配列 Map では使用できない
+
+### for of ループで連想配列 Map の要素（キーと値のペア）を列挙
+
+```js
+for (let キーと値のペアを格納する変数名 of 連想配列の変数名) {
+  要素ごとに実行される文
+}
+```
+
+```js
+// for of ループを使用して連想配列 Map のキーと値を列挙する例
+let m = new Map([
+  ['A', 10],
+  ['B', 11],
+  ['C', 100],
+  ...
+])
+
+for (let keyValue of m) {
+  let key = keyValue[0]
+  let value = keyValue[1]
+  console.info(`${key} = ${value}`)
+}
+```
+
+### クラスオブジェクトの連想配列 Map
+クラスオブジェクトを格納した連想配列
+
+```js
+class Product {
+  Name: string;
+  Price: string;
+}
+
+let m = new Map<string ,Product> {[
+  ['A', {Name: 'Item A', Price: 10}],
+  ['B', {Name: 'Item B', Price: 11}],
+  ['C', {Name: 'Item C', Price: 100}],
+  ...
+]}
+
+let p = m.get('F')
+console.info(p ? p.name : '')
+
+let result = new Map<string ,Product>();
+
+m.forEach((value, key, array) => {
+  if (value.Price > 100) {
+    result.set(key, value)
+  }
+})
+
+console.info(m)
+console.info(result)
+```
+
+### LINQ クエリで連想配列 Map 要素を列挙
+
+```js
+import * as Enumerabe from 'linq'
+
+let m = new Map([
+  ['A', 10],
+  ['B', 11],
+  ['C', 100],
+  ...
+])
+
+let results = Enumerable.from(Array.from(m))
+  .where(keyValue => keyValue[1] > 100)
+  .forEach(keyValue => {
+    console.info(`${keyValue[0] = ${keyValue[1]}}`)
+  })
+```
+
+```js
+// クラスオブジェクトの連想配列 Map を LINQ で列挙する例
+import * as Enumerable from 'linq'
+
+class Product {
+  Name : string;
+  Price : number;
+}
+
+let m = new Map([
+  ['A', {Name: 'Item A', Price: 10}],
+  ['B', {Name: 'Item A', Price: 11}],
+  ['C', {Name: 'Item A', Price: 100}],
+  ...
+])
+
+let results = Enumerable.from(Array.from(m))
+  .where(keyValue => keyValue[1].Price > 100)
+  .forEach(keyValue => {
+    let p = keyValue[1]
+    console.info(`${keyValue[0] = ${p.Name} : ${p.Price}}`)
+  })
+```
+
+```js
+// LINQ クエリ select と toArray を使用して, 連想配列 Map を配列にする例
+import * as Enumerable from 'linq'
+
+class Product {
+  Name : string;
+  Price : number;
+}
+
+let m = new Map<string, Product>([
+  ['A', { Name: 'Item A', Price : 10 }],
+  ['B', { Name: 'Item B', Price : 11 }],
+  ['C', { Name: 'Item C', Price : 100 }],
+  ...
+])
+
+let results = Enumerable.form(Array.from(m))
+  .where(keyValue => keyValue[1].Price > 100)
+  .select(keyValue => keyValue[1])
+  .toArray()
+
+console.info(results)
+```
+
+### 連想配列 Object の宣言とオブジェクトリテラルによる初期化
+あえて Map を使用しない場合
+
+```js
+let 変数名 : {[key:string] : 値のデータ型;} = {キー1: 値1, キー2: 値2, ...}
+let 変数名 : {[key:string] : 値のデータ型;} = {}
+```
+
+```js
+let m : {[key:string] :number;} = {
+  'A': 10, 
+  'B': 11,
+  ...
+}
+console.info(m)
+```
+
+キーのデータ型として任意のデータ型を指定できないことに注意
+
+### 連想配列 Object 要素の参照・追加
+
+```js
+変数名['キー']
+変数名['キー'] = 値
+```
+
+```js
+// 連想配列 Object の値の参照と設定の例
+let m : {[key:string] :number;} = {
+  'A' : 10,
+  'B' : 11,
+  ...
+}
+
+m['A'] = 0;
+m['G'] = 10000
+console.info(m)
+
+let valueC = m['C']
+console.info(valueC)
+
+let valueZ = m['Z']
+console.info(valueZ)
+```
+
+### 連想配列 Object 要素の個数
+
+```js
+Object.keys(変数名).length
+```
+
+```js
+// 連想配列 Object 要素の個数を取得する例
+let m : {[key:string] :number;} = {
+  'A': 10,
+  'B': 11,
+  ...
+}
+
+console.info(`keys length : ${Object.keys(m).length}`)
+```
+
+### forEach は Object では使用できない
+
+### for in ループで連想配列 Object のキーを列挙
+
+```js
+for (let キーを格納する変数名 in 連想配列の変数名) {
+  キーごとに実行される文
+}
+```
+
+```js
+let m : {[key:string] : number;} = {
+  'A': 10,
+  'B': 11,
+  ...
+}
+
+for (let key in m) {
+  if (m.hasOwnProperty(key)) {
+    let element = m[key]
+    console.info(element)
+  }
+}
+```
+
+### for of ループは連想配列 Object では使用できない
+
+### クラスオブジェクトの連想配列 Object
+
+```js
+// クラスオブジェクトの連想配列 Object の例
+class Product {
+  Name: string;
+  Price: number;
+}
+
+let m : {[key:string] :Product} = {
+  'A' : { Name: 'Item A', Price: 10 },
+  'B' : { Name: 'Item B', Price: 11 },
+  ...
+}
+
+let p = m['F']
+console.info(p ? p.Name : '')
+
+let result : {[key : string]: Product;} = {}
+
+for (let key in m) {
+  if (m[key].Price > 100) {
+    result[key] = value
+  }
+}
+
+console.info(m)
+console.info(result)
+```
+
+### LINQ クエリで連想配列 Object 要素を列挙
+
+```js
+// クラスオブジェクトの連想配列 Object を LINQ で列挙する例
+import * as Enumerable from 'linq'
+
+class Product {
+  Name: string;
+  Price: number;
+}
+
+let m : {[key:string] :number;} = {
+  'A': {Name: 'Item A', Price: 10},
+  ...
+}
+
+let results = Enumerable.from(m)
+  .where(keyValue => keyValue.value.Price > 100)
+  .forEach(value => {
+    let p : Product = keyValue.value
+    console.info(`${keyValue.key} = ${p.Name} : ${p.Price}`)
+  })
+```
+
+Map と違って `Array.from` を使用する必要がありません
+
+```js
+// LINQ クエリ select と toArray を使用して, 連想配列 Object を配列にする例
+import * as Enumerable from 'linq'
+
+class Product {
+  Name: string;
+  Price: number;
+}
+
+let m : {[key:string] :number;} = {
+  'A' : {Name: 'Item A', Price: 10},
+  ...
+}
+
+let results = Enumerable.from(m)
+  .where(keyValue => keyValue.value.Price > 100)
+  .select(keyValue => keyValue.value as Product)
+  .toArray()
+
+console.info(results)
+```
+
+## その他のループ
+
+### for ループ
+
+```js
+for (初期化; 状態; 状態の更新) {
+  状態が true 間繰り返し実行される文
+}
+```
+
+### while ループ
+
+```js
+while (状態) {
+  状態が true の間繰り返し実行される文
+}
+```
+### do while ループ
+
+```js
+do {
+  最初の1回目とそのあとに状態が true の間繰り返し実行される文
+} while(状態)
+```
