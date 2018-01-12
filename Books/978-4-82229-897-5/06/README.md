@@ -525,3 +525,47 @@ for (let value of GetReturnValues()) {
 }
 ```
 
+```js
+// 配列の要素を一つずつ返す yield の例
+let values = [1, 2, 3, 4, 5]
+
+function* GetYieldValues () {
+  for (let value of values) {
+    console.info(`yield value = ${value}`)
+    yield value
+  }
+}
+
+console.info('GetYieldValuds')
+for (let value of GetYieldValues()) {
+  console.info(`value = ${value}`)
+}
+```
+
+yield を使うと, 配列の値全体を一度に返すのではなく, 要素の値を1つずつ返すような動作を実現できます
+
+関数の function に * を続けて記載し, その関数の中で yeild を使う関数は, 
+配列全体を返す代わりに, 配列の要素を列挙することができる「イテレータ」というオブジェクトを返す特殊な関数になります.<br>
+イテレータを返し, そのイテレータで要素を列挙すると, それに応じて値を返す特殊な関数を「ジェネレータ関数」と呼びます.
+
+```js
+// for of の代わりにイテレータのメソッドを使用して列挙した例
+function* GetYieldValues () {
+  for (let value of [1, 2, 3, 4, 5]) {
+    console.info(`yield value = ${value}`)
+    yield value
+  }
+}
+
+console.info('GetYieldValues')
+let iterator = GetYieldValues()
+for (var r = iterator.next(); r.done == false; r = iterator.next()) {
+  console.info(`value = ${r.value}`)
+}
+```
+
+イテレータはnextメソッドが実行されるたびに, 次の要素を取得します.
+next が実行されるまではジェネレータ関数のコードの内容はまだ実行されていません.
+next が実行されるとジェネレータ関数の処理が実行され, 最初の yield で指定された値が取得されます.
+プログラムの処理は関数の中ではなく, イテレータの next を実行した部分に戻され, もう一度 next が実行されるまで
+関数の内部のプログラムの実行は待機されます.
