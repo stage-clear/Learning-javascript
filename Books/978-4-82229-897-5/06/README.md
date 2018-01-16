@@ -912,4 +912,97 @@ function GetCaption (item : ProductItem | GroupItem) {
 
 ### タグ付き共用体（判別共用体）
 
+```js
+// タグ付き共用体（判別共用体）を使用する例
+class Product {
+  tag: 'product';
+  Title: string;
+  Description: string;
+  Price: number;
+}
+
+class Group {
+  tag: 'group';
+  Title: string;
+  Description: string;
+  Items: Array<Product>;
+}
+
+type Item = Product | Group;
+
+function GetCaption (item: Item) {
+  switch (item.tag) {
+    case 'product':
+      return `${item.Title} - ${item.Description} - ${item.Price}`
+    case 'group':
+      return `${item.Title} - ${item.Description}`
+  }
+}
+
+let p : Product = {
+  tag: 'product',
+  title: 'TypeScript Handbook',
+  Description: 'Textbook for TypeScript beginners',
+  Price: 2800
+}
+
+let g : Group = {
+  tag: 'group',
+  Title: 'Recommended',
+  Description: 'Other books',
+  Items: [p]
+}
+
+let items : Array<Item> = [g]
+
+items.forEach(item => {
+  console.info(GetCaption(item))
+  
+  if (item.tag == 'group') {
+    item.Items.forEach(p => {
+      console.info(`--> ${GetCaption(p)}`)
+    })
+  }
+})
+```
+
+
+```js
+type エイリアス名 = データ型1 | データ型2 | ... 最後のデータ型;
+```
+
+必須ではありませんが, 共用体に新しい名前をつけて, 新しいデータ型のように使用できるようにするため,
+型のエイリアスを定義するとよいでしょう
+
+## 合成した値を扱う交差型 Intersection (A&B)
+共用体が「どちらか」を表すのに対して, 「両方の」を表すのが交差型 Intersection です
+
+### 交差型 Intersection 
+
+```js
+let 変数名 : データ型1 & データ型2 & ... 最後のデータ型
+type エイリアス名 = データ型1 & データ型2 & ... 最後のデータ型
+```
+
+``js
+// 交差型 Intersection を使用する例
+class ListItem {
+  Title: string;
+  Description: String;
+}
+
+class Sales {
+  Price: number;
+}
+
+type Product = ListItem &  Sales;
+
+let p : Product = {
+  Title: 'TypeScript Handbook',
+  Description: 'Textbook for TypeScript beginners',
+  Price: 2800
+}
+
+console.info(`${p.Title} - ${p.Description} - ${p.Price}`)
+```
 
