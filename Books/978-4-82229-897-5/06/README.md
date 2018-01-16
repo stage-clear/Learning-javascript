@@ -569,3 +569,347 @@ next が実行されるまではジェネレータ関数のコードの内容は
 next が実行されるとジェネレータ関数の処理が実行され, 最初の yield で指定された値が取得されます.
 プログラムの処理は関数の中ではなく, イテレータの next を実行した部分に戻され, もう一度 next が実行されるまで
 関数の内部のプログラムの実行は待機されます.
+
+### 値の列挙ではないジェネレータ関数の使い方
+ジェネレータという呼び名は, 値を生成することができるという意味に由来している名前です.
+
+```js
+// yield を連続で記述する例
+function* Get12345() {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+  yield 5;
+}
+
+for (let value of Get12345()) {
+  console.info(value)
+}
+```
+
+```js
+function* 関数名() {
+  yield* 配列あるいは列挙可能なオブジェクト
+}
+```
+
+```js
+// yield* を使用して記述する例
+function* Get12345 () {
+  yield* [1, 2, 3, 4, 5]
+}
+
+for (let value ofGet12345()) {
+  console.info(value)
+}
+```
+
+`yield*` に続けて, `for of` で列挙可能な配列やジェネレータ関数を指定すれば,
+その内容を列挙しながら返すことができます.
+
+```js
+// 指定された個数のA, B, A, B... という文字列を返すジェネレータ関数の例
+function* GetAorB (count: number) {
+  for (var index = 0; index < count; index++) {
+    if (index % 2 == 0) {
+      yield 'A'
+    } else {
+      yield 'B'
+    }
+  }
+}
+
+for (let value of GetAorB(5)) {
+  console.info(value)
+}
+```
+
+### yield による遅延評価
+
+```js
+// yield による遅延評価の例
+function* Where (values: number[]|IterableIterator<number>, where: (value: number) => boolean) {
+  for (let value of values) {
+    if (where(value)) {
+      console.info(`yield value = ${value}`)
+      yield value
+    }
+  }
+}
+
+console.info('where value > 2')
+let results = where([1, 2, 3, 4, 5], a => a > 2)
+
+console.info('where value < 5')
+results = Where(results, a => a < 5)
+
+console.info('for of')
+for (let value of results) {
+  console.info(`value = ${value}`)
+}
+```
+
+## 戻り値を返さない void と never
+void が関数の実行が完了した後に戻り値を返さないことを表すのに対して,
+never は関数の実行が完了することがなく, 呼び出し元の処理が戻ることがないことを表します.
+
+### 戻り値を返さない関数は void を指定
+
+```js
+function 関数名() : void {
+  ...
+}
+```
+
+```js
+// 戻り値を返さない関数の例
+function ExcuteSomething() : void {
+  console.info('Something')
+}
+
+ExcuteSomething()
+```
+
+### 呼び出し元に処理が決して戻らない関数は never を指定
+ごくまれに, 処理が完了しない「無限ループ」で処理し続ける関数を作る必要がある場合があります
+
+```js
+function 関数名() : never {
+  完了しない処理
+}
+```
+
+```js
+// never を指定する無限ループ関数の例
+function ExecuteWhileTrue () : never {
+  while (true) {
+    // do something
+  }
+}
+```
+
+```js
+// never を指定するか必ずエラーとなる関数の例
+function ExecuteThrowError () : never {
+  throe new Error('error in ExecuteThrowError')
+}
+
+try {
+  ExecuteThrowError()
+} catch (error) {
+  console.info(error.message)
+}
+```
+
+```js
+// never を戻り値として返すイメージで, 別の never の関数を呼び出す
+function ExecuteThrowError (): never {
+  return new Error('error in ExecuteThrowError')
+}
+
+function ExecutReturnNever () : never {
+  return ExecuteThrowError()
+}
+
+try {
+  ExecuteReturnNever()
+} catch (error) {
+  console.info(error.message)
+}
+```
+
+never を指定した関数で, return など処理が呼び出し元に戻るようなコードを記述すると, ビルドエラーとなります.
+
+## シンプルな値の組みを扱う, Tuple（[A, B]）
+### 値の組み Tuple
+
+```js
+let 変数名 : [データ型1, データ型2, ...] = [初期値1, 初期値2, ...]
+let 変数名 : [データ型1, データ型2, ...]
+
+function 関数名(引数, ...) : [データ型1, データ型2, ...] {
+  return [値1, 値2]
+}
+```
+
+型推論では配列や Union と解釈されてしまうため, Tuple を使用する場合はデータ型を省略しないで必ず定義します
+
+```js
+変数名[インデックス番号] = 値
+let 他の変数名 = 変数名[インデックス番号]
+```
+
+```js
+// Tuple を使用する例
+function GetSumAndCount(key: string) : [string, number, number] {
+  let sum = 100
+  let count = 15
+  return [key, sum, count]
+}
+
+let r = GetSumAndCount('B1F')
+console.info(`key=${r[0]}, sum=${r[1]}, count=${r[2]}`)
+```
+
+### Tuple, 配列（連想配列）, Class の使い分け
+
+```js
+// Tuple の代わりにクラスのプロパティを使用する例
+class SumAndCount {
+  Key: string;
+  Sum: number;
+  Count: number;
+}
+
+function GetSumAndCountByClass (key: string) : SumAndCount {
+  let sum = 100;
+  let count = 15;
+  return { Key: key, Sum: sum, Count: count };
+}
+
+let r = GetSumAndCountByClass('B1F')
+console.info(`key=${r.Key}, sum=${r.Sum}, count=${r.Count}`)
+```
+
+## どちらかの値を扱う共同体 Union(A|B)
+
+### 共用体 Union
+
+```js
+let 変数名 : データ型1 | データ型2 | ...　最後のデータ型;
+
+function 関数名 (引数名: データ型1 | データ型2 | ... 最後のデータ型) {
+  if (typeof 引数名 == 'データ型1') {
+    引数がデータ型1 の値の場合に実行される文
+  } else if (引数名 instanceof データ型2) {
+    引数がデータ型2のオブジェクトの場合に実行される文
+  }
+}
+
+function 関数名(...) : データ型1 | データ型2 | ... 最後のデータ型 {
+  return データ型1の値
+  
+  return データ型2の値
+}
+```
+
+```js
+// 共用隊 Union の引数の例
+function GetText (value : string | number | Date) {
+  if (typeof(value) == 'string') {
+    return `文字列「${value}」`
+  } else if (typeof(value) == 'number') {
+    return `数値: ${new Date(value)}`
+  } else if (value instanceof Date) {
+    return `日付: ${value}`
+  }
+}
+
+console.info(GetText('昨日'))
+console.info(GetText(0))
+console.info(GetText(new Date()))
+```
+
+```js
+// 共用体 Union の戻り値の例
+function GetValueText (value : number | null)  : string | null {
+  if (value === null) {
+    return null
+  } else {
+    return `(${value})`
+  }
+}
+
+let text1 = GetValueText(100)
+console.info(text1 || 'なし')
+
+let text2 = GetValueText(null)
+console.info(text2 || 'なし')
+```
+
+### Null 許容型（Nullable型）
+`データ型 | null` の書式で指定された null になり得る共用体は, Null 許容型（Nullable型）と呼ばれます.
+
+```js
+変数名 || 値が null の場合に使用される値
+```
+
+```js
+// 厳密な null チェックを有効にする tsconfig.json の例
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "strictNullChecks": true, // <-
+  }
+}
+```
+
+tsconfig.json の `StrictNullChecks` を true に設定すると, 変数の null は厳密に管理されるようになります.
+
+```js
+let 変数名 : データ型 | null 
+let 変数名 : データ型 | undefined
+
+function 関数名 (引数名? : データ型) { ... }
+```
+
+`undefined` を代入できる変数とするには, 目的のデータ型と undefined の共用体として宣言します
+
+### 同じ名前のプロパティやメソッドを持つクラス・インターフェイスの共有体 Union
+TypeScript はデータ型を厳密に扱うため「同じ名前のメンバーがあったら使用する」という設計を取り入れるためには工夫が必要です
+
+```js
+// 共有体 Union で同じ名前のプロパティを持つクラスを扱う例
+class ProductItem {
+  Title: string;
+  Description: string;
+  Price: number;
+}
+
+class GroupItem {
+  Title : string;
+  Description: string;
+}
+
+function GetCaption (item: ProductItem | GroupItem) {
+  return `${item.Title} - ${item.Description}`
+}
+
+let product = {
+  Title: 'TypeScript Handbook',
+  Description: 'Textbook for TypeScript beginners',
+  Price: 2800
+}
+
+console.info(GetCaption(product))
+console.info(GetCaption({Title: 'Recommended', Description: 'Other books'}))
+```
+
+```js
+// 一方のクラスにしかないプロパティを使用する例1
+function GetCaption (item: ProductItem | GroupItem) {
+  if ((<ProductItem>item).Price) {
+    return `${item.Title} - ${item.Description} - ${(<ProductItem>).Price}`
+  } else {
+    return `${item.Title} - ${item.Description}`
+  }
+}
+```
+
+```js
+// 一方のクラスにしかないプロパティを使用する例2
+function GetCaption (item : ProductItem | GroupItem) {
+  let p = item as ProductItem
+  if (p.Price) {
+    return `${p.Title} - ${p.Description} - ${p.Price}`
+  } else {
+    return `${item.Title} - ${item.Description}`
+  }
+}
+```
+
+### タグ付き共用体（判別共用体）
+
+
