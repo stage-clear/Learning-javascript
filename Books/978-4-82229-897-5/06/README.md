@@ -984,7 +984,7 @@ let 変数名 : データ型1 & データ型2 & ... 最後のデータ型
 type エイリアス名 = データ型1 & データ型2 & ... 最後のデータ型
 ```
 
-``js
+```js
 // 交差型 Intersection を使用する例
 class ListItem {
   Title: string;
@@ -1005,4 +1005,183 @@ let p : Product = {
 
 console.info(`${p.Title} - ${p.Description} - ${p.Price}`)
 ```
+
+```js
+let 変数名 = <データ型1 & データ型2 & ... 最後のデータ型>{};
+let 変数名 = <交差型のエイリアス名>{};
+```
+
+```js
+// 交差型 Intersection の新しいオブジェクトを初期化する例
+let p = <Product>{};
+p.Title = 'TypeScript Handbook'
+p.Description = 'Textbook for TypeScript beginners'
+p.Price = 2000
+```
+
+### 交差型とクラスの継承やインターフェイスの使い分け
+
+事前に高度な設計が必要なクラスの軽傷やインターフェイスの実装よりも手軽に, 
+データ構造や機能を再利用することができます.
+
+```js
+// 交差型 Intersection でプロパティとメソッドを合成する例
+class Loggable {
+  log() :void {
+    for (let key in this) {
+      let value = (<any>this)[key]
+      if (typeof value != 'function') {
+        console.log(`${key} = ${value}`)
+      }
+    }
+  }
+}
+
+class Product {
+  Title: string;
+  Description : string;
+  Price : number;
+}
+
+function GetLoggableProduct (p :Product) : Product & Loggable {
+  let r = <Product & Loggable> {}
+  r.Title = p.Title
+  r.Description = p.Description
+  r.Price = p.Price 
+  
+  r.log = new Loggable().log
+  return r
+}
+
+let p : Product = {
+  Title: 'TypeScript Handbook',
+  Description: 'Textbook for TypeScript beginners',
+  Price: 2800
+}
+
+let item = GetLoggableProduct(p)
+item.log()
+```
+
+## 引数の省略や型の違いを受け入れるオーバーロード
+### 省略可能な引数の規定値を指定
+
+```js
+function 関数名 (引数名 = 規定値) { ... }
+```
+
+```js
+// 引数の省略と規定値の指定の例
+function GetGreeting (now : Date = new Date()) : string {
+  if (now.getHours() < 5) {
+    return 'Welcome back!'
+  } else if (now.getHours() < 12) {
+    return 'Good morning!'
+  } else if (now.getHours() < 16) {
+    return 'Good afternoon!'
+  } else if (now.getHours() < 22) {
+    return 'Good eveniing!'
+  } else {
+    return 'Welcome back!'
+  }
+}
+
+console.log(GetGreeting())
+console.log(GetGreeting(new Date(2017, 0, 1, 9, 0, 0, 0, 0)))
+```
+
+### 任意の個数の引数を配列として受け取れる Rest Parameters
+
+```js
+function 関数名(引数名1: データ型, ... 引数名 : 配列の型) { ... }
+function 関数名(...引数名 : 配列の型) { ... }
+```
+
+```js
+// 引数を任意の個数指定できる関数の例
+function FormatForLog (prefix: string, suffix: string,
+  ...values : Array<number>) : string {
+  return prefix + values.join(`${suffix}\r\n${prefix}`) + suffix
+}
+
+console.info(FormatForLog('<', '>', 1, 2, 3, 4, 5))
+console.info(FormatForLog(' - ', '', 1, 2, 3))
+```
+
+### オーバーロード
+オーバーロードを定義すると引数の組み合わせを任意にすることができます.
+たとえば引数が2つのデータ型のどちらかであれば, 共用体で実現できます.
+引数を省略可能にすれば, 引数を省略した場合と指定した場合のどちらかで動作が
+変わるよう関数を定義することができます.<br>
+考え方はそのままに, 1つの引数と, 2つの引数の組み合わせと, 
+どちららかが選択できるようにすることが可能です
+
+```js
+// 引数が2つの関数の例
+function GetPoints (price : number, bonusPoints: number): number {
+  return Math.round(price * 0.00025) + bonusPoints
+}
+
+console.info(GetPoints(1000, 1))
+```
+
+```js
+// 同じ機能で, 引数が1つの関数の例
+class SpecialProduct {
+  Title: string;
+  Price: number;
+  BonusPoints: number;
+}
+
+function GetPoints (product : SpecialProduct) : number {
+  return Math.round(product.Price * 0.0025) + product.BonusPoints;
+}
+
+let p = new SpecialProduct()
+p.Price = 10000;
+p.BonusPoints = 10;
+console.info(GetPoints(p))
+```
+
+これらの関数はまったく同じ目的で使用されているので, 
+同じ名前でどちらの引数かを選べるのがわかりやすいように思います.
+この2つの関数を __オーバーロード__ を使って合成します.
+
+```js
+// 関数のオーバーロードの例
+class SpecialProduct {
+  Title: string;
+  Price: number;
+  BonusPoints: number;
+}
+
+function GetPoints(price: number, bonusPoints: number) : number
+function GetPoints(product: SpecialProduct): number
+function GetPoints(p: any, bonusPoints?: number) :number {
+  if (p instanceof SpecialProduct) {
+    return Math.round(p.Price * 0.0025) + p.BonusPoints
+  } else if (typeof p === 'number') {
+    return Math.round(p * 0.0025) + (bonusPoints || 0)
+  }
+  
+  throw Error('Invalid value')
+}
+
+console.info(GetPoints(1000, 1))
+
+let p = new SpecialProduct()
+p.Price = 1000
+p.BonusPoints = 10
+console.info(GetPoints(p))
+```
+オーバーロードを定義するには, 引数を any や共用体, Null許容型（Nullable型）などを使って,
+すべての引数のパターンを合成した引数の組み合わせで定義します.
+その行の前に, 本来の引数の組み合わせの定義を記載します.
+
+オーバロードを使用すると, 同じ機能を持つ関数をいくつも別の名前で定義するのではなく, 同じ名前で定義できるので,
+関数を使用する開発者にとっては覚えやすく, 使いこなすための学習コストを下げることができます.
+
+別の名前の関数を複数定義するよりも, オーバーロードを定義する方が圧倒的に扱いやすいという確信がある場合のみ,
+オーバーロードを定義するようにしましょう.
+たとえば引数の数が同じであれば, オーバーロードの代わりに共用体を使って目的の実装を実現することができます.
 
