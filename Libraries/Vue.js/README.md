@@ -13,6 +13,14 @@
 - [vue-loader](https://github.com/vuejs/vue-loader) - With Webpack
 - ~~[vueify](https://github.com/vuejs/vueify) - With Browserify~~ I've been using webpack. so I never use browserify.
 
+## Ecosystem:
+- [NUXT](https://nuxtjs.org/)
+- [Quasar](http://quasar-framework.org/)
+- [Element](http://element.eleme.io/) - A Vue.js 2.0 UI Toolkit for Web
+- [Vuetify](https://vuetifyjs.com/) - Material Component Framework for Vue.js 2
+- [NativeScript](https://www.nativescript.org/blog/a-new-vue-for-nativescript)
+- [Weex](https://weex.apache.org/)
+
 ## Snipetts:
 - [Basic](snippets/basic.md)
 - [Use any library with Vue.js](snippets/use-any-library.md)
