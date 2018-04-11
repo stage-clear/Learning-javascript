@@ -21,6 +21,7 @@ export default {
 ```js
 // MyComponent.vue
 import _ from 'lodash'
+
 export default {
   created() {
     console.log(_.isEmpty() ? 'Lodash is available here!' : 'Uh oh...')
@@ -32,6 +33,7 @@ export default {
 ```js
 // entry.js
 import moment from 'moment'
+
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 // Vue.prototype.$moment = moment
 ```
