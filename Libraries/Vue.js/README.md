@@ -35,3 +35,4 @@
 
 ## Any recipes
 - [Implementing an Infinite Scroll with Vue.js](https://alligator.io/vuejs/implementing-infinite-scroll/)
+- [Writing Abstract Component with Vue.js](https://alligator.io/vuejs/vue-abstract-components/)
