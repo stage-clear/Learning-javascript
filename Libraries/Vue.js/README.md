@@ -33,6 +33,7 @@
 - [What I learnied About VueJS From Building A Chrome Extension](http://vuejsdevelopers.com/2017/05/08/vue-js-chrome-extension/)
 - [4 AJAX Patterns For Vue.js Apps](https://vuejsdevelopers.com/2017/08/28/vue-js-ajax-recipes/)
 
-## Any recipes
+## Also cookbook
 - [Implementing an Infinite Scroll with Vue.js](https://alligator.io/vuejs/implementing-infinite-scroll/)
 - [Writing Abstract Component with Vue.js](https://alligator.io/vuejs/vue-abstract-components/)
+- [Demistifying Vue's Webpack Config](https://alligator.io/vuejs/demistifying-vue-webpack/)
