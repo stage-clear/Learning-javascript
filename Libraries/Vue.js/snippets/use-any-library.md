@@ -12,7 +12,7 @@ window._ = require('lodash')
 // MyComponent.vue
 export default {
   created() {
-    console.log(_isEmpty() ? 'Lodash everywhere!' : 'Uh oh...')
+    console.log(_.isEmpty() ? 'Lodash everywhere!' : 'Uh oh...')
   }
 }
 ```
