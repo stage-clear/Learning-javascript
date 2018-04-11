@@ -26,6 +26,7 @@
 - [How To Build A Simple Single Page Application Using Vue2](https://scotch.io/tutorials/how-to-build-a-simple-single-page-application-using-vue-2-part-1)
 
 ## References
+- [Vue.js の今後と次世代Web開発について](https://speakerdeck.com/kazupon/vue-dot-jsfalsejin-hou-toci-shi-dai-webkai-fa-nituite)
 - [Next Vue.js 2.0 by kazupon](https://speakerdeck.com/kazupon/next-vue-dot-js-2-dot-0)
 - [The Power of Custom Directives in Vue](https://css-tricks.com/power-custom-directives-vue/)
 - [4 Ways To Boost Your Vue.js App With Webpack](http://vuejsdevelopers.com/2017/06/18/vue-js-boost-your-app-with-webpack/)
