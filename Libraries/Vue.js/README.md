@@ -32,3 +32,6 @@
 - [Vue.js と型](https://speakerdeck.com/ktsn/vue-dot-js-toxing)
 - [What I learnied About VueJS From Building A Chrome Extension](http://vuejsdevelopers.com/2017/05/08/vue-js-chrome-extension/)
 - [4 AJAX Patterns For Vue.js Apps](https://vuejsdevelopers.com/2017/08/28/vue-js-ajax-recipes/)
+
+## Any recipes
+- [Implementing an Infinite Scroll with Vue.js](https://alligator.io/vuejs/implementing-infinite-scroll/)
