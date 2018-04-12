@@ -36,9 +36,9 @@ function async(gen) {
  */
 function getItem(index, items, delay) {
 	return new Promise(resolve => {
-  	window.setTimeout(() => {
-    	resolve(items[index])
-    }, delay)
-  })
+		window.setTimeout(() => {
+			resolve(items[index])
+		}, delay)
+	})
 }
 ```
