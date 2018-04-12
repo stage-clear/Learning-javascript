@@ -35,10 +35,10 @@ function async(gen) {
  * @return {Promise}
  */
 function getItem(index, items, delay) {
-	return new Promise(resolve => {
-		window.setTimeout(() => {
-			resolve(items[index])
-		}, delay)
-	})
+  return new Promise(resolve => {
+    window.setTimeout(() => {
+      resolve(items[index])
+    }, delay)
+  })
 }
 ```
