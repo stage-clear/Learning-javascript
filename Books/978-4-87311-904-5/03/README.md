@@ -319,4 +319,92 @@ if (x) {
 
 #### 3.2.9.2 合併型と交差型
 
+```ts
+type Cat = { name: string, purrs: boolean }
+type Dog = { name: string, barks: boolean, wags: boolean }
+type CatOrDogOrBoth = Cat | Dog
+type CatAndDog = Cat & Dog
+```
+
+```ts
+let a: CatOrDogOrBoth = {
+  name: 'Bonkers',
+  purrs: true,   // のどを鳴らす
+}
+
+// Dog
+a = {
+  name: 'Domino',
+  barks: true,　   // 吠える
+  wags: true     // 尻尾を振る
+}
+
+// 両方
+a = {
+  name: 'Donkers',
+  barks: true,
+  purrs: true,
+  wags: true
+}
+```
+
+```ts
+let b: CatAndDot = {
+  name: 'Domino',
+  barks: true,
+  purrs: true,
+  wags: true
+}
+```
+
+```ts
+function trueOrNull (isTrue: boolean) {
+  if (isTrue) {
+    return 'true'
+  }
+  return null
+}
+```
+
+```ts
+type Returns = string | null
+```
+
+```ts
+function (a: string, b: number) {
+  return a || b
+}
+```
+
+### 3.2.10 配列
+```ts
+let a = [1, 2, 3]       // number[]
+var b = ['a', 'b']      // string[]
+let c: string[] = ['a'] // string[]
+let d = [1, 'a']        // (string | number)[]
+const e = [2, 'b']      // (string | number)[]
+
+let f = ['red']
+f.push('blue')
+f.push(true)            // エラー
+
+let g = []              // any[]
+g.push(1)               // number[]
+g.push('red')           // (string | number)[]
+
+let h: number[] = []    // number[]
+h.push(1)               // number[]
+h.push('red')           // エラー
+```
+
+```ts
+let d = [1, 'a']
+
+d.map(_ => {
+  if (typeof _ === 'number') {
+    return _ * 3
+  }
+  return _.toUpperCase()
+})
+```
 
