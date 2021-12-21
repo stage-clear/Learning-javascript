@@ -44,7 +44,7 @@ npm install --save-dev typescript tslint @types/node
   "compilerOptions": {
     "lib": ["es2015"],
     "module": "commonjs",
-    "outDIr": "dist",
+    "outDir": "dist",
     "sourceMap": true,
     "strict": true,
     "target": "es2015"
@@ -53,4 +53,57 @@ npm install --save-dev typescript tslint @types/node
     "src" 
   ]
 }
+```
+
+|オプション|説明|
+|:-|:-|
+|`include`|TSCがTypeScriptファイルを見つけるために、どのフォルダーを探すべきか？|
+|`lib`|コードを実行する環境にどのAPIが存在しているとTSCが想定すべきか？|
+|`module`|TSCがコードをどのモジュールシステムにコンパイルすべきか？|
+|`outDir`|生成するJavaScriptコードをTSCがどのフォルダーに格納すべきか？|
+|`strict`|不正なコードをチェックするときに、できるだけ厳格にチェックする。|
+|`target`|TSCがコードをどのJavaScriptバージョンにコンパイルすべきか？|
+
+- [TSConfig Reference](https://www.typescriptlang.org/tsconfig)
+
+### 2.3.2 tslint.json
+```json
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "semicolon": false,
+    "trailing-comma": false
+  }
+}
+```
+
+## 2.4 index.ts
+
+```sh
+mkdir src
+touch src/index.ts
+```
+
+```typescript
+console.log('Hello TypeScript!')
+```
+
+```sh
+./node_modules/.bin/tsc
+./dist/index.js
+```
+
+## 2.5 練習問題
+
+```typescript
+let a = 1 + 2
+let b = a + 3
+let c = {
+  apple: a,
+  banana: b
+}
+let d = c.apple * 4
 ```
