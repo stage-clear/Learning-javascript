@@ -408,3 +408,254 @@ d.map(_ => {
 })
 ```
 
+```ts
+function buildArray () {
+  let a = []    // any[]
+  a.push(1)     // number[]
+  a.push('x')   // (string | number)[]
+  return a
+}
+
+let myArray = buildArray()  // (string | number)[]
+myArray.push(true)          // エラー
+```
+
+### 3.2.11 タプル
+他の多くの型と違って、タプルを宣言するときには、明示的に型付けする必要があります。
+```ts
+let a: [number] = [1]
+
+// [名前, 名字, 生まれ年]のタプル
+let b: [string, string, number] = ['malcolm', 'gladwell', 1963]
+
+b = ['queen', 'elizabeth', 'ii', 1926] // エラー
+```
+タプルは省略可能な要素もサポートしています。
+
+// 鉄道運賃の配列。方向によって異なる場合があります。
+```ts
+let trainFares: [number, number?][] = [
+  [3.75],
+  [8.25, 7.70],
+  [10.50]
+]
+
+// これは次のものと同等です
+let moreTrainFares: ([number] | [number, number])[] = [
+  // ...
+]
+```
+
+タプルは可変長の要素もサポートしています（最小限の長さ）。
+
+```ts
+// 少なくとも1つの要素（とそれに続く可変長の要素）を持つ、文字列のリスト
+let friends: [string, ...string[]] = ['Sara', 'Tali', 'Chloe', 'Claire']
+
+// 不均一なリスト
+let list: [number, boolean, ...string[]] = [1, false, 'a', 'b', 'c']
+```
+#### 3.2.11.1 読み取り専用の配列とタプル
+
+```ts
+let as: readonly number[] = [1, 2, 3]     // readonly number[]
+let bs: readonly number[] = as.concat(4)  // readonly number[]
+let three = bs[2]                         // number
+
+as[4] = 5   // エラー
+as.push(6)  // エラー
+```
+
+```ts
+type A = readonly string[]          // readonly string[]
+type B = ReadonlyArray(string)      // readonly string[]
+type C = Readonly<string[]>         // readonly string[]
+
+type D = readonly [number, string]  // readonly [number, string]
+type E = Readonly<[number, string]> // readonly [number, string]
+```
+
+### 3.2.12 null, undefined, void, never
+```ts
+// (a) numberまたはnullを返す関数
+function a (x: number) {
+  if (x < 10) {
+    return x
+  }
+  return null
+}
+
+// (b) undefined を返す関数
+function b () {
+  return undefined
+}
+
+// (c) voidを返す関数
+function c () {
+  let a = 2 + 2
+  let b = a * a
+}
+
+// (d) neverを返す関数
+function d () {
+  throw TypeError('I always error')
+}
+
+// (e) neverを返すもうひとつの関数
+function e () {
+  while (true) {
+    doSomething()
+  }
+}
+```
+
+|型|説明|
+|:-|:-|
+|`null`|値の欠如|
+|`undefined`|値がまだ割り当てられていない変数|
+|`void`|return文を持たない関数の戻り値|
+|`never`|決して戻ることのない関数の戻り値|
+
+### 3.2.13 列挙型
+列挙型（enum）は、ある型について取り得る値を列挙する（enumerate）方法です。
+列挙型は、コンパイル時にキーが固定されているオブジェクトのようなものと考えてください。
+
+```ts
+enum Language {
+  English,
+  Spanish,
+  Russian
+}
+```
+
+> 慣例により、列挙型の名前は、大文字で始まる単数系です。列挙型のキーも大文字で始めます。
+
+TypeScriptは、enumの各メンバーの値として数値を自動的に推論しますが、明示的に値を設定することもできます。
+```ts
+enum Language {
+  English = 0,
+  Spanish = 1,
+  Russian = 2
+}
+
+let myFirstLanguage = Language.Russian      // Language
+let mySecondLanguage = Language['English']  // Language
+```
+
+enumを複数の宣言にまたがって分割することができ、TypeScriptはそれらを自動的にマージします。
+ただし、実際にenumを分割する場合、TypeScriptはそれらの宣言のうちの1つについてしか値を推論できないので、enumの各メンバーに明示的に値を割あてるとよいでしょう。
+```ts
+enum Language {
+  English = 0,
+  Spanish = 1
+}
+
+enum Language {
+  Russian = 2
+}
+```
+計算される値を使うこともできますし、そのすべてを定義する必要もありません。
+```ts
+enum Language {
+  English = 100,
+  Spanish = 200 + 300,
+  Russian             // TypeScriptは501と推論します。
+}
+```
+
+enumには文字列を使うこともできますし、文字列値と数値を混ぜることもできます。
+```ts
+enum Color {
+  Red = '#c10000',
+  Blue = '#007ac1',
+  Pink = 0xc10050,    // 16進リテラル
+  White = 255         // 10進リテラル
+}
+
+let red = Color.Red   // Color
+let pink = Color.pink // Color
+```
+TypeScriptでは、利便性を考慮して、値とキーどちらを使ってもenumにアクセスできますが、これにより、たちまち危険に陥る可能性があります。
+```ts
+let a = Color.Red     // Color
+let b = Color.Green   // エラー（Greenは存在しません）
+let c = Color[255]    // string
+let d = Color[6]      // string(!!!)
+```
+
+const enumを使って、enumの振る舞いをより安全なサブセットに制限することで、この種の危険なアクセスを防ぐようにTypeScriptに要求できます。
+```ts
+const enum Language {
+  English,
+  Spanish,
+  Russian
+}
+
+// 有効なenumキーにアクセスします
+let a = Language.English    // Language
+
+// 無効なenumキーにアクセスします
+let b = Language.Tagalog    // エラー
+
+// 有効なenum値にアクセスします
+let c = Language[0]         // エラー（const 列挙型メンバーは文字列リテラルを使用してのみアクセスできます）
+
+// 無効なenum値にアクセスします
+let d = Launguage[6]        // エラー
+```
+
+`const enum`の使い方
+
+```ts
+const enum Flippable {
+  Burger,
+  Chair,
+  Cup,
+  Skateboard,
+  Table
+}
+
+function flip (f: Flippable) {
+  return 'flipped it'
+}
+
+flip(Flippable.Chair)   // 'flipped it'
+flip(Flippable.Cup)     // 'flipped it'
+flip(12)                // 'flipped it' (!!!)
+```
+
+```ts
+const enum Flippable {
+  Burger = 'Burger',
+  Chair = 'Chair',
+  Cup = 'Cup',
+  Skateboard = 'Skateboard',
+  Table = 'Table'
+}
+
+function flip (f: Flippable) {
+  return 'flipped it'
+}
+
+flip(Flippable.Chair)   // 'flipped it'
+flip(Flippable.Cup)     // 'flipped it'
+flip(12)                // エラー
+flip('Hat')             // エラー
+```
+
+> 列挙型の安全な使用には落とし穴が伴うため、列挙型の使用は控えることをお勧めします。
+> TypeScriptには、ほかにもよい表現方法がたくさんあります。
+
+## 3.3 まとめ
+|型|サブタイプ|
+|:-|:-|
+|`boolean`|真偽値リテラル|
+|`bigint`|BigIntリテラル|
+|`number`|数値リテラル|
+|`string`|文字列リテラル|
+|`symbol`|`unique symbol`|
+|`object`|オブジェクトリテラル|
+|配列|タプル|
+|`enum`|`const enum`|
+
+## 3.4 練習問題
