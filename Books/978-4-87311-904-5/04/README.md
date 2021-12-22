@@ -189,4 +189,69 @@ fibonacciGenerator.next() // { value: 3, done: false }
 fibonacciGenerator.next() // { value: 5, done: false }
 ```
 
-1. 関数名の
+1. 関数名の前のアスタリスク（\*）によって、その関数はジェネレーター関数になります。ジェネレーター関数を呼び出すと、ジェネレーターが返されます。
+2. このジェネレーターは、値を無限に生成することができます。
+3. ジェネレーターが返す値は、yieldキーワードによって生成されます。利用者がジェネレータの次の値を要求すると、yieldは利用者に結果を送り返し、利用者が次の値を要求するまでは実行を休止します。
+4. 次のフィボナッチ数を計算するために、1つのステップで、aにbを、bにa+bをそれぞれ再割り当てします。
+
+ジェネレーターを明示的にあのテートすることもできます。
+```ts
+function* createNumbers(): Generator<number> {
+  let n = 0
+  while (1) {
+    yield n++
+  }
+}
+
+let numbers = createNumbers()
+numbers.next()    // { value: 0, done: false }
+numbers.next()    // { value: 1, done: false }
+numbers.next()    // { value: 2, done: false }
+```
+
+### 4.1.6 イテレーター
+> <b>反復可能オブジェクト(Iterable)</b><br>
+> `Symbol.iterator`と呼ばれるプロパティを含んでいるオブジェクト。このプロパティの値は、イテレーターを返す関数。
+
+> <b>イテレーター(Iterator)</b><br>
+> `next`と呼ばれるメソッドを定義しているオブジェクト。この`next`メソッドは、`value`および`done`というプロパティを持つオブジェクトを返す。
+
+`Sumbol.iterator'や`next`を実装するオブジェクト（またはクラス）を作成することで、反復可能オブジェクトやイテレーターを手動で定義することができます。
+```ts
+let numbers = {
+  *[Symbol.iterator]() {
+    for (let n = 1; n <= 10; n++) {
+      yield n
+    }
+  }
+}
+
+// for-of を使って反復可能オブジェクトを反復する
+for (let a of numbers) {
+  // 1, 2, 3など
+}
+
+// 反復可能オブジェクトを展開する
+let allNumbers = [...numbers] // number[]
+
+// 反復可能オブジェクトを分割割り当てする
+let [one, two, ...rest] = numbers // [number, number, number[]]
+```
+
+|オプション|説明|
+|:-|:-|
+|`downlevelIteration`|ES2015より古いバージョンのJavaScriptにコンパイルしている場合は`downlevelIteration`フラグを使って`for-of`などの反復可能オブジェクトを扱うための構文を有効にできます。（Symbol.iteratorのポリフィルも別に必要）|
+
+### 4.1.7 呼び出しシグネチャ
+
+```ts
+function add (a: number, b: number): number {
+  return a + b
+}
+```
+
+TypeScriptでは型を次のように表現することができます。
+```ts
+(a: number, b: number) => number
+```
+呼び出しシグネチャは型レベルの
