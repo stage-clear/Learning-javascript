@@ -737,3 +737,142 @@ function mapNode<T extends TreeNode>(
   }
 }
  ```
+ 
+#### 4.2.5.1 複数の制約を持つ制限付きポリモーフィズム
+```ts
+type HasSides = { numberOfSides: number }
+type SidesHaveLength = { sideLength: number }
+
+function logPerimeter<
+  Shape extends HasSides & SidesHaveLength
+>(s: Shape): Shape {
+  console.log(s.numberOfSides * s.sideLength)
+  return s
+}
+
+type Square = HasSides & SidesHaveLength
+let square: Square = { numberOfSides: 4, sideLength: 3}
+logPerimeter(square) // 正方形 12
+```
+1. logPerimeterは、型がShapeの1つの引数sを取る関数です
+2. Shapeは、HasSides型とSidesHaveLength型の両方を拡張するジェネリック型です。言い換えれば、Shapeは少なくとも、長さを持った辺を備えていなければなりません（numberOfSidesは辺の数、sideLengthは辺の長さ）
+3. logPerimeterは、渡された型とまったく同じ型の値を返します。
+
+#### 4.2.5.2 制限付きポリモーフィズムを使って、可変長引数をモデル化する
+`.call`を独自実装してみましょう
+```ts
+function call (
+  f: (...args: unknown[]) => unknown,
+  ...args: unknown[]
+): unknown {
+  return f(...args)
+}
+
+function fill (length: number, value: string): string[] {
+  return Array.from({ length }, () => value}
+}
+
+call(fill, 10, 'a') // 10個の'a'からなる配列
+```
+- `f`は、何らかの引数のセットTを取り、何らかの型Rを返す関数でなければなりません。何個の引数を持つかは、事前にわかりません。
+- `call`は`f`のほかに、`f`そのものが取るのと同じ引数のセット`T`を取ります。これについても、何個の引数を期待すべきかは事前にわかりません。
+- `call`は、`f`が返すのと同じ型`R`を返します。
+
+```ts
+function call<T extends unknown[], R>(
+  f: (...args: T) => R,
+  ...args: T
+): R {
+  return f(...args)
+}
+```
+
+
+1. `call`は可変長引数の関数で、2つの型パラメーター、`T`と`R`を持ちます。`T`は`unknown[]`のサブタイプです。つまり、`T`は任意の型の配列またはタプルです。
+2. `call`の最初のパラメーターは、関数`f`です。`f`も可変長引数の関数であり、その引数は型を（`call`のパラメーターである）`args`と共有します。つまり、`args`がどのような型であれ、`f`の引数はそれとまったく同じ方を持ちます。
+3. 関数`F`のほかに、`call`は追加のパラメーター「`...args`」を持ちます。`args`はレストパラメーターです。`args`の型は`T`であり、`T`は配列型でなければならないので（もし`T`が配列型を拡張することを記述し忘れたとしたら、TypeScriptはエラーを示していたでしょう）、TypeScriptは、`args`として渡された特定の引数に基づいて、`T`がどのようなタプル型か推論します。
+4. `call`は、`R`型の値を返します。
+
+```ts
+let a = call(fill, 10, 'a')       // string[]
+let b = call(fill, 10)            // エラー
+let c = call(fill, 10, 'a', 'z')  // エラー
+```
+
+### 4.2.6 ジェネリック型のデフォルト型
+
+```ts
+type MyEvent<T> = {
+  target: T
+  type: string
+}
+```
+
+```ts
+let buttonEvent: MyEvent<HTMLButtonElement> = {
+  target: myButton,
+  type: string
+}
+```
+MyEventのジェネリックにデフォルトの型を追加できます。
+```ts
+type MyEvent<T = HTMLElement> = {
+  target: T
+  type: string
+}
+```
+前にいくつかの節で学んだことを応用し、`T`に制限を追加して、`T`が必ずHTML要素であるようにします。
+```ts
+type MyEvent<T extends HTMLElement = HTMLElement> = {
+  target: T
+  type: string
+}
+```
+
+```ts
+let myEvent: MyEvent = {
+  target: myElement,
+  type: string
+}
+```
+
+デフォルトの型を持つジェネリック型は、デフォルトの型を持たないジェネリック型の後に指定する必要があることに注意してください
+```ts
+// 有効
+type MyEvent2<
+  Type extends string,
+  Target extends HTMLElement = HTMLElement,
+> = {
+  target: Target
+  type: Type
+}
+
+// 無効
+type MyEvent3<
+  Target extends HTMLElement = HTMLElement,
+  Type extends string   // エラー
+> = {
+  target: Target
+  type: Type
+}
+```
+
+## 4.3 型駆動開発
+TypeScriptでコードを書くとき、気がつくとコードが「型によって先導されている」ことがよくあります。
+これを、<b>型駆動開発</b>と呼び出す。
+
+> <b>型駆動開発(type-driven development)</b><br>
+> まず型シグネチャで概略を記述し、その後で値を埋め込むプログラムングのスタイル
+
+前に示した`map`関数の型シグネチャを見てみましょう。
+```ts
+function map<T, U>(array: T[], f: (item: T) => U): U[] {
+  // ...
+}
+```
+## 4.4 まとめ
+
+## 4.5 練習問題
+
+
+
