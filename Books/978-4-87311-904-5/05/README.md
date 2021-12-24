@@ -456,9 +456,412 @@ f({x: 1})     // エラー
 ```
 
 ## 5.6 クラスは値と型の両方を宣言する
+TypeScriptで表現できることの多くは、値か型の「どちらか」です。
 
+```ts
+// 値
+let a = 1999
+function b () {}
 
+// 型
+type a = number
+interface b {
+  (): void
+}
+```
 
+```ts
+// ...
+if (a + 1 > 3) // ... // a を値として使っていることを、TypeScriptは文脈から推論します
+let x: a = 3          // a を型として使っていることを、TypeScriptは文脈から推論します
+```
+
+クラスと列挙型は特別です。それらが独特なのは、型の名前空間の中に型を、値の名前空間の中に値を、両方とも生成するからです。
+
+```ts
+class C {}
+
+let c: C    // 1
+  = new C   // 2
+
+enum E {F, G}
+let e: E    // 3
+  = E.F     // 4
+```
+
+1. この文脈では、`C`は、`C`クラスのインスタンス型を指しています。
+2. この文脈では、`C`は、値である`C`を指しています。
+3. この文脈では、`E`は、列挙型`E`の型を指しています。
+4. この文脈では、`E`は、値である`E`を指しています。
+
+```ts
+type State = {
+  [key: string]: string
+}
+
+class StringDatabase {
+  state: State = {}
+  get (key: string): string | null {
+    return key in this.state ? this.state[key] : null
+  }
+  set (key: string, value: string): void {
+    this.state[key] = value
+  }
+  static from (state: State) {
+    let db = new StringDatebase
+    for (let key in state) {
+      db.set(key, state[key])
+    }
+    return db
+  }
+}
+```
+
+```ts
+interface StringDatabase {
+  state: State
+  get(key: string): string | null
+  set(key: string, value: string): void
+}
+
+interface StringDatabaseConstructor {
+  new(): StringDatabase
+  from (state: State): StringDatabase
+}
+```
+
+引数をとるコンストラクターも宣言することができます。
+```ts
+class StringDatabase {
+  constructor (public state: State = {}) {}
+  // ...
+```
+
+StringDatabaseのコンストラクターシグネチャは、次のように型付けすることができます。
+```ts
+interface StringDatabaseConstructor {
+  new(state?: State): StringDatabase
+  from(state: State): StringDatabase
+}
+```
+
+## 5.7 ポリモーフィズム
+関数や型と同様に、クラスとインターフェースは、（デフォルト型や制限を含めて）ジェネリック型パラメーターを十分にサポートしています。
+```ts
+class MyMap<K, V> { // 1
+  constructor(initialKey: K, initialValue: V) { // 2
+    // ...
+  }
+  get(key: K): V { // 3
+    // ...
+  }
+  set (Key: K, value: V): void {
+    // ...
+  }
+  merge<K1, V1>(map: MyMap<K1, V1>): MyMap<K | K1, V | V1> {  // 4
+    // ...
+  }
+  static of<k: K, v: V>: MyMap<k, V> {  // 5
+    //...
+  }
+}
+```
+
+1. `class`を宣言するときに、クラススコープのジェネリック型をバインドします。この例の`K`と`V`は、`MyMap`のすべてのインスタンスメソッドとインスタンスプロパティで利用できます。
+2. `constructor`の中ではジェネリック型を宣言できないことに注意してください。代わりに、その宣言を`class`の宣言まで引き上げます。
+3. クラススコープのジェネリック型は、クラス内のどこでも使うことができます。
+4. インスタンスメソッドはクラスレベルのジェネリックにアクセスすることができ、そのほかに独自のジェネリックを宣言することができます。`.merge`はクラスレベルのジェネリックと、`K`と`V`を使用し、そのほかに2つの独自のジェネリック、`K1`と`V1`を宣言します。
+5. 静的メソッドは、値レベルではクラスのインスタンス変数にアクセスできませんが、それと同様に、クラスのジェネリックにはアクセスできません。`of`は、1で宣言された`K`と`V`にはアクセスできないので、代わりに、独自のジェネリックの`K`と`V`を宣言します。
+
+インターフェースにもジェネリックをバインドすることができます。
+```ts
+interface MyMap<K, V> {
+  get(key: K): V
+  set(key: K, value: V): void
+}
+```
+関数の場合と同様に、具体的な型をジェネリックに明示的にバインドしたり、あなたの代わりにTypeScriptに推論させたりすることができます。
+```ts
+let a = new MyMap<string, number>('k', 1) // MyMap<string, number>
+let b = new MyMap('K', true) // MyMap<string, boolean>
+
+a.get('k')
+b.set('k', false)
+```
+
+## 5.8 ミックスイン
+ミックスインの実装を作成してみましょう。
+
+- 状態（すなわち、インスタンスプロパティ）を持つことができます。
+- 具象メソッド（抽象メソッドでないもの）だけを提供できます。
+- コンストラクターを持つことができます。コンストラクターは、クラスがミックスされた順序と同じ順序で呼び出されます。
+
+```ts
+class User {
+  //...
+}
+
+User.debug()  // 'User({"id: 3, "name": "Emma Gluzman" })
+```
+
+```ts
+type ClassConstructor = new(...args: any[]) => {}   // 1
+
+function withEZDebug<C extends ClassConstructor>(Class: C) {  // 2
+  return class extends Class {  // 3
+    constructor(...args: any[]) { // 4
+      super(...args)  // 5
+    }
+  }
+}
+```
+
+1. まず、`ClassConstructor`という型を宣言します。これは、任意のコンストラクターを表します。TypeScriptは完全に構造によって型付けされるので、コンストラクターとは`new`できるものであると表現しています。コンストラクターがどのようなパラメーターの型を持つのかわからないので、任意の肩の任意の数の引数を取ると表現しています。
+2. 1つの型パラメーター`C`を使って、`withEZDebug`ミックスインを宣言します。`C`は、少なくともクラスコンストラクターでなければなりません。このことを、`extends`節を使って強制しています。`withEZDebug`の戻り値の型をTypeScriptに推論させます。この戻り値の型は、`C`と新しい無名クラス（匿名クラス）との交差（`&`）になります。
+3. ミックスインは、コンストラクターを取り、コンストラクターを返す関数なので、無名クラスのコンストラクターを返します。
+4. そのクラスコンストラクターは、少なくとも渡されるクラスが取る引数を取る必要があります。しかし、思い出してください。どのようなクラスが渡されるかは事前にわからないので、できるだけ汎用的にする必要があります。つまり、`ClassConstructor`と同様に、任意の型の任意の数のパラメーターにするということです。
+5. この無名クラスは別のクラスを拡張するので、すべてのものを正しく設定するために、`Class`のコンストラクターも忘れずに呼び出します。
+
+```ts
+type ClassConstructor = new(...args: any[]) => {}
+
+function withEZDebug<C extends ClassConstructor>(Class: C) {
+  return class extends Class {
+    dubeg () {
+      let Name = super.constructor.name
+      let value = this.getDebugValue()
+      return Name + '(' + JSON.stringify(value) + ')'
+    }
+  }
+}
+```
+ジェネリック型を使って、`withEZDebug`に渡されるクラスが`.getDebugValue`メソッドを定義していることを強制します。
+
+```ts
+type ClassConstructor<T> = new(...args: any[]) => T // 1
+
+function withEZDebug<C extends ClassConstructor<{
+  getDebugValue(): object
+}>>(Class: C) {
+  //...
+}
+```
+1. `ClassConstructor`にジェネリック型パラメーターを追加します。
+2. ある形状の型を`ClassConstructor`、`C`にバインドし、`withEZDebug`に渡されるコンストラクターが少なくとも`.getDebugValue`メソッドを定義していることを強制します。
+
+```ts
+class HardToDebugUser {
+  constructor(
+    private id: number,
+    private firstName: string,
+    private lastName: string
+  ) {}
+  getDubegValue() {
+    return {
+      id: this.id,
+      name: this.firstName + ' ' + this.lastName
+    }
+  }
+}
+
+let User = withEZDebug(HardToDebugUser)
+let user = new Uesr(3, 'Emma', 'Gluzman')
+user.debug() // 'HardToDebugUser({"id": 3, "name": "Emma Gluzman"})
+```
+
+## 5.9 デコレーター
+
+|TSCフラグ|説明|
+|:-|:-|
+|`experimentalDecorators`|実験的な機能であるデコレーターを有効にする|
+
+```ts
+@serializable
+class APIPayload {
+  getValue(): Payload {
+    // ...
+  }
+}
+```
+もしデコレーターがなければ、同じことを実装するために次のようにしていたでしょう。
+
+```ts
+let APIPayload = serializable(class APIPayload {
+  getValue(): Payload {
+    //...
+  }
+})
+```
+
+|何をデコレートしているか|期待される型シグネチャ|
+|:-|:-|
+|クラス|`(Constructor: {new(...any[]) => any})`|
+|メソッド|`(classPrototype: {}, methodName: string, descriptor: PropertyDescriptor) => any`|
+|静的メソッド|`(Constructor: {new(...any[]) => any}, methodName: string, descriptor: PropertyDescriptor) => any`|
+|メソッドパラメーター|`(classPrototype: {}, paramName: string, index: number) => void`|
+|静的メソッドパラメーター|`(Constructor: {new(...any[]) => any}, paramName: string, index: number) => void`|
+|プロパティ|`(classPrototype: {}, propertyName: string) => any`|
+|静的プロパティ|`(Constructor: {new(...any[]) => any}, propertyName: string) => any`|
+|プロパティのゲッター/セッター|`(classPrototype: {}, propertyName: string, descriptor: PropertyDescriptor) => any`|
+|静的プロパティのゲッター/セッター|`(Constructor: {new(...any[]) => any}, propertyName: string, descriptor: PropertyDescriptor) => any`|
+
+```ts
+type ClassConstroctor<T> = new(...args: any[]) => T // 1
+
+function serializable<
+  T extends ClassConstructor<{
+    getValue(): Payload // 2
+  }>
+>(Constructor: T) { // 3
+  return class extends Constructor {  // 4
+    serialize () {
+      return this.getValue().toString()
+    }
+  }
+}
+```
+
+1. `new()`は、TypeScriptでクラスコンストラクターを構造的に型付けする方法であることを思い出してください。また（`extends`を使って）拡張が可能なクラスコンストラクターについては、TypeScriptは、`any`のスプレッド、`new(...any[])`を使って引数を型付けすることを要求します。
+2. `@serializable`は、`Payload`を返す`.getValue`メソッドを実装するインスタンスを持つ任意のクラスをデコレートすることができます。
+3. クラスデコレーターは、1つの引数 -- クラス -- を取る関数です。（この例のように）デコレーター関数がクラスを返す場合は、（デコレーターが）デコレートしているクラスを実行時に置き換えます。そうでない場合は、元のクラスのままになります。
+4. クラスをデコレートするために、そのクラスを拡張するクラスを作成し、`.serialize`メソッドを追加して返します。
+
+```ts
+let payload = new APIPayload
+let serialized = payload.serialize()  // エラー
+```
+
+#5.10 finalクラスをシミュレートする
+`final`とは、クラスを拡張不可と指定したり、メソッドをオーバーライド不可と指定したりするために、いくつかの言語で使われるキーワードです。<br>
+`final`クラスをTypeScriptでシミュレートするには、プライベートコンストラクターを利用します。
+
+```ts
+class MessageQueue {
+  private constructor(private messages: string[]) {}
+}
+```
+`constructor`が`private`と指定されていると、そのクラスを拡張したり、`new`したりすることができません。
+
+```ts
+class BadQueue extends MessageQueue {} // エラー
+
+new MessageQueue([])  // エラー
+```
+
+`final`クラスに対して私たちが望むのは、それを拡張できなくすることだけで、インスタンス化の機能は残しておく必要があります。
+```ts
+class MessageQueue {
+  private constructor(private message: string[]) {}
+  static create(message: string[]) {
+    return new MessageQueue(messages)
+  }
+}
+```
+
+```ts
+class BadQueue extends MessageQueue {}  // エラー
+
+MessageQueue.create([]) // MessageQueue
+```
+
+## 5.11 デザインパターン
+### 5.11.1 ファクトリーパターン
+靴のファクトリーを作ってみましょう
+```ts
+type Shoe = {
+  purpose: string
+}
+
+class BalletFlat implements Shoe {
+  purpose ='dancing'
+}
+
+class Boot implements Shoe {
+  purpose = 'woodcutting'
+}
+
+class Sneaker implements Shoe {
+  porpose = 'walking'
+}
+```
+`interface`を使うこともできます。
+
+```ts
+let Shoe = {
+  create(type: 'balletFlat' | 'boot' | 'sneaker'): Shoe { // 1
+    switch (type) {  // 2
+      case 'balletFlat': return new BalletFlat
+      case 'boot': return new Boot
+      case 'sneaker': return new Sneaker
+    }
+  }
+}
+
+Shoe.create('boot') // Shoe
+```
+
+1. `type`に対して合併型を使うことは、`.create`をできるだけ型安全にすることに役立ち、コンパイル時に利用者が無効な`type`を渡してしまうのを防ぎます。
+2. `type`について`switch`で分岐すると、私たちが`Shoe`のすべての型を処理し終えたかどうかを、TypeScriptが容易に確認できます。
+
+同じ名前を持つ、`Shoe`という型と`Shoe`という値を宣言しています。<br>
+これは、その型を操作するためのメソッドをその値が提供することを示すための方法です。
+
+### 5.11.2 ビルダーパターン
+ビルダーパターンは、オブジェクトの構築と、そのオブジェクトを実際に実装する方法とを分離するためのものです。
+
+```ts
+new RequestBuilders()
+  .setURL('/Users')
+  .setMethod('get')
+  .setData({ firstName: 'Anna' })
+  .send()
+```
+
+```ts
+class RequestBuilder() {}
+```
+
+```ts
+class RequestBuilder() {
+  private url: string | null = null
+  
+  setURL (url: string): this {
+    this.url = url
+    return this
+  }
+}
+```
+
+```ts
+class RequestBuilder {
+  private date: object | null = null
+  private method: 'get' | 'post' | null = null
+  private url: string | null = null
+  
+  setMethod(method: 'get' | 'post'): this {
+    this.method = method
+    return this
+  }
+  
+  setData(data: object): this {
+    this.data = data
+    return this
+  }
+  
+  setURL(url: string): this {
+    this.url = url
+    return this
+  }
+  
+  send() {
+    // ...
+  }
+}
+```
+
+## 5.12 まとめ
+
+## 5.13 練習問題
 
 
 
