@@ -373,6 +373,305 @@ function isBig (n: number) {
 
 ## 6.3 高度なオブジェクト型
 
+### 6.3.1 オブジェクト型についての型演算子
+#### 6.3.1.1 ルックアップ型
+
+```ts
+type APIResponse = {
+  user: {
+    userId: string
+    friendList: {
+      const: number
+      friends: {
+        firstName: string
+        lastName: string
+      }[]
+    }
+  }
+}
+```
+
+```ts
+function getAPIResponse(): Promise<APIResponse> {
+  // ...
+}
+
+function renderFriendList(friendList: unknown) {
+  // ...
+}
+```
+
+```ts
+type FriendList = {
+  cont: number
+  friends: {
+    firstName: string
+    lastName: string
+  }[]
+}
+
+function renderFriendList (friendList: FriendList) {
+  // ..
+}
+```
+
+
+```ts
+type APIResponse = {
+  user: {
+    userId: string
+    friendList: FriendList
+  }
+}
+
+type FriendList = APIResponse['user']['friendList']
+
+function renderFriendList(friendList: FriendList) {
+  // ...
+}
+```
+
+```ts
+type Friend = FriendList['friends'][number]
+```
+
+#### keyof演算子
+`keyof`を使うと、オブジェクトのすべてのキーを、文字列リテラル型の合併として取得できます。
+
+```ts
+type ResponseKeys = keyof APIResponse // 'user'
+type UserKeys = keyof APIResponse['user'] // 'userId' | 'friendList'
+type FriendListKeys =
+  keyof APIResponse['user']['friendList'] // 'count' | 'friends'
+```
+
+ルックアップ型と`keyof`演算子と組み合わせると、型安全なゲッター関数を実装することができ、オブジェクト内の指定されたキーの値を取得することができます。
+```ts
+function get<
+  O extends object,
+  K extends keyof O
+>(
+  o: O,
+  k: K
+): O[K] {
+  return o[k]
+}
+```
+
+```ts
+type ActivityLog = {
+  lastEvent: Date
+  events: {
+    id: string
+    timestamp: Date
+    type: 'Read' | 'Write'
+  }
+}
+
+let activityLog: ActivityLog = // ...
+let lastEvent = get(activeityLog, 'lastEvent')  // Date
+```
+
+最大で3つのキーまで受け付けるように、`get`をオーバーロードしてみましょう
+```ts
+type Get = {
+  <
+    O extends object,
+    K1 extends keyof O
+  >(o: O, k1: K1): O[K1:
+  <
+    O extends object,
+    K1 extends keyof O,
+    K2 extends keyof O[K1]
+  >(o: O, k1: K1, k2: K2): O[K1][K2]
+  <
+    O extends object,
+    K1 extends keyof O,
+    K2 extends keyof O[K1],
+    K3 extends keyof O[K1][K2]
+  >(o: O, k1: K1, k2: K2, k3: K3): O[K1][K2][K3]
+}
+
+let get: Get = (object: any, ...keys: string[]) => {
+  let result = object
+  keys.forEach(k => result = result[k])
+  return result
+}
+
+get(activityLog, 'events', 0, 'type')  // 'Read' | 'Write'
+
+get(activityLog, 'bad')
+```
+
+|TSCフラグ|説明|
+|:-|:-|
+|`keyofStringsOnly`|キーは文字列でなければならない|
+
+### 6.3.2 レコード型
+
+```ts
+type Weekday = 'Mon' | 'Tue' | 'Wed' | ' Thu' | 'Fri'
+type Day = Weekday | 'Sat' | 'Sun'
+
+let nextDay: Record<Weekday, Day> {
+  Mon: 'Tue'
+}
+```
+
+## 6.3.3 マップ型
+
+```ts
+let nextDay: {[K in Weekday]: Day} = {
+  Mon: 'Tue'
+}
+```
+
+```ts
+type MyMappedType = {
+  [key in UnionType]: ValueType
+}
+```
+
+```ts
+type Record<K extends keyof any, T> {
+  [P in K]: T
+}
+```
+
+```ts
+type Account = {
+  id: number
+  isEmployee: boolean
+  notes: string[]
+}
+
+// 全てのフィールドを省略可能にします
+type OptionalAccount = {
+  [K in keyof Account]?: Account[K]
+}
+
+// すべてのフィールドをnull許容にします
+type NullableAccount = {
+  [K in keyof Account]: Account[K] | null
+}
+
+// すべてのフィールドを右読み取り専用にします
+type ReadonlyAccount = {
+  readonly [K in keyof Account]: Account[K]
+}
+
+// すべてのフィールドを再び書き込み可能にします（Accountど同等）
+type Account2 = {
+  -readonly [K in keyof ReadonlyAccount]: Account[K]
+}
+
+// すべてのフィールドを再び必須にします
+type Account3 = {
+  [K in keyof OptionalAccount]-?: Account[K]
+}
+```
+
+#### 6.3.3.1 組み込みのマップ型
+
+- `Record<Keys, Values>`: Keys型のキーとValues型の値を持つオブジェクト
+- `Partial<Object>`: Object内のすべてのフィールドを省略可能と指定します
+- `Rquired<Object>`: Object内のすべてのフィールドを必須（省略不可）と指定します。
+- `Readonly<Object>`: Object内のすべてのフィールドを読み取り専用と指定します
+- `Pick<Object, Keys>`: 指定されたKeysだけを持つ、Objectのサブタイプを返します。
+
+
+### 6.3.4 コンパニオンオブジェクトパターン
+
+```ts
+type Unit = 'EUR' | 'GBP' | 'JPY' | 'USD'
+
+export type Currency = {
+  unit: Unit
+  value: number
+}
+
+export let Currency = {
+  from (value: number, unit: Unit): Currency {
+    return {
+      unit: unit,
+      value
+    }
+  }
+}
+```
+
+```ts
+import {Currency} from './Currency'
+
+let amountDue: Currency = {
+  unit: 'JPY',
+  value: 83733.10
+}
+
+let otherAmountDue = Currency.from(330, 'EUR')
+```
+
+## 6.4 関数にまつわる高度な型
+
+### 6.4.1 タプルについての型推論の改善
+
+``` ts
+let a = [1, true] // (number | boolean)[]
+```
+
+```ts
+function tuple<
+  T extends unknown[]
+>(
+  ...ts: T
+): T {
+  return ts
+}
+
+let a = tuple(1, true)  // [number, boolean]
+```
+
+### 6.4.2 ユーザー定義型ガード
+
+```ts
+function isString(a: unknown): boolean {
+  return typeof a === 'string'
+}
+
+isString('a') // true
+isString([7]) // false
+```
+
+```ts
+function parseInput(input: string | number) {
+  let formattedInput: string
+  if (isString(input)) {
+    formattedInput = input.toUpperCase()  // ラー
+  }
+}
+```
+
+
+```ts
+// ユーザー定義型ガード
+function isString(a: unknown): a is string {
+  return typeof a === 'string'
+}
+```
+
+```ts
+type LegacyDialog = // ...
+type Dialog = // ...
+
+function isLegacyDialog (
+  dialog: LegacyDialog | Dialog
+): dialog is LegacyDialog {
+  // ...
+}
+```
+
+
+
 
 
 
