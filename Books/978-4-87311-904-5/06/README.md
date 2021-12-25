@@ -94,3 +94,286 @@ clone(crowToBird) // エラー
 |`strictFunctionTypes`|より安全な<b>反変</b>な振る舞いを選択する|
 
 ### 6.1.3 割り当て可能性
+1. A <: B である
+2. Aが`any`である
+
+`enum`または`const enum`のキーワードを使って作成する列挙型については、次のいずれかが真であれば、型Aは列挙型Bに割り当て可能です。
+1. Aが列挙型Bのメンバーである
+2. Bが、`number`であるメンバーを少なくとも1つ持っており、Aが`number`である
+
+### 6.1.4 型の拡大
+ある変数を、後で変更することを許可する方法で（たとえば、`let`や`var`を使って）宣言する場合、
+その変数の型は、そのリテラル値から、そのリテラルが属するベースの型へと拡大されます。
+```ts
+let a = 'x'         // string
+let b = 3           // number
+var c = true        // boolean
+const d = [ x: 3 }  // { x: number }
+
+enum E {X, Y, Z }
+let e = E.X         // E
+```
+イミュータブル（変更不可能）な宣言については、そうではありません。
+```ts
+const a = 'x'       // 'x'
+const b = 3         // 3
+const c = true      // true
+
+enum E {X, Y, Z}
+const e = E.X       // E.X
+```
+明示的な型アノテーションを使うと、型が拡大されるのを防ぐことができます。
+```ts
+let a: 'x' = 'x'      // 'x'
+let b: 3 = 3          // 3
+var c: true = true    // true
+const d: {x: 3} = {x: 3} // {x: 3}
+```
+拡大されない型を、`let`や`var`を使って再割り当てすると、TypeScriptはそれを拡大します。
+その型を狭く保つようにTypeScriptに指示するには、元の宣言に明示的な型アノテーションを追加します。
+```ts
+const a = 'x'     // 'x'
+let b = a         // string
+
+const c: 'x' = 'x'  // 'x'
+let d = c           // 'x'
+```
+
+`null`または`undefeind`に初期化された変数は`any`に拡大されます。
+```ts
+let a = null      // any
+a = 3             // any
+a = 'b'           // any
+```
+
+しかし、`null`または`undefined`に初期化された変数が、それが宣言されたスコープを離れると、TypeSciriptは明確な型をそれに割り当てます。
+```ts
+function x () {
+  let a = null      // any
+  a = 3             // any
+  a = 'b'           // any
+  return a
+}
+
+x()                 // string
+```
+
+##### 6.1.4.1 constアサーション
+
+```ts
+let a = {x: 3}            // {x: number}
+let b: {x: 3}             // {x: 3}
+let c = {x: 3} as const   // {readonly: x: 3}
+```
+
+```ts
+let d = [1, {x: 2}]     // (number | { x: number})[]
+let e = [1, {x: 2}] as const // readonly [1, {readonly x: 2}]
+```
+
+#### 6.1.4.2 過剰プロパティチェック
+```ts
+type Options = {
+  baseURL: string,
+  cacheSize?: number
+  tier?: 'prod' | 'dev'
+}
+
+class API {
+  constructor(private options: Options) {}
+}
+
+new API({
+  baseURL: 'https://ap.mysite.com',
+  tier: 'prod'
+})
+```
+
+ここで、もしスペルミスをしたら、何がおこるでしょうか？
+```ts
+new API({
+  baseURL: 'https://api.mysite.com',
+  tierr: 'prod'                       // エラー
+})
+```
+
+```ts
+type Options = {
+  baseURL: string
+  cacheSize?: number
+  tier?: 'prod' | 'dev'
+}
+
+class API {
+  constructor(private options: Options) {}
+}
+
+new API({
+  baseURL: 'https://api.mysite.com',
+  tier: 'prod'
+})
+
+new API({
+  baseURL: 'https://api.mysite.com',
+  badTier: 'prod'
+})
+
+new API({
+  baseURL: 'https://api.mysite.com',
+  badTier: 'prod'
+} as Options)
+
+let badOptions = {
+  baseURL: 'https://api.mysite.com',
+  badTier: 'prod'
+}
+
+new API(badOptions)
+
+let optiosn: Options = {
+  baseURL: 'https://api.mysite.com',
+  badTier: 'prod'
+}
+new API(options)
+```
+
+### 6.1.5 型の絞り込み
+例を見てみましょう。私たちは、CSSルールをTypeScriptで定義するためのAPIを作成済みであり、同僚がそれを使ってHTML要素の`width`を仮定します。
+```ts
+// 文字列リテラルの合併型を使って、CSSの単位が取り得る値を表現します。
+type Unit = 'cm' | 'px' | '%'
+
+// 単位を列挙します
+let units = Unit[] = ['cm', 'px', '%']
+
+// 各単位をチェックし、一致するものがなければnullを返します
+function parsUnit (value: string): Unit | null {
+  for (let i = 0; i < units.length; i++ {
+    if (value.endWith(units[i]) {
+      return units[i]
+    }
+  }
+  return null
+}
+```
+
+```ts
+type Width = {
+  unit: Units
+  value: number
+}
+
+function parseWidth (width: number | string | null | undefined): Width | null {
+  // widthがnullまたはundefinedであれば、すぐに戻ります
+  if (width == null) {
+    return null
+  }
+  
+  // widthがnumberであれば、ピクセルをデフォルトの単位とします
+  if (typeof width === 'number') {
+    return { unit: 'px': value: width }
+  }
+  
+  // widthから単位を解析します
+  let unit = parseUnit(width)
+  if (unit) {
+    return {unit, value: parseFloat(width)}
+  }
+  
+  // どれでもなければ、nullを返します
+  return null
+}
+```
+
+#### 6.1.5.1 タグ付き合併型
+
+```ts
+type UserTextEvent = { value: string }
+type UserMouseEvent = { value: [number, number] }
+
+type UserEvent = UserTextEvent | UserMouseEvent
+
+function handle (event: UserEvent) {
+  if (typeof event.value === 'string') {
+    event.value // string
+    // ...
+    return
+  }
+  event.value // [number, number]
+}
+
+```
+
+```ts
+type UserTextEvent = { value: string, target: HTMLInputElement }
+type UserMouseEvent = { value: [number, number], target: HTMLElement }
+
+type UserEvent = UserTextEvent | UserMouseEvent
+
+function handle (event: UserEvent) {
+  if (typeof event.value === 'string') {
+    event.value // string
+    event.target // HTMLInputElement | HTMLElement (!!!)
+    // ...
+    return 
+  }
+  event.value // [number, number]
+  event.target  // HTMLInputElement | HTMLElement (!!!)
+}
+```
+
+よいタグとは次のようなものです。
+- 合併型のそれぞれのケースにおいて同じ場所に存在すること。これは、オブジェクト型の合併の場合はオブジェクトフィールドを意味し、タプル型の合併の場合は同じインデックスを意味します。実際には、タグ付けされる合併型は、たいていオブジェクト型を使います。
+- リテラル型として型付けされていること（リテラルの文字列、数値、booleanなど）。さまざまな型のリテラルを混ぜて、それに一致させることもできますが、１つの型（通常は文字列リテラル型）だけを使うのがよいでしょう。
+- ジェネリックでないこと。タグは、ジェネリック型の引数を取るべきではありません。
+- 互いに排他的であること（すなわち、合併型の中で一意であること）
+
+```ts
+type UserTextEvent = { type: 'TextEvent', value: string, target: HTMLInputElement }
+type UserMouseEvent = { type: 'MouseEvent', value: [number, number], target: HTMLElement }
+
+type UserEvent = UserTextEvent | UserMouseEvent
+
+function handle (event: UserEvent) {
+  if (event.type === 'TextEvent') {
+    event.value // string
+    event.target // HTMLInputElement
+    // ...
+    return
+  }
+  event.value   // [number, number]
+  event.target  // HTMLElement
+}
+```
+
+## 6.2 完全性
+
+```ts
+type Weekday = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri'
+type Day = Weekday | 'Sat' | 'Sun'
+
+function getNextDay (w: Weekday): Day {
+  switch (w) {
+    case 'Mon': return 'Tue'
+  }
+}
+```
+
+```ts
+function isBig (n: number) {
+  if (n >= 100) {
+    return true
+  }
+}
+```
+
+|TSCフラグ|説明|
+|:-|:-|
+|`noImplicitReturns`|関数のすべてのコードパス（コードの経路）が値を返すことをチェックする|
+
+## 6.3 高度なオブジェクト型
+
+
+
+
+
