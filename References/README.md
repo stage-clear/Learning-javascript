@@ -9,6 +9,7 @@
 - [WEBA Guide to Browser Scroll Animations](http://developer.telerik.com/featured/guide-browser-scroll-animations/)
 - [CSSの読み込みを遅延させるJavaScriptコード](http://www.notitle-weblog.com/entry/2016/11/10/184826)
 - [Data Structures in JavaScript – With Code Examples](https://www.freecodecamp.org/news/data-structures-in-javascript-with-examples/)
+- [Javascript Data Structures Tutorials Archives](https://learnersbucket.com/tutorials/topics/data-structures/)
 
 ## Functional programing libraries for JavaScript
 - [Underscore.js](http://underscorejs.org/)
