@@ -9,7 +9,7 @@
 - `globalThis` - ブラウザとNode.jsでグローバルオブジェクトを共通化
 - `for-in` - 順序が固定
 - Optional chaining - `A?.B` Aが `null` か `undefined` でないときBを返す
-- Nullish coalescing Operator - 'A ?? B' Aが `null` か `undefined` のときBを返す
+- Nullish coalescing Operator - `A ?? B` Aが `null` か `undefined` のときBを返す
 - `export * as ns from 'mod'`
 
 ## References
