@@ -101,9 +101,8 @@ var animals = animals.method('speak', isA('猫'), say('にゃー'));
 animals.speak({type, '猫'});
 ```
 
-### A.2.4 allong.es
-
-- [allong.es](http://allong.es/)
+### A.2.4 [allong.es](http://allong.es/)
+便利な関数コンビネータを提供します
 
 ```js
 var iterators = require('./allong.es').iterators;
