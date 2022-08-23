@@ -37,9 +37,7 @@ _.frequencies(m);
 //=> {p:2, s:4, i:4, m:1}
 ```
 
-### A.2.2 RxJS
-
-- [RxJS](https://github.com/Reactive-Extensions/RxJS)
+### A.2.2 [RxJS](https://github.com/Reactive-Extensions/RxJS)
 
 ```js
 var codes = [
