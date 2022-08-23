@@ -71,9 +71,7 @@ keyPressStream
   });
 ```
 
-### A.2.3 Bilby
-
-- [Bilby](https://github.com/puffnfresh/bilby.js)
+### A.2.3 [Bilby](http://bilby.brianmckenna.org/)
 
 ```js
 var animals = {
