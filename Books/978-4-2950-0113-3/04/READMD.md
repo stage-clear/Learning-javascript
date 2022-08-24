@@ -80,3 +80,105 @@ function compose (/* fns */) {
 3. 事前に返された値に基づいて以降の関数を繰り返し呼び出す
 
 ⚠️ Ramdaは、誰でも利用できる `R.compose` の実装を提供しているので、この機能を新たに実装する必要はありません。
+
+## 4.6 関数コンビネータを使ってフロー制御を管理する
+
+- identity - 与えられた引数と同じ値を返す
+- tap - tap関数は、自らを関数に渡して、自らを返します
+- alternation - 関数呼び出しに応えて規定の振る舞いを提供する際に、簡単な条件付きロジックを実行する関数
+- sequence - 一連の複数の関数をループするために使用される関数
+- fork (join) - 1個のリソースを2通りの異なる方法で処理して、その結果を結合するのに便利な関数
+
+### 4.6.1 identity （Iコンビネータ）
+```
+identity :: (a) -> a
+```
+
+### 4.6.2 tap （Kコンビネータ）
+```
+tap :: (a -> *) -> a -> a
+```
+
+```js
+const debugLog = _.partial(logger, 'console', 'basic', 'MyLogger', 'DEBUG')
+```
+
+### 4.6.3 alternation (ORコンビネータ）
+
+```js
+const alt = function (func1, func2) {
+  return function (val) {
+    return func1(val) || func2(val)
+  }
+}
+
+// curry関数やラムダを使用して実装する
+const alt = R.curry((func1, func2, val) => func1(val) | func2(val))
+```
+
+
+```js
+const showStudent = R.compose(
+  append('#student-info'),
+  csv,
+  alt(findStudent, createNewStudent)
+)
+
+showStudent('444-44-4444')
+```
+
+### 4.6.4 sequence （Sコンビネータ）
+seqコンビネータは、2個以上の関数を引数にとり、新しい関数を返します。
+新しい関数は、引数で与えられたすべての関数を、同じ値に対して順次実行します。
+
+```js
+const seq = function (/* funcs */) {
+  const funcs = Array.prototype.slice.call(arguments)
+  return function (val) {
+    funcs.forEach(function (fn) {
+      fn(val)
+    })
+  }
+}
+```
+
+```js
+// usecase
+const showStudent = R.compose(
+  seq(
+    append('#student-info'),
+    consoleLog),
+  csv,
+  findStudent)
+```
+
+💡 seqコンビネータは値を返しません。seqコンビネータは、一連の動作を順々に実行するだけです。
+seqコンビネータを合成に追加したい場は、`R.tap`を使用して、その関数を他の関数に橋渡しします。
+
+### 4.6.5 fork(join)コンビネータ
+
+```js
+const fork = function (join, func1, func2) {
+  return function (val) {
+    return join(func1(val), func2(val))
+  }
+}
+```
+
+```js
+// usecase
+const computeAverageGrade = 
+  R.compose(getLetterGrade, fork(R.divide, R.sum, R.length))
+
+computeAverageGrade([90, 80, 89]) // -> 'B'
+```
+
+```js
+// usecase 2
+const eqMedianAverage = fork(R.equals, R.median, R.mean)
+
+eqMedianAverage([80, 90, 89]) // -> true
+eqMedianAverage([81, 90, 100]) // -> false
+```
+
+## 4.7 まとめ
