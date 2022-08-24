@@ -235,3 +235,81 @@ class Nothing extends Maybe {
     return `Maybe.Nothing`)
   }
 }
+```
+
+Maybeは明治的に「null許容」値（nullとundefined）の扱い抽象化します。
+そのため、より重要なことだけを心配すればよくなります。Maybeは基本的に、具象的なモナド構造であるJustとNothingのための包括的な抽象オブジェクトです。
+
+取得結果をMaybe型でラッピングし、さらには該当する関数の名前の先頭に `safe` を追加します。
+
+```js
+// safeFindObject :: DB, string -> Maybe(Object)
+const safeFindObject = R.curry((db, id) => Maybe.fromNullable(find(db, id)))
+
+// safeFindStudent :: String -> Maybe(student)
+const safeFindStudent = safeFindObject(DB('student'))
+
+// address :: safeFindStudent('444-44-4444').map(R.prop('address'))
+address
+// -> Just(Address(...)) またはNothing
+```
+
+フォームの入力フィールドの設定値を参照する例
+```js
+const userName = findStudent('444-44-4444').map(R.prop('firstName'))
+
+document.querySelector('#student-firstname').value =
+  username.getOrElse('Enter first name')
+```
+
+⚠️ オブジェクト指向のコードによくあるアンチパターン
+```js
+function getCountry (student) {
+  const school = student.school()
+  if (school !== null) {
+    const addr = school.address()
+    if ( addr !== null) {
+      return addr.country()
+    }
+  }
+  return 'Country does not exist!'
+}
+// 最悪ですね。関数が 'Country does not exist!' という文字列を返したら、何が失敗したということなのでしょうか
+```
+Maybe構造はこの動作（Nullチェック）を再利用できる形にカプセル化します。
+```js
+const country = R.compose(getCountry, safeFindStudent)
+
+const getCountry = (student) => student
+  .map(R.prop('school'))
+  .map(R.prop('address'))
+  .map(R.prop('country'))
+    .getOrElse('Country does not exist!')
+// どこかで Nothing が発生すると、残りの処理はすべてスキップされる
+```
+
+#### 関数の持ち上げ（function lifting)
+
+```js
+const safeFindObject = R.curry((db, id) =>
+  Maybe.fromNullable(find(db, id)))
+```
+すべての関数にモナドを導入しなければならないということでしょうか？必ずしもそうではありません。
+ここでは__関数の持ち上げ__（function lifting）と呼ばれるテクニックを使用できます。
+
+```js
+const lift = R.curry((f, value) =>
+  Maybe.fromNullable(value).map(f))
+```
+モナドは関数本で直接使用する代わりに、そのまま保持できます。
+```js
+const findObject = R.curry((db, id) => find(db, id))
+```
+そしてliftを使ってこの関数をコンテナに持ち上げます（格納します）
+```js
+const safeFindObject = R.compose(lift(console.log), findObject)
+safeFindObject(DB('student'), '444-44-4444')
+```
+持ち上げはあらゆるモナドに対して、あらゆる関数で動作します。
+
+Maybeは不正なデータを１箇所で管理することに長けているのは明らかですが、失敗の原因を知らせてくれるような、より積極的なソリューションが必要です。
