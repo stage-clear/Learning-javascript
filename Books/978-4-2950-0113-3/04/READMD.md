@@ -64,13 +64,19 @@ __リスト4.8 compose関数の実装__
 function compose (/* fns */) {
   let args = arguments
   let start = args.length - 1
-  return function () {
+  return function () { // 1
     let i = start
-    let result = args[start].apply(this, arguments)
+    let result = args[start].apply(this, arguments) // 2
     while (i--) {
-      result = args[i].call(this, result)
+      result = args[i].call(this, result) // 3
     }
     return result
   }
 }
 ```
+
+1. `compose` の出力は、実際の引数に対して呼び出される別の関数となる
+2. 渡される引数に対して動的に関数を適用
+3. 事前に返された値に基づいて以降の関数を繰り返し呼び出す
+
+⚠️ Ramdaは、誰でも利用できる `R.compose` の実装を提供しているので、この機能を新たに実装する必要はありません。
