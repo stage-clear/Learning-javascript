@@ -1,5 +1,6 @@
 # 第４章　モジュール化によるコードの再利用
 
+__リスト4.2 独自に実装したTupleデータ型__
 ```js
 const Tuple = function (/* types */) {
   const typeInfo = Array.prototype.slice.call(arguments, 0) // 1
@@ -36,4 +37,25 @@ const Status = Tuple(Boolean, String)
 6. 渡された各値がタプル定義の型と正しく一致するかどうか、`checkType()` を使用して検査<br>タプル要素はすべて、 `._n` によって参照されるタプルの属性へ変換。ここでは `n` は（1から始まる）要素のインデックス
 7. タプルインスタンスを不変にする
 8. タプルからすべての値を配列の形で抽出し、分割代入によってこのタプル値を変数にマッピング
+
+__リスト4.3 isValid関数のためにタプルを使用する__
+```js
+// trim :: String -> String
+const trim = (str) => str.replace(/^\s*|\s*$/g, '')
+
+// normalize :: String -> String
+const normalize = (str) => str.replace(/\-/g, '')
+
+// isValid :: String -> String
+const isValid = function (str) {
+  if (str.length === 0) {
+    return new Status(false, // 1
+      'Invalid input. Expected non-empty value!')
+  }
+  else {
+    return new Status(true, 'Success!')
+  }
+```
+
+1. `status`（Boolean型）および `messsage`(String型）の値を保持するStatus型を宣言
 
