@@ -59,3 +59,18 @@ const isValid = function (str) {
 
 1. `status`（Boolean型）および `messsage`(String型）の値を保持するStatus型を宣言
 
+__リスト4.8 compose関数の実装__
+```js
+function compose (/* fns */) {
+  let args = arguments
+  let start = args.length - 1
+  return function () {
+    let i = start
+    let result = args[start].apply(this, arguments)
+    while (i--) {
+      result = args[i].call(this, result)
+    }
+    return result
+  }
+}
+```
