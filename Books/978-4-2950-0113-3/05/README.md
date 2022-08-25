@@ -66,15 +66,15 @@ half(3) // -> Empty
 2. halfは偶数にも半分にし、奇数の場合はEmptyコンテナを返す
 
 モナドに関して、理解すべき2つの重要なコンセプトがあります。
-- __モナド（Monad）__: モナド処理（Monadic operation）の抽象インターフェースを提供する
+- __モナド（Monad）__: モナド処理（_Monadic operation_）の抽象インターフェースを提供する
 - __モナド型（Monadic type）__: モナドインターフェースの実装
 
 モナド型は、処理のチェーン化やその型の関数を入れ子にするとはどのようなことかということを定義します。
 そして、モナド型のすべてが次に挙げるインターフェースに準拠していなければなりません。
 
 - __型コンストラクタ__（型構築子）: モナド型を生成する（Wrapperコンストラクタに類似）
-- __ユニット関数__: ある型の値をモナド構造（Monadic structure）に挿入する（wrapやempty関数に似ている）。モナド内部に実装された場合は、of関数と呼ぶ
-- __バインド関数__: 処理をチェーン化する（flatMapとしても知られている）。本書では以後、ただ `map` と呼ぶ
+- __ユニット関数__: ある型の値をモナド構造（_Monadic structure_）に挿入する（`wrap`や`empty`関数に似ている）。モナド内部に実装された場合は、`of`関数と呼ぶ
+- __バインド関数__: 処理をチェーン化する（`flatMap`としても知られている）。本書では以後、ただ`map`と呼ぶ
 - __ジョイン（結合）処理__: モナド構造のレイヤーを単層に平坦化する。特にモナドを返す関数について複数個合成する際に重要
 
 ```js
@@ -150,7 +150,7 @@ Wrapper.of(Wrapper.of(Wrapper.of('Get Functional'))).join()
 Maybeモナドはnullチェックのロジックを効果的に統合します。Maybe自体は、以下の2つの具象サブタイプを持つただのEmpty型です。
 
 - Just(value): 定義した値をラッピングするコンテナを表す
-- Nothing(): 値を持たないコンテナ、または追加情報の必要がない失敗を表す。Nothingの場合でも、（この場合は存在しない）その値に関数を適用できる
+- Nothing(): 値を持たないコンテナ、または追加情報の必要がない失敗を表す。`Nothing`の場合でも、（この場合は存在しない）その値に関数を適用できる
 
 __リスト5.5 JustおよびNothingの各サブクラスを使ったMaybeモナド__
 ```js
@@ -454,3 +454,94 @@ decode('http%3A%2F%2Fexample.com').map(parse)
 - [Falktale](https://folktale.origamitower.com/)
 
 ### 5.3.2 IOモナドを使用して外部リソースとやり取りする
+
+```js
+IO.of('An unsafe operation').map(alert)
+```
+
+JavaScriptは、常に変化し、共有され、状態を持つDOMを扱うことは避けられません。
+そのため、DOMに対して実行される処理は、読み出しか書き込みかにかかわらず副作用を発生させ、参照透過性に違反します。
+
+```js
+const read = (document, selector) => document.querySelector(selector).innerHTML // 1
+
+const write = (document, selector, val) =>
+  document.querySelector(selector).innerHTML = val // 2
+  return val
+}
+```
+1. 以降の`read`の呼び出しは、異なる結果が生成される可能性がある
+2. 値を返さず、明らかに変異が発生する（安全でない処理）
+
+__リスト5.7 IOモナド__
+```js
+class IO {
+  constructor (effect) {
+    if (!_.isFunction(effect)) { // 1
+      throw 'IO Usage: function required'
+    }
+    this.effect = effect
+  }
+  
+  static of (a) { // 2
+    return new IO(() => a)
+  }
+  
+  static from (fn) { // 3
+    return new IO(fn)
+  }
+  
+  map (fn) {
+    const self = this
+    return new IO(() => fn(self.effect()))
+  }
+  
+  chain (fn) {
+    return fn(this.effect()0)
+  }
+  
+  run () {
+    return this.effect() // 4
+  }
+}
+```
+
+1. IOコンストラクタは（DOMへの読み書きのように）読み書き処理により初期化される。この処理は効果関数（_effect function_）として知られている
+2. 値や関数をIOモナドへ持ち上げるユニット関数
+3. Mapファンクター
+4. 遅延初期化チェーンを排除してIO処理を実行
+
+このIOモナドは、それ以外のモナドとは異なる動作をします。値の代わりに**効果関数**をラッピングしているのです。
+関数は、いうなれば計算されるのを待っている**遅延評価される値**とみなすことができることを思い出してください。
+このモナドにより、DOM処理をまとめてチェーン化して、単一の「疑似的な」参照透過な処理として実行することが可能です。
+
+```js
+const read = (document, selector) =>
+  () => document.querySelector(selector).innerHTML
+
+const write = (document, selector) =>
+  return (val) => {
+    document.querySelector(selector).innerHTML = val
+    return val
+  }
+}
+```
+`document`のたらい回しを避けるために、また楽をするために、これらの関数に`document`を部分適用します。
+```js
+const readDom = _.partial(read, document)
+const writeDom = _.partial(write, document)
+```
+
+`readDom`と`writeDom`はチェーン化可能の関数となり、実行が遅延されます。
+```html
+<div id="student-name">alonze church</div>
+```
+
+```js
+const changeToStartCase =
+  IO.from(readDom('#student-name'))
+    .map(_.startCase) // ->1
+    .map(writeDom('#student-name')
+```
+
+1. 任意の変換処理をマッピングすることが可能
