@@ -313,3 +313,144 @@ safeFindObject(DB('student'), '444-44-4444')
 持ち上げはあらゆるモナドに対して、あらゆる関数で動作します。
 
 Maybeは不正なデータを１箇所で管理することに長けているのは明らかですが、失敗の原因を知らせてくれるような、より積極的なソリューションが必要です。
+そのためのツールがEitherモナドです。
+
+#### Eitherモナドを使って失敗から回復する
+Eitherモナドは、同時に取りえない（排他的な）2つの値aと値bの間の論理的分離を表します。
+
+- __Left(a)__: 起こりうるエラーメッセージや投げる例外オブジェクトを格納
+- __Right(b)__: 成功値を格納
+
+Eitherモナドは一般的に、右側のオペランドに偏った形で実装されます。つまり、コンテナに関数をマッピングする場合は常に Right(a) サブタイプに対して行われます。
+RightはMaybeモナドのJustに相当します。
+
+__リスト5.6 LeftおよびRightのサブクラスを使ったEitherモナド__
+
+```js
+class Either {
+  constructor (value) {
+    this._value = value
+  }
+  get value () {
+    return this._value
+  }
+  static left (a) {
+    return new Left(a)
+  }
+  static right (a) {
+    return new Right(a)
+  }
+  static fromNullable (val) {
+    return val !== null && val !== undefined ? Either.right(val) : Either.left(val)
+  }
+  static of (a) {
+    return Either.right(a)
+  }
+}
+
+class Left extends Either {
+  map (_) {
+    return this
+  }
+  get value () {
+    return throw new TypeError("Can't extract the value of a Left(a).")
+  }
+  getOrElse (other) {
+    return other
+  }
+  orElse (f) {
+    return other
+  }
+  chain (f) {
+    return this
+  }
+  getOrElseThrow (a) {
+    throw new Error(a)
+  }
+  filter (f) {
+    return this
+  }
+  toString () {
+    return `Either.Left(${this._value})`)
+  }
+}
+
+class Right extends Either {
+  map (f) {
+    return Either.of(f(this._value))
+  }
+  get value () {
+    return this._value
+  }
+  getOrElse (other) {
+    return this._value
+  }
+  orElse (_) {
+    return this
+  }
+  chain (f) {
+    return f(this._value)
+  }
+  getOrElseThrow (_) {
+    return this.value
+  }
+  filter (f) {
+    return Either.fromNullable(f(this._value) ? this._value : null)
+  }
+  toString () {
+    return `Either.Right(${this._value})`
+  }
+}
+```
+
+MaybeとEitherは両方とも、何も行わない処理をいくつか持っていることに注目してください。
+これは意図的なもので、特化したモナドが適切と判断する場合、関数の実行を安全にスキップできるようにするためのプレースホルダーです。
+
+```js
+const safeFindObject = R.curry((db, id) => {
+  const obj = find(db, id)
+  if (obj) {
+    return Either.of(obj) // 1
+  }
+  return Either.left(`Object not found with ID: ${id}`) // 2
+})
+```
+
+```js
+const findStudent = safeFindObject(DB('student'))
+findStudent('444-44-4444').getOrElse(new Student())
+// -> Student（あるいはObject）
+```
+Maybe.Nothingと異なり、Either.Leftは値を格納できます。
+```js
+const errorLogger = _.partial(logger, 'console', 'basic', 'MyErrorLogger', 'ERROR')
+findStudent('444-44-4444').orElse(errorLogger)
+
+// MyErrorLogger [ERROR] Student not found with ID: 444-44-4444
+```
+
+
+```js
+function decode (url) {
+  try {
+    const result = decodeURIComponent(url)
+    return Either.of(result)
+  catch (uriError) {
+    return Either.Left(uriError) // 慣例的にEither.Leftにはエラーオブジェクトが格納されます
+  }
+}
+```
+```js
+const parse = (url) => url.parseUrl() // 1
+decode('%').map(parse)
+//-> Left(Error('URI malformed')
+decode('http%3A%2F%2Fexample.com').map(parse)
+//-> Right(true)
+```
+1. parseUrl() は4.4.1で定義
+
+#### 参考にすべき関数型プログラミングプロジェクト
+- [Fantasy Land](https://github.com/fantasyland/)
+- [Falktale](https://folktale.origamitower.com/)
+
+### 5.3.2 IOモナドを使用して外部リソースとやり取りする
