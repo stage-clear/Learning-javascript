@@ -249,3 +249,109 @@ var IO = {
   },
 }
 ```
+
+__リスト7.96 IOモナドの補助関数__
+```js
+var IO = {
+  // done:: T => IO[T]
+  done: (any) => {
+    return IO.unit()
+  },
+  // run:: IO[A] => A
+  run: (instanceM) => {
+    return (world) => {
+      // IOアクションを現在の外界に適用し、結果のみを返す
+      return pair.left(instanceM(world))
+    }
+  },
+}
+```
+
+IOモナドを用いて副作用を実行するには、その処理はIOモナドののインスタンスであるIOアクションでなければなりません。
+
+__リスト 7.97 IOアクションへの変換__
+```js
+var IO = {
+  // readFile:: STRING => IO[STRING]
+  // readFile関数は、pathで指定されたファイルを読み込むIOアクション
+  readFile: (path) => {
+    return (world) { // 外界を引数とする
+      var fs = require('fs')
+      var content = fs.readFileSync(path, 'utf8')
+      return IO.unit(content)(world) // 外界を渡してIOアクションを返す
+    }
+  },
+  // printIn:: STRING => IO[]
+  // printIn関数は、messageで指定された文字列をコンソール画面に出力するIOアクション
+  printIn: (message) => {
+    return (world) => { // IOモナドを返す
+      console.log(message)
+      return IO.unit(null)(world)
+    }
+  }
+}
+```
+
+IOアクションは、run関数に初期の外界を与えて実行します。
+
+__リスト 7.98 run関数の利用法__
+```js
+// 初期の外界にnullをバインドする
+var initialWorld = null
+expect(
+  IO.run(IO.printIn('吾輩は猫である'))(initialWorld)
+).to.eql(null)
+```
+
+外界はコンピュータにとっては全く未知の領域であり、それを表現するすべはありません。
+どんな値でも構わないのであれば、変数`world`は具体的に指定しなくても問題ありません。
+
+
+__リスト 7.99 外界を明示しないIOモナドの定義__
+```js
+var IO = {
+  // unit:: T => IO[T]
+  unit: (any) => {
+    return (_) => { // 外界を指定しない
+      return any // 値だけを返す
+    }
+  },
+  // flatMap:: IO[A] => FUN[A => IO[B]] => IO[B]
+  flatMap: (instanceA) => {
+    return (actionAB) => { // actionAB:: A -> IO[B]
+      // instanceAのIOアクションを実行し、続いて actionAB を実行する
+      return actionAB(IO.run(instanceA))
+    }
+  },
+  // done:: T => IO[T]
+  done: (any) => {
+    return IO.unit()
+  },
+  // run:: IO[A] => A
+  run: (instance) => {
+    return instance()
+  },
+  // readFile:: STRING => IO[STRING]
+  readFIle: (path) => {
+    var fs = require('fs')
+    return IO.unit(fs.readFileSync(path, 'utf8'))
+  },
+  // printIn:: STRING => IO[]
+  printIn: (message) => {
+    console.log(message)
+    return IO.unit()
+  },
+}
+```
+
+```js
+expect(
+  // 外界を指定するひつようはありません
+  IO.run(IO.printIn('名前はまだない'))
+).to.eql(null)
+```
+
+### IOアクションを合成する
+
+      
+
