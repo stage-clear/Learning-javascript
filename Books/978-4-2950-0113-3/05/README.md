@@ -545,3 +545,138 @@ const changeToStartCase =
 ```
 
 1. 任意の変換処理をマッピングすることが可能
+
+モナドを利用する利点は、純粋関数によって強制される要求事項が遵守されることです。
+
+```js
+changeToStartCase.run()
+```
+
+IOモナドの最も重要な利点は、純粋な部分から不純な部分を明確に分離することです。
+`changeToStartCase`の定義からもわかりますが、IOコンテナとマッピングする変換関数は、DOMへの読み書きのロジックからは完全に分離しています。
+HTML要素の内容を必要に応じて変更することが可能です。また、一度にすべてが実行されるので、読み書きの実行中には他の処理が発生しないことが保証されており、予測不可能な結果を招く可能性はなくなります。
+
+## 5.4 モナドチェーンと合成
+
+本書では、関数型プログラミングで関数を合成する方法を2つ紹介しました。
+つまり、`chain`と`compose`です。
+
+__リスト5.8 Eitherモナドを使用するように関数をリファクタリングする__
+```js
+// validLength :: Number, String -> Boolean
+const validLength = (len, str) => str.length === len
+
+// checkLengthSsn :: String -> Either(String)
+const checkLengthSsn = ssn => // 1
+  validLength(0, ssn) ? Eigher.right(ssn) : Eigher.left('Invalid SSN')
+
+// safeFindObject :: Store, String -> Either(Object)
+const safeFiindObject = R.curry((db, id) => { // 1
+  const val = find(db, id)
+  return val ? Either.right(val) : Either.left(`Object not foundwith ID: ${id}`)
+})
+
+// findStudent :: String -> Either(Student)
+findStudent = sefeFindObject(DB('students')
+
+// csv :: Array => String
+const csv = arr => arr.join(',') // 2
+```
+
+1. この関数をEitherモナドに持ち上げる代わりに、モナドを直接利用することで、エラーに応じて特定のエラーメッセージを提供することが可能
+2. リファクタリングされたcsv関数は、値の配列から文字列を返す
+
+```js
+const debugLog = _.partial(logger, 'console', 'basic', 'Monad Example', 'TRACE')
+
+const errorLog = _.partial(logger, 'console', 'basic', 'Monad Example', 'ERROR')
+
+const trace = R.curry((msg, val) => debugLog(msg + ':' + val))
+```
+
+今度は、EitherおよびMaybeを利用して `showStudent`関数に自動エラー処理を追加する方法を以下に示します。
+
+__リスト5.9 自動エラー処理にモナドを利用した showStudent 関数__
+```js
+const showStudent = (ssn) => // 1
+  Maybe.fromNullable(ssn)
+    .map(cleanInput)
+    .chain(checkLengthSsn)
+    .chain(findStudent)
+    .map(R.props(['ssn', 'firstname', 'lastname'])) // 2
+    .map(csv)
+    .map(append('#student-info'))
+```
+1. `map`および`chain`メソッドを使用して、モナド内の値を変換することができる。`map`はモナドを返す。これにより、入れ子の回避や構造の平坦化をする必要がなくなり、`map`と`chain`を混在させて、呼び出し処理の間は単一のモナドのレベルを保持することができる
+2. オブジェクトから選択されたプロパティを配列の形で抽出する
+
+
+EitherとMaybeのモナドが割り込んでシームレスに処理を行う様子にも注目してください。
+これは、EitherとMaybeが同じモナドインターフェースを実装しているからです。
+```js
+showStudent('444-44-4444').orElse(errorLog)
+```
+
+チェーン化の他にもパターンは存在します。合成を使って、エラー処理ロジックを簡単に導入することが可能です。
+このロジックを実現するには、シンプルなオブジェクト指向から関数型への変換を行います。
+この変換は、モナドメソッドを関数に変換します。変換された関数は（[リスコフの置換原則](https://bit.ly/3PZ3Rua)から得られる）任意のモナド型に対して異なる振る舞いを実現します。
+
+__リスト5.10 コンテナで動作する汎用的な`map`および`chain`の関数__
+```js
+// map :: (ObjectA -> ObjectB), Monad(ObjectA) -> Monad(ObjectB)
+const map = R.curry((f, container) => container.map(f))
+
+// chain :: (ObjectA -> ObjectB), Monad(ObjectA) -> ObjectB
+const chain = R.curry((f, container) => container.chain(f))
+```
+
+リスト5.11のコードは、リスト5.9と同様の結果を生成します。モナドはある式から次の式にデータが流れる方法を制御するので、このスタイルのコーディングは、**プログラム可能なカンマ（_programmable comma_）**、あるいはポイントフリーとも呼ばれます。
+
+__リスト5.11 モナドとプログラム可能なカンマ__
+```js
+const showStudent = R.compose(
+  R.tap(trace('Student added to HTML page'),
+  map(append('#student-info')),
+  R.tap(trace('Student info vonberted to CSV')),
+  map(csv),
+  map(R.props(['ssn', 'firstname', 'lastname'])),
+  R.tap(trace('Record fetched successfully!')),
+  chain(findStudent),
+  R.tap(trace('Input was valid')),
+  chain(checkLengthSsn),
+  lift(cleanInput))
+```
+
+```js
+map(append('#student-info'))
+```
+a`append`は自動的なカリー化機能を有しているので、IOを使ってうまく機能します。
+この時点では、「まず`csv`から持ち上げる」「次に`IO.of`を使用して、`R.identity`をIOにマップしてその内容を抽出する」「さらに両方の処理をチェーン化する」ということだけでよいのです。
+
+```js
+const liftIO = function (val) {
+  return IO.of(val)
+}
+```
+
+__リスト5.12 `showStudent`プログラムを完成させる__
+```js
+const getOrElse = R.curry((message, container) => container.getOrElse(message))
+
+const showStudent = R.compose(
+  map(append('#student-info')),
+  liftIO,
+  getOrElse('unable to find student'),
+  map(csv),
+  map(R.props(['ssn', 'firstname', 'lastname'])),
+  chain(findStudent),
+  chain(checkLengthSsn),
+  lift(clearnInput)
+)
+
+// データをIOモナドに持ち上げたので、次はその（クロージャ）内に遅延して含まれるデータに対して、`run`関数を呼び出します。
+showStudent(studentId).run()
+```
+
+## 5.5 まとめ
+
