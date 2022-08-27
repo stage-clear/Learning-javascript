@@ -49,5 +49,203 @@ var ID = {
 expect(
   ID.unit(1)
 ).to.eql(1)
+
+// flatMap関数のテスト
+expect(
+  ID.flatMap(ID.unit(1))((one) => {
+    return ID.unit(succ(one))
+  })
+).to.eql(succ(1))
+
+// flatMapと関数合成の類似性
+expect(
+  ID.flatMap(ID.unit(1))(one) => {
+    return ID.flatMap(ID.unit(succ(one)))(two) => {
+      retur ID.unit(double(two))
+    })
+  })
+).to.eql(compose(double.succ)(1))
 ```
 
+```js
+// 以下の設定で恒等モナド則をテストする
+var instanceM = ID.unit(1)
+
+var f = (n) => {
+  return ID.unit(n + 1)
+}
+
+var g = (n) => {
+  return ID.unit(-n)
+}
+
+// 右単位元則
+expect(
+  ID.flatMap(instanceM)(ID.unit)
+).to.eql(instanceM)
+
+// 左単位元則
+expect(
+  ID.flatMap(ID.unit(1))(f)
+).to.eql(f(1))
+
+// 結合法則
+expect(
+  ID.flatMap(ID.flatMap(instanceM)(f))(g)
+).to.eql(
+  ID.flatMap(instanceM)((x) => {
+    return ID.flatMap(f(x))(g)
+  })
+)
+```
+
+## Maybiモナドでエラーを処理する
+
+```js
+var head = (alist) => {
+  return list.match(alist, {
+    empty: (_) => {
+      return null // 空のリストに先頭要素はない
+    },
+    cons: (head, tail) => {
+      return head
+    }
+  })
+}
+```
+
+__リスト7.91 Maybeの代数的構造__
+```js
+var maybe = {
+  match: (exp, pattern) => {
+    return exp.call(pattern, pattern)
+  },
+  just: (value) => {
+    return (pattern) => {
+      return pattern.just(value)
+    }
+  },
+  nothing: (_) => {
+    return (pattern) => {
+      return pattern.nothing(_)
+    }
+  }
+}
+```
+
+__リスト7.92 Maybeモナドの定義__
+```js
+var MAYBE = {
+  // unit:: T => MAYBE[T]
+  unit: (value) => {
+    return maybe.just(value)
+  },
+  // flatMap:: MAYBE[T] => FUN[T => MAYBE[U]] => MAYBE[U]
+  flatMap: (instanceM) => {
+    return (transform) => {
+      return maybe.match(instanceM, {
+        just: (value) => {
+          return transform(value)
+        },
+        nothing: (_) => {
+          return maybe.nothing()
+        }
+      })
+    }
+  },
+  // ヘルパー関数
+  getOrElse: (instanceM) => {
+    return (alternate) => {
+      return maybe.match(instanceM, {
+        just: (value) => {
+          return value
+        },
+        nothing: (_) => {
+          return alternate
+        }
+      })
+    }
+  },
+}
+```
+
+__リスト7.93 Maybeモナドの利用法__
+```js
+// 足し算を定義する
+var add = (maybeA, maybeB) => {
+  return MAYBE.flatMap(maybeA)((a) => {
+    return MAYBE.flatMap(maybeB)(b) => {
+      return MAYBE.unit(a + b)
+    })
+  })
+}
+
+var justOne = maybe.just(1)
+var justTwo = maybe.just(2)
+
+expect(
+  MAYBE.getOrElse(add(justOne, maybe.nothing()))(null)
+).to.eql(2)
+
+expect(
+  MAYBE.getOrElse(add(justOne, maybe.nothing()))(null)
+).to.eql(null)
+```
+
+## IOモナドで副作用を閉じ込める
+### IOモナドの仕組み
+`FUN{WORLD => PAIR[T, WORLD]]`
+
+__リスト 7.94 Pair型の定義__
+```js
+var pair = {
+  // pairの代数的データ構造
+  cons: (left, right) => {
+    return (pattern) => {
+      return pattern.cons(left, right)
+    }
+  },
+  match: (data, pattern) => {
+    return data(pattern)
+  },
+  // ペアの右側を取得する
+  right: (tuple) => {
+    return this.match(tuple, {
+      cons: (left, right) => {
+        return right
+      }
+    })
+  }
+  // ペアの左側を取得する
+  left: (tuple) => {
+    return this.match(tuple, {
+      cons: (left, right) => {
+        return left
+      }
+    })
+  }
+}
+```
+
+__リスト 7.95 外界を明示したIOモナドの定義__
+```js
+var IO = {
+  // unit:: T => IO[t]
+  unit: (any) => {
+    return (world) => { // 引数 world は現在の外界
+      return pair.cons(any, world)
+    }
+  },
+  // flatMap:: IO[A] => (A => IO[B]) => IO[B]
+  flatMap: (instanceA) => {
+    return (actionAB) => { // actionAB:: A -> IO[B]
+      // 現在の外界のなかで instanceA のIOアクションを実行する
+      var newPair = instanceA(world)
+      return pair.match(newPair, {
+        // 新しい外界のなかで actionAB(value) で作られたIOアクションを実行する
+        return actionAB(value)(newWorld)
+      })
+    }
+  },
+}
+```
