@@ -353,5 +353,115 @@ expect(
 
 ### IOアクションを合成する
 
-      
+まずコンソール画面に1文字だけ出力する`putChar`関数を定義し、それを合成して文字列を出力する`putStr`関数を作るという方針にします。
+
+__リスト7.101 putChar関数の定義__
+```js
+var IO = {
+  // IO.putChar:: CHAR => IO[]
+  // putChar関数は1文字を出力する
+  putChar: (character) => {
+    // 1文字だけ画面に出力する
+    process.stdout.write(character)
+    return IO.unit(null)
+  },
+}
+```
+
+`putChar`アクションをもとにして、文字列を出力する`putStr`アクションを定義します。
+その前提として、`seq`関数を定義しておきます。`seq`関数は、2つのIOアクションを続けて実行します。
+
+__リスト7.102 seq関数の定義__
+```js
+var IO = {
+  // seq関数は、2つのIOアクションを続けて実行する
+  // IO.seq:: IO[T] => IO[T] => IO[U]
+  seq: (actionA) => {
+    return (actionB) => {
+      return IO.unit(IO.run(IO.flatMap(actionA)((_) => {
+        return IO.flatMap(actionB)(_) => {
+          return IO.done()
+        })
+      })))
+    }
+  },
+}
+```
+
+`putStr`は文字列を受け取るのではなく、文字のリストを受け取るようにします。
+そのため、文字列用モジュールを定義し、文字列を文字のリストに変換する`toList`関数を定義しておきます。
+
+__リスト 7.103 stringモジュール__
+```js
+var string = {
+  // 先頭文字を取得する
+  head: (str) => {
+    return str[0]
+  },
+  // 後尾文字列を取得する
+  tail: (str) => {
+    return str.substring(1)
+  },
+  // 空の文字列かどうかを判定する
+  isEmpty: (str) => {
+    return str.length === 0
+  },
+  // 文字列を文字のリストに変換する
+  toList: (str) => {
+    if (string.isEmpty(str))  {
+      return list.empty()
+    } else {
+      list.cons(string.head(str), string.toList(string.tail(str)))
+    }
+  }
+}
+```
+
+__リスト 7.104 putStr関数__
+```js
+{
+  //...
+  // IO.putStr:: LIST[CHAR] => IO[]
+  // putStr関数は、文字のリストを連続して出力する
+  putStr: (alist) => {
+    return list.match(alist, {
+      empty: () => {
+        return IO.done()
+      },
+      cons: (head, tail) => {
+        return IO.seq(IO.putChar(head))(IO.putStr(tail))
+      }
+    })
+  },
+}
+```
+
+__リスト 7.105 putStr関数とputStrLn関数__
+```js
+{
+  //...
+  // IO.putStrLn:: LIST[CHAR] => IO[]
+  // putStrLn関羽右派文字列を出力し、最後に改行を出力する
+  putStrLn: (alist) => {
+    return IO.seq(IO.putStr(alist))(IO.putChar('\n'))
+  },
+}
+```
+
+__リスト 7.106 ファイルの内容を画面に出力するプログラム__
+```js
+var path = process.argv[2]
+
+// ファイルを content に読み込む
+var cat = IO.flatMap(IO.readFile(path))((content) => {
+  // 文字列を文字のリストに変換しておく
+  var string_as_list = string.toList(content)
+  // putStrLnでコンソール画面に出力する
+  return IO.flatMap(IO.putStrLn(string_as_list))((_) => {
+    return IO.done(_)
+  })
+})
+
+IO.run(cat) // 合成されたアクションを実行する
+```
 
