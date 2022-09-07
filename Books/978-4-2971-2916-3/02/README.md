@@ -263,3 +263,171 @@ type 型名 = 型
 
 type Name = string
 ```
+
+```ts
+type Point = {
+  x: number;
+  y: number;
+}
+
+function printPoint(point: Point) {
+  console.log(`x座標は ${point.x}です`)
+  consolo.log(`y座標は ${point.y}です`)
+}
+
+printPoint({x: 100, y: 100})
+```
+
+```ts
+type Formatter = (a: string) => string
+
+function printName(firstName: string, formatter: Formatter) {
+  console.log(formatter(firstName))
+}
+```
+
+```ts
+{ []: 型名 }
+```
+
+```ts
+type Label = {
+  [key: string]: string
+}
+```
+
+```
+const labels: Label = {
+  topTitie: 'トップページのタイトルです',
+  topSubTitle: 'トップページのサブタイトルです',
+  topFeature1: 'トップページの機能1です',
+  topFeature2: 'トップページの機能2です',
+}
+
+const hoge: Label = {
+  message: 100
+}
+```
+
+### 2.3.4 インターフェース
+```ts
+interface 型名 {
+  プロパティ1: 型1;
+  プロパティ2: 型2;
+}
+```
+
+```ts
+interface Point {
+  x: number;
+  y: number;
+}
+
+function printPoint(point: Point) {
+  console.log(`x座標は${point.x}です`)
+  console.log(`y座標は${point.y}です`)
+  console.log(`z座標は${point.z}です`)
+}
+
+interface Point {
+  z: number;
+}
+
+// Error: 引数にzがない
+printPoint({x: 100, y: 100})
+
+// 問題なく動作します
+printPoint({x: 100, y: 100, z: 200})
+```
+
+```ts
+interface Point {
+  x: number;
+  y: number;
+  z: number;
+}
+
+// Error: zが存在しない
+class MyPoint implements Point {
+  x: number;
+  y: number;
+}
+```
+
+プロパティの定義に`?`を使用すると、オプショナルなプロパティになります。
+```ts
+interface Point {
+  x: number;
+  y: number;
+  z?: number;
+}
+
+// Errorはありません
+class MyPoint implements Point {
+  x: number;
+  y: number;
+}
+```
+
+`extends`を使ってほかのインターフェースを拡張可能です。
+```ts
+interface Colorful {
+  color: string;
+}
+
+interface Circle {
+  radius: number;
+}
+
+interface ColorfulCircle extends Colorful, Circle {}
+
+const cc: ColorfulCircle = {
+  color: '赤',
+  radius: 10
+}
+```
+
+### 2.3.5 クラス
+```ts
+class クラス名 {
+  フィールド1: 型1;
+  フィールド2: 型2;
+  // ...
+}
+
+class Point {
+  x: number;
+  y: number;
+  
+  // 引数がない場合の初期値を指定
+  constructor (x: number = 0, y: number = 0) {
+    this.x = x
+    this.y = y
+  }
+
+  // 戻り値がない関数を定義するために void を指定します
+  moveX (n: number): void {
+    this.x += n
+  }
+  
+  moveY (n: number): void {
+    this.y += n
+  }
+}
+
+const point = new Point()
+point.moveX(10)
+console.log(`${point.x}`, ${point.y}`) // 10, 0
+```
+
+クラスは `extends`を用いてクラスを継承できます
+```ts
+class Point3D extends Point {
+  z: number;
+  
+  constructor (x: number=0, y: number=0, z: number=0) {
+    this.x = x
+    this.y = y
+    this.z = z
+  }
+```
