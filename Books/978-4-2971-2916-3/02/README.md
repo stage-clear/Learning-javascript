@@ -681,3 +681,72 @@ function compare (a: string, b: string): -1|0|1 {
 ```
 
 ### 2.4.5 never型
+never型は、決して発生しない値の種類を表します
+
+```ts
+// エラーが常に変えるような関数で決して値が正常に返らない場合にnever型を指定します
+function error (message: string): never {
+  throw new Error(message)
+}
+
+function foo (x: string | number | number[]): boolean {
+  if (typeof x === 'string') {
+    return true
+  } else if (typeof x === 'number') {
+    return false
+  }
+  
+  // never を利用することで明示的に値が返らないことをコンパイラに伝えることができます
+  // never を使用しないと TypeScriptはコンパイルエラーになります
+  return error('Never happens')
+```
+
+```
+// 将来的にも定数が追加される可能性のある enum 型を定義します
+enum PageType {
+  ViewProfile,
+  EditProfile,
+  ChangePassword
+}
+
+const getTitleText = (type: PageType) => {
+  switch (type) {
+    case PageType.ViewProfile:
+      return 'Setting'
+    case PageType.EditProfile
+      return 'Edit Profile'
+    case PageType.ChangePassword
+      return 'Change Password'
+    default:
+      // 決して起きないことをコンパイラに伝える never型に代入を行います
+      // これによって仮に将来PageTypeのenum型に定数が新規で追加された際に
+      // コンパイル時にエラーが起きるためバグを未然に防ぐ対応を行うことができます
+      const wrontType: never = type
+      throw new Error(`${wrontType} is not in PageType`)
+  }
+}
+```
+
+## 2.5 TypeScriptのテクニック
+### 2.5.1 Optional Chaining
+ネストされたオブジェクトのプロパティが存在するかどうかの条件分岐を簡単に記述できる
+
+```ts
+// nullになり得るsocialというプロパティの型を定義します
+interface User {
+  name: string
+  social?: {
+    facebook: boolean
+    twitter: boolean
+  }
+}
+
+let user: User
+
+user = { name: 'Takuya', social: { facebook: true, twitter: true }}
+console.log(user.social?.facebook) // true
+
+user = { name: 'Takuya' }
+console.log(user.social?.facebook) // 実行時エラーになりません
+```
+
