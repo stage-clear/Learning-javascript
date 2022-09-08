@@ -426,8 +426,258 @@ class Point3D extends Point {
   z: number;
   
   constructor (x: number=0, y: number=0, z: number=0) {
-    this.x = x
-    this.y = y
+    // 継承元のコンストラクタを呼び出す
+    super(x, y)
     this.z = z
   }
+  
+  moveZ (n: number): void {
+    this.z += n
+  }
+}
+
+const point3D = new Point3D()
+// 継承元のメソッドを呼び出すことができます
+point3D.moveX(10)
+point3D.moveZ(20)
+console.log(`${point3D.x}, ${point3D.y}, ${point3D.z}`)
 ```
+
+```ts
+interface IUser {
+  name: string;
+  age: number;
+  sayHello: () => string; // 引数なしで文字列を返す
+}
+
+class User implements IUser {
+  name: string;
+  age: number;
+  
+  constructor () {
+    this.name = ''
+    this.age = 0
+  }
+  
+  // インターフェースに定義されているメソッドを実装しない場合
+  // コンパイル時エラーになります
+  sayHello (): string {
+    return `こんにちは、私は${this.name}、${this.age}歳です。`)
+  }
+}
+
+const user = new User()
+user.name = 'Takuya'
+user.age = 36
+console.log(user.sayHello())
+```
+
+#### アクセス修飾子
+`public` `private` `protected`
+
+```ts
+classs BasePoint3D {
+  public x: number;
+  private y: number;
+  protected z: number;
+}
+
+// インスタンス化を行った場合のアクセス制御の例です
+const basePoint = new BasePoint3D()
+basePoint.x // OK
+basePoint.y // コンパイル時にエラー: privateであるためアクセスできません
+basePoint.z // コンパイル時にエラー: protectedもアクセスできませんん
+
+// クラスを継承した際のアクセス制御
+class ChildPoint extends BasePoint3D {
+  constructor () {
+    super()
+    this.x // OK
+    this.y // コンパイル時エラー: privateであるためアクセスできません
+    this.z // protectedはアクセスできます
+  }
+}
+```
+
+## 2.4 実際の開発で重要な型
+### 2.4.1 Enum型
+Enumを利用することで、**名前のついた定数セット**を定義できます。
+
+```ts
+const Direction = {
+  'Up': 0,
+  'Down': 1, 
+  'Left': 2,
+  'Right': 3
+}
+```
+Enumがあると、列挙した値以外を代入できない型を定義できます。
+```ts
+enum Direction {
+  Up,
+  Down,
+  Left,
+  Right
+}
+
+// enum Directionを参照
+let direction: Direction = Direction.Left
+// 2という数字が出力されます
+console.log(direction)
+
+// enumを代入した変数に別の型を代入しようとするとエラーになります
+direction = 'Left' // Error
+```
+
+特に指定しなかった場合、Enumは定義された順番に沿ってゼロから数字が自動的にインクリメントされて設定されます。
+
+```ts
+enum Direction {
+  Up = 'UP',
+  Down = 'DOWN',
+  Left = 'LEFT',
+  Right = 'RIGHT'
+}
+
+// たとえばAPIのパラメータとして文字列が渡されたケースを想定します
+const value = 'DOWN'
+// 文字列からEnum型に変換しまうs
+const enumValue = value as Direction
+
+if (enumValue === Direction.Down) {
+  console.log('Down is selected')
+}
+
+```
+
+### 2.4.2 ジェネリック型
+ジェネリックとは、クラスや関数において、その中で使う型を抽象化し外部から具体的な型を指定できる機能です。
+
+```ts
+// Tはクラス内で利用する仮の型の名前です
+class Queue<T> {
+  // 内部にTの型の配列を初期化します
+  private array: T[] = []
+  
+  // Tの型の値を配列に追加します
+  push (item: T) {
+    this.array.push(item)
+  }
+  
+  // Tの型の配列最初の値を取り出します
+  pop (): T | undefined {
+    return this.array.shift()
+  }
+}
+
+const queue = new Queue<number>()
+queue.push(111)
+queue.push(112)
+queue.push('hoge') // コンパイル時エラー:
+
+let str = 'fuga'
+str = queue.pop() // コンパイル時エラー:
+```
+
+### 2.4.3 Union型とIntersection型
+TypeScriptの型は組み合わせて利用できます。
+少し複雑な表現をしたい際に、指定した複数の型の和集合を意味するUnion型と積集合を意味するIntersection型というものがあります。
+
+```ts
+// 変数や引数の宣言時にUnion型を指定して、numberもしくはstringを受け付けることができます
+function printId (id: number | string) {
+  console.log(id)
+}
+
+// numberでも正常に動作します
+printId(11)
+
+// stringでも正常に動作します
+printId('22')
+```
+
+これを型エイリアスとして定義できます
+
+```ts
+type Id = number | string
+
+function printId (id: Id) {
+  console.log(id)
+}
+```
+
+型エイリアスどうしを掛け合わせて新たな型を定義できます
+```ts
+type Identity = {
+  id: number | string;
+  name: string;
+}
+
+type Contact = {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+// 和集合による新たなUnion型の定義をします
+// Identity もしくは Contact の型を受けることが可能です
+type IdentityOrContact = Identity | Contact
+
+// OK
+const id: IdentityOrContact = {
+  id: '111',
+  name: 'Takuya'
+}
+
+// OK
+const contact: IdentityOrContact = {
+  name: 'Takuya',
+  email: 'test@example.com',
+  phone: '012345678'
+}
+```
+
+```ts
+// 先述の Identity と Contact を定義
+// 積集合による新たな Intersection型を定義します
+// IdentityとContactの両方のすべてのプロパティがマージされた型として扱います
+type Employee = Identity & Contact
+
+// OK
+const employee: Employee = {
+  id: '111',
+  name: 'Takuya',
+  email: 'test@example.com',
+  phone: '012345678'
+}
+
+// エラー: Contact情報のみでは変数定義できません
+const employeeContact: Employee = {
+  name: 'Takuya',
+  email: 'test@example.com',
+  phone: '12345678'
+}
+```
+
+### 2.4.4 リテラル型
+
+`|`でデータを区切るリテラル型を用いると、決まった文字列や数値しか入らない型という制御が可能です
+
+
+```ts
+変数: 許可するデータ1 | 許可するデータ2 | ...
+```
+
+```ts
+let postStatus: 'draft' | 'published' | 'deleted'
+postStatus = 'draft' // OK
+postStatus = 'drafts' // コンパイル時エラー:
+```
+
+```ts
+function compare (a: string, b: string): -1|0|1 {
+  return a === b ? 0 : a > b ? 1 : -1
+}
+```
+
+### 2.4.5 never型
