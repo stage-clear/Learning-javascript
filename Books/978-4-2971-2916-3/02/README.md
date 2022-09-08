@@ -764,5 +764,305 @@ function processUser (usre?: User) {
 `?`を使用する Optional Chaining と少し似ていますが、この Non-null AssertionはあくまでTypeScriptのコンパイルエラーを起こさなくて良いとマークするだで実行時にエラーが起きてしまう過剰性があります。
 
 ### 2.5.3 型ガード
-`?`を使用する Optional Chaining と少し似ていますが、この Non-null AssertionはあくまでTypeScriptのコンパイルエラーを起こさなくて良いとマークするだで実行時にエラーが起きてしまう過剰性があります。
+TypeScriptでif文やSwitch文の条件分岐にて型のチェックを行った際、その条件分岐ブロック以降は変数の型を絞り込まれる推論が行われます。これが型ガードです。
+
+```ts
+function addOne (value: number|string) {
+  if (typeof value === 'string') {
+    return Number(value) + 1
+  }
+  
+  return value + 1
+}
+
+console.log(addOne(10)) // 11
+console.log(addOne('20')) // 21
+```
+型ガードの機能を用いると、実行時エラーを引き起こしやすい`as`を使用する型アサーションよりも安全に型を利用したコードを書けます。
+
+```ts
+// オプションプロパティでinfoを定義します
+type User = {
+  info?: {
+    name: string;
+    age: number;
+  }
+}
+
+let response = {}
+// responseはJSON形式のAPIレスポンスが代入されている想定。
+// Userに型アサーションします。
+const user = (response as any) as User
+
+// オプショナルなプロパティへの型ガードを行う
+if (user.info) {
+  // オプショナルプロパティ配下のプロパティである user.info.name にアクセスしてもエラーが起きません
+  // もし if　の条件がない場合は Object is possibly 'undefined' というエラーが発生します
+  console.log(user.info.name)
+}
+```
+
+### 2.5.4 keyofオペレーター
+型に対してkeyofオペレーターを用いると、その型が持つ各プロパティの型のUnion型を返せます。
+
+```ts
+interface User {
+  name: string;
+  age: number;
+  email: string;
+}
+
+type UserKey = keyof User // 'name'|'age'|'email'というUnion型になる
+
+const key1: UserKey = 'name' // 代入可能
+const key2: UserKey = 'phone' // コンパイル時エラー
+
+//
+function getProperty<T, K extends keyofT>(obj: T, key: K): T[K] {
+  return obj[key]
+}
+
+const user: User = {
+  name: 'Takuya',
+  age: 36,
+  email: 'test@example.com'
+}
+
+// OK
+const userName = getProperty(user, 'name')
+
+// コンパイル時エラー
+const userGender = getProperty(user, 'gender')
+```
+
+### 2.5.5 インデックス型
+インデックス型を用いると、オブジェクトのプロパティが可変のとき、まとめて型を定義できます。
+```ts
+// プロパティ名を任意のnumberとして扱う型の定義の例です
+type SupportVersions = {
+  [env: number]: boolean
+}
+
+// エラー:
+let versions: SupportVersions = {
+  102: false,
+  103: false,
+  104: true,
+  'v105': true //-> Error
+}
+```
+
+### 2.5.6 readonly
+
+```ts
+type User = {
+  readonly name: string;
+  readonly gener: string;
+}
+
+let user: User = { name: 'Takuya', gender: 'Male' }
+
+// コンパイル時エラー
+user.gender = 'Female'
+```
+
+`const`は変数の代入に対して行う宣言、`readonly`はオブジェクトやクラスのプロパティに対して行う宣言でコンパイル時にエラーを検知できます。
+
+### 2.5.7 unknown
+
+`any`と異なり、代入された値はそのまま任意の関数やプロパティにアクセスできません。
+`typeof`や`instanceof`などを利用して型安全な状況を作ることで、変数の値にアクセスを行い関数などの処理を実行できます。
+
+
+```ts
+const x: unknown: 123
+const y: unknown: 'Hello'
+
+// コンパイル時エラー:
+consooe.log(x.toFixed(1))
+console.log(y.toLowerCase())
+
+// 型安全な状況下でOK
+if (typeof x === 'number') {
+  console.log(x.toFixed(1))
+}
+
+if (typeof y === 'string') {
+  console.log(y.toLowerCase())
+}
+```
+
+### 2.5.8 非同期のAsync/Await
+```ts
+// 非同期関数
+function fetchFromServer(id: string): Promise<{success: boolean}> {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({success: true})
+    }, 100)
+  })
+}
+
+// 非同期処理を含むasync functionの戻り値の型はPromiseとなります
+async function asyncFunc (): Promise<string> {
+  // Promiseな値をawaitすると中身が取り出せる（ように見える）
+  const result = await fetchFromServer('111')
+  return `The result: ${result.success}`
+}
+
+// await構文を使うためには async functionの中で呼び出す必要があります
+(async () => {
+  const result = await asyncFunc()
+  console.log(result)
+})()
+
+// Promiseとして扱う際は以下のように記述します
+asyncFunc().then(result => console.log(result))
+```
+
+### 2.5.9 型定義ファイル
+
+#### 型定義ファイルの導入
+```shell 
+$ npm install --save-dev @types/jquery
+```
+
+#### 型定義ファイルの作成
+`./lib/hello.js`
+```ts
+exports.hello = function (name) {
+  console.log(`Hello ${name}`)
+}
+```
+
+`./lib/hello.ts`
+```ts
+export function hello(name: string): void
+```
+
+```ts
+import { hello } from './lib/hello'
+
+// コンパイルエラー: 引数 name
+hello()
+```
+
+## 2.6 TypeScriptの開発時設定
+
+### 2.6.1 tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": "src"
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+```
+
+### 2.6.2 Prettier
+```shell
+$ npm install prettier --save-dev
+```
+
+`.prettierrc`
+```json
+{
+  "semi": false,
+  "trailingComma": "none",
+  "singleQuote": true,
+  "printWidth": 80
+}
+```
+
+`package.json`
+```json
+{
+  "script": {
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+  }
+}
+```
+
+```shell
+$ npm run prettier-format
+```
+
+### 2.6.3 ESLint
+
+```json
+{
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"]
+  }
+}
+```
+
+### 2.6.4 コンパイルオプション
+#### noImplictAny
+暗黙的な`any`を使用した場合にエラーを起こすよう設定を変更できます
+
+```ts
+// エラー
+function hello (word) {
+  console.log(`Hello ${name}`)
+}
+
+hello('Takuya')
+```
+
+#### strictNullChecks
+`null`や`undefined`を厳格に扱う
+
+```ts
+let date: Date
+date = new Date()
+
+// エラー
+date = null
+```
+
+```
+let date: Date | null
+date = new Date()
+
+// OK
+date = null
+```
+
+#### target
+
+```shell
+$ tsc --target es5 sayHello.ts
+```
+
+
+
+
 
