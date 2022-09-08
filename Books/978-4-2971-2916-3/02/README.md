@@ -750,3 +750,19 @@ user = { name: 'Takuya' }
 console.log(user.social?.facebook) // 実行時エラーになりません
 ```
 
+### 2.5.2 Non-null Assertion Operator
+コンパイラオプション `--strictNullChecks`を指定してコンパイルする場合、TypeScriptは通常`null`の可能性のあるオブジェクトへのアクセスはエラーとして扱います。
+
+```ts
+// userがnullの場合、実行時エラーになる可能性があるプロパティへのアクセスはコンパイルエラー
+// !を用いて明示的に指定することでコンパイルエラーを抑制
+function processUser (usre?: User) {
+  let s = user!.name
+}
+```
+
+`?`を使用する Optional Chaining と少し似ていますが、この Non-null AssertionはあくまでTypeScriptのコンパイルエラーを起こさなくて良いとマークするだで実行時にエラーが起きてしまう過剰性があります。
+
+### 2.5.3 型ガード
+`?`を使用する Optional Chaining と少し似ていますが、この Non-null AssertionはあくまでTypeScriptのコンパイルエラーを起こさなくて良いとマークするだで実行時にエラーが起きてしまう過剰性があります。
+
