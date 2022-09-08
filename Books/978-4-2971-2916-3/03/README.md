@@ -280,6 +280,171 @@ const Page = () => {
 export default Page
 ```
 
+## 3.5 React Hooks （フック）
+React Hooksは、フック（Hook）によって関数コンポーネント中で状態やライフサイクルを扱うための機能です。
+
+Reactが公式で提供しているフックは10種類あり、またフックを組み合わせてカスタムフックを実装できます。
+
+### 3.5.1 `useState`と`useReducer` -- 状態のフック
+
+#### `useState`
+```ts
+const [状態, 更新関数] = useState(初期状態)
+```
+
+```ts
+import { useState } from 'react'
+
+type = CounterProps = {
+  initialValue: number
+}
+
+const Counter = (props: CounterProps) => {
+  const { initialValue } = props
+  
+  const [count, setCount] = useState(initialValue)
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      {/* setCount を呼ぶことで状態を更新します */ }
+      <button onClick={() => setCount(count - 1)}> - </button>
+      <button onClick={() => setCount((prevCount) => prevCount + 1)}> + </button>
+    </div>
+  )
+}
+
+export default Counter
+```
+
+#### `useReducer`
+`useReducer`を使うことで複雑な状態遷移をシンプルな記述にできます。
+
+```ts
+reducer(現在の状態, action) {
+  return 次の状態
+}
+
+const [現在の状態, dispatch] = useReducer(reducer, reducerに渡される初期状態)
+```
+
+```ts
+import { useReducer } from 'react'
+
+// reducerが受け取る action の型を定義します
+type Action = 'DECREMENT'|'INCREMENT'|'DOUBLE'|'RESET'
+
+// 現在の状態と action にもとづいて次の状態を返します
+const reducer = (currentCount: number, action: Action) => {
+  switch (action) {
+    case 'INCREMENT':
+      return currentCount + 1
+    case 'DECREMENT':
+      return currentCount - 1
+    case 'DOUBLE':
+      return currentCount * 2
+    case 'RESET':
+      return 0
+    default: 
+      return currentCount
+  }
+}
+
+type CounterProps = {
+  initialValue: number
+}
+
+const Counter = (props: CounterProps) => {
+  const { initialValue } = props
+  const [count, dispatch] = useReducer(reducer, initialValue)
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      {/* dispatch関数にactionを渡して状態を更新します */}
+      <button onClick={() => dispatch('DICREMENT')}>-</button>
+      <button onClick={() => dispatch('INCREMENT')}>+</button>
+      <button onClick={() => dispatch('DOUBLE')}>x2</button>
+      <button onClick={() => dispatch('RESET')}>Reset</button>
+    </div>
+  )
+}
+
+export default Counter
+```
+
+ボタンが押されたら、`dispatch()`関数を使い `action`を発出します。
+`setState()`のときと比べ、状態の更新を呼び出す方は、具体的な状態に依存していないためコードをシンプルに保つことができます。
+
+### 3.5.2 `useCallback`と`useMemo` -- メモ化のフック
+
+`useCallback`と`useMemo`はメモ化用のフックです。
+値や関数を保持し、必要のない子要素のレンダリングや計算を抑制するために使用します。
+
+Reactのコンポーネンは次のようなタイミングで再描画が発生します
+- **`props`や内部状態が更新された時**
+- **コンポーネントないで参照している Context の値が更新された時**
+- **親コンポーネントが再描画された時**
+
+メモ化コンポーネントは、関数コンポーネントを `memo()` 関数でラップすると作成できます。
+
+**リスト 3.14 `src/components/Parent.tsx`**
+```ts
+import React, { memo, useState } from 'react'
+
+type FizzProps = {
+  isFizz: boolean
+}
+
+// Fizzは通常の関数コンポーネント
+// isFizz が true の場合 Fizz と表示し、それ以外は何も表示しない
+// isFizz の変化に関わらず、親が再描画されると Fizz も再描画される
+const Fizz = (props: FizzProps) => {
+  const { isFizz } = props
+  console.log(`Fizzが再描画されました, isFizz=${isFizz}`)
+  return <span>{isFizz ? 'Fizz' : ''}</span>
+}
+
+type BuzzProps = {
+  isBuzz: boolean
+}
+
+// Buzz はメモ化した関数コンポーネント
+// isBuzz が true の場合は、Buzzと表示し、それ以外は何も表示しない
+// 親コンポーネントが再描画されても、isBuzzが変化しない限りはBuzzは再描画しない
+const Buzz = memo<BuzzProps>((props) => {
+  const {isBuzz} = props
+  console.log(`Buzzが再描画されました, isBuzz=${isBuzz}`)
+  return (
+    <span>
+      {isBuzz ? 'Buzz' : ''}
+    </span>
+  )
+})
+
+// この形式で export したときは import { Parent } from ... で読み込む
+export const Parent = () => {
+  const [count, setCount] = useState(1)
+  const isFizz = count % 3 === 0
+  const isBuzz = count % 5 === 0
+  
+  console.log(`Parentが再描画されました, count=${count}`)
+  
+  return (
+    <div>
+      <button onClick={() => setCount((c) => c+1)}>+1</button>
+      <p>{`現在のカウント: ${count}`}</p>
+      <p>
+        <Fizz isFizz={isFizz} />
+        <Buzz isBuzz={isBuzz} />
+      </p>
+    </div>
+  )
+}
+```
+
+      
+
 
 
 
