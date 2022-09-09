@@ -729,7 +729,799 @@ useEffect(() => {
 }, [])
 ```
 
+### 3.5.4 `useContext` -- Contextのためのフック
 
+`useContext`はContextから値を参照するためのフックです。<br>
+`useContext`の引数にContextを渡すことで、そのContextの値を取得できます。
+
+```ts
+import React, { useContext } from 'react'
+
+type User = {
+  id: number
+  name: string
+}
+
+// ユーザーデータを保持するContextを作成する
+const UserContext = React.createContext<User | null>(null)
+
+const GrandChild = () => {
+  // useContextにContextを渡すことで、Contextから値を取得する
+  const user = useContext(UserContext)
+  
+  return user !== null ? <p>Hello, {user.name}</p> : null
+}
+
+const Child = () => {
+  const now = new Date()
+  
+  return (
+    <div>
+      <p>Current: {now.toLocaleString()}</p>
+      <GrandChild />
+    </div>
+  )
+}
+
+const Parent = () => {
+  const user: User = {
+    id: 1,
+    name: 'Alice'
+  }
+  return (
+    // Contextに値を渡す
+    <UserContext.Provider value={user}>
+      <Child />
+    </UserContext.Provider>
+  )
+}
+```
+
+### 3.5.5 `useRef`と`useImperativeHandle` -- refのフック
+`useRef`は書き換え可能なrefオブジェクトを作成します。
+refには大きく分けて次の2つの使い方があります。
+
+- データの保持
+- DOMの参照
+
+`useState`や`useReducer`がありますが、これらは状態を更新する度に再描画されます。
+refオブジェクトに保存された値は更新しても再描画されません。
+
+```ts
+import React, { useState, useRef } from 'react'
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve), ms))
+
+const UPLOAD_DELAY = 5000
+
+const ImageUploader = () => {
+  // 隠された input 要素にアクセスするためのref
+  const inputImageRef = useRef<HTMLInputElement|null>(null)
+  // 選択されたファイルデータを保持するref
+  const fileRef = useRef<File|null>(null)
+  const [message, setmessage] = useState<string|null>('')
+  // 「画像をアップロード」というテキストがクリックされた時のコールバック
+  const onClickText = () => {
+    if (inputImageRef.current !== null) {
+      // inputのDOMにアクセスして、クリックイベントを発火する
+      inputImageRef.current.click()
+    }
+  }
+  
+  // ファイルが選択された後に呼ばれるコールバック
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files !== null && files.length > 0) {
+      // fileRef.currentに値を保存する
+      // fileRef.currentが変化しても再描画は発生しない
+      fileRef.current = files[0] 
+    }
+  }
+  
+  // アップロードボタンがクリックされた時に呼ばれるコールバック
+  const onClickUpload = async () => {
+    if (fileRef.current !== null) {
+      //　通常はここでAPIを読んで、ファイルをサーバーにアップロードする
+      // ここでは疑似的に一定時間待つ
+      await sleep(UPLOAD_DELAY)
+      // アップロードが成功した旨を表示するために、メッセージを書き換える
+      setMessage(`${fileRef.current.name} has been successfully uploaded`)
+    }
+  }
+  
+  return (
+    <div>
+      <p style={{ textDecoration: 'underline' }} onClick={onClickText}>
+        画像をアップロード
+      </p>
+      <input
+        ref={inputImageRef}
+        type="file"
+        accept="image/*",
+        onChange={onChangeImage}
+        style={{ visibility: 'hidden' }}
+      />
+      <br />
+      <button onClick={onClickUpload}>アップロードする</button>
+      {message != null && <p>{ message }</p>
+    </div>
+  )
+}
+```
+
+`useImperativeHandle`はコンポーネントにrefが渡された時に、親のrefに代入される値を設定するのに使います。
+`useImperativeHandle`を使うことで、子コンポーネントが持つデータを参照したり、子コンポーネントで定義されている関数を親から呼んだりできます。
+
+```ts
+import React, { useState, useRef, useImperativeHandle } from 'react'
+
+const Child = React.forwardRef((props, ref) => {
+  const [message, setMessage] = useState<string | null>(null)
+  // useImperativeHandleで親のrefから参照できる値を指定
+  useImperativeHandle(ref, () => ({
+    showMessage: () => {
+      const date = new Date()
+      const message = `Hello, it's ${date.toLocaleString()} now`
+      setMessage(message)
+    },
+  }))
+  
+  return <div>{message !== null ? <p>{message}</p>: null}</div>
+})
+
+const Parent = () => {
+  const childRef = useRef<{ showMessage: () => void }>(null)
+  const onClick = () => {
+    if (childRef.current != null) {
+      // 子のuseImperativeHandleで指定した値を参照
+      childRef.current.showMessage()
+    }
+  }
+  
+  return (
+    <div>
+      <button onClick={onClick}>Show Message</button>
+      <Child ref={childRef} />
+    </div>
+  )
+}
+```
+
+### 3.5.6 カスタムフックと`useDebugValue`
+
+```ts
+import React, { useState, useCallback, useDebugValue } from 'react'
+
+// input向けにコールバックと現在の入力内容をまとめたフック
+const useInput = () => {
+  // 現在の入力値を保持するフック
+  cons [state, setState] = useState('')
+  // Inputが変化したら、フック内の状態を更新する
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setState(e.target.value)
+  }, [])
+
+  // デバッグ用に値を出力する
+  // 値は開発者ツールの Componentsタブに表示される
+  useDebugValue(`Input: ${state}`)
+  
+  // 現在の入力内容とコールバック関数だけ返す
+  return [state, onChange] as const
+}
+
+export const Input = () => {
+  const [text, onChangeText] = useInput()
+  return (
+    <div>
+      <input type="text" value={text} onChange={onChangeText} />
+      <p>Input: {text}</p>
+    </div>
+  )
+}
+```
+
+## 3.6 Next.js 入門
+### 3.6.1 プロジェクトのセットアップ
+
+```shell
+$ npx create-next-app@latest -ts next-sample
+```
+
+```shell
+$ cd next-sample
+
+# 開発用のサーバーを起動
+$ npm run dev
+
+# プロジェクトをビルドする
+$ npm run build
+
+# ビルドした成果物を元にサーバーを立ち上げる
+$ npm run start
+```
+
+### 3.6.2 プロジェクトの基本的な構成
+- `public`ディレクトリには画像などの静的ファイルを配置します
+- `style`ディレクトリにはCSSファイルを配置します
+
+## 3.7 Next.jsのレンダリング手法
+
+- 静的サイト生成（SSG: Static Site Generation）
+  - 本書では静的サイト（Static）もSSGに含む
+- クライアントサイドレンダリング（CSR: Client Side Rendering）
+- サーバーサイドレンダリング（SSR: Server Side Rendering）
+- インクリメンタル静的再生成（ISR: Incremental Static Regeneration）
+
+### 3.7.1 静的サイト生成（SSG）
+### 3.7.2 クライアントサイドレンダリング（CSR）
+### 3.7.3 サーバーサイドレンダリング（SSR）
+### 3.7.4 インクリメンタル静的再生成（ISR）
+
+## 3.8 ページとレンダリング手法
+**リスト 3.17 `pages/sample.tsx`**
+```ts
+// 型注釈がなくてもビルドに通るため省略
+function Sample () {
+  return <span>サンプルのページです。</span>
+}
+
+export default Sample
+```
+
+### 3.8.1 Next.jsのページとデータ取得
+
+|種別|データ取得に使う主な関数|データ取得タイミング|補足
+|:-|:-|:-|:-
+|SSG|`getStaticProps`|ビルド時(SSG)|データ取得を一切行わない場合もSSG相当|
+|SSR|`getServerSideProps`|ユーザーのリクエスト時|`getInitialProps`を使ってもSSR|
+|ISR|`revalidate`を返す`getStaticProps`|ビルド時(ISR)|ISRはデプロイ後もバックグラウンドビルドが実行される|
+|CSR|上記以外の任意の関数|ユーザーのリクエスト時（ブラウザ）|CSRはSSG/SSR/ISRと同時に利用可能|
+
+### 3.8.3 SSGによるページの実装
+**リスト 3.18 `pages/ssg.tsx`**
+```ts
+// 型のために導入
+import { NextPage } from 'next'
+// Next.jsの組み込みのコンポーネント
+import Head from 'next/head'
+
+// ページコンポーネントのpropsの型定義（ここでは空）
+type SSGProps = {}
+
+// SSG向けのページを実装
+// NextPageはNext.jsのPages向けの型
+// NextPage<props>で props が入る Page であることを明示
+const SSG: NextPage<SSGProps> = () => {
+  return (
+    <div>
+      {/* Head コンポーネントで包むと、その要素は <head> タグに配置されます */}
+      <Head>
+        <title>Static Site Generation</title>
+        <link rel="icon" href="favicon.ico" />
+      </Head>
+      <main>
+        <p>
+          このページは静的サイト生成によってビルド時に生成されたページです
+        </p>
+      </main>
+    </div>
+  )
+}
+
+// ページコンポーネントはexport default でエクスポートする
+export default SSG
+```
+`NextPage`は`pages`のための型です。受け付ける props を決め、`NextPage<Props>`のように指定します。
+
+### 3.8.3 `getStaticProps`を用いたSSGによるページの実装
+
+```ts
+import { getStaticProps, NextPage, NextPageContext } from 'next'
+import Head from 'next/head'
+
+// ページコンポーネントの props の型定義
+type SSGProps = {
+  message: string
+}
+
+// SSGは getStaticProps が返した props を受け取ることができる
+// NextPage<SSGProps>は message: string のみを受け取って生成されるページの型
+const SSG: NextPage<SSGProps> = (props) => {
+  const { message } = props
+  
+  return (
+    <div>
+      <Head>
+        <title>Static Site Generation</title>
+        <link ref="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        <p>
+          このページは静的サイト生成によってビルドされたページです
+        </p>
+        <p>{message}</p>
+      </main>
+    </div>
+  )
+}
+
+// getStaticProps はビルドに実行される
+// GetStaticProps<SSGProps>は SSGProps を引数に取る getStaticProps の型
+export const getStaticProps: GetStaticProps<SSGProps> = async (context) => {
+  const timestamp = new Date().toLocaleString()
+  const message = `${timestamp} に getStaticProps が実行されました`
+  console.log(message)
+  
+  return {
+    // ここで返した props を元にページコンポーネントを描画する
+    props: {
+      message,
+    },
+  }
+}
+
+export default SSG
+```
+
+`getStaticProps`はエクスポートする必要があり、非同期関数として `async` とともに定義する必要があります。
+```ts
+export async function getStaticProps (context) {
+  return {
+    props: {}
+  }
+}
+```
+
+### 3.8.4 `getStaticPaths`を使った複数ページのSSG
+
+- \[パラメータ\].tsx のような `[]` で囲んだ特別なファイル名
+- `getStaticProps`とあわせて `getStaticPaths` を利用する
+
+`getStaticPaths`は `getStaticProps`実行前に呼ばれる関数で、生成したいページのパスパラメータの組み合わせとフォールバックを返します。
+
+```ts
+export async function getStaticPaths () {
+  return {
+    paths: [
+      { params: [...] }
+    ],
+    fallback: false // true もしくは 'blocking' を指定可能
+  }
+}
+```
+
+**リスト 3.20 `pages/posts/[id].tsx`**
+```ts
+// 型を利用するためにインポート
+import { GetStaticPaths, GetStaticProps, nextPage } from 'next'
+import Head from 'next/head'
+import { useRouter } from 'next/router' // next/router から use Routerというフックを取り込む
+
+type PostProps = {
+  id: string
+}
+
+const Post: NextPage<PostProps> = (props) => {
+  const { id } = props
+  const rounter = useRouter()
+  
+  if (router.isFallback) {
+    // フォールバックページ向けの表示を返す
+    return <div<Loading...</div>
+  }
+  
+  return (
+    <div>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        <p>このページは静的サイト生成によってビルド時に生成されたページです。</p>
+        <p>{`/posts/${id}に対応するページです}</p>
+      </main>
+    </div>
+  )
+}
+
+// getStaticPathsは生成したいページのパスパラメータの組み合わせを返す
+// このファイルは pages/posts/[id].tsx なので、パスパラメータとして id の値を返す必要がある
+export const getStaticPaths: GetStaticPaths = async () => {
+  // それぞれのページのパスパラメータをまとめたもの
+  const paths = [
+    {
+    params: {
+      id: '1',
+    },
+  },
+  {
+    params: {
+      id: '2',
+    },
+  },
+  {
+    params: {
+      id: '3',
+    },
+  },
+]
+
+// fallback を false にすると、path実行後にそれぞれのパスに対して getStaticProps が実行される
+export const getStaticProps: GetStaticProps<PostProps> = async () => {
+  // context.params にパスパラメータの値が入っている
+  // context.params['id'] は string | string[]型なので
+  // 値が配列かどうかで場合分けをする
+  const id = Array.isArray(context.params['id'])
+    ? context.params['id'][0]
+    : context.params['id']
+
+  return {
+    props: {
+      id,
+    },
+  }
+}
+
+export default Post
+```
+
+#### `useRouter` -- ルーティングのためのフック
+`useRouter`は関数コンポーネント内でルーティング情報にアクセスするためのフックです。
+
+**リスト 3.21 `pages/page.tsx`**
+```ts
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+
+const Page = () => {
+  const router = useRouter()
+
+  // 以下のコメント部分のコメントを解除すると /userouter に移動するようになる
+  /*
+  useEffect(() => {
+    router.push('/userouter')
+  })
+  */
+  
+  return <span>{router.pathname}</span>
+}
+
+export default Page
+```
+
+### 3.8.5 SSRによるページの実装
+SSRでは、アクセスする度にサーバーでページを描画して、その結果をクライアントで表示します。
+SSRでは `getServerSideProps` を定義します。
+
+**リスト 3.22 `pages/ssr.tsx`**
+```ts
+import { GetServerSideProps, NextPage } from 'next'
+import Head from 'next/head'
+
+type SSRProps = {
+  message: string
+}
+
+const SSR: Next<SSRProps> = (props) => {
+  const { message } = props
+  
+  return (
+    <div>
+      <Head>
+        <title>Create next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <main>
+        <p>
+          このページはサーバーサイドレンダリングによってアクセス時にサーバーで描画されたページです
+        </p>
+        <p>{ message }</p>
+      </main>
+    </div>
+  )
+}
+
+// getServerSideProps はページへのリクエストがある度に実行される
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (context) => {
+  const timestamp = new Date().toLocaleString()
+  const message = `${timestamp}にこのページの getServerSideProps が実行されました`
+  console.log(message)
+  
+  return {
+    props: {
+      message,
+    },
+  }
+}
+
+export default SSR
+```
+
+|パラメータ|内容|
+|:-|:-|
+|`req`|`http.IncomiingMessage`のインスタンスでリクエストの情報やCookieを参照できます|
+|`res`|`http.ServerResponse`のインスタンスでCookieをセットしたり、レスポンスヘッダーを書き換えたりに使えます|
+|`resolvedUrl`|実際にアクセスがあったパス|
+|`query`|そのクエリをオブジェクトにしたもの|
+
+### 3.8.6 ISRによるページの実装
+インクリメンタル静的再生成（ISR）はSSGの応用とも言えるレンダリング手法です。
+特徴としてページの寿命を設定でき、寿命を過ぎたページについては最新の情報での再生成を試みて、静的ページを配信しつつ情報を更新できます。
+
+**リスト 3.23 `pages/isr.tsx`**
+```ts
+import { GetStaticPaths, NextPage, GetStaticProps } from 'next'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+
+type ISRProps = {
+  message: string
+}
+
+// ISRProps を受け付ける NextPage（ページ）の型
+const ISR: NextPage<ISRProps> = (props) => {
+  const { message } = props
+  
+  const router = useRouter()
+  
+  if (router.isFallback) {
+    // フォールバック用のページを返す
+    return <div>Loading...</div>
+  }
+  
+  return (
+    <div>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        <p>このページはISRによってビルド時に生成されたページです。</p>
+        <p>{ message }</p>
+      </main>
+    </div>
+  )
+}
+
+export const getStaticProps: GetStaticProps<ISRProps> = async = (context) => {
+  const timestamp = new Date().toLocaleString()
+  const message = `${timestamp} にこのページの getStaticProps が実行されました`
+  
+  return (
+    props: {
+      message,
+    },
+    // ページの有効期限を秒単位で指定
+    revalidate: 60,
+  }
+}
+
+export default ISR
+```
+
+## 3.9 Next.jsの機能
+### 3.9.1 リンク
+Linkコンポーネントを使用してページ遷移した場合は、通常のページ遷移のように遷移先のページのHTMLファイルなどを取得して描画するのではなく、
+クライアントサイドで新しいページを描画します。
+
+```ts
+import Link from 'next/link'
+
+...
+
+{/* /ssr へ遷移するためのリンクを作成する */}
+<Link href="/ssr">
+  <a>Go TO SSR</a>
+</Link>
+```
+
+```ts
+<Link href="/ssg?keyword=next">
+  <a>GO TO SSG</a>
+</Link>
+
+{/* hrefに文字列を指定する代わりにオブジェクトを指定できます */}
+<Link
+  href={{
+    pathname: '/ssg',
+    query: { keyword: 'hello' },
+  }}>
+  <a>GO TO SSG</a>
+</Link>
+```
+
+```ts
+<Link href="/ssg">
+  {/* a の代わりに button を使うと、onClick が呼ばれたタイミングで遷移します */}
+  <button>Jump to SSG page</buton>
+</Link>
+```
+
+routerオブジェクトの`push()`メソッドを呼ぶことでも、ページ遷移できます。
+```ts
+import { useRouter } from 'next/router'
+
+...
+
+const router = useRouter()
+
+const onSubmit = () => {
+  // /ssr へ遷移します
+  router.push('/ssr')
+
+  // 文字列の代わりにオブジェクトで指定できます
+  // /ssg?keyword=hello へ遷移します
+  router.push({
+    pathname: '/ssg',
+    query: { keyword: 'hello' }
+  }
+}
+```
+
+そのほか、router オブジェクトには、リロードを行う `reload()` やページを戻るための `back()` などのメソッドや、
+ページの遷移開始・完了などのイベントを購読するためのメソッドがあります。
+```ts
+const router = useRouter()
+
+// ページがリロードされます
+router.reload()
+
+// 前のページに戻ります
+router.back()
+
+// 遷移開始時のイベントを購読します
+router.events.on('routerChangeStart', (url, { shallow }) => {
+  // url には遷移先のパスが与えられます
+  // shallow はシャロールーティング（パスのみが置き換わる遷移）の場合は true になります
+})
+
+// 遷移完了時のイベントを購読
+router.events.on('routeChangeComplete', (url, { shallow }) => {
+  // url には遷移先んパスが与えられます
+  // shallow はシャロールーティング（パスのみが置き換わる遷移）の場合は true になります
+})
+```
+
+### 3.9.2 画像の表示
+**リスト 3.24 `pages/images-sample.tsx`**
+```ts
+import { NextPage } from 'next'
+import Image from 'next/image'
+
+// 画像ファイルをインポートする
+import BibleImage from '../public/images/bible.jpeg'
+
+const imageSample: NextPage<void> = (props) => {
+  return (
+    <div>
+      <h1>画像表示の比較</h1>
+      <p>imgタグで表示した場合</p>
+      {/* 通常のimgタグを使用して画像を表示 */}
+      <img src="/images/bible.jpeg" />
+      <p>Image コンポーネントで表示した場合</p>
+      {/* Imageコンポーネントを使用して表示 */}
+      {/* パスを指定する代わりに、インポートした画像を指定 */}
+      <Image src={BibleImage} />
+      <p>Imageで表示した場合は事前に描画エリアが確保されます</p>
+    </div>
+  )
+}
+
+export default ImageSample
+```
+
+
+```ts
+// next.config.js
+/** @type {import('next'0.NextConfig} */
+const NextConfig = {
+  reactStrictMode: true,
+  images: {
+    // example.com以下の画像を Image コンポーネントで表示するために追加する
+    domains: ['example.com'],
+  }
+}
+
+module.exports = nextConfig
+```
+
+### 3.9.3 APIルート
+
+**リスト 3.25 `pages/api/hello.ts`**
+```ts
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+type HelloResponse = {
+  name: string
+}
+
+// /api/hello で呼ばれた時のAPIの挙動を実装する
+export default (req: NextApiRequest, res: NextApiResponse<HelloResponse>) => {
+  // ステータス200で { "name": "John Doe" } を返す
+  res.status(200).json({ name: 'John Doe' })
+}
+```
+
+**リスト 3.26 `pages/sayhello.tsx`**
+```ts
+import { useState, useEffect } from 'react'
+
+function sayHello () {
+  // 内部で状態を持つため useState を利用
+  const [data, setData] = useState({name: ''})
+  // 外部のAPIにリクエストするのは副作用なので useEffect 内で処理
+  useEffect(() => {
+    // pages/api/hello.ts の内容にリクエスト
+    fetch('api/hello')
+      .then((res) => res.json())
+      .then((profile) => {
+        setData(profile)
+      })
+  }, [])
+  
+  return <div>hello {data.name}</div>
+}
+
+export default Sayhello
+```
+
+### 3.9.4 環境変数/コンフィグ
+Next.jsはビルトインで環境変数のための `.env` ファイルを処理できます。
+
+- `.env`
+- `.env.local`
+- `.env.${環境名}`
+- `.env.${環境名}.local`
+
+`.local`がついているものは `.gitignore` に追加されることを意図しており、APIキーなどの公開したくない値を保存するために使用します。
+
+**リスト 3.27 `.env`**
+クライアントサイドでもアクセスしたい値に関しては、環境変数の名前の頭に `NEXT_PUBLIC_` をつけます。
+```
+# サーバーサイドのみで参照可能な変数
+TEST=test1
+
+# サーバーサイド・クライアントサイドの両方で参照可能な変数
+NEXT_PUBLIC_TEST=test2
+```
+
+**リスト 3.28 `pages/EnvSample.tsx`**
+```ts
+import { NextPage } from 'next'
+import Head from 'next/head'
+
+const EnvSample: NextPage = (props) => {
+  // サーバーサイドで描画するときは 'test1' と表示され、クライアントで再描画するときは undefined と表示される
+  console.log('process.env.TEST', process.env.TEST)
+  
+  return (
+    <div>
+      <Head>
+        <title>Create next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        {/* サーバーサイド描画時は 'test1' と表示され、クライアントサイドで再描画されると何も表示されない */}
+        <p>{process.env.TEST}</p>
+      </main>
+    </div>
+  )
+}
+
+// getStaticProps は常にサーバーサイドで実行されるので、すべての環境変数を参照できる
+export const getStaticProps: GetStaticProps = async (context) => {
+  // 'test1' が表示される
+  console.log('process.env.TEST', process.env.TEST)
+  // 'test2' が表示される
+  console.log('process.env.NEXT_PUBLIC_TEST', process.env.NEXT_PUBLIC_TEST)
+  
+  return {
+    props: {},
+  }
+}
+
+export default EnvSample
+```
 
 
 
