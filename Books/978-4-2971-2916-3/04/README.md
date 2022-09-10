@@ -111,6 +111,249 @@ Container Componentが親としてビジネスロジックを担い、子のPres
 ## 4.2 Styled-componentsによるスタイル実装
 styled-componentsは CSS in JSと呼ばれるライブラリの1つで、名前の通り JavaScript 内に CSS を効率よく書くためのものです。
 
+### 4.2.1 styled-components を Next.js に導入
+```shell
+$ npm install --save styled-components
+$ npm install --save-dev @types/styled-components
+```
+
+**リスト 4.3 next.config.js**
+```ts
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
+  },
+}
+
+module.exports = nextConfig
+```
+
+**リスト 4.4 `src/pages/_document.tsx`**
+```ts
+import Document, { DocumentContext } from 'next/document'
+import { ServerStyleSheet } from 'styled-components'
+
+// デフォルトのDocumentをMyDocumentで上書き
+export default class MyDocument extends Document {
+  static async getInitialProps (ctx: DocumentContext) {
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
+    
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        })
+
+      // 初期値を流用
+      const initialProps = await Document.getInitialProps(ctx)
+      
+      // initialPropsに加えて、styleを追加して返す
+      return {
+        ...initialProps,
+        styles: [
+          // もともとのstyle
+          initialProps.styles,
+          // styled-components の style
+          sheet.getStyleElement()
+        ],
+      }
+    } finally {
+      sheet.seal()
+    }
+  }
+}
+```
+
+**リスト 4.5 `pages/index.tsx`**
+```ts
+import type { NextPage } from 'next'
+import styles from '../styles/Home.module.css'
+import styled from 'styled-components'
+
+const H1 = styled.h1`
+  color: red;
+`
+
+const Home: NextPage = () => {
+  return (
+    <div className={styles.container}>
+      <main className={styles.main}>
+        ...
+        <H1>
+          Welcome to <a href="https://nextjs.org">Next.js!</a>
+        </H1>
+      </main>
+    </div>
+  )
+}
+
+export default Home
+```
+
+### 4.2.2 styled-components を用いたコンポーネント実装
+```
+styled.要素` スタイル `
+```
+
+**リスト 4.6 span要素にスタイルを適用**
+```ts
+import { NextPage } from 'next'
+import styled from 'styled-components'
+
+// span 要素にスタイルを適用したコンポーネント
+const Badge = styled.span`
+  padding: 8px 16px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  background: red;
+  border-radius: 16px;
+`
+
+const Page: Nextpage = () => {
+  return <Badge>Hello World!</Badge>
+}
+
+export default Page
+```
+
+#### props を使う
+親のコンポーネントに応じてCSSの内容を変えたいときには、`props`を利用して、外部からスタイルを制御できます。
+
+**リスト 4.7 `props`を使用してスタイルを制御
+```ts
+import {NextPage } from 'next'
+import styled from 'styled-components'
+
+type ButtonProps = {
+  color: string
+  backgroundColor: string
+}
+
+// 文字色と背景色が props から変更可能なボタンコンポーネント
+// 型引数に props の型を渡す
+const Button = styled.button<ButtonProps>`
+  /* color, background, border-color は props から渡す */
+  color: ${(props) => props.color};
+  background: ${(props) => props.backgroundColor};
+  border: 2px solid ${(props) => props.color};
+  
+  font-size: 2em;
+  margin: 1em;
+  padding: 0.25em;
+  border-radius: 8px;
+  cursor: pointer;
+`
+
+const Page: NextPage = () => {
+  return (
+    <div>
+      {/* 赤色の文字で透明な背景のボタンを表示 */}
+      <Button backgroundColor="transparent" color="#ff0000">
+        Hello
+      </Button>
+      {/* 白色の文字で青色の背景のボタンを表示 */}
+      <Button backgroundColor="#1e90ff" color="white">
+        World
+      </Button>
+    </div>
+  )
+}
+
+export default Page
+```
+
+#### `mixin`を使う
+
+**リスト 4.8 `mixin`を使いスタイルを再利用**
+```ts
+import { NextPage } from 'next'
+import styled, { css } from 'styled-components'
+
+// 赤色のボーダーを表示するスタイル
+const redBox = css `
+  padding: 0.25em 1em;
+  border: 3px solid #ff0000;
+  border-radius: 10px;
+`
+
+// 青色文字を表示するスタイル
+const font = css`
+  color: #1e90ff;
+  font-size: 2em;
+`
+
+// 赤色ボーダーと青色文字のスタイルをそれぞれ適用し、背景が透明なボタンコンポーネント
+const Button = styled.button`
+  background: transparent;
+  margin: 1em;
+  cursor: pointer;
+  
+  ${redBox}
+  ${font}
+`
+// 青色文字のスタイルを継承し、ボールドでテキストを表示するコンポーネント
+const Text = styled.p`
+  font-weight: bold;
+  
+  ${font}
+`
+
+const Page: NextPage = () => {
+  return (
+    <div>
+      {/* 青色文字で赤色ボーダーのボタンを表示 */}
+      <Button>Hello</Button>
+      {/* 青色文字のテキストを表示 */}
+      <Text>World</Text>
+    </div>
+  )
+}
+
+export default Page
+```
+
+#### スタイルを継承する
+
+**リスト 4.9 コンポーネントを継承してスタイルを継承**
+```ts
+import { NextPage } from 'next'
+import styled from 'styled-components'
+
+// 青いボールド文字を表示するコンポーネント
+const Text = styled.p`
+  color: blue;
+  font-weight: bold;
+`
+
+// Textを継承し、ボーダーのスタイルを加えたコンポーネント
+const BorderdText ~ styled(Text)`
+  padding: 8px 16px;
+  border: 3px solid blue;
+  border-radius: 8px;
+`
+
+const Page: NextPage = () => {
+  return (
+    <div>
+      <Text>Hello</Text>
+      <BorderedText>World</BorderedText>
+    </div>
+  )
+}
+
+export default Page
+```
+
+#### スタイルを別のコンポーネントで使用する
+
+
+
+
 
 
 
