@@ -224,7 +224,7 @@ export default Page
 #### props を使う
 親のコンポーネントに応じてCSSの内容を変えたいときには、`props`を利用して、外部からスタイルを制御できます。
 
-**リスト 4.7 `props`を使用してスタイルを制御
+**リスト 4.7 `props`を使用してスタイルを制御**
 ```ts
 import {NextPage } from 'next'
 import styled from 'styled-components'
@@ -350,6 +350,138 @@ export default Page
 ```
 
 #### スタイルを別のコンポーネントで使用する
+
+**リスト 4.10 `as`を使用して別の要素として使用する**
+```ts
+import { NextPage } from 'next'
+import styled from 'styled-compornents'
+
+// 青色のテキストを表示するコンポーネント
+const Text = styled.p`
+  color: #1e90ff;
+  font-size: 2em;
+`
+
+const Page: NextPage = () => {
+  return (
+    <div>
+      {/* 青色のテキストを表示 */}
+      <Text>World</Text>
+      {/* 青色のリンクを表示 */}
+      <Text as="a" href="/">
+        Go to index
+      </Text>
+    </div>
+  )
+}
+
+export default Page
+```
+
+#### Next.jsのコンポーネントにスタイルを使用する
+デフォルトでは、styled-componentsで定義したスタイルは描画時にスタイルを作成し、`className`をコンポーネントに渡します。
+コンポーネント内の特定のコンポーネントにスタイルを適用したい場合は、class属性、つまり `props` に渡される `className`属性をニニのコンポーネントに渡します。
+
+**リスト 4.11 特定のコンポーネントにスタイルを適用**
+```ts
+import { NextPage } from 'next'
+import Link, { LinkProps } from 'next/link'
+import styled from 'styled-components'
+
+type BaseLinkProps = React.PropsWithChildren<LinkProps> & {
+  className?: string
+  children: React.ReactNode
+}
+
+// Next.js のリンクにスタイルを適用するためのヘルパーコンポーネント
+// このコンポーネントを styled-components で使用すると、
+// 定義したスタイルに対応する className が　props として渡される
+// この className を a要素に渡す
+const BaseLink = (props: BaseLinkProps) => {
+  const { className, children, ...rest } = props
+  return (
+    <Link {...rest}>
+      <a className={className}>{children}</a>
+    </Link>
+  )
+}
+
+const StyledLink = styled(BaseLink)`
+  color: #1e90ff;
+  font-size: 2em;
+`
+
+const Page: NextPage = () => {
+  return (
+    <div>
+      {/* 青色のリンクを表示する */}
+      <StyledLink href="/">Go to Index</StyledLink>
+    </div>
+  )
+}
+
+export default Page
+```
+
+#### Theme（テーマ）
+**リスト 4.12 `theme.ts`**
+```ts
+export const theme = {
+  space: ['0px', '4px', '8px', '16px', '24px', '32px'],
+  colors: {
+    white: '#ffffff',
+    black: '#000000',
+    red: '#ff0000'
+  },
+  fontSizes: ['12px', '14px', '16px', '18px', '20px', '23px'], 
+  fonts: {
+    primary: `arial, sans-serif`,
+  },
+}
+```
+
+**リスト 4.13 `pages/_app.tsx`**
+```ts
+import { AppProps } from 'next/app'
+import { ThemeProvider } from 'styled-components'
+import { theme } from '../theme'
+
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  // styled-componentsでテーマを使用するために、ThemeProviderを置く
+  return (
+    <ThemeProvider theme={theme}>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  )
+}
+
+export default MyApp
+```
+
+**リスト 4.14 `theme`で定義した値を使用**
+```ts
+import { NextPage } from 'next'
+import styled from 'styled-components'
+
+const Text = styled.span`
+  /* theme から値を参照してスタイルを適用 */
+  color: ${(props) => props.theme.colors.red};
+  font-size: ${(props) => props.theme.fontSizes[3]};
+  margin: ${(props) => props.theme.space[2]};
+`
+
+const Page: NextPage = () => {
+  return (
+    <div>
+      <Text>Themeから参照した色を使用しています。</Text>
+    </div>
+  )
+}
+
+export default Page
+```
+
+## 4.3 Storybookを使ったコンポーネント管理
 
 
 
