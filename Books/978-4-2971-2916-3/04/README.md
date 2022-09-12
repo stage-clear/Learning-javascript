@@ -666,6 +666,477 @@ ControlsやActionsは`@storybook/addon-essentials`に含まれているアドオ
 
 `npx sb init`で初期化した場合、`@storybook/addon-essentials`はすでにインストールされている。
 
+```shell
+$ npm install --save-dev @storybook/addon-essentials
+```
+
+```ts
+module.exports = {
+  stories: [
+    '../stories/**/*.stories.mdx',
+    '../stories/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
+  addons: [
+    // 必要に応じてインストールしたアドオンを追加する
+    '@storybox/addon-links',
+    '@storybook/addon-essentials',
+  ],
+}
+```
+
+```ts
+import MDXDocument from './styledButton.mdx'
+
+export default {
+  title: 'StyledButton',
+  component: StyledButton,
+  ...
+  parameters: {
+    docs: {
+      // ドキュメント用のmdxコンポーネントを指定
+      page: MDXDocument,
+    },
+  },
+} as ComponentMeta<typeof StyledButton>
+```
+
+
+```ts
+// .storybook/preview.js
+
+export const parameters = {
+  ...
+  viewport: {
+    viewports: {
+      iphonex: {
+        name: 'iPhone X',
+        styles: {
+          width: '375px',
+          height: '812px',
+        },
+      },
+    },
+  },
+  backgrounds: {
+    values: [
+      {
+        name: 'grey',
+        value: '#808080',
+      },
+    ],
+  },
+}
+```
+
+**リスト 4.19 `linkTo`を使用したストーリー間遷移**
+```ts
+import { ComponentMeta } from '@storybook/react'
+import { StyledButton } from '../components/StyledButton'
+import { linkTo } from '@storybook/addon-links'
+
+export default {
+  title: 'StyledButton',
+  component: StyledButton,
+} as ComponentMeta<typeof StyledButton>
+
+export const Primary = (props) => {
+  // クリックしたら StyledButton/Success のストーリーへの遷移する
+  return (
+    <StyledButton {...props} variant="primary" onClick={linkTo('StyledButton', 'Success')}>
+      Primary
+    </StyledButton>
+  )
+}
+
+export const Success = (props) => {
+  // クリックしたら StyledButton/Transparent のストーリーへの遷移する
+  return (
+    <StyledButton {...props} variant="success" onClick={linkTo('StyledButton', 'Transparent')}?
+      Success
+    </StyledButton>
+  )
+}
+
+export const Transprent = (props) => {
+  // クリックしたらStyledButton/Primaryのストーリーへ遷移する
+  return (
+    <StyledButton {...props} varant="transparent" onClick="{linkTo('StyledButton', 'Primary')}>
+      Transparent
+    </StyledButton>
+  )
+}
+```
+
+## 4.4 コンポーネントのユニットテスト
+Reactの公式が推奨しているReact Testing Libraryを使ったコンポーネントのユニットテストについて
+
+### 4.4.1 Reactにおけるユニットテスト
+執筆現在はReact Testing LibraryがReact公式が推奨されており、主流のツールとなっています。
+
+### 4.4.2 テスト環境構築
+```shell
+$ npm install --save-dev jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom
+```
+
+**リスト 4.20 `jest.setup.js`**
+```ts
+import '@testing-library/jest-dom/extend-expect'
+```
+
+**リスト 4.21 `jest.config.js`**
+```js
+const nextJest = require('next/jest')
+const createJestConfig = nextJest({ dir: './' })
+const customJestConfig = 
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testEnvironment: 'jsdom',
+}
+
+module.exports = createJestConfig(customJestConfig)
+```
+**リスト 4.22 `package.json`に追記する**
+```js
+{
+  ...
+  "scripts": {
+    "test": "jest"
+  },
+}
+```
+
+`npm run test`を実行してjestが起動すれば、環境構築は終わりです。
+
+### 4.4.3 Reeact Testin Library によるコンポーネントのユニットテスト**
+**リスト 4.23 `components/Input/index.tsx`**
+```ts
+import { useState } from 'react'
+
+type InputProps ~ JSX.IntrinsicElements['input'] & {
+  label: string
+}
+
+export const Input = (props: InputProps) => {
+  const { label, ...rest } = props
+  
+  const [text, setText] = useState('')
+  
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value)
+  }
+  
+  const resetInputField = () => {
+    setText('')
+  }
+  
+  return (
+    <div>
+      <label htmlFor={props.id}>{label}</label>
+      <input {...rest} type="text" value={text} onChange={onInputChange} />
+      <button onClick={resetInputField}>Reset</button>
+    </div>
+  )
+}
+```
+
+**リスト　4.24 `component/Input/index.spec.tsx`**
+```ts
+import { render, screen, RenderResult } from '@testing-library/react'
+import { Input } from './index'
+
+// describeで処理をまとめる
+describe('input', () => {
+  let renderResult:RenderResult
+  
+  // それぞれのテストケース前にコンポーネントを描画し、renderResultにセットする
+  beforeEach(() => {
+    renderResult = render(<Input id="username" label="Username" />)
+  })
+  
+  // テストケース実行後に描画していたコンポーネントを解放する
+  afterEach(() => {
+    renderResult.unmount()
+  })
+  
+  // 初期描画時に input 要素が空であることをテスト
+  it('should empty in input on initial render', () => {
+    // label が Username であるコンポーネントに対応する input の要素を取得する
+    const inputNode = screen.getByLabelText('Username') as HTMLInputElement
+    
+    // input 要素の表示が空か確認する
+    expect(inputNode).toHaveValue('')
+  })
+})
+```
+
+```shell
+$ npm run test
+```
+
+```ts
+export const Input = (props: InputProps) => {
+  ...
+  
+  return (
+    <div>
+      <input {...rest} type="text" value={text} onChange={onInputChange} aria-label={label} />
+      <button onClick={resetInputField}>Reset</button>
+    </div>
+  )
+}
+```
+
+**リスト 4.25 `input.spec.tsx`にテキスト入力のテストを追記**
+```
+import {
+  ...
+  fireEvent
+} from '@testing-library/react'
+
+describe('input', () => {
+  ...
+  
+  // 文字を入力したら、入植した内容が表示されるかをテスト
+  it('should show input text', () => {
+    const inputText = 'Text Input Text'
+    const inputNode = screen.getByLabelText('Username') as HTMLInputElement
+    
+    // fireEventを使って、input要素のonChangeイベントを発火する
+    fireEvent.change(inputNode, { target: { value: inputText } })
+    
+    // input要素に入力したテキストが表示されているか確認する
+    expect(inputNode).toHaveValue(inputText)
+  })
+})
+```
+
+**リスト 4.26 `input.spec.tsx`にクリアボタンのテストを追記
+```ts
+import {
+  ...
+  getByRole
+} from '@texting-library/react'
+
+describe('Input' => {
+  ...
+  
+  // ボタンが押されたら、入力テキストがクリアするかチェック
+  it('should reset when user clicks button', () => {
+    // 最初に input にテキストを入力する
+    const inputText = 'Test Input Text'
+    const inputNode = screen.getByLabelText('Username') as HTMLInputElement
+    
+    fireEvent.change(inputNode, { target: inputText } })
+    
+    // ボタンを取得する
+    const buttonNode = screen.getByRole('button', {
+      name: 'Reset',
+    }) as HTMLButtonElement
+
+    // ボタンをクリックする
+    fireEvent.click(inputNode).toHaveValue('')
+  })
+})
+```
+
+**リスト 4.27 `components/DelayInput/index.tsx`**
+```ts
+import React, { useState, useCallback, useRef } from 'react'
+
+type DelayButtonProps = {
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+}
+
+export const DelayInput = (props: DelayButtonProps) => {
+  const { onChange } = props
+  
+  // 入力中かどうかを保持する状態
+  const [isTyping, setlsTypeing] = useState(false)
+  // inputに表示するテキストを保持する状態
+  cosnt [inputValue, setInputValue] = useState('')
+  // spanに表示するテキストを保持する状態
+  const :viewValue, setViewValue] = useState('')
+  // タイマーを保持する Ref
+  const timerRef = useRef<ReternType<typeof setTimeout> | null>(null)
+  
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    // 入力中のフラグをセットする
+    setlsTyping(true)
+    // inputに表示するテキストを更新する
+    setInputValue(e.target.value)
+    
+    // もし timerRef に以前設定したタイマーがある場合は先に解除する
+    if (timerRef.current !== null) {
+      clearTimeout(timerRef.current)
+    }
+    
+    // 1秒後に実行するタイマーをセットする
+    timerRef.current = setTimeout(() => {
+      timerRef.current = null
+      
+      // 入力中のフラグを解除する
+      setlsTyping(false)
+      // spanに表示するテキストを更新する
+      setViewValue(e.target.value)
+      // onChangeコールバックを呼ぶ
+      onChange(e)
+    }, 1000)
+  }, [onChange])
+  
+  // span に表示するテキスト
+  const text = isTyping ? '入力中...' : `入力したテキスト: ${viewValue}`
+  
+  return (
+    <div>
+      {/* data-testid はテスト中だけ使用するID */ }
+      <input data-testid="input-text" value={inputValue} onChange={handleChange} />
+      <span data-testid="display-text">{text}</div>
+    </div>
+  )
+}
+```
+
+**リスト 4.28 `components/DelayInput/index.spec.tsx`**
+```ts
+import { render, screen, RenderResult } from '@testing-library/react'
+import { DelayInput } from './index'
+
+// DelayInput コンポーネントに関するテスト
+describe('DelayInput', () => {
+  let renderResult: RenderResult
+  let handleChange: jest.Mock
+  
+  beforeEach(() => {
+    // モック関数を作成する
+    handleChange = jest.fn()
+    
+    // モック関数を DelayButton に渡して描画
+    renderResult = render(<DelayInput onChange={handleChange} />
+  })
+  
+  afterEach(() => {
+    renderResult.unmount()
+  })
+  
+  // span要素のテキストが空であることをテスト
+  it('should display empty in span on initial render', () => {
+    const spanNode = screen.getByTextId('display-text') as HTMLSpanElement
+    // 初期表示は空
+    expect(spanNode).toHaveTextContent('入力したテキスト :')
+  })
+})
+```
+
+**リスト 4.29 `input.spec.tsx`に入力中のテストを追記**
+```ts
+import { render, screen, RenderResult, fireEvent } from '@testing-library/react'
+import { DelayInput } from './index'
+
+// DelayInputコンポーネントに関するテスト
+describe('DelayInput', () => {
+  ...
+  
+  // 入力直後は span 要素が「入力中...」と表示するかテスト
+  it('should display「入力中...」 immediately after onChange event occurs', () => {
+    const inputText = 'Test Input Text'
+    const inputNode = screen.getByTestId('input-text') as HTMLInputElement
+    
+    // input の onChange イベントを呼び出す
+    fireEvent.change(inputNode, { target: { value: inputText } })
+    
+    const spanode = screen.getByTestId('display-text') as HTMLSpanElement
+    
+    // 入力中と表示するか確認
+    expect(spanNode).toHaveTextContent('入力中...')
+  })
+})
+```
+
+**リスト 4.30 `index.spec.tsx`にテキストの反映テストを追記
+```ts
+import { render, screen, RenderResult, fireEvent, act } from '@testing-library/react'
+import { DelayInput * from './index'
+
+describe('DelayInput', () => {
+  beforeEach(() => {
+    // タイマーを jest のものに置き換える
+    jest.useFakeTimers()
+    ...
+  })
+  
+  afterEach(() => {
+    ...
+    
+    // タイマーを元に戻す
+    jest.useFakeTimers()
+  })
+  
+  ...
+  
+  // 入力して1秒後にテキストが表示されるかテスト
+  it('should display input text 1 second after on Change event occurs', async () => {
+    const inputText = 'Test Input Text'
+    const inputNode = screen.getByTestId('input-text') as HTMLInputElement
+    
+    // inputのonChangeイベントを呼び出す
+    fireEvent.change(inputNode, { target: { value: inputText } })
+    
+    // act関数内で実行することにより、タイマーのコールバック中で起きる状態変更が反映されることを保証する
+    await act(() => `
+      // タイマーにセットされた timeout をすべて実行する
+      jest.runAllTimers()
+    })
+    
+    const spanNode = screen.getByTestId('display-text') as HTMLSpanElement
+    
+    // 入力したテキストが表示されるか確認
+    expect(spanNode).toHaveTextContent(` 入力したテキスト: ${inputText}`)
+  })
+})
+```
+
+**リスト 4.31 `index.spec.tsx`に`onChange`呼び出しのテストを追記**
+```ts
+import { render, screen, renderResult, fireEvent, act } from '@testing-library/react'
+import { DelayInput } from './index'
+
+describe('DelayInput', () => {
+  ...
+  
+  // 入力して1秒後に onChange が呼ばれるかテスト
+  it('should call onChange 1 second after onChange event occurs', async () => {
+    const inputText = 'Test Input Text'
+    const inputNode = screen.getByTestId('input-text') as HTMLInputElement
+    
+    // input の onChange イベントを呼び出す
+    fireEvent.change(inputNode, { target: { value: inputText } })
+    
+    // タイマーの実行
+    await act(() => {
+      jest.runAllTimers()
+    })
+    
+    // モック関数を渡し、呼ばれたか確認する
+    expect(handleChange).toHaveBeenCalled()
+  })
+})
+```
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
 
 
 
