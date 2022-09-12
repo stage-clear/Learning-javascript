@@ -580,6 +580,92 @@ export const Transparent = (props) => {
 }
 ```
 
+### 4.3.2 Actionを使用したコールバックのハンドリング
+```ts
+export default {
+  title: 'StyledButton',
+  component: StyledButton,
+  // 以下の行を追加
+  // onClickが呼ばれたときに clicked というアクションを出力する
+  argTypes: { onClick: { action: 'clicked' } },
+} as ComponentMeta<typeof StyledButton>
+```
+
+**リスト 4.17 カスタム Action を使用するストーリー**
+```ts
+import { useState } from 'react'
+import { ComponentMeta } from '@storybook/react'
+import { StyledButton } from '../components/StyledButton'
+// 新しいactionをインポート
+import { action } from '@storybook/addon-actions/'
+
+export default {
+  title: 'StyledButton',
+  component: StyledButton,
+} as ComponentMeta<typed StyledButton>
+
+// increment という名前で action を出力するための関数をつくる
+const incrementAction = action('increment')
+
+export const Primary = (props) => {
+  const [count, setCount] = useState(0)
+  const onClick = (e: React.MouseEvent) => {
+    // 現在のカウントを渡して, Actionを呼ぶ
+    incrementAction(e, count)
+    setCount((c) => c + 1)
+  }
+  
+  return (
+    <StyledButton {...props} variant="primary" onClick={onClick}>
+      Count: {count}
+    </StyledButton>
+  )
+}
+```
+
+### 4.3.3 Controls タブを使った props の制御
+**リスト 4.18 `argTypes`を使用してUIから`props`を制御するストーリー
+```ts
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { StyledButton } from '../components/StyledButton'
+
+export default {
+  title: 'StyledButton',
+  component: StyledButton,
+  argTypes: {
+    // propsに渡す variant を Storybook から変更できるように追加
+    variant: {
+      // ラジオボタンで設定できるように指定
+      control: { type: 'radio' },
+      options: ['primary', 'success', 'transparent'],
+    },
+    // propsに渡す childrenをStorybookから変更できるように追加
+    children: {
+      // テキストボックスで入力できるように指定
+      controle: { type: 'text' },
+    },
+  },
+} as ComponentMeta<typeof StyledButton>
+
+// テンプレートコンポーネントを実装
+// Storybook から渡された props をそのまま Button に渡す
+const Template: ComponentStory<typeof StyledButton> = (args) => <StyledButton {...args} />
+
+// bind を呼び出し Story を作成
+exprot const TemplateText = Template.bind({})
+
+// デフォルトの props を設定する
+TemplateTest.args = {
+  variant: 'primary',
+  children: 'Primary',
+}
+```
+
+### 4.3.4 アドオン
+ControlsやActionsは`@storybook/addon-essentials`に含まれているアドオンです。
+
+`npx sb init`で初期化した場合、`@storybook/addon-essentials`はすでにインストールされている。
+
 
 
 
