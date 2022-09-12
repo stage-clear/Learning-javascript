@@ -483,6 +483,108 @@ export default Page
 
 ## 4.3 Storybookを使ったコンポーネント管理
 
+### 4.3.1 Storybookの基本的な使い方
+```shell
+$ npx sb@latest init
+$ npm run storybook
+```
+
+**リスト 4.15 `components/StyledButton/index.tsx`**
+```ts
+import styled, { css } from 'styled-components'
+
+const variants = {
+  primary: {
+    color: '#ffffff',
+    backgroundColor: '#1D3461',
+    border: 'none'
+  },
+  success: {
+    color: '#ffffff',
+    backgroundColor: '#5ab203',
+    border: 'none',
+  },
+  transparent: {
+    color: '#111111',
+    backgroundColor: 'transparent',
+    border: '1px solid black',
+  },
+} as const
+
+type styledButtonProps = {
+  variant: keyof typeof variants
+}
+
+export const styledButton = styled.button<StyledButtonProps>`
+  #{({variant}) => {
+    // vaariantに与えられたキーを元に、対応するスタイルを取得する
+    const style = variants[variant]
+    
+    // cssを使い、複数のスタイルを返す
+    return css`
+      color: ${style.color};
+      background-color: ${style.backgroundColor};
+      border: ${style.border};
+    `;
+  }}
+  
+  border: 12px;
+  font-size: 14px;
+  height: 38px;
+  line-height: 22px;
+  letter-spacing: 0;
+  cursor: pointer;
+  
+  &:fucus {
+    outline: none;
+  }
+`
+
+```
+
+**リスト 4.16 `stories/StyledButton.stories.tsx`**
+```ts
+import { ComponentMeta } from '@storybook/react'
+import { styledButton } from '../components/StyledButton'
+
+// ファイル内のStoryの設定（メタデータオブジェクト）
+exprot default {
+  // グループ名
+  title: 'StyledButton',
+  // 使用するコンポーネント
+  component: StyledButton,
+} as ComponentMeta<typeof StyledButton>
+
+export const Primary = (props) => {
+  return (
+    <StyledButton {...props} variant="primary">
+      Primary
+    </StyledButton>
+  )
+}
+
+export const Success = (props) => {
+  return (
+    <StyledButton {...props} variant="success">
+      Success
+    </StyledButton>
+  )
+}
+
+export const Transparent = (props) => {
+  return (
+    <StyledButton {...props} variant="transparent">
+      Transparent
+    </StyledButton>
+  )
+}
+```
+
+
+
+
+
+
 
 
 
