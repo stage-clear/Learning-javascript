@@ -234,7 +234,7 @@ $ npm install --save-dev prettier eslint typescript-eslint @typescript-eslint/es
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next" build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint --dir src",
     "format": "next link --fix --dir src"
