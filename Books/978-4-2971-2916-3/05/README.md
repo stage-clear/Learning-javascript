@@ -537,5 +537,165 @@ const Profile = () => {
 }
 ```
 
+### 5.2.7 React Content Loaderの導入
+React Content Loaderはローディングのためのプレースホルダーを簡単に作成できるライブラリで、SVGを使ってローダーの形をカスタマイズ可能です。
 
+```shell
+$ npm install react-content-loader
+$ npm install --save-dev @types/react-content-loader
+```
+
+```shell
+import ContentLoader from 'react-content-loader'
+
+const MyLoader = () => (
+  <ContentLoader viewBox="0 0 380 70">
+    <rect x="0" y="0" rx="5" width="70" height="70" />
+    <rect x="80" y="17 rx="4" width="300" height="13" />
+    <rect x="80" y="40" ry="3" width="250" height="10" />
+  </ContentLoader>
+)
+```
+
+### 5.2.8 Material Iconsの導入
+Material IconsはUIライブラリMaterial UIのコンポーネントの1つです。
+
+```shell
+$ npm install @mui/material @mui/icons-material @emotion/react @emotion/styled
+```
+
+```ts
+import HomeIcon from '@mui/icons-material/Home'
+
+type HomeIconProps = {
+  fontSize?: string
+  color?: string
+}
+
+const HomeIconComponent - ({ fontSize, color }: HomeIConProps) => (
+  <span style={{ fontSize, color }}>
+    <HomeIcon fontSize="inherit" color="inherit" />
+  </span>
+)
+
+export function HomeIcons () {
+  return (
+    <div style={{ display: 'flex', alighItes: 'center' }}>
+      <HomeIconComponent />
+      <HomeIconComponent fontSize="22px" />
+      <HomeIconComponent fontSize="33px" />
+      <HomeIconComponent color="red" />
+      <HomeIconComponent fontSize="22px" color="#3f51b5" />
+    </div>
+  )
+}
+```
+
+### 5.2.9 環境変数
+**リスト 5.16 `.env`**
+```
+API_BASE_URL=http://localhost:8000
+NEXT_PUBLIC_API_BASE_PATH=/api/proxy
+```
+
+### 5.2.10 テスト環境構築
+```shell
+$ npm install --save-dev \
+  @testing-library/jest-dom \
+  @testing-library/react \
+  jest \
+  jet-environment-jsdom
+```
+
+**リスト 5.17 `jest.setup.js`
+```ts
+import '@testing-library/jest-dom/extend-expect'
+```
+
+**リスト 5.18 `jest.config.js`**
+```ts
+const nextJest = require('next/jest')
+const createJesctConfig = nextJest({ dir: './' })
+const customJestConfig = {
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleDirectories: ['node_modules', '<rootDir>/src'],
+  testEnvironment: 'jsdom',
+}
+module.exports = createJestConfig(customJestConfig)
+```
+
+**リスト 5.19 `package.json`**
+```json
+{
+  ...
+  "scripts": {
+    "test": "jest"
+  },
+  ...
+}
+```
+
+```shell
+$ npm run test
+```
+
+**リスト 5.20 `next.config.js`**
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  compiler: (() => {
+    let compilerConfig = {
+      // styledComponentsの有効化
+      styledComponents: true,
+    }
+    
+    if (process.env.NODE_ENV === 'production') {
+      compilerConfig = {
+        ...compilerConfig,
+        // 本番環境では React Testing Library で使用する data-testid 属性を削除
+        reactRemoveProperties: { properties: ['^data-testid$'] },
+      }
+    }
+    
+    return compilerConfig
+  })(),
+}
+
+module.exports = nextConfig
+```
+
+#### `data-testid`の利用
+
+```html
+<div data-testid="custom-element" />
+```
+
+```ts
+import { render, screen } from '@testing-library/react'
+
+render(<MyComponent />)
+const element = screen.getByTestId('custom-element')
+```
+
+要素を取ってくるのに`class`や`id`を使わないのは、`class`や`id`はビルド時の圧縮で短く可読性の低いランダムな文字列に置き換えられている可能性があるからです。
+
+#### 5.2.11 JSON Serverの設定
+JSON ServerとはREST APIのダミーエンドポイントを作成するためのツールです。
+
+```shell
+# Next.jsのアプリケーションとは別のディレクトリで作業する
+$ git clone https://github.com/gihyo-book/ts-nextbook-json
+$ cd ts-nextbook-json
+$ npm ci
+$ npm start
+```
+
+#### CSS in JS ライブラリ
+- [Vercel の styled-jsx](https://github.com/vercel/styled-jsx)
+- [人気があり活発に開発されている emotion](https://emotion.sh/docs/introduction)
+- [styled-componentsにユーティリティを追加する styled-system](https://styled-system.com)
+- [propsベースのユーティリティ集 xstyled](https://xstyled.dev)
+- [テーマを昨日の中心に据えた Theme UI](https://theme-ui.com)
 
