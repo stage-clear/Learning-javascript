@@ -56,6 +56,26 @@ __トランポリン (trampoline)__
 この即時なんらかの値を返すことについて本当に興味深いことは,  `JavaScript` はイベントループのそれぞれの新しい `tick` （イベントループ内でタイミングを刻むステップの単位）のたびにコールスタックを白紙に戻すということです.   
 非同期コールバックは常にイベントループの新しい `tick` で呼ばれるため, 再帰関数でさえ白紙の状態のコールスタックで実行されます. `185`
 
+```js
+function asyncGetAny (interval, urls, onsuccess, onfailure) {
+  var n = urls.length
+  var looper = function () {
+    setTimeout(function () {
+      if (i >= n) {
+        onfailure('failed')
+        return 
+      }
+      $.get(urls[i], onsuccess)
+        .always(function () { console.log('try: ' + urls[i] })
+        .fail(function () {
+          looper(i + 1)
+        })
+    }, interval)
+  }
+  looper(0)
+  return 'go'
+}
+```
 
 ### 再帰は低レイヤーでの操作
 
