@@ -52,3 +52,23 @@ function isCssReady (callback) {
 }
 ```
 [別の方法: `document.styleSheets`を利用する](https://github.com/SlexAxton/yepnope.js)
+
+### 3.2.3 JavaScript中にCSSを埋め込む
+```js
+function injectCss (css) {
+  var style = document.createElement('style')
+  style.type = 'text/css'
+  css = css.replace(/\}/g, '}\n')
+  
+  if (style.styleSheet) { // IE
+    style.styleSheet.cssText = css
+  } else {
+    style.appendChild(document.createTextNode(css))
+  }
+  
+  var entry = document.getElementsByTagName('script')[0]
+  entry.parentNode.insertBefore(style, entry)
+}
+```
+
+
