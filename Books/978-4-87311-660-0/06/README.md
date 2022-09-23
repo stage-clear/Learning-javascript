@@ -44,6 +44,20 @@ __トランポリン (trampoline)__
 1. 現在の要素の値を計算する関数
 2. 次の要素の「シード」となる値を計算する関数
 
+> 言い換えると、**任意の時点での要求に対して「続きの値を」返す関数**です。
+> これらを全て念頭に置いて、generator関数を以下のように実装します。
+
+```js
+function generator (seed, current, step) {
+  return {
+    head: current(seed),
+    tail: function () {
+      console.log('forced') // デモ用の出力で、ロジックには関係ありません
+      return generator(step(seed), current, step)
+    }
+  }
+}
+```
 
 当然ながら, たとえトランポリンを利用してコールスタックの破綻を防ぐことはできたとしても, タダで防ぐことができたわけではありません. その問題をヒープ領域に押し付けたに過ぎません. 幸運なことにJavaScriptのヒープ領域のサイズはコールスタックよりも数行多いため, トランポリン使用時にメモリ消費量による問題が起こる可能性は著しく低くなります. `184`
 
@@ -75,6 +89,18 @@ function asyncGetAny (interval, urls, onsuccess, onfailure) {
   looper(0)
   return 'go'
 }
+```
+
+```js
+// 使用例
+var urls = ['http://dsfgfgs.com', 'http://sghjgsj.biz', '_.html', 'foo.txt']
+
+asyncGetAny(2000,
+  urls,
+  function (data) { alert('データが見つかりました') },
+  function (data) { console.log('全て失敗しました') })
+
+// => 'GO'
 ```
 
 ### 再帰は低レイヤーでの操作
