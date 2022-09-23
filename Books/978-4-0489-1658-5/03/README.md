@@ -71,4 +71,30 @@ function injectCss (css) {
 }
 ```
 
+### 3.4.3　スタイルの継承
+#### ページの基本的なスタイルの検知
+```js
+function getStyle (node, property, camel) {
+  var value
+  
+  if (window.getComputedStyle) {
+    value = document.defaultView
+      .getComputedStyle(node, null)
+      .getPropertyValue(property)
+  } else if (node.currentStyle) {
+    value = node.currentStyle[property] ?
+      node.currentStyle[property] :
+      node.currentStyle[camel]
+  }
+  
+  if (value === '' ||
+      value === 'transparent' ||
+      value === 'rgba(0,0,0,0)') {
+    return getStyle(node.parentNode, property, camel)
+  } else {
+    return value || ''
+  }
+}
+```
+
 
