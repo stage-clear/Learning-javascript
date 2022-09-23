@@ -97,4 +97,21 @@ function getStyle (node, property, camel) {
 }
 ```
 
+**リスト 3-9 `document`の`body`要素にスタイルルールを適用する**
+```js
+function applyStyles (document, styles) {
+  var body = document.getElmentsByTagName('body')[0]
+  
+  for (var property in styles) {
+    if (!styles.hasOwnProperty(property)) {
+      return
+    }
+    
+    body.style[property] = styles[property]
+  }
+}
+
+applyStyles(iframe.contentWindow.document, getBasicStyles(container))
+```
+
 
