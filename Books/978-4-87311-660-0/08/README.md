@@ -4,8 +4,41 @@
 ## 8.1 チェーン
 
 ### 8.1.1 レイジーチェーン(遅延実行を行うチェーン)
+```js
+function LazyChain (obj) {
+  this._calls = []
+  this._target = obj
+}
 
-後の実行のために動作をラッピングする関数のことを__サンク(thunk)__と呼びます. `229`  
+LazyChain.prototype.invoke = function (methodName /*, 任意の引数 */) {
+  var args = _.rest(arguments)
+  
+  this._calls.push(function (target) {
+    var meth = target[methodName]
+    
+    return meth.apply(target, args)
+  })
+  
+  return this
+}
+
+LazyChain.prototype.force = function () {
+  return _.reduce(this._calls, function (target, thunk) {
+    return thunk(target)
+  }, this._target)
+}
+```
+
+```js
+new LazyChain([2,1,3])
+  .invoke('concat', [8,5,7,6])
+  .invoke('sort')
+  .invoke('join', ' ')
+  .force()
+```
+
+
+> 後の実行のために動作をラッピングする関数のことを__サンク(thunk)__と呼びます. `229`  
 
 しかし, このようにサンクに直接引数を与えることはただのイカサマに見えるだけではなく, ひどいAPIです. `230`  
 
