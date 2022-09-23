@@ -68,3 +68,29 @@ function getProductData (id) {
     <script>document.domain = 'publisher.com'</script>
     ...
 ```
+
+**リスト 4-5 トンネルファイルの読み込みと`$.ajax`の参照の取得**
+```js
+function getProductData (id) {
+  var iframe = document.createElement('iframe')
+  iframe.src = 'http://stork.publisher.com/proxy.html'
+  
+  iframe.onload = function () {
+    iframe.contentWindow.$.ajax({
+      method: 'GET',
+      url: 'http://stork.publisher.com/products',
+      data: { product: id },
+      success: function () {
+        // render widget
+      },
+    })
+  }
+  
+  document.getElementsByTagName('head')[0].appendChild(iframe)
+}
+```
+
+### 4.3.3 JSONPとサブドメインプロキシを組み合わせる
+
+
+  
