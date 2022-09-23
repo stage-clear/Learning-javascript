@@ -51,4 +51,4 @@ function isCssReady (callback) {
   })();
 }
 ```
-[別の方法: document.styleSheets を利用する](https://github.com/SlexAxton/yepnope.js)
+[別の方法: `document.styleSheets`を利用する](https://github.com/SlexAxton/yepnope.js)
