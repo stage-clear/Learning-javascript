@@ -1,4 +1,4 @@
-# 3
+# 第３章 HTMLとCSSのレンダリング
 ### 3.2.2 CSSファイルをロードする
 ```js
 function loadStylesheet (url) {
