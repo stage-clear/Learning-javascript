@@ -59,6 +59,33 @@ function generator (seed, current, step) {
 }
 ```
 
+```js
+// アクセサ関数
+function genHead (gen) { return gen.head }
+function genTail (gen) { return gen.tail() }
+```
+
+```
+// 使用例
+var ints = generator(0, _.identity, function (n) { return n+1 })
+
+genHead(ints) //=> 0
+genTail(ints) //=> { head: 1, tail: function }
+```
+
+```js
+function genTake (n, gen) {
+  var doTake = function (x, g, ret) {
+    if (x === 0) {
+      return ret
+    } else {
+      return partial(doTake, x-1, genTail(g), cat(ret, getHead(g)))
+    }
+  }
+  return  trampoline(doTake, n, gen, [])
+}
+```
+
 当然ながら, たとえトランポリンを利用してコールスタックの破綻を防ぐことはできたとしても, タダで防ぐことができたわけではありません. その問題をヒープ領域に押し付けたに過ぎません. 幸運なことにJavaScriptのヒープ領域のサイズはコールスタックよりも数行多いため, トランポリン使用時にメモリ消費量による問題が起こる可能性は著しく低くなります. `184`
 
 - [ヒープ領域についての参考](https://www.ibm.com/developerworks/jp/web/library/wa-jsmemory/)
