@@ -35,3 +35,36 @@ script.src = 'http://thirdpartyjs.com/info.js?callback=jsonCallback'
 
 document.body.appendChild(script)
 ```
+
+## 4.3 サブドメインプロキシ
+### 4.3.1 `document.domain`を利用してドキュメント生成元を変更する
+```js
+document.domain = 'example.com'
+```
+`document.domain`を変更できるのは**ページあたり1回**だけである。
+
+> `document.domain`を変更することで、生成元のポートは80にリセットされる
+
+### 4.3.2 サブドメインプロキシを利用して生成元を超えてデータをやり取りする
+
+**リスト 4-4 `Camera Stork Web**サイトから製品情報を取得する関数
+```js
+function getProductData (id) {
+  $.ajax({
+    type: 'GET',
+    url: 'http://camerastork.com/api/products/',
+    data: { product: id },
+    success: function (data) {
+      renderWidget(data)
+    }
+  })
+}
+```
+
+```html
+<!DOCTYPE html>
+<html>
+  <haed>
+    <script>document.domain = 'publisher.com'</script>
+    ...
+```
