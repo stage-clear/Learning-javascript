@@ -116,9 +116,43 @@ var productId = params.product
 ### 2.5.2 フラグメント識別子の利用
 フラグメント識別子はURLの最後の部分であり、ドキュメントの一部ではあるが、クエリ文字列とは異なりブラウザによってはサーバに送信されない。
 ```
-http://camerastork.com/widget.js**#product_id=1234**
+http://camerastork.com/widget.js#product_id=1234
 ```
 
 ```js
 var params = getQueryParameters(url.replace(/^.*\#/, ''))
+```
+
+### 2.5.3 カスタムデータ属性の利用
+**リスト 2-8 カスタムデータ属性に製品IDを埋め込む**
+```html
+<script data-stork-produc-id="1234"?
+(function () {
+  var script = document.createElement('script')
+  
+  script.async = true
+  script.src = 'http://camerastork.com/widget.js'
+  
+  var entry = document.getElementsByTagName('script')[0]
+  entry.parentNode.insertBefore(script, entry)
+})()
+</script>
+```
+
+**リスト 2-9 `data-stork-product-id`属性の値を探し出して取り出す**
+```js
+function getProductId () {
+  var scripts = document.getElementsByTagName('script')
+  var id
+  
+  for (var i = 0; i < scripts.length; i++) {
+    id = scripts[i].getAttribute('data-stork-product-id')
+    
+    if (id) {
+      return id
+    }
+  }
+  
+  return null
+}
 ```
