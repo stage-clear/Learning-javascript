@@ -151,6 +151,32 @@ JavaScriptにおけるパイプラインは, かりーかや部分適用と一�
 
 ### 8.3.1 共通の形をみつける
 
+```js
+/**
+ * @param {Function} 値を与えられて何かのアクションの結果を提供する関数
+ * @param {Function} 新しいstateを提供する関数
+ */
+function lift (answerFun, stateFun) {
+  return function (/* 任意の数の引数 */) {
+    var args = _.toArray(arguments)
+    
+    return function (state) {
+      var ans = answerFun.apply(null, construct(state, args))
+      var s = stateFun ? stateFun(state) : ans
+      
+      return { answer: ans, state: s }
+    }
+  }
+}
+```
+
+```js
+var mSqr2 = lift(sqr)
+var mNote2 = lift(note, _.identity)
+var mNeg2 = lift(function(n) { return -n})
+```
+
+
 持っていて便利なデータといえば, 状態か, もしくは処理間で共通のターゲットオブジェクトと言えるでしょう. `247`  
 
 `actions` 関数にみられるような合成の考え方を使うことは, 異なる形をもつ関数を合成するための一般的な手段です. `251`  
