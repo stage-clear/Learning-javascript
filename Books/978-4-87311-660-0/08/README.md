@@ -27,6 +27,14 @@ LazyChain.prototype.force = function () {
     return thunk(target)
   }, this._target)
 }
+
+LazyChain.prototype.tap = function (fun) {
+  this._calls.push(function (target) {
+    fun(target)
+    return target
+  })
+  return this
+}
 ```
 
 ```js
@@ -34,6 +42,7 @@ new LazyChain([2,1,3])
   .invoke('concat', [8,5,7,6])
   .invoke('sort')
   .invoke('join', ' ')
+  .tap(alert)
   .force()
 ```
 
@@ -44,7 +53,58 @@ new LazyChain([2,1,3])
 
 ### 8.1.2 Promise
 
-`promise`を理解する上で一番シンプルな考え方は、 `promise`は未消化の活動を表しているということです. `234`  
+`promise`を理解する上で一番シンプルな考え方は、 `promise`は未消化の活動を表しているということです. `234`
+
+```js
+var longing = $.Deferred()
+
+longing.promise()
+longing.promise().state() //=> 'pending'
+
+longing.resolve('<3')
+longing.promise().state() //=> 'resolved'
+
+longing.promise().done(note)
+// NOTE: <3
+// => promiseを返す
+```
+
+```js
+function go () {
+  var d = $.Deferred()
+  
+  $.when('')
+    .then(function () {
+      setTimeout(function () {
+        console.log('sub-task 1')
+      }, 5000)
+    })
+    .then(function () {
+      setTimeout(function () {
+        console.log('sub-task 2')
+      }, 10000)
+    })
+    .then(function () {
+      setTimeout(function () {
+        d.resolve('done done done done')
+      }, 5000)
+    })
+
+  return d.promise()
+}
+
+var  yearning = go().done(note)
+yearning.state()
+//=> 'pending'
+
+//(console) 'sub-task1'
+yearning.state()
+//(console) 'pending'
+//=> 'sub-task2'
+//(console) '情報: done done done
+yearning.state()
+//=> 'resolved'
+```
 
 ## 8.2 パイプライン
 
