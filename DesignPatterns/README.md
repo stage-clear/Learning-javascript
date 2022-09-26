@@ -36,3 +36,5 @@
 |ビジター|クラスを変更することなく、そのクラスに新たなオペレーションを|**`Object`**|
 
 
+## 参考書
+- [JavaScript Design Patterns](https://www.dofactory.com/javascript/design-patterns/)
