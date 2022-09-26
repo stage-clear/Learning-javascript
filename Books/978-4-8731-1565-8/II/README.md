@@ -29,3 +29,41 @@ do/whileループが変わっているのは、コードブロックを再実行
 > 変更するときにはコードを新鮮な目で見る。一歩下がって全体を見る
 
 # 8章 巨大な式を分割する
+
+> **鍵となる考え**<br>
+> 巨大な式は飲み込みやすい大きさに分割する
+
+## 8.1 説明変数
+
+```
+if line.split(':')[0].strip() == 'root'
+  ...
+
+// 説明変数を使うと
+username = line.split(':')[0].strip()
+if username == 'root'
+  ...
+```
+
+## 8.2 要約変数
+
+```
+if (request.user.id == document.owner_id) {
+  // ユーザはこの文書を編集できる
+}
+
+if (request.user.id != document.owner_id) {
+  // 文書は読み取り専用
+}
+
+// 要約変数を使うと
+final boolean = user_owns_document = (request.user.id == document.owner_id);
+
+if (user_owns_document) {
+  // ユーザーはこの文書を編集できる
+}
+
+if (!user_owns_document) {
+  // 文書は読み取り専用
+}
+```
