@@ -9,6 +9,7 @@
 - [コンストラクタ](constructor.md)
 - [モジュール](module.md)
 - [リビーリングモジュール](revealing-module.md)
+- [サブクラス化](subclass.md)
 
 |構造|||
 |:-|:-|:-:|
