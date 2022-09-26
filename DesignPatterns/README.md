@@ -8,6 +8,7 @@
 |[シングルトン](singleton.md)|グローバルからアクセスできるインスタンスが1つしかないクラス|**`Object`**|
 - [コンストラクタ](constructor.md)
 - [モジュール](module.md)
+- [リビーリングモジュール](revealing-module.md)
 
 |構造|||
 |:-|:-|:-:|
