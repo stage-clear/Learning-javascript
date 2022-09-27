@@ -1,6 +1,6 @@
 # Memento
 
-## dofactory
+## [dofactory](https://www.dofactory.com/javascript/design-patterns/memento)
 ```js
 var Person = function (name, street, city, state) {
   this.name = name
@@ -58,7 +58,7 @@ function run () {
 }
 ```
 
-## Design Patterns Game
+## [Design Patterns Game](https://designpatternsgame.com/patterns/memento)
 ```js
 class Pattern {
   constructor (value) {
