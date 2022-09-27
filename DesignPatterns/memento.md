@@ -1,5 +1,6 @@
 # Memento
 
+## dofactory
 ```js
 var Person = function (name, street, city, state) {
   this.name = name
@@ -56,3 +57,67 @@ function run () {
   console.log(john.name)
 }
 ```
+
+## Design Patterns Game
+```js
+class Pattern {
+  constructor (value) {
+    this.value = value
+  }
+}
+
+const originator = {
+  store: function (val) {
+    return new Pattern(val)
+  },
+  restore: function (pattern) {
+    return pattern.value
+  }
+}
+
+class Caretaker {
+  constructor () {
+    this.values = []
+  }
+  
+  addPattern () {
+    this.values.push(pattern)
+  }
+  
+  getPattern () {
+    return this.values[index]
+  }
+}
+
+export { originator, Caretaker }
+```
+
+```js
+function Pattern (value) {
+  this.value = value;
+}
+
+var originator = {
+  store: function (val) {
+    return new Pattern(val);
+  },
+  restore: function (pattern) {
+    return pattern.value;
+  }
+};
+
+function Caretaker () {
+  this.values = [];
+}
+
+Caretaker.prototype.addPattern = function (pattern) {
+  this.values.push(pattern);
+};
+
+Caretaker.prototype.getPattern = function (index) {
+  return this.values[index];
+};
+
+module.exports = [originator, Caretaker];
+```
+
