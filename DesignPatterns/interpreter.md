@@ -1,5 +1,5 @@
-# インタープリタ
-
+# Interpteter
+## [dofactory](https://www.dofactory.com/javascript/design-patterns/interpreter)
 ```js
 var Context = function (input) {
   this.input = input;
@@ -36,3 +36,73 @@ function run () {
 
 }
 ```
+
+## [Design Patterns Game](https://designpatternsgame.com/patterns/interpteter)
+
+```js
+class Sum {
+  constructor (left, right) {
+    this.left = left
+    this.right = right
+  }
+  
+  pattern () {
+    return this.left.pattern() + this.right.pattern()
+  }
+}
+
+class Min {
+  constructor (left, right) {
+    this.left = left
+    this.right = right
+  }
+  
+  pattern () {
+    return this.left.pattern() - this.right.pattern()
+  }
+}
+
+class Num {
+  constroctor (val) {
+    this.val = val
+  }
+  
+  pattern () {
+    return this.val
+  }
+}
+
+export { Num, Min, Sum }
+```
+
+```js
+function Sum (left, right) {
+  this.left = left;
+  this.right = right;
+}
+
+Sum.prototype.pattern = function () {
+  return this.left.pattern() + this.right.pattern();
+};
+
+function Min (left, right) {
+  this.left = left;
+  this.right = right;
+}
+
+Min.prototype.pattern = function () {
+  return this.left.pattern() - this.right.pattern();
+};
+
+function Num (val) {
+  this.val = val;
+}
+
+Num.prototype.pattern = function () {
+  return this.val;
+};
+
+module.exports = [Num, Min, Sum];
+```
+
+
