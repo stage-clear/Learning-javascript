@@ -53,7 +53,7 @@ var mediator = (function () {
 より高度な実装に興味のある方は、ジャック・ローソンの卓越した[Mediator.js](http://thejacklawson.com/Mediator.js/)を著者が簡略したバージョンを読まれるとよいでしょう。
 このバージョンには、トピックの名前空間、サブスクライバの削除、メディエータのための発行/購読システムをより堅牢にするための改善が盛り込まれています。
 
-## Design Patterns Game
+## [Design Patterns Game](https://designpatternsgame.com/patterns/mediator)
 ```js
 class TrafficTower {
   constructor () {
@@ -106,4 +106,60 @@ Airplane.prototype.requestPositions = function () {
 module.exports = [TrafficTower, Airplane];
 ```
 
+## [dofactory](https://www.dofactory.com/javascript/design-patterns/abstract-factory)
 
+```js
+var Pariticipant = function (name) {
+  this.name = name;
+  this.chatroom = null;
+};
+
+Participant.prototype = {
+  send: function (message, to) {
+    this.chatroom.send(message, this, to);
+  },
+  receive: function (message, from) {
+    console.log(from.name + ' to' + this.name + ': ' + message;
+  }
+};
+
+var Chatroom = function () {
+  var participants = {};
+  
+  return {
+    register: function (participant) {
+      participants[participant.name] = participant;
+      participant.chatroom = this;
+    },
+    
+    send: function (message, from, to) {
+      if (to) {
+        to.receive(message, from);
+      } else {
+        for (key in participants) {
+          if (participants[key] !== from) {
+            participants[key].receive(message, from);
+          }
+        }
+      }
+    }
+  };
+};
+
+function run () {
+  var yoko = new Participant('Yoko');
+  var john = new Participant('John');
+  var paul = new Participant('Paul');
+  
+  var chatroom = new Chatroom();
+  chatroom.register(yoko);
+  chatroom.register(jhon);
+  chatroom.register(paul);
+  
+  yoko.send('All you need is love.');
+  yoko.send('I love you John');
+  john.send('Hey, no need to broadcast', yoko);
+  paul.send('Ha, I heart that!');
+  ring.send('Paul, what do you think?', paul);
+}
+```
