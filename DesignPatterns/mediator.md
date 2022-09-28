@@ -54,59 +54,6 @@ var mediator = (function () {
 より高度な実装に興味のある方は、ジャック・ローソンの卓越した[Mediator.js](http://thejacklawson.com/Mediator.js/)を著者が簡略したバージョンを読まれるとよいでしょう。
 このバージョンには、トピックの名前空間、サブスクライバの削除、メディエータのための発行/購読システムをより堅牢にするための改善が盛り込まれています。
 
-## [Design Patterns Game](https://designpatternsgame.com/patterns/mediator)
-```js
-class TrafficTower {
-  constructor () {
-    this.airplanes = []
-  }
-  
-  requestPositions () {
-    return this.airplanes.map(airplane => {
-      return airplane.position
-    })
-  }
-}
-
-class Airplane {
-  constructor (position, trafficTower) {
-    this.position = position
-    this.trafficTower = trafficTower
-    this.trafficTower.airplanes.push(this)
-  }
-  
-  requestPositions () {
-    return this.trafficTower.requestPositions()
-  }
-}
-
-export { trafficTower, Airplane }
-```
-
-```js
-function TrafficTower () {
-  this.airplanes = []
-}
-
-TrafficTower.prototype.requestPositions = function () {
-  return this.airplanes.map(function (airplane) {
-    return airplane.positions;
-  });
-};
-
-function Airplane (position, trafficTower) {
-  this.position = position;
-  this.trafficTower = trafficTower;
-  this.trafficTower.airplanes.push(this);
-}
-
-Airplane.prototype.requestPositions = function () {
-  return this.trafficTower.requestPositions();
-};
-
-module.exports = [TrafficTower, Airplane];
-```
-
 ## [dofactory](https://www.dofactory.com/javascript/design-patterns/abstract-factory)
 
 ```js
@@ -163,4 +110,57 @@ function run () {
   paul.send('Ha, I heart that!');
   ring.send('Paul, what do you think?', paul);
 }
+```
+
+## [Design Patterns Game](https://designpatternsgame.com/patterns/mediator)
+```js
+class TrafficTower {
+  constructor () {
+    this.airplanes = []
+  }
+  
+  requestPositions () {
+    return this.airplanes.map(airplane => {
+      return airplane.position
+    })
+  }
+}
+
+class Airplane {
+  constructor (position, trafficTower) {
+    this.position = position
+    this.trafficTower = trafficTower
+    this.trafficTower.airplanes.push(this)
+  }
+  
+  requestPositions () {
+    return this.trafficTower.requestPositions()
+  }
+}
+
+export { trafficTower, Airplane }
+```
+
+```js
+function TrafficTower () {
+  this.airplanes = []
+}
+
+TrafficTower.prototype.requestPositions = function () {
+  return this.airplanes.map(function (airplane) {
+    return airplane.positions;
+  });
+};
+
+function Airplane (position, trafficTower) {
+  this.position = position;
+  this.trafficTower = trafficTower;
+  this.trafficTower.airplanes.push(this);
+}
+
+Airplane.prototype.requestPositions = function () {
+  return this.trafficTower.requestPositions();
+};
+
+module.exports = [TrafficTower, Airplane];
 ```
