@@ -1,4 +1,4 @@
-# メディエータ・パターン
+# Mediator
 
 メディエータとは振る舞いのデザインパターンであり、システムのさまざまな部品が相互にコミュニケーションできるように統一インターフェイスを公開するものです。
 <img src="https://user-images.githubusercontent.com/4797793/191047407-6aa6f77e-9df6-4a33-b5cd-2eef688c6fb0.jpeg" width="600px" height="auto" />
@@ -53,7 +53,57 @@ var mediator = (function () {
 より高度な実装に興味のある方は、ジャック・ローソンの卓越した[Mediator.js](http://thejacklawson.com/Mediator.js/)を著者が簡略したバージョンを読まれるとよいでしょう。
 このバージョンには、トピックの名前空間、サブスクライバの削除、メディエータのための発行/購読システムをより堅牢にするための改善が盛り込まれています。
 
+## Design Patterns Game
+```js
+class TrafficTower {
+  constructor () {
+    this.airplanes = []
+  }
+  
+  requestPositions () {
+    return this.airplanes.map(airplane => {
+      return airplane.position
+    })
+  }
+}
 
+class Airplane {
+  constructor (position, trafficTower) {
+    this.position = position
+    this.trafficTower = trafficTower
+    this.trafficTower.airplanes.push(this)
+  }
+  
+  requestPositions () {
+    return this.trafficTower.requestPositions()
+  }
+}
 
+export { trafficTower, Airplane }
+```
+
+```js
+function TrafficTower () {
+  this.airplanes = []
+}
+
+TrafficTower.prototype.requestPositions = function () {
+  return this.airplanes.map(function (airplane) {
+    return airplane.positions;
+  });
+};
+
+function Airplane (position, trafficTower) {
+  this.position = position;
+  this.trafficTower = trafficTower;
+  this.trafficTower.airplanes.push(this);
+}
+
+Airplane.prototype.requestPositions = function () {
+  return this.trafficTower.requestPositions();
+};
+
+module.exports = [TrafficTower, Airplane];
+```
 
 
