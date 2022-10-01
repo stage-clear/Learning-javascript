@@ -12,6 +12,8 @@ Car.prototype.toString = function () {
 };
 ```
 
+`new` で呼び出されるたびにメモリに新しい関数が作成されます。インスタンスごとに内容が変わらないメソッドは prototype に追加したほうがいいでしょう。
+
 ```js
 var civic = new Car('Honda Civic', 2009, 20000);
 console.log(civic.toString());
