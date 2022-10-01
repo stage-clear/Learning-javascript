@@ -1,6 +1,6 @@
 # Sandbox
 
-## 実装
+## 実装(JavaScript パターン)
 ```js
 function Sandbox () {
   var args = Array.prototype.slice.call(arguments),
@@ -8,6 +8,7 @@ function Sandbox () {
       modules = (args[0] && typeof args[0] === 'string') ? args : args[0],
       i;
   
+  // new なしで呼び出されたときの対処
   if (!(this instanceof Sandbox)) {
     return new Sandbox(modules, callback);
   }
@@ -35,4 +36,13 @@ function Sandbox () {
   // コールバックを呼び出します
   callback(this);
 }
+
+// 必要に応じて prototype プロパティを設定します
+Sandbox.prototype = {
+  name: 'My Application',
+  version: '1.0',
+  getName: function () {
+    return this.name;
+  }
+};
 ```
