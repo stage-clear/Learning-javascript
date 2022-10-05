@@ -1,4 +1,4 @@
-# Clousure
+# Closures
 ## 3. Partially Applying Functions
 
 ```js
