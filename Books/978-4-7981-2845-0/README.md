@@ -4,7 +4,7 @@
 
 ### 1. Introduction
 ### 2. Functions
-### 3. Closures
+### 3. [Closures](03/)
 ### 4. Timers
 ### 5. Function prototype
 ### 6. RegExp
