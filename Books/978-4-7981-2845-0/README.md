@@ -5,7 +5,7 @@
 ### 1. Introduction
 ### 2. Functions
 ### 3. [Closures](03/)
-### 4. Timers
+### 4. [Timers](04/)
 ### 5. Function prototype
 ### 6. RegExp
 ### 7. with(){}
