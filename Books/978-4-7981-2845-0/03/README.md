@@ -1,4 +1,11 @@
-# 3 Partially Applying Functions
+# Clousure
+## 3 Partially Applying Functions
+
+```js
+String.prototype.csv = String.prototype.split.partial(/,\s*/);
+
+var resuls = ('John, Resing, Boston').csv();
+```
 
 ```js
 Function.prototype.curry = function () {
