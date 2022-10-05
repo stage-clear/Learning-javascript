@@ -1,4 +1,4 @@
-# 3
+# 3 Partially Applying Functions
 
 ```js
 Function.prototype.curry = function () {
