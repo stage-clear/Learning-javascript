@@ -6,7 +6,7 @@
 ### 2. Functions
 ### 3. [Closures](03/)
 ### 4. [Timers](04/)
-### 5. Function prototype
+### 5. [Function prototype](05/)
 ### 6. RegExp
 ### 7. with(){}
 ### 8. eval
