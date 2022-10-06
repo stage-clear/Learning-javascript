@@ -2,7 +2,7 @@
 JavaScript の学習や情報収集のまとめ
 
 - インスタンスメソッドを `instance#method` という表記で表す
-- オブジェクトメソッドを `object.method` という表記で表す
+- オブジェクトメソッド（スタティックメソッド）を `object.method` という表記で表す
 
 ## Contents:
 - [Specs](Specification/) - 仕様やその記述パターンなど
