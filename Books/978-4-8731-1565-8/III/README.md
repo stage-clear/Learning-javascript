@@ -1,5 +1,4 @@
 第III部 コードの再編成
-
 - プログラムの主目的と関係ない「無関係の下位問題」を抽出する
 - コードを再構成して、一度に1つのことをやるようにする
 - 最初にコードを言葉で説明する。その説明をもとにしてキレイな解決策を作る
@@ -72,4 +71,122 @@ var findClosestLocation = function (lat, lng, array) {
 ## 10.2 純粋なユーテリティコード
 
 ## 10.3 その他の汎用コード
+```js
+ajax_post({
+  url: 'htt@://example.com/submit',
+  data: data,
+  on_success: function (response_data) {
+    var str = '{\n';
+    for (var key in response_data) {
+      str + = ' ' + key + ' = ' + response_data[key] + '\n';
+    }
+    alert(str + '}');
+    
+    // 引き続き 'response_data' の処理
+  }
+});
+```
+このコードの高レベルの目標は「**サーバをAjaxで呼び出してレスポンスを処理する**」である。このコードの大部分は「**ディクショナリをキレイに印字（pretty print)する**」
 
+```js
+var format_pretty = function (obj) {
+  var str = '{\n';
+  for (var key in obj) {
+    str += ' ' + key + ' = ' + obj[key] + '\n';
+  }
+  return str + '}';
+}
+```
+
+### 思いも寄らない恩恵
+```js
+var format_pretty = function (obj, indent) {
+  if (obj === null) return 'null';
+  if (obj === undefined) return 'undefined';
+  if (typeof obj === 'string') return '"' + obje + '"';
+  if (typeof obj !== 'object') return String(obj);
+  if (indent === undefined) indent = '';
+  
+  var str = '{\n';
+  for (var key in obj) {
+    str += indent + ' ' + key + ' = ';
+    str += format_pretty(obj[key:, indent + ' ') + '\n');
+  }
+  return str + indent + '}';
+};
+```
+
+## 10.5 プロジェクトに特化した機能
+
+## 10.6 既存のインターフェースを簡潔にする
+
+ここでの教訓は**「理想とは程遠いインタフェースに妥協することはない」**ということだ。
+
+## 10.7 必要に応じてインターフェースを整える
+
+## 10.8 やりすぎ
+
+## 10.9 まとめ
+
+# 11章 一度に１つのことを
+> **鍵となる考え**<br>
+> コードは1つずつタスクを行うようにしなければいけない。
+
+「関数は一度に1つのことを行うべきだ」
+
+## 11.1 タスクは小さくできる
+
+```js
+var vote_changed = function (old_vote, new_vote) {
+  var score = get_score()
+  
+  if (new_vote !== old_vote) {
+    if (new_vote === 'Up') {
+      score += (old_vote === 'Down' ? 2 : 1);
+    } else if (new_vote === 'Down') {
+      score -= (old_vote === 'Up' ? 2 : 1);
+    } else if (old_vote === '') {
+      score += (old_vote === 'Up' ? -1 : 1);
+    }
+  }
+  
+  set_score(score);
+};
+```
+
+このコードは1つのことをしているように見えて、実際には一度に2つのタスクを行なっている
+1. `old_vote`と`new_vote`を数値に「パース」する
+2. `score`を更新する
+
+```js
+var vote_value = function (vote) {
+  if (vote === 'Up') {
+    return +1;
+  }
+  if (vote === 'Down') {
+    return -1;
+  }
+  return 0;
+};
+```
+
+```js
+var vote_changed = function (old_vote, new_vote) {
+  var score = get_score();
+  
+  score -= vote_value(old_vote);
+  score += vote_value(new_vote);
+  
+  set_score(score);
+};
+```
+
+## 11.2 オブジェクトから値を抽出する
+
+### 「一度に１つのタスク」を適用する
+
+### その他の手法
+
+## 11.3 もっと大きな例
+
+### さらなる改善
