@@ -251,7 +251,7 @@ function Gadget() {
   };
 }
 
-Gadget.prototype = {
+Gadget.prototype = (function () {
   // プライベート
   var browser = 'Mobile Webkit';
   // prototype にあるパブリック
@@ -260,7 +260,7 @@ Gadget.prototype = {
       return browser;
     }
   }
-};
+}());
 ```
 
 ### 5.3.6 プライベート関数をパブリックメソッドとして開示する
