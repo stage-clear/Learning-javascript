@@ -327,7 +327,7 @@ MYAPP.utilities.array = (function() {
   var array_string = '[object Array]';
   var ops = Object.prototype.toString;
 
-  // プライベート目sっど
+  // プライベートメソッド
   // ...
 
   // var の終わり
