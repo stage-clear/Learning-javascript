@@ -139,7 +139,7 @@ while (/*条件 */) {
 
 ## 9.2 変数のスコープを縮める
 
-> **鍵となる考え**
+> **鍵となる考え**<br>
 > 変数のことが見えるコード行数をできるだけ減らす。
 
 ### JavaScriptで「プライベート」変数を作る
@@ -180,3 +180,76 @@ var submit_form = (function () {
   f();
 </script>
 ```
+
+## 9.3 変数は一度だけ書き込む
+> **鍵となる考え**<br>
+> 変数を操作する場所が増えると、現在地の判断が難しくなる
+
+## 9.4 最後の例
+```html
+<input type="text" id="input1" value="Dustin">
+<input type="text" id="input2" value="Trevor">
+<input type="text" id="input3" value="">
+<input type="text" id="input4" value="Melissa">
+```
+
+```js
+var setFirstEmptyInput = function (new_value) {
+  var found = false;
+  var i = 1;
+  var elem = document.getElementById('input' + i);
+  while (elem !== null) {
+    if (elem.value === '') {
+      found = true;
+      break;
+    }
+    i++;
+    elem = document.getElementById('input' + i);
+  }
+  if (found) elem.value = new_value;
+  return elem;
+};
+```
+
+- `var found`
+- `var i`
+- `var elem`
+
+```js
+var setFirstEmptyInput = function (new_value) {
+  var i = 1;
+  var elem = document.getElementById('input' + i);
+  while (elem !== null) {
+    if (elem.value === '') {
+      elem.value = new_value;
+      return elem;
+    }
+    i++;
+    elem = document.getElementById('input' + i);
+  }
+  return null;
+};
+```
+
+whileをforループに書き換えてみよう
+```js
+var setFirstEmptyInput = function (new_value) {
+  for (var i = 1; true; i++) {
+    var elem = document.getElementById('input' + i);
+    if (elem === null) {
+      return null; // 検索失敗。からの入力フィールドは見つからなかった。
+    }
+    
+    if (elem.value === '') {
+      elem.value = new_value;
+      return elem;
+    }
+  }
+};
+```
+
+
+## 9.5 まとめ
+- 邪魔な変数を削除する
+- 変数のスコープをできるだけ小さくする
+- 一度だけ書き込む変数を使う
