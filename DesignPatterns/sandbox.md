@@ -6,7 +6,6 @@ function Sandbox () {
   var args = Array.prototype.slice.call(arguments);
   var callback = args.pop();
   var modules = (args[0] && typeof args[0] === 'string') ? args : args[0];
-  var i;
   
   // new なしで呼び出されたときの対処
   if (!(this instanceof Sandbox)) {
@@ -21,15 +20,15 @@ function Sandbox () {
   // モジュールの指定なしか * のとき、すべてのモジュールを使います
   if (!modules || modules === '*') {
     modules = [];
-    for (i in Sandbox.modules) {
-      if (Sandbox.modules.hasOwnProperty(i)) {
-        modules.push(i);
+    for (var key in Sandbox.modules) {
+      if (Sandbox.modules.hasOwnProperty(key)) {
+        modules.push(key);
       }
     }
   }
   
   // 必要なモジュールを初期化します
-  for (i = 0; i < modules.length; i += 1) {
+  for (var i = 0; i < modules.length; i += 1) {
     Sandbox.modules[modules[i]](this);
   }
   
