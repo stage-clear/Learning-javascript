@@ -1,12 +1,12 @@
-# Learning JavaScript
 JavaScript の学習や情報収集のまとめ
+# Learning JavaScript
 
 - インスタンスメソッドを `instance#method` という表記で表す
 - スタティックメソッド（静的メソッド）
 - オブジェクトメソッドを `object.method` という表記で表す
 
 ## Contents:
-- [Specs](Specification/) - 仕様やその記述パターンなど
+- [EcmaScript specs](Specification/) - 仕様やその記述パターンなど
   - [ES2015](Specification/es2015/README.md)
   - [ES2016](Specification/es2016/README.md)
   - [ES2017](Specification/es2017/README.md)
@@ -16,11 +16,11 @@ JavaScript の学習や情報収集のまとめ
   - [ES2021](Specification/es2021/README.md)
   - [WebAPI](Specification/webapi/README.md)
   - [Coding patterns](Specification/patterns/README.md)
-- [Design patterns](DesignPatterns/README.md)
-- [References](References/) - 参考にできる外部リンクなど
-- [Reading Books](Books/) - 読んで注釈やメモした書籍など
+- [デザインパターン](DesignPatterns/README.md)
+- [リファレンス](References/) - 参考にできる外部リンクなど
+- [読んだ本](Books/) - 読んで注釈やメモした書籍など
 
-## Libraries (learn to)
+## ライブラリー
 - [AngularJS](Libraries/AngularJS/)
 - [fablic.js](Libralies/fablic.js/)
 - [GSAP](Librareis/GSAP/)
@@ -36,12 +36,12 @@ JavaScript の学習や情報収集のまとめ
 - [TypeScript](Libraries/TypeScript/)
 - [Vue.js](Libraries/Vue.js/)
 
-## Tutorials:
+## チュートリアル
 - [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
 - [jQueryにはもう頼らない！無限スクロールをネイティブで実装する最新テクニック](https://www.webprofessional.jp/intersectionobserver-api/)
 - [Five Must Know JavaScript Console Tricks in 2017](https://applyhead.com/must-know-javascript-console-tricks/)
 
-## References
+## リファレンス
 - [JavaScript Standard Style](http://standardjs.com/)
 - [Upgrading Ele.me to Progressive Web App](https://medium.com/elemefe/upgrading-ele-me-to-progressive-web-app-2a446832e509)
 - [JavaScript Snippets](https://github.com/kesuiket/js-snippets)
