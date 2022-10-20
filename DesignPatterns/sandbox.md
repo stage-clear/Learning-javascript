@@ -3,10 +3,10 @@
 ## 実装(JavaScript パターン)
 ```js
 function Sandbox () {
-  var args = Array.prototype.slice.call(arguments),
-      callback = args.pop(),
-      modules = (args[0] && typeof args[0] === 'string') ? args : args[0],
-      i;
+  var args = Array.prototype.slice.call(arguments);
+  var callback = args.pop();
+  var modules = (args[0] && typeof args[0] === 'string') ? args : args[0];
+  var i;
   
   // new なしで呼び出されたときの対処
   if (!(this instanceof Sandbox)) {
@@ -34,7 +34,9 @@ function Sandbox () {
   }
   
   // コールバックを呼び出します
-  callback(this);
+  if (typeof callback === 'function') {
+    callback(this);
+  }
 }
 
 // 必要に応じて prototype プロパティを設定します
