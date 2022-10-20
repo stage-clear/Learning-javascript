@@ -167,3 +167,16 @@ var submit_form = (function () {
   };
 }());
 ```
+
+### JavaScriptのグローバルスコープ
+```html
+<script>
+  var f = function () {
+    // 危険: `i`は`var`でせんげんされていない
+    for (i = 0; i < 10; i += 1) {
+      //...
+    }
+  };
+  f();
+</script>
+```
