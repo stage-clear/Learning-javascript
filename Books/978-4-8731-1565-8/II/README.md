@@ -67,3 +67,103 @@ if (!user_owns_document) {
   // 文書は読み取り専用
 }
 ```
+
+## 8.3 ド・モルガンの法則を使う
+```
+1) not (a or b or c)   ←→ (not a) and (not b) and (not c)
+2) not (a and b and c) ←→ (not a) or (not b) or (not c)
+```
+この法則が覚えにくいようであれば、「`not`を分解して`and/or'を反転する」（逆方向は「`not`をくくりだす」）と覚えればいい。
+
+> **どうして1行で書こうとしたのだろう？そのときは「オレは頭がいい」と思っていたのだ。**
+
+# 9章 変数と読みやすさ
+以下の3つの問題に取り組みことになる。
+
+1. 変数が多いと変数を追跡するのが難しくなる。
+2. 変数のスコープが大きいとスコープを把握する時間が長くなる。
+3. 変数が頻繁に変更されると現在の値を把握するのが難しくなる。
+
+## 9.1 変数を削除する
+### 役に立たない一時変数
+```js
+now = datetime.datetime.now()
+root_message.last_view_time = now
+
+// [After]
+root_message.last_view_time = datetime.datetime.now()
+```
+`now`がなくても楽に理解できる。
+
+### 中間結果を削除する
+
+```js
+var remove_one = function (array, value_to_remove) {
+  var index_to_remove = null;
+  for (var i = 0; i < array.length; i += 1) {
+    if (array[i] === value_to_remove) {
+      index_to_remove = i;
+      break;
+      
+      // [After] index_to_remove を削除する
+      // array.splice(i, 1);
+      // return;
+    }
+  }
+  if (index_to_remove !== null) {
+    array.splice(index_to_remove, 1);
+  }
+};
+```
+
+### 制御フロー変数を削除する
+```js
+boolean done = false;
+
+while (/*条件*/ && !done) {
+  ...
+  if (...) {
+    done = true;
+    continue;
+  }
+}
+
+// [After]
+while (/*条件 */) {
+  ...
+  if (...) {
+    break;
+  }
+}
+```
+
+## 9.2 変数のスコープを縮める
+
+> **鍵となる考え**
+> 変数のことが見えるコード行数をできるだけ減らす。
+
+### JavaScriptで「プライベート」変数を作る
+```js
+submitted = false; // 注意: グローバル変数
+
+var submit_form = function (form_name) {
+  if (submitted) {
+    return; // 二重投稿禁止
+  }
+  // ...
+  submitted = true;
+};
+
+// [After] プライベート変数を使う
+var submit_form = (function () {
+  var submitted = false; // 以下の関数からしかアクセスされない
+  
+  return function (form_name) {
+    if (submitted) {
+      return ; // 二重投稿禁止
+    }
+    // ...
+    submitted = true;
+  };
+}());
+```
