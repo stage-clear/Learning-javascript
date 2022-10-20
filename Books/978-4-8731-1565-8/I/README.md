@@ -66,6 +66,10 @@
 
 ## 3.4 範囲を指定するときは `first` と `last` を使う
 
+## 3.5 包含／排他的には `begin` と `end` を使う
+<img width="300px" src="https://user-images.githubusercontent.com/4797793/196853432-56bcd92b-2282-4727-b0ba-a80db7e921f0.jpeg">
+
+
 # 第４章 美しさ
 優れたソースコードは「目に優しい」ものでなければいけない。
 
