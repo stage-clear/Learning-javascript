@@ -204,7 +204,7 @@ POLAでは必要以上に権限を与えるべきではないとされていま�
 
 ```js
 var myObj; // これがオブジェクトになります
-(functin() {
+(function() {
   // プライベートメンバ
   var name = 'my, oh my';
 
