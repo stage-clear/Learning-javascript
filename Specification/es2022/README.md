@@ -1,8 +1,8 @@
 # ECMAScript 2022
 
 ## Feature list
-- **New member of classes** - 
-  - クラスインスタンスのプライベートのフィールド（`#`）
+- **New member of classes** - `#`
+  - クラスインスタンスのプライベートのフィールド
   - クラスインスタンスのプライベートのメソッド
   - プライベートを示すアクセサー
 - **Private slot checks via the in operator** - 
