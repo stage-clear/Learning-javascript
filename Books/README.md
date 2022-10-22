@@ -13,8 +13,9 @@
 
 ### TypeScript
 - [はじめてのTypeScript2](978-4-77751-992-7/)
-- [TypeScriptとReact/Next.jsでつくる 実践Webアプリケーション開発](978-4-2971-2916-3/)
 - [プログラミング TypeScript](978-4-87311-904-5/)
+- [TypeScript実践マスター](978-4-82229-897-5/)
+- [TypeScriptとReact/Next.jsでつくる 実践Webアプリケーション開発](978-4-2971-2916-3/)
 
 ### Node.js
 - [実践Node.jsプログラミング](978-4-79812-947-1/)
