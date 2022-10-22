@@ -1,10 +1,5 @@
 JavaScript の学習や情報収集のまとめ
 # Learning JavaScript
-
-- インスタンスメソッドを `instance#method` という表記で表す
-- スタティックメソッド（静的メソッド）
-- オブジェクトメソッドを `object.method` という表記で表す
-
 ## 目次
 - [EcmaScript](Specification/) - 仕様やその記述パターンなど
   - [ES2015](Specification/es2015/README.md)
@@ -31,3 +26,9 @@ JavaScript の学習や情報収集のまとめ
 参考にできる外部リンクなど
 - [JavaScript Primer](https://jsprimer.net/)
 - [JavaScript Promiseの本](https://azu.github.io/promises-book/)
+
+## 文中の記述
+|書き方|説明|
+|:-|:-|
+|`instance#method`|インスタンスメソッド|
+|`object.method|オブジェクトメソッド、スタティックメソッド（静的メソッド）|
