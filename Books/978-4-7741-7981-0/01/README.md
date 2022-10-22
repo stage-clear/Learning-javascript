@@ -19,14 +19,14 @@
 - [**リスト3 Service.java**](list-3_Service.java)
 
 ### もう少しまともな挨拶を
-- [**リスト4** 手続き型で書いた例](list-4_GreetingProcedural.java)
+- [**リスト4 GreetingProcedural.java** 手続き型で書いた例](list-4_GreetingProcedural.java)
 
 
 #### 手続き型オブジェクト思考の発想の違い
 オブジェクト指向では、分割の単位が「手続き」ではなく「オブジェクト」になります。<br>
 オブジェクトに分割して、それぞれのオブジェクトに分担してやってもらう、という発想です。
 
-- [**リスト5** リスト4をメソッドに分割して、構造化プログラミングのスタイルで書き直した](list-05_GreetingServiceStructured.java)
+- [**リスト5 GreetingServiceStructured.java** リスト4をメソッドに分割して、構造化プログラミングのスタイルで書き直した](list-05_GreetingServiceStructured.java)
 
 ### オブジェクトで仕事を分担する
 - [**リスト6 Launcher.java**](list-6_Launcher.java)
@@ -34,6 +34,7 @@
 - [**リスト8 Transfer.java**](list-8_Transfer.java)
 
 
+#### LauncherとGreetingServiceの分離
 
 
 
