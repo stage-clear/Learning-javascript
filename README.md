@@ -17,15 +17,15 @@ JavaScript の学習や情報収集のまとめ
 - [デザインパターン](DesignPatterns/README.md)
 - [スニペット](https://github.com/kesuiket/js-snippets)
 
-## [書籍](Books/)
-読んで注釈やメモした書籍など
-
 ## [ライブラリー／プラグイン](Libraries/)
 
 ## [リファレンス](References/)
 - [JavaScript Primer](https://jsprimer.net/)
 - [JavaScript Promiseの本](https://azu.github.io/promises-book/)
 - [JSDoc](https://jsdoc.app/)
+
+## [書籍](Books/)
+読んで注釈やメモした書籍など
 
 ## 文中の記述
 |書き方|説明|
