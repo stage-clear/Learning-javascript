@@ -18,10 +18,10 @@
 // HelloWorld.java
 public class HelloWorld 
 {
-	public static void main(string[] args)
-	{
-		System.out.printIn("Hellow world!");
-	}
+  public static void main(string[] args)
+  {
+    System.out.printIn("Hellow world!");
+  }
 }
 ```
 
@@ -31,12 +31,12 @@ package hello;
 
 class Launcher
 {
-	public static void main(String[] args)
-	{
-		// 実行時に動的に組み立てる
-		Service service = new Service();
-		service.hello();
-	}
+  public static void main(String[] args)
+  {
+    // 実行時に動的に組み立てる
+    Service service = new Service();
+    service.hello();
+  }
 }
 ```
 
@@ -46,10 +46,10 @@ package hello;
 
 class Service
 {
-	void hello()
-	{
-		System.out.printIn("Hello, world");
-	}
+  void hello()
+  {
+    System.out.printIn("Hello, world");
+  }
 }
 ```
 
