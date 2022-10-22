@@ -5,7 +5,7 @@ JavaScript の学習や情報収集のまとめ
 - スタティックメソッド（静的メソッド）
 - オブジェクトメソッドを `object.method` という表記で表す
 
-## Contents:
+## 目次
 - [EcmaScript specs](Specification/) - 仕様やその記述パターンなど
   - [ES2015](Specification/es2015/README.md)
   - [ES2016](Specification/es2016/README.md)
@@ -23,21 +23,7 @@ JavaScript の学習や情報収集のまとめ
 - [リファレンス](References/) - 参考にできる外部リンクなど
 - [読んだ本](Books/) - 読んで注釈やメモした書籍など
 
-## ライブラリー
-- [AngularJS](Libraries/AngularJS/)
-- [fablic.js](Libralies/fablic.js/)
-- [GSAP](Librareis/GSAP/)
-- [Leaflet](Libraries/Leaflet/)
-- [Node.js](Libraries/Node/)
-- [p5js](Libraries/p5/)
-- [Pixi.js](Libraries/pixi/)
-- [React](Libraries/React/)
-- [RxJS](Libraries/RxJS/)
-- [ScrollMagic](Libraries/ScrollMagic)
-- [Selenium](Libraries/Selenium/)
-- [three.js](Libraries/three.js/)
-- [TypeScript](Libraries/TypeScript/)
-- [Vue.js](Libraries/Vue.js/)
+## [ライブラリー](Libraries/)
 
 ## チュートリアル
 - [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
