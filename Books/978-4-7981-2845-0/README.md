@@ -7,11 +7,11 @@
 ### 3. [Closures](03/)
 ### 4. [Timers](04/)
 ### 5. [Function prototype](05/)
-### 6. RegExp
+### 6. [RegExp](06/)
 ### 7. with(){}
 ### 8. eval
 ### 9. Strategies for cross-browser code
-### 10. CSS Selector Engine
+### 10. [CSS Selector Engine](10/)
 ### 11. DOM modification
 ### 12. Get/Set attributes
 ### 13. Get/Set CSS
