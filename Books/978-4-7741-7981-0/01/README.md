@@ -19,22 +19,47 @@
 - [**リスト3 Service.java**](list-3_Service.java)
 
 ### もう少しまともな挨拶を
-- [**リスト4 GreetingProcedural.java** 手続き型で書いた例](list-4_GreetingProcedural.java)
+- [**リスト4 GreetingProcedural.java**](list-4_GreetingProcedural.java) 手続き型で書いた例
 
 
 #### 手続き型オブジェクト思考の発想の違い
 オブジェクト指向では、分割の単位が「手続き」ではなく「オブジェクト」になります。<br>
 オブジェクトに分割して、それぞれのオブジェクトに分担してやってもらう、という発想です。
 
-- [**リスト5 GreetingServiceStructured.java** リスト4をメソッドに分割して、構造化プログラミングのスタイルで書き直した](list-05_GreetingServiceStructured.java)
+- [**リスト5 GreetingServiceStructured.java**](list-05_GreetingServiceStructured.java) リスト4をメソッドに分割して、構造化プログラミングのスタイルで書き直した
 
 ### オブジェクトで仕事を分担する
 - [**リスト6 Launcher.java**](list-6_Launcher.java)
 - [**リスト7 GreetingService.java**](list-7_GreetingService.java)
 - [**リスト8 Transfer.java**](list-8_Transfer.java)
-
+- [**リスト9 User.java**](list-9_User.java)
+- [**リスト10 Greeting.java**](list-10_Greeting.java)
+- [**リスト11 AmPm.java**](list-11_AmPm.java)
+- [**リスト12 Clock.java**](list-12_Clock.java)
+- [**リスト13 GreetingFormat.java**](list-13_GreetingFormat.java)
 
 #### LauncherとGreetingServiceの分離
+プログラムの軌道と、サービスの実行を別のオブジェクトに分けるのは定石ですね。<br>
+プログラムを起動する `main` メソッドや`main`メソッドを持つクラスに、それ以外の仕事を詰め込んではいけません。
 
+#### Userオブジェクト
+
+#### Transferオブジェクト
+
+#### パッケージの分割
+Launcher、GreetingService、User、Transferを、「**サービスパッケージ**」にまとめました。<br>
+Greeting、AmPm、Clock、GreetingFormatは、「**モデルパッケージ**」にまとめました。<br>
+**サービスパッケージ**は、アプリケーションの実行方式や実行環境に依存したコードがいろいろ含まれています（Systemクラスとか）。<br>
+**モデルパッケージ**は「挨拶する」という概念モデルをそのまま実装したパッケージです。<br>
+<br>
+プログラムの実行環境や実行方式に関した変更は、サービスパッケージで行います。
+
+#### Greetingオブジェクト
+
+#### AmPmオブジェクトとClockオブジェクト
+
+#### GreetingFormatオブジェクト
+
+### 小さなオブジェクトで仕事を組み立てる
 
 
