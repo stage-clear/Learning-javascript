@@ -2,9 +2,9 @@
 ## 脱jQuery
 - [jQueryにはもう頼らない！無限スクロールをネイティブで実装する最新テクニック](https://www.webprofessional.jp/intersectionobserver-api/)
 
-## チュートリアル
-- [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
-- [Five Must Know JavaScript Console Tricks in 2017](https://applyhead.com/must-know-javascript-console-tricks/)
+## Vanilla JavaScript Plugins
+- [Vanilla list](http://www.vanillalist.com/)
+- [vanilla javascript](https://www.sitepoint.com/tag/vanilla-javascript/)
 
 ## Tips
 - [JavaScriptのクロージャは内部でどう機能するのか](http://postd.cc/how-do-javascript-closures-work-under-the-hood/)
@@ -18,18 +18,9 @@
 - [Data Structures in JavaScript – With Code Examples](https://www.freecodecamp.org/news/data-structures-in-javascript-with-examples/)
 - [Javascript Data Structures Tutorials Archives](https://learnersbucket.com/tutorials/topics/data-structures/)
 
-## Functional programing libraries for JavaScript
-- [Underscore.js](http://underscorejs.org/)
-- [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
-- [lodash.js](https://lodash.com/)
-- [bilby.js](https://github.com/puffnfresh/bilby.js)
-
-## Reactive Programing / FRP
-- [ ] [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
-
-## Vanilla JavaScript Plugins
-- [Vanilla list](http://www.vanillalist.com/)
-- [vanilla javascript](https://www.sitepoint.com/tag/vanilla-javascript/)
+## チュートリアル
+- [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
+- [Five Must Know JavaScript Console Tricks in 2017](https://applyhead.com/must-know-javascript-console-tricks/)
 
 ## Online Documents
 - [JavaScript Standard Style](http://standardjs.com/)
