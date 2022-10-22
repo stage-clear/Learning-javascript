@@ -52,3 +52,69 @@ class Service
 	}
 }
 ```
+
+### もう少しまともな挨拶を
+**リスト4** 手続き型で書いた例
+```java
+// GreetingProcedural.java
+package hello;
+
+import java.util.Calendar;
+
+class GreetingServiceProcedural
+{
+  void greet()
+  {
+    String user = System.getProperty("user.name");
+    
+    Calendar calendar = Calendar.getInstance();
+    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+    
+    String message = "";
+    
+    if (hour < 12)
+    {
+      message = "おはようございます";
+    }
+    else
+    {
+      message = "こんにちは";
+    }
+    
+    System.out.pritnIn(user + "さん、" + message);
+  }
+}
+```
+
+#### 手続き型オブジェクト思考の発想の違い
+**リスト5** リスト4をメソッドに分割して、構造化プログラミングのスタイルで書き直した
+```java
+// GreetingServiceStructured.java
+package hello;
+
+import java.util.Calendar;
+
+class GreetingStructured
+{
+  void greet()
+  {
+    String user = username();
+    int hour = hour();
+    String message = message(hour);
+    print(user, message);
+  }
+  
+  // 下請けメソッド郡
+  message = "こんにちは";
+  private String username () { ... }
+  private int hour () { ... }
+  private String message (int hour) { ... }
+  private void print (String user, String message) { ... }
+}
+```
+オブジェクト指向では、分割の単位が「手続き」ではなく「オブジェクト」になります。
+オブジェクトに分割して、それぞれのオブジェクトに分担してやってもらう、という発想です。
+
+
+
+
