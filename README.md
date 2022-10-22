@@ -26,5 +26,6 @@ JavaScript の学習や情報収集のまとめ
 ## [ライブラリー](Libraries/)
 
 ## [リファレンス](References/)
+- [JavaScript Primer](https://jsprimer.net/)
 
 ## [JavaScript スニペット](https://github.com/kesuiket/js-snippets)
