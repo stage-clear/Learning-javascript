@@ -24,3 +24,6 @@ Object-oriented Programming
 オブジェクト指向プログラミングは、数式を組み立てるよりも、文章を組み立てる活動と似ています。<br>
 頭の中にある漠然としたイメージを適切な言葉を選びながら、だんだん論理的な文章に組み上げていく。それがオブジェクト指向プログラミングです。
 ```
+
+## リファレンス
+- [クラス図 UML](https://www.itsenka.com/contents/development/uml/class.html)
