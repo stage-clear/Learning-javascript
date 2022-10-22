@@ -17,6 +17,8 @@ JavaScript の学習や情報収集のまとめ
   - [WebAPI](Specification/webapi/README.md)
   - [Coding patterns](Specification/patterns/README.md)
 - [プログラミングスタイル](Programming-style/)
+  - [オブジェクト指向](Programming-style/object-oriented-programming/)
+  - [関数型プログラミング](Programming-style/functional-programming/)
 - [デザインパターン](DesignPatterns/README.md)
 - [リファレンス](References/) - 参考にできる外部リンクなど
 - [読んだ本](Books/) - 読んで注釈やメモした書籍など
