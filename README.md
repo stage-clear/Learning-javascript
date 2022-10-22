@@ -16,6 +16,7 @@ JavaScript の学習や情報収集のまとめ
   - [関数型プログラミング](Programming-style/functional-programming/)
 - [デザインパターン](DesignPatterns/README.md)
 - [スニペット](https://github.com/kesuiket/js-snippets)
+- コメント - [JSDoc](https://jsdoc.app/)
 
 ## [書籍](Books/)
 読んで注釈やメモした書籍など
