@@ -18,10 +18,6 @@
 - [Data Structures in JavaScript – With Code Examples](https://www.freecodecamp.org/news/data-structures-in-javascript-with-examples/)
 - [Javascript Data Structures Tutorials Archives](https://learnersbucket.com/tutorials/topics/data-structures/)
 
-
-- [JavaScript Standard Style](http://standardjs.com/)
-- [Upgrading Ele.me to Progressive Web App](https://medium.com/elemefe/upgrading-ele-me-to-progressive-web-app-2a446832e509)
-
 ## Functional programing libraries for JavaScript
 - [Underscore.js](http://underscorejs.org/)
 - [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
@@ -36,6 +32,8 @@
 - [vanilla javascript](https://www.sitepoint.com/tag/vanilla-javascript/)
 
 ## Online Documents
+- [JavaScript Standard Style](http://standardjs.com/)
+- [Upgrading Ele.me to Progressive Web App](https://medium.com/elemefe/upgrading-ele-me-to-progressive-web-app-2a446832e509)
 - [javascript-society/javascript-path](https://github.com/javascript-society/javascript-path)
 - [airbnb/javascript](https://github.com/airbnb/javascript)
 - [Jam3/math-as-code](https://github.com/Jam3/math-as-code) - 数式を関数で書く
