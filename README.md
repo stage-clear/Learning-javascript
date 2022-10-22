@@ -27,5 +27,6 @@ JavaScript の学習や情報収集のまとめ
 
 ## [リファレンス](References/)
 - [JavaScript Primer](https://jsprimer.net/)
+- [JavaScript Promiseの本](https://azu.github.io/promises-book/)
 
 ## [JavaScript スニペット](https://github.com/kesuiket/js-snippets)
