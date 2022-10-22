@@ -1,4 +1,11 @@
 # References
+## 脱jQuery
+- [jQueryにはもう頼らない！無限スクロールをネイティブで実装する最新テクニック](https://www.webprofessional.jp/intersectionobserver-api/)
+
+## チュートリアル
+- [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
+- [Five Must Know JavaScript Console Tricks in 2017](https://applyhead.com/must-know-javascript-console-tricks/)
+
 ## Tips
 - [JavaScriptのクロージャは内部でどう機能するのか](http://postd.cc/how-do-javascript-closures-work-under-the-hood/)
 - [Javadoc ドキュメンテーションコメントの書き方](http://qiita.com/maku77/items/6410c67ce95e08d8d1bd)
