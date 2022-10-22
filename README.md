@@ -6,7 +6,7 @@ JavaScript の学習や情報収集のまとめ
 - オブジェクトメソッドを `object.method` という表記で表す
 
 ## 目次
-- [EcmaScript specs](Specification/) - 仕様やその記述パターンなど
+- [EcmaScript](Specification/) - 仕様やその記述パターンなど
   - [ES2015](Specification/es2015/README.md)
   - [ES2016](Specification/es2016/README.md)
   - [ES2017](Specification/es2017/README.md)
