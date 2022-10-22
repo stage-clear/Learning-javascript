@@ -14,4 +14,5 @@
 
 ## References
 - [ECMAScript 2022](https://2ality.com/2022/06/ecmascript-2022.html)
+- [JavaScriptの次の仕様ES2022の新機能まとめ](https://ics.media/entry/220610/)
 
