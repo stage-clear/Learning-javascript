@@ -25,12 +25,6 @@ JavaScript の学習や情報収集のまとめ
 
 ## [ライブラリー](Libraries/)
 
-## チュートリアル
-- [How to Make a Simple JavaScript Quiz](https://www.sitepoint.com/simple-javascript-quiz/)
-- [jQueryにはもう頼らない！無限スクロールをネイティブで実装する最新テクニック](https://www.webprofessional.jp/intersectionobserver-api/)
-- [Five Must Know JavaScript Console Tricks in 2017](https://applyhead.com/must-know-javascript-console-tricks/)
+## [リファレンス](References/)
 
-## リファレンス
-- [JavaScript Standard Style](http://standardjs.com/)
-- [Upgrading Ele.me to Progressive Web App](https://medium.com/elemefe/upgrading-ele-me-to-progressive-web-app-2a446832e509)
-- [JavaScript Snippets](https://github.com/kesuiket/js-snippets)
+## [JavaScript スニペット](https://github.com/kesuiket/js-snippets)
