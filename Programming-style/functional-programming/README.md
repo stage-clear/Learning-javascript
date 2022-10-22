@@ -9,3 +9,7 @@
 - ファンクター
 - モナド
 - 恒等関数
+
+## 参考
+- [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
+- [モナド則がちょっと分かった？](https://qiita.com/7shi/items/547b6137d7a3c482fe68)
