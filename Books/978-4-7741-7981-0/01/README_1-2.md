@@ -10,7 +10,7 @@
 ### ③手続き指向からの発想の転換
 
 ## オブジェクト指向への地図を持とう
-<img width="80%" align="center" src="https://user-images.githubusercontent.com/4797793/197336602-730ebbef-f9f6-4865-b5a9-98b7c80f3696.png"><br>
+<img width="80%" src="https://user-images.githubusercontent.com/4797793/197336602-730ebbef-f9f6-4865-b5a9-98b7c80f3696.png"><br>
 
 ### 原理
 オブジェクト指向に限らず、すべてのプログラムはアルゴリズムとデータ構造からなっています。
@@ -53,7 +53,7 @@
 データ型はメソッド、すなわち、インターフェースのみを介して利用できるので、C言語の構造体のように直接外から操作できません。
 
 ### オブジェクト指向プログラミングの発想「アーキテクチャが鍵」
-<img width="80%" align="center" src="https://user-images.githubusercontent.com/4797793/197337821-3b98c5be-0af9-4cba-9041-aa0ffc7cb5b2.png"><br>
+<img width="80%" src="https://user-images.githubusercontent.com/4797793/197337821-3b98c5be-0af9-4cba-9041-aa0ffc7cb5b2.png"><br>
 
 オブジェクト指向では、クラス間の関係を継承や集約によって関係づけできます。<br>
 
