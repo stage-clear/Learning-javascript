@@ -15,7 +15,7 @@ JavaScript の学習や情報収集のまとめ
   - [ES2020](Specification/es2020/README.md)
   - [ES2021](Specification/es2021/README.md)
   - [WebAPI](Specification/webapi/README.md)
-  - [Coding patterns](Specification/patterns/README.md)
+  - [まとめ](Specification/patterns/README.md)
 - [プログラミングスタイル](Programming-style/)
   - [オブジェクト指向](Programming-style/object-oriented-programming/)
   - [関数型プログラミング](Programming-style/functional-programming/)
