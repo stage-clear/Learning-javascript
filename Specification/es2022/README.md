@@ -3,6 +3,7 @@
 ## Feature list
 - New member of classes
 - Private slot checks via the in operator
+- Top-level await in modules
 - `error.cause`
 - `.at()`
 - RegExp match indices
