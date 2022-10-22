@@ -16,7 +16,6 @@ JavaScript の学習や情報収集のまとめ
   - [関数型プログラミング](Programming-style/functional-programming/)
 - [デザインパターン](DesignPatterns/README.md)
 - [スニペット](https://github.com/kesuiket/js-snippets)
-- コメント - [JSDoc](https://jsdoc.app/)
 
 ## [書籍](Books/)
 読んで注釈やメモした書籍など
@@ -24,9 +23,9 @@ JavaScript の学習や情報収集のまとめ
 ## [ライブラリー／プラグイン](Libraries/)
 
 ## [リファレンス](References/)
-参考にできる外部リンクなど
 - [JavaScript Primer](https://jsprimer.net/)
 - [JavaScript Promiseの本](https://azu.github.io/promises-book/)
+- [JSDoc](https://jsdoc.app/)
 
 ## 文中の記述
 |書き方|説明|
