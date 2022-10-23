@@ -553,7 +553,205 @@ function filterdSetSubClass (superclass, filter) {
 }
 ```
 
+## 9.7.3 合成とサブクラス
+オブジェクト指向デザインでよく知られている原則に、「継承よりも合成を優先」というのもあります。
 
+```js
+/**
+ * FilterdSetは指定したセットオブジェクトをラップし、指定したフィルタを適用して
+ * このフィルタをパスしたものだけを add() メソッドに渡す。そのほかのコアメソッドは、
+ * 単純にラップしたセットインスタンスに転送しているだけ
+ */
+var FilterdSet = Set.extend(
+  function FilterdSet(set, filter) {    // コンストラクタ
+    this.set = set
+    this.filter = filter
+  },
+  { // インスタンスメソッド
+    add: function () {
+      // フィルタがある場合は適用する
+      if (this.filter) {
+        for (var i = 0; i < arguments.length; i++) {
+          var v = arguments[i]
+          if (!this.filter(v)) {
+            throw new Error("FilterdSet: value " + v + " rejected by filter")
+          }
+        }
+      }  
+      // ここで add()メソッドから this.set.add() メソッドに転送する
+      this.set.add.apply(this.set, arguments)
+      return this
+    },
+    // 残りのメソッドは this.set に転送するだけで何もしない
+    remove: function () {
+      this.set.remove.apply(this.set, arguments)
+      return this
+    },
+    contains: function (v) { return this.set.contains(v) },
+    size: function () { return this.set.size() },
+    foreach: function (f, c) { this.set.foreach(f, c) }
+  }
+)
+
+var s = new FilterdSet(new Set(), function (x) { return x !== null })
+```
+
+### 9.7.4 クラス階層と抽象クラス
+合成を使わずサブクラスを使うことで`instanceof Set`が`true`になります。つまり、`toString()`や`equals()`などの便利なSetメソッドを継承できます。これは大きな利点です。
+しかし、それでも合成で対応することに利点があります。例のSingletonSetについても同じような話があります。このSingletonSetkル明日はSetをサブクラス化するので、補助的なメソッドを継承します。
+しかし、実装はスーパークラスとは全く異なっています。SingletonSetはSetの特別なクラスではなく、むしろ全く違う種類のSetと考えられます。クラス階層で言えば、SingletonSetはSetの隣に位置づけられるものであり、Setの子孫ではありません。
+
+```js
+// 任意の抽象メソッドとして利用できる便利な関数
+function abstractmethod () { throw new Error('abstract method') }
+
+/**
+ * AbstactSetクラスでは、contains()抽象メソッドのみを定義する
+ */
+function AbstractSet () { throw new Error("Can't instantiate abstract classes") }
+AbstractSet.prototype.contains = abstractmethod
+
+/**
+ * NotSetは、AbstractSetの具象サブクラス
+ * このセットは、あるほかのセットのメンバではない値すべてがメンバーとなる
+ * このセットは、ほかのセットの状態によって定義されるセットなので、書き込む
+ * ことはできない。また、メンバーは無限に存在するので、列挙もできない
+ * メンバーに含まれるかどうかを調べることしかできない
+ * 以前に定義した Function.prototype.extend() を使って、このサブクラスを
+ * 定義している
+ */
+var NoteSet = AbstractSet.extend(
+  function NotSet (set) { this.set = set },
+  {
+    contains: function (x) { return !this.set.contains(x) },
+    toString: function (x) { return '~' + this.set.toString(x) },
+    equals: function (that) {
+      return that instanceof NotSet && this.set.equals(that.set)
+    }
+  }
+)
+
+/**
+ * AbstractEnumerableSetは、AbstractSetの抽象クラス。
+ * size()とforeach()抽象メソッドを定義する。また、この2つの抽象メソッド
+ * を使って、isEmpty()、toArray()、to[Local]String()、equals()メソッド
+ * を実装する。サブクラスでは、contains()、size()、foreach()メソッド
+ * を実装するだけで、この5つのメソッドも使えるようになる
+ */
+var AbstraceEnumerableSet = AbstractSet.extend(
+  function () { throw new Error("Can't instantiate abstract classes") },
+  {
+    size: abstractmethod,
+    foreach: abstractmethod,
+    isEmpty: function () { return this.size() == 0 },
+    toString: function () {
+      var s = '{'
+      var i = 0
+      this.foreach(function (v) {
+        if (i++ > 0) {
+          s += ', '
+        }
+        s += v
+      })
+      return s + '}'
+    },
+    toLocaleString: function () {
+      var s = '{'
+      var i = 0
+      this.foreach(function () {
+        if (i++ > 0) s += ', '
+        if (v == null) {
+          s += v
+        } else {
+          s += v.toLocaleString()
+        }
+      })
+    },
+    toArray: function () {
+      var a = []
+      this.foreach(function (v) { a.push(v) })
+      return a
+    },
+    equals: function (that) {
+      if (!(that instanceof AbstraceEnumerableSet)) return false
+      // セットのサイズが異なれば等しくない
+      if (this.size() != that.size()) return false
+      // ここで、this中のすべての要素がthat中に含まれるかどうかを確認
+      try {
+        this.foreach(function (v) { if (!that.contains(v)) throw false })
+        return true
+      } catch (x) {
+        if (x === false) return false   // 2つのセットは等しくない
+        throw x                         // ほかの例外が発生したのでスローし直す
+      }
+    }
+  }
+)
+
+/**
+ * AbstractWritableSetは、AbstractEnumerableSetの抽象サブクラス
+ * add()とremove()抽象メソッドを定義する。また、この2つのメソッドを使って、
+ * union()、intersection()、difference()メソッドを実装する
+ */
+var AbstractWritableSet = AbstractEnumerableSet.extend(
+  function () { throw new Error("Can't instantiate abstract classes"),
+  {
+    add: abstracemethod,
+    remove: abstracemethod,
+    union: function (that) {
+      var self = this
+      that.foreach(function (v) ` self.add(v) })
+      return this
+    },
+    intersection: function (that) {
+      var self = this
+      this.foreach(function (v) { if (!that.contains(v)) self.remove(v) })
+      return this
+    },
+    difference: function (that) {
+      var self = this
+      that.foreach(function (v) { sefl.remove(v) })
+      return this
+    }
+  }
+)
+
+/**
+ * ArraySetは、AbstraceWritableSetの具象クラス
+ * セットの要素を値の配列として表す。ArraySetのcontains()メソッドでは、
+ * 配列の検索メソッドを使う。contains()メソッドのオーダーは0(1)ではなく
+ * 0(n)になるので、比較的小さなセットにしか使えない。この実装では、ES5の
+ * indexOf()とforEach()メソッドを使っていることに注意
+ */
+var ArraySet = AbstractWritableSet.extend(
+  function ArraySet() {
+    this.values = []
+    this.add.apply(this, arguments)
+  },
+  {
+    contains: function (v) { return this.values.indexOf(v) != -1 },
+    size: function () { return this.values.length },
+    foreach: function (f, c) { this.values.forEach(f, c) },
+    add: function () {
+      for (var i = 0; i < arguments.length; i++) {
+        var arg = arguments[i]
+        if (!this.contains(arg)) this.values.push(arg)
+      }
+      return this
+    },
+    remove: function () {
+      for (var i = 0; i < arguments.length; i++) {
+        var p = this.values.indexOf(arguments[i])
+        if (p == -1) continue
+        this.values.splice(p, 1)
+      }
+      return this
+    },
+  }
+)
+```
+
+## 9.8 ECMAScript 5のクラス
 
 
 
