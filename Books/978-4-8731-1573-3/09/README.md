@@ -1,5 +1,65 @@
 # 9章 クラスとモジュール
 
+## 9.1 クラスとプロトタイプ
+
+## 9.2 クラスとコンストラクタ
+
+### 9.2.1 コンストラクタとクラスの同一性
+
+### 9.2.2 constructorプロパティ
+
+## 9.3 JavaScriptでのJavaスタイルのクラス
+4種類のクラスメンバー
+- インスタンスフィールド
+- インスタンスメソッド
+- クラスフィールド
+- クラスメソッド
+
+JavaScriptでは、クラス定義には以下のような3つのオブジェクトが関わってきます
+
+- コンストラクタオブジェクト
+- プロトタイプオブジェクト
+- インスタンスオブジェクト
+
+
+## 9.4 クラスの拡張
+```js
+defineClass(constructor,    // インスタンスプロパティを設定する関数
+  methods,                  // プロトタイプにコピーされるインスタンスメソッド郡
+  statics) {                // コンストラクタにコピーされるクラスプロパティ郡
+  if (methods) extend(constructor.prototype, methods)
+  if (statics)  extend(constructor, statics)
+  return constructor
+}
+```
+
+
+## 9.5 クラスと型
+
+### 9.5.1 instanceof演算子
+
+### 9.5.2 constructor プロパティ
+
+### 9.5.3 コンストラクタ名
+
+```js
+// オブジェクトのクラスを返す
+function classof (o) {
+  return Object.prototype.toString.call(o).slice(8, -1)
+}
+```
+```js
+// 関数の名前を返す(""の場合もある）。関数以外の場合はnullを返す
+Function.prototype.getName = function () {
+  if ('name' in this) return this.name
+  return this.name = this.toString().match(/function\s*([^(]*)\(/)[1]
+}
+```
+
+
+### 9.5.4 ダックタイピング
+> アヒルのように歩き、アヒルのように泳ぎ、アヒルのように鳴く鳥をみたとき、その鳥をアヒルと呼びます。
+
 ## 9.6 JavaScriptでのオブジェクト指向的な技術
 ### 9.6.1 例: Setクラス
 
