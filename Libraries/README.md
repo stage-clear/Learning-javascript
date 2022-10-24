@@ -1,19 +1,19 @@
 # ライブラリー
 ## 目次
-- [AngularJS](Libraries/AngularJS/)
-- [fablic.js](Libralies/fablic.js/)
-- [GSAP](Librareis/GSAP/)
-- [Leaflet](Libraries/Leaflet/)
-- [Node.js](Libraries/Node/)
-- [p5js](Libraries/p5/)
-- [Pixi.js](Libraries/pixi/)
-- [React](Libraries/React/)
-- [RxJS](Libraries/RxJS/)
-- [ScrollMagic](Libraries/ScrollMagic)
-- [Selenium](Libraries/Selenium/)
-- [three.js](Libraries/three.js/)
-- [TypeScript](Libraries/TypeScript/)
-- [Vue.js](Libraries/Vue.js/)
+- [AngularJS](AngularJS/)
+- [fablic.js](fablic.js/)
+- [GSAP](GSAP/)
+- [Leaflet](Leaflet/)
+- [Node.js](Node/)
+- [p5js](p5/)
+- [Pixi.js](pixi/)
+- [React](React/)
+- [RxJS](RxJS/)
+- [ScrollMagic](ScrollMagic)
+- [Selenium](Selenium/)
+- [three.js](three.js/)
+- [TypeScript](TypeScript/)
+- [Vue.js](Vue.js/)
 
 ## The following apps could create games on browser.
 - [WiMi5](http://wimi5.com/) - 2D
