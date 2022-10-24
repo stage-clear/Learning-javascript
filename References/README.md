@@ -1,4 +1,10 @@
 # References
+
+## スタイルガイド
+- [JavaScript Standard Style](http://standardjs.com/)
+- [JavaScript style guild - MDC Docs](https://developer.mozilla.org/ja/docs/JavaScript_style_guide)
+- [jQuery JavaScript Style Guide](https://contribute.jquery.org/style-guild/js)
+
 ## 脱jQuery
 - [jQueryにはもう頼らない！無限スクロールをネイティブで実装する最新テクニック](https://www.webprofessional.jp/intersectionobserver-api/)
 
@@ -23,7 +29,6 @@
 - [Five Must Know JavaScript Console Tricks in 2017](https://applyhead.com/must-know-javascript-console-tricks/)
 
 ## Online Documents
-- [JavaScript Standard Style](http://standardjs.com/)
 - [Upgrading Ele.me to Progressive Web App](https://medium.com/elemefe/upgrading-ele-me-to-progressive-web-app-2a446832e509)
 - [javascript-society/javascript-path](https://github.com/javascript-society/javascript-path)
 - [airbnb/javascript](https://github.com/airbnb/javascript)
