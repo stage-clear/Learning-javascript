@@ -6,6 +6,7 @@
 - [CSS Font Loading API](font_loading_api.md)
 - [Custom Element](customeElement.md)
 - [Loading Events](loading_events.md)
+- [DOM](dom.md)
 
 ## Links 
 - [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API) - MDN
