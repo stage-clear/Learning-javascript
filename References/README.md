@@ -2,8 +2,8 @@
 
 ## スタイルガイド
 - [JavaScript Standard Style](http://standardjs.com/)
-- [JavaScript style guild - MDC Docs](https://developer.mozilla.org/ja/docs/JavaScript_style_guide)
-- [jQuery JavaScript Style Guide](https://contribute.jquery.org/style-guild/js)
+- [jQuery JavaScript Style Guide](https://contribute.jquery.org/style-guide/js/)
+- [JavaScriptのいろいろなコーディングルールをまとめてみた](https://efcl.info/2011/0527/res2764/)
 
 ## 脱jQuery
 - [jQueryにはもう頼らない！無限スクロールをネイティブで実装する最新テクニック](https://www.webprofessional.jp/intersectionobserver-api/)
