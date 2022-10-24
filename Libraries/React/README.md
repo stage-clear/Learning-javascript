@@ -22,6 +22,7 @@ $ jsx --watch src/ build/
 ## References:
 - [ ] [すべてのReact.js初心者が知っておくべき9つのポイント](http://qiita.com/ossan-engineer/items/3622e57ceb70c7f12295)
 - [ ] [ReactエンジニアのためのReact Native入門](https://speakerdeck.com/januswel/react-enziniafalsetamefalse-react-native-ru-men)
+- [ ] [ゼロから始める React Native + Expo 入門](https://zenn.dev/izuchy/articles/6d6f7970a77aa203396c)
 
 ## Showcase:
 - [Sites Using React](https://github.com/facebook/react/wiki/Sites-Using-React) - List of sites made by using React
