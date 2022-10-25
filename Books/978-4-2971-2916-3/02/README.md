@@ -296,7 +296,7 @@ type Label = {
 }
 ```
 
-```
+```ts
 const labels: Label = {
   topTitie: 'トップページのタイトルです',
   topSubTitle: 'トップページのサブタイトルです',
