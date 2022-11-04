@@ -58,10 +58,76 @@ fs.appendFile(
 
 例: Promiseを使ってファイルにデータを追加し、その後でファイルからデータを読み込みます
 ```ts
-function appendAndReadPromise ( path: string, data: string): Promise<string> {
+function appendAndReadPromise (path: string, data: string): Promise<string> {
   retur nappendPromise(path, data)
     .then(() => readPromise(path))
     .catch(error => console.error(error))
 ```
+
+このようなことを可能にするPromiseのAPIを設計してみましょう
+```ts
+class Promise {
+}
+```
+
+new Promiseは、エグゼキューター（executor）と呼ばれる関数を取ります。Promiseの実装は、1つの引数 -- resolve関数とreject関数 -- を使って、この関数を呼び出します。
+```ts
+type Executor = {
+  resolve: Function,
+  reject: Function
+} => void
+
+class Promise {
+  constructor (f: Executor) {}
+}
+```
+
+resolveとrejectはどのように動作するのでしょうか？fs.readFileのようなコールバックベースのAPIを、PromiseベースのAPIの中に手動でラップする方法を考えることで、これを説明します。
+```ts
+import {readFile} from 'fs'
+
+function readFilePromise (path: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    readFile(path, (error, result) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+```
+
+
+安全でない Function 型をより具体的な型に置き換えることで、コードを書き換えましょう
+```ts
+type Executor<T, E extens Error> = (
+  resolve: (result: T) => void,
+  reject: (error: E) => void
+) => void
+```
+
+Promiseを見ただけで、Promiseが何の型になるかを理解できるようになりたいので、Promiseをジェネリックにして、その型パラメータを、コンストラクタ内のExecutor型に渡します。
+```ts
+class Promise<T, E extends Error> {
+  constructor (f: Executor<T, E>) {}
+  then<U, F extends Error>(g: (result: T) => Promise<U, F> | U): Promise<U, F>
+  catch<U, F extends Error>(g: (error: E) => Promise<U, F> | U): Promise<U, F>
+}
+```
+
+```ts
+let a: () => Promise<string, TypeError> = // ...
+let b: (s: string) => Promise<number, never> = // ...
+let c: () => Promise<boolean, RangeError> = // ...
+
+a()
+  .then(b)
+  .catch(e => c()) // bはエラーにならないので、これはaがエラーになった場合のもの
+  .then(result => console.info('Done', result))
+  .catch(e => console.error('Error', e))
+```
+
 
 
