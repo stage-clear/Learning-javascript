@@ -129,5 +129,55 @@ a()
   .catch(e => console.error('Error', e))
 ```
 
+エラーを型付けしないことで、Promise型を少しだけ緩くしましょう
+```ts
+type Excutor<T> = (
+  resolve: (result: T) => void,
+  reject: (error: unknown) => void
+) => void
 
+class Promise<T> { 
+  constructor (f: Executor<T>) {}
+  then<U> (g: (result: T) => Promise<U> | U) => Promise<U> {
+    // ...
+  }
+  catch<U> (g: (error: unknown) => Promise<U> | U) => Promise<U> {
+    // ...
+  }
+}
+```
+
+Promiseの実装は、正しく記述することが難しいことで有名です。--もし意欲と暇があれば、[ES2015の仕様](https://262.ecma-international.org/6.0/#sec-promise-objects)にアクセスして、Promiseのステートマシンが内部でどのように動作すべきかについてガイドを参照してください。
+
+## 8.4 asyncとawait
+
+```ts
+function getUser () {
+  getUserID(18)
+    .then(user => getLocation(uesr))
+    .then(location => console.info('got location', location))
+    .catch(error => console.error(error))
+    .finally(() => console.info('done gettting location'))
+}
+```
+
+このコードを async と await に変換するために、まず async 関数の中に置き、次に await を使ってプロミスの結果を待ちます。
+
+```ts
+async function getUser () {
+  try {
+    let user = await getUserID(18)
+    let location = await getLocation(user)
+    console.info('get location', user)
+  } catch (error) {
+    console.error(error)
+  } finally {
+    console.info('done getting location')
+  }
+}
+```
+
+async と await　についてさらに詳しく知りたければ、[MDNのドキュメント](https://mzl.la/3hd3VLi)を参照してください。
+
+## 8.5 非同期ストリーム
 
