@@ -180,4 +180,323 @@ async function getUser () {
 async と await　についてさらに詳しく知りたければ、[MDNのドキュメント](https://mzl.la/3hd3VLi)を参照してください。
 
 ## 8.5 非同期ストリーム
+非同期ストリームをモデル化する方法はいくつかあり、最も一般的なのはイベントエミッターを利用すること、またはRxJSのようなリアクティブプログラミングライブラリーを利用することです。
+
+### 8.5.1 イベントエミッター
+高いレベルでは、イベントエミッターは、チャネル上でのイベントの発行（emit）と、そのチャネル上のイベントに対するリッスン（listen）をサポートするAPIを提供します。
+
+```ts
+interface Emitter {
+  // イベントを送信します
+  emit (channel: string, value: unknown): void
+  
+  // イベントが送信されたときに何かを行います
+  on (channel: string, f: (value: unknown) => void): void
+}
+```
+
+たとえば、NodeRedisクライアントを使用していると仮定します。
+```ts
+import redis from 'redis'
+
+// Redisクライアントの新しいインスタンスを作成します
+let client = redis.createClient()
+
+// クライアントによって発行されるイベントをリッスンします
+client.on('ready', () => console.info('Client is ready'))
+client.on('error', e => console.error('An error occurred', e))
+client.on('reconnecting', params => console.info('Reconnecting...', params))
+```
+
+Redisライブラリを使用するプログラマとして私たちが知りたいのは、on というAPIを使用するときにコールバックの中ででのような型の引数が期待されるかです。
+
+```ts
+type RedisClient = { 
+  on (event: 'ready', f: () => void): void
+  on (event: 'error', f: (e: Error) => void): void
+  on (event: 'reconnecting', f: (params: {attempt: number, delay: number}) => void): void
+}
+```
+これは非常にうまく動作しますが、少し冗長です。マップ型に基づいて、これを表現してみましょう
+
+```ts
+type Events = {
+  ready: void
+  error: Error
+  reconnecting: {attempt: number, delay: number}
+}
+
+type RedicClient = {
+  on<E extends keyof Events> (
+    event: E,
+    f: (arg: Events[E]) => void
+  ): void,
+  emit<E extends keyof Events> (
+    evnet: E,
+    arg: Events[E]
+  ): void
+}
+```
+
+## 8.6 型安全なマルチスレッディング
+### 8.6.1 Web Worker（ブラウザ）
+ブラウザのコードは特に安全でなければならず、ブラウザをクラッシュさせたり貧弱なユーザーエクスペリエンスを引き起こしたりする可能性を最小限に抑えなければならないので、
+メインスレッドとWeb Workerの間、およびWeb Workerと別のWeb　Workerの間で通信するための主要な方法は、メッセージパッシングを利用することです。
+
+```ts
+// MainThread.ts
+let worker = new Worker('WorkerScript.js')
+
+worker.postMessage('some data')
+
+// WorkerScript.ts
+onmessage = e =>
+  console.log(e.data)
+```
+
+```ts
+// MainThread.ts
+let worker = new Worker('WorkerScript.js')
+
+worker.onmessage = e => {
+  console.log(e.data)
+}
+
+// WorkerScript.ts
+onmessage = e => {
+  console.log(e.data)
+  postMessage(`Ack: "${e.data}"`)
+}
+```
+
+これを型付けしていきます。
+メインスレッドはWorkerスレッドにCommandsを送信し、WorkerスレッドはメインスレッドにEventsを送り返します。
+
+```ts
+// MainThred.ts
+type Message = string
+type ThreadID = number
+type UserID = number
+type Participants = UserID[]
+
+type Commands = {
+  sendMessageToThread: [ThreadID, Message]
+  createThread: [Participants]
+  addUserToThread: [ThreadID, UserID]
+  removeUserFromThread: [ThreadID, UserID]
+}
+
+type Events = {
+  receivedMessage: [ThreadID, UserID, Message]
+  createdThread: [ThreadID, Participants]
+  addedUserToThread: [ThreadID, UserID]
+  removedUserFromThread: [ThreadID, UserID]
+}
+```
+
+```ts
+// WorkerScript.ts
+type Command = {
+  | {type: 'sendMessageToThread', data: [ThreadID, Message]}
+  | {type: 'createThread', data: [Participants]}
+  | {type: 'addUserToThread', data: [ThreadID, UserID]}
+  | {type: 'removeUserFromThread', data: [ThreadID, UserID]}
+
+onmessage = e =>
+  processCommandFromMainThread(e.data)
+
+function processCommandFromMainThread(
+  command: Command
+) {
+ switch (command.type) {
+   case 'sendMessageToThread':
+     let [threadID, message] = command.data
+     console.log(message)
+   // ...
+ }
+ ```
+ 
+ Web Workerの独特なAPIを、馴染み深いEventEmitterベースのAPIでラップして抽象化しましょう。
+ ```ts
+ import {EventEmitter} from 'events'
+ 
+ interface SafeEmitter<
+   Events extends Record<PropertyKey, unknown[]> ❶
+> {
+  emit<K extends keyof Events> ( ❷
+    channel: K,
+    ...data: Events[K]
+  ): boolean
+  on<K extends keyof Events> ( ❸
+    channel: K,
+    listener: (...data: Events[K]) => void
+  ): this
+  on(
+    channel: never,
+    listener: (...data: unknown[]) => void
+  ): this
+}
+
+// ❶ SafeEmitterはジェネリック型Eventsと、PropertyKeyからパラメータリストへのRecordマッピングを宣言します。
+//    PropertyKeyは、有効なオブジェクトキー（string, number, symbol）に対するTypeScriptの組み込み型です。
+// ❷ emitは、channelのほかに、Events型で定義したパラメータのリストに対応する引数を取ります。
+// ❸ 同様に、onはchannelとlistenerを取ります。listenerは、Events型で定義したパラメータのリストに対応する任意の数の引数を取ります
+// ❹ EventsEmitterのインスタンスがこのインターフェースに割り当て可能になるためには、SefeEmitterの各メソッドが
+//    EventEmitterの該当するメソッドのスーパータイプになっていなければなりません。これを実現するために、onのオーバーロードを追加します。
+//    オーバーロードされたonのlistenerはどんなパラメータも許容します。（...args: unknown[]）が
+//    channelの型をneverと宣言しているためこの型のメソッドを実際に実行することはできません。
+```
+
+SafeEmitterを使うと、リッスンするレイヤーを安全に実装するために必要なボイラープレートを大幅に削減できます。
+```ts
+// WorkerScript.ts
+type Commands = {
+  sendMEssageToThread: [ThreadID, Message]
+  createThread: [Participants]
+  addUserToThread: [ThreadID, UserID]
+  removeUserFromThread: [ThreadID,UserID]
+}
+
+type Events = {
+  receivedMessage: [ThreadID, UserID, Message]
+  createdThread: [ThreadID, Participants]
+  addedUserToThread: [ThreadID, UserID]
+  removedUserFromThread: [ThreadID, UserID]
+}
+
+// メインスレッドから送られてくるイベントをリッスンします
+let commandEmitter: SafeEmitter<Commands> = new EventEmitter()
+
+// メインスレッドに対してイベントを発行します
+let eventEmitter: SafeEmitter<Events> = new EventEmitter()
+
+// 型安全なイベントエミッターを使って,
+// メインスレッドからの入力コマンドをラップします
+onmessage = command => 
+  commandEmitter.emit(
+    command.data.type,
+    ...command.data.data
+  )
+
+// Workerによってはっこうされたイベントをリッスンし、それらをメインスレッドに送信します
+eventEmitter.on('receivedMessage', data =>
+  postMessage({type: 'receivedMessage', data)
+)
+eventEmitter.on('createdThred', data =>
+  postMessage({type: 'createdThread', data)
+)
+
+// その他のイベントも同様
+
+// メインスレッドからのsendMEssageToTHreadコマンドに応答します
+commandEmitter.on('sendMessageToThread', (thradID, message) =>
+  console.log(`OK, I will send a message to threadID ${thradID}`)
+)
+
+// メインスレッドにイベントを送り返します
+eventEmitter.emit('createdThread', 123, [456, 789])
+```
+反対側では、こちらも
+EventEmitterベースのAPIを使って、メインスレッドからWorkerスレッドへコマンドを送り返すことができます。
+
+```ts
+// MainThread.ts
+type Commands = {
+  sendMessageToThread: [ThreadID, Message]
+  createThread: [Participants]
+  addUserToThrad: [ThreadID, UserID]
+  removeUserFromThread: [ThreadID, userID]
+}
+
+type Events = {
+   receivedMessage: [ThreadID, userID, Message]
+   createdThread: [ThreadID, Participants]
+   addedUserToThread: [ThreadID, UserID]
+   removedUserFromThread : [ThreadID, UserID]
+ }
+ 
+ let commandEmitter: SafeEmitter<Commands> = new EventEmitter()
+ let eventEmitter: SafeEmitter<Events> = new EventEmitter()
+ 
+ let worker = new Worker('WorkerScript.js')
+ 
+ // Workerから送られてくるイベントをリッスンし、
+ // 型安全なイベントエミッターを使って、それらを再発行します
+ worker.onmessage = event =>
+   eventEmitter.emit(
+     event.data.type,
+     ...event.data.data
+   )
+
+// このスレッドによって発行されるコマンドをリッスンし、それらをWorkerに送信します
+commandEmitter.on('sendMessageToThread', data => 
+  worker.postMessage({type: 'sendMessageToThread', data})
+)
+commandEmitter.on('createThread', data =>
+  worker.postMessage({type: 'createThread', data)
+)
+// その他のコマンドも同様
+
+// 新しいスレッドが作成されたことをWorkerが知らせてきたときに、何かを行います
+eventEmitter.on('createdThread', (threadID, participatns) =>
+  console.log('Created a new chat thread!', threadID, participants)
+)
+
+// コマンドをWorkerに送信します
+commandEmitter.emit('createThread', [123, 456])
+```
+
+#### 8.6.1.1 型安全なプロトコル
+簡単な呼び出し・応答プロトコルを作成してみましょう。<br>
+安全でない操作（片づけされていないメッセージをWorkerとの間で送受信すること）を安全な操作でラップし、適切に型付けされたAPIを利用者に公開することが、この目的です。
+
+```ts
+type Matricx = number[][]
+
+type MatrixProtocol = {
+  determinant: {
+    in: [Matrix]
+    out: number
+  }
+  'dot-product': {
+    in: [Matrix, Matrix]
+    out: Matrix
+  }
+  invert: {
+    in: [Matrix]
+    out: Matrix
+  }
+}
+
+type Protocol = {
+  [command: string]: {
+    in: unknown[],
+    out: unknown
+  }
+}
+
+function createProtocol<P extends Protocol> (script: string) {
+  return <K extends keyof P> (command: K) =>
+    (...args: P[K]['in']) => 
+      new Promise<P[K]['out']>((resolve, reject) => {
+        let worker = new Worker(script)
+        worker.onerror = reject
+        worker.onmessage = event => resolve(event.data)
+        worker.postMessage({command: args})
+      })
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
