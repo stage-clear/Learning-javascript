@@ -451,7 +451,7 @@ commandEmitter.emit('createThread', [123, 456])
 安全でない操作（片づけされていないメッセージをWorkerとの間で送受信すること）を安全な操作でラップし、適切に型付けされたAPIを利用者に公開することが、この目的です。
 
 ```ts
-type Matricx = number[][]
+type Matrix = number[][]
 
 type MatrixProtocol = {
   determinant: {
@@ -486,6 +486,32 @@ function createProtocol<P extends Protocol> (script: string) {
       })
 }
 ```
+
+### 8.6.2 子プロセス（Node.js）
+
+```ts
+// MainThread.ts
+import {fork} from 'child_process'
+
+let child = fork('./ChildThread.js')
+
+child.on('message', data =>
+  console.info('Child process sent a message', data)
+}
+
+child.send({type: 'syn', data: [3]})
+```
+
+```ts
+// ChildThread.ts
+process.on('message', data =>
+  console.info('Parent process setn a message', data)
+}
+
+process.send({type: 'ack', data: [3]})
+```
+
+## 8.7 まとめ
 
 
 
