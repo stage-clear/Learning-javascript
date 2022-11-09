@@ -50,7 +50,7 @@ let products : Array<Product> = [
 // 4.13 値を束ねる Tuple
 let result : [number, number]
 
-result - [6156, 2]
+result = [6156, 2]
 console.log(result[0])
 ```
 
