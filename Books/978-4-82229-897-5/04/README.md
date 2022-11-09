@@ -3,7 +3,7 @@
 
 ## 変数とデータ型の違い
 
-```js
+```ts
 class Product {
   id: number;
   Name: string;
@@ -26,7 +26,7 @@ let item2 : Product = {
 }
 ```
 
-```js
+```ts
 // 4.12 表の値として同じデータ型が複数入れられる
 let values : Array<number> = [1, 2, 3]
 
@@ -46,7 +46,7 @@ let products : Array<Product> = [
 ]
 ```
 
-```js
+```ts
 // 4.13 値を束ねる Tuple
 let result : [number, number]
 
@@ -56,7 +56,7 @@ console.log(result[0])
 
 Tuple を1つの変数に複数の値をいれることができますが, クラスと違って名前を付けて広範囲で使える新しい型を宣言するのではなく,
 ごく限られた範囲で一時的に使用できる型の組み合わせを決めることができます.
-```js
+```ts
 // 4.14 変数宣言時にいくつかのデータ型から選びたい ジェネリック
 class Favorites<T> { // 宣言時はTで仮の型を表しておく
   private list : Array<T> = new Array<T>()
@@ -80,7 +80,7 @@ days.Add(new Date())
 console.info(days.GetItems()[0])
 ```
 
-```js
+```ts
 // 4.15 機能使用時にいくつかのデータ型から選びたい オーバーロード
 
 // オーバーロードで引数の型を選べるように定義
@@ -109,7 +109,7 @@ console.log(getText('Hello!'))
 オーバーロードを使用すると, たとえば「数値あるいは日付を指定できる関数」が作れます.
 
 
-```js
+```ts
 // 4.16 どんなデータ型でも良いとする any 
 let something : any // どんな型でも代入できる変数
 
@@ -137,7 +137,7 @@ console.info(something.toLocaleDateString())
 
 ## 変数の宣言
 
-```js
+```ts
 let 名前 : データ型 = 初期値;
 let 名前 : データ型;
 let 名前 = 初期値;
@@ -150,14 +150,14 @@ let 名前 = 初期値;
 ## 基本的なデータ型と演算子
 ### boolean 型
 
-```js
+```ts
 let isStudent : boolean = true
 let opened = false
 ```
 
 ### number 型
 
-```js
+```ts
 let num1 : number = 10
 let num2 : number = 0xF
 let num3 : number = 0.1
@@ -166,7 +166,7 @@ let num4 = 10000000000000000
 
 ### string 型
 
-```js
+```ts
 let userName : string = 'Moe Yamada'
 let welcome : string = '"Welcome Back!"'
 let messgaae = `${userName} says
@@ -179,7 +179,7 @@ console.log(message)
 
 ### null と undefined
 
-```js
+```ts
 let u : Date
 console.info(u)
 
@@ -218,8 +218,8 @@ console.info(d)
 
 ### 列挙型 enum 
 
-```js
-enum 列挙型の名前{
+```ts
+enum 列挙型の名前 {
   メンバー1の名前,
   メンバー2の名前,
   ...,
@@ -227,8 +227,8 @@ enum 列挙型の名前{
 }
 ```
 
-```js
-enum Decision{
+```ts
+enum Decision {
   Yes,
   No,
   Pending
@@ -238,7 +238,7 @@ let d : Decision =  Decision.Pending
 console.log(d === Decision.Pending)
 ```
 
-```js
+```ts
 // 4.43 条件分岐を使って列挙型の値に応じた処理を実行する例
 
 if (d == Decision.Yes) {
@@ -260,7 +260,7 @@ switch (d) {
 }
 ```
 
-```js
+```ts
 // 列挙型で扱う内容の例
 enum WorkingDays{ None, Monday, Tuesday, Wednesday, Thursday, Friday }
 let w = WorkingDays.Friday
@@ -275,7 +275,7 @@ console.info(ItemState[s]) // "Approved"
 ### 列挙型 enum メンバーの名前の扱い
 `列挙型の名前[変数の名前]` の書式で指定すると, 変数の現在の名前を取得することができます
 
-```js
+```ts
 // 列挙型の変数の値の名前を取得する例
 enum Decision {
   Yes, 
@@ -290,7 +290,7 @@ console.info(Decision[d])
 この方法では列挙型を使用する場合, 列挙型の変数をテキストとして出力すると管理上の数値が表示され,
 `列挙型の名前[変数の名前]` の書式で名前を確認することができます.
 
-```js
+```ts
 enum Decision {
   Yes = 'YES',
   No = 'No',
@@ -305,7 +305,7 @@ console.info(Decision[d]) // undefined
 頻繁に名前をテキストとして出力する場合などに,
 必要に応じて列挙型のメンバーそれぞれに名前とは別の文字列の値を設定して使用することができます.
 
-```js
+```ts
 // 列挙型 enum をフラグとして使用する定義とビット演算の例
 enum Decision {
   Yes = 0x1,
@@ -327,11 +327,11 @@ console.info( (d & Decision.Pending) != 0 )
 
 ### 定数 const
 
-```js
+```ts
 const 定数の名前 = 値
 ```
 
-```js
+```ts
 // 定数の宣言の例
 const beta = true 
 console.info(beta)
@@ -346,28 +346,28 @@ const domain = 'example.com'
 console.info(domain)
 ```
 
-```js
+```ts
 // 定数を変更するとエラー
 const beta = true 
 console.info(beta)
 beta = false
 ```
 
-### 定数列挙型 const enum
+### 定数列挙型 `const enum`
 
-```js
+```ts
 const enum WorkingDays { None, Monday, Thuesday, Wednesday, Thursday, Friday }
 let w = WorkingDays.Friday
 console.info(w == WorkingDays.Friday)
 ```
 
-```js
+```ts
 // 生成された JavaScritp コード
 var w = 5 /* Friday */;
 console.info(w == 5 /* Friday */);
 ```
 
-```js
+```ts
 // 定数列挙型 const enum で文字列挙値を指定した宣言と使用の例
 conste enum = WorkingDays {
   None = 'None',
@@ -387,7 +387,7 @@ console.info(w == WorkingDays.Friday)
 ### 条件演算子（参考演算子）`? :`
 ### 条件分岐 `switch`
 
-```js
+```ts
 // 列挙型 enum の値によって処理を分岐する switch の例
 enum ItemState{ Started, Approved, Complete, Cancelled }
 
