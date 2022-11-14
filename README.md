@@ -18,7 +18,7 @@ JavaScript の学習や情報収集のまとめ
 - [デザインパターン](DesignPatterns/README.md)
 - [スニペット](https://github.com/kesuiket/js-snippets)
 
-## [ライブラリー／プラグイン](Libraries/)
+## [ライブラリ／プラグイン](Libraries/)
 
 ## [リファレンス](References/)
 - [JavaScript Primer](https://jsprimer.net/)
