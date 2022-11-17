@@ -23,3 +23,6 @@
   mocha.run()
 </script>
 ```
+
+## アサーション
+- [Chai](https://www.chaijs.com/)
