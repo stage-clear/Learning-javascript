@@ -9,9 +9,8 @@
 
 ```html
 <script>
-  mocha.setup('bdd');
-  mocha.checkLeaks();
-  expect = chai.expect;
+  mocha.setup('bdd')
+  expect = chai.expect
 </script>
 
 <script src="./__tests__/moduleA.test.js"></script>
@@ -19,6 +18,8 @@
 <script src="./__tests__/moduleC.test.js"></script>
 
 <script>
-  mocha.run();
+  mocha.checkLeaks()
+  mocha.globals(['jQuery'])
+  mocha.run()
 </script>
 ```
