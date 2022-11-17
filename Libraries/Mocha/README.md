@@ -1,6 +1,6 @@
 # [Mocha](https://mochajs.org/)
 
-## Browser
+## ブラウザで使う
 ```html
 <link href="https://unpkg.com/mocha/mocha.css" rel="stylesheet" />
 <script src="https://unpkg.com/chai/chai.js"></script>
