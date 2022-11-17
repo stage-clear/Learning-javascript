@@ -8,8 +8,10 @@
 ```
 
 ```html
-<script>
+<script class="mocha-init">
   mocha.setup('bdd')
+  mocha.checkLeaks()
+  mocha.globals(['jQuery'])
   expect = chai.expect
 </script>
 
@@ -17,9 +19,7 @@
 <script src="./__tests__/moduleB.test.js"></script>
 <script src="./__tests__/moduleC.test.js"></script>
 
-<script>
-  mocha.checkLeaks()
-  mocha.globals(['jQuery'])
+<script class="mocha-exec">
   mocha.run()
 </script>
 ```
