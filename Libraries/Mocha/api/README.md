@@ -9,3 +9,5 @@
 
 ## only / skip
 `only()`/`skip()` は、 `describe` または `it` にチェーンして使うことができます。
+
+## timeout
