@@ -8,12 +8,12 @@ function add (x, y) {
 
 describe('add関数のテスト', function() {
   it('1+2は3である', function () {
-    assert(add(1, 2) === 3)
+    assert(add(1, 2) === 3) // Good
   })
 
   it('1+2は4である', function () {
-    expect(add(1, 2)).equal(4)
-   })
+    expect(add(1, 2)).equal(4) // Bad
+  })
 })
 ```
 
