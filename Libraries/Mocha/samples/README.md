@@ -25,6 +25,8 @@ function asyncTest (x, callback) {
   }, 3000)
 }
 
+mocha.timeout(5000)
+
 describe('非同期関数のテスト', function () {
   it('asyncText', function (done) {
     asyncTest(40, (res) => {
