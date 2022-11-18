@@ -21,7 +21,7 @@ describe('add関数のテスト', function() {
 ```js
 function asyncTest (x, callback) {
   setTimeout(() => {
-  	callback({x})
+    callback({x})
   }, 3000)
 }
 
