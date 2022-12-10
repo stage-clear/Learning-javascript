@@ -1,5 +1,4 @@
 # [JavaScript Design Patterns: Singleton](https://www.joezimjs.com/javascript/javascript-design-patterns-singleton/)
-- [JavaScriptデザインパターン – 第1部：シングルトン、コンポジット、ファサード](http://www.adobe.com/jp/devnet/html5/articles/javascript-design-patterns-pt1-singleton-composite-facade.html)
 
 ```js
 let Singleton = {
