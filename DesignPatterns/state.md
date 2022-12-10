@@ -1,4 +1,4 @@
-#　ステート
+# ステート
 
 ```js
 var TrafficLight = function () {
