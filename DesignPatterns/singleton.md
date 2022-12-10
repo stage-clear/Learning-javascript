@@ -214,7 +214,7 @@ export default class Singleton {
 }
 ```
 
-```
+```js
 import Singleton from 'Singleton'
 
 class ClassA extends Singleton {
