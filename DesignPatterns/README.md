@@ -41,3 +41,4 @@
 - [JavaScript Design Patterns - DoFactory](https://www.dofactory.com/javascript/design-patterns/)
   - [The #1 JS Success Platform DoFactory](https://www.dofactory.com/products/dofactory-js)
 - [Design Patterns Game](https://designpatternsgame.com/patterns/)
+- [Design Patterns - sourcemaking.com](https://sourcemaking.com/design_patterns/)
