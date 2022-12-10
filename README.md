@@ -23,8 +23,9 @@ JavaScript の学習や情報収集のまとめ
 ## [リファレンス](References/)
 - [JavaScript Primer](https://jsprimer.net/)
 - [JavaScript Promiseの本](https://azu.github.io/promises-book/)
-- [JSDoc](https://jsdoc.app/)
+- [現代のJavaScriptチュートリアル](https://ja.javascript.info/)
 - [TypeScript入門](https://typescriptbook.jp/)
+- [JSDoc](https://jsdoc.app/)
 
 ## [書籍](Books/)
 読んで注釈やメモした書籍など
