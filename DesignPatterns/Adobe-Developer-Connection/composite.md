@@ -1,4 +1,4 @@
-# Composite
+# [JavaScript Design Patterns: Composite](https://www.joezimjs.com/javascript/javascript-design-patterns-composite/)
 
 ```js
 var GalleryComposite = function (heading, id) {
