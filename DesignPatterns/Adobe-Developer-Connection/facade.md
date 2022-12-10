@@ -1,5 +1,6 @@
 # [JavaScript Design Patterns: Facade](https://www.joezimjs.com/javascript/javascript-design-patterns-facade/)
 
+## EventListener
 ```js
 function addEvent (element, type, func) {
   if (window.addEventListener) {
