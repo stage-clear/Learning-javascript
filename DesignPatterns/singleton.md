@@ -133,11 +133,9 @@ let sin2 = SingletonTester.getInstance();
 console.log(sin === sin2);
 ```
 
-## [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/singleton/Adobe-Developer-Connection.md)
-## [Design Patterns Game](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/singleton/Design-patterns-geme.md)
-## [dofactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/singleton/dofactory.md)
-
-
+## [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/singleton.md)
+## [Design Patterns Game](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/designpatternsgame.com/singleton.md)
+## [dofactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/dofactory.com/singleton.md)
 
 ## ES2015
 
