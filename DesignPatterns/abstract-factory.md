@@ -76,7 +76,7 @@ class Rx24 {
 export default droidProducer
 ```
 
-```
+```js
 // ES5
 function droidProducer (kind) {
   if (kind === 'battle') return battleDroidPilot;
