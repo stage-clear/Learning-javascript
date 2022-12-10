@@ -18,3 +18,15 @@ VehicleListProxy.prototype = {
   ...
 };
 ```
+
+```js
+var VehicleListProxy = function () {
+  this.url = 'http://www.welistallcarmodels.com';
+};
+VehicleListProxy.prototype = {
+  getCar: function (...) {
+    ajax(this.url + '/getCar/' + args);
+  },
+  ...
+};
+```
