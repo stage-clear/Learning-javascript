@@ -1,6 +1,6 @@
 # Abstract Factory
 
-## dofactory
+## [dofactory](https://www.dofactory.com/javascript/design-patterns/abstract-factory)
 ```js
 function Employee (name) {
   this.name = name;
@@ -45,8 +45,9 @@ function run () {
 }
 ```
 
-## Design Patterns Game
+## [Design Patterns Game](https://designpatternsgame.com/patterns/abstract_factory)
 ```js
+// ES6
 function droidProducer (kind) {
   if (kind === 'battle') return battleDroidPattern
   return pilotDroidPattern
@@ -76,6 +77,7 @@ export default droidProducer
 ```
 
 ```
+// ES5
 function droidProducer (kind) {
   if (kind === 'battle') return battleDroidPilot;
   return pilotDroidPattern;
