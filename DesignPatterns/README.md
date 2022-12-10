@@ -37,4 +37,7 @@
 
 
 ## 参考書
-- [JavaScript Design Patterns](https://www.dofactory.com/javascript/design-patterns/)
+- [JavaScript Design Patterns - Joe Zim's JavaScript Corner](https://www.joezimjs.com/tag/design-patterns/)
+- [JavaScript Design Patterns - DoFactory](https://www.dofactory.com/javascript/design-patterns/)
+  - [The #1 JS Success Platform DoFactory](https://www.dofactory.com/products/dofactory-js)
+- [Design Patterns Game](https://designpatternsgame.com/patterns/)
