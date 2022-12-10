@@ -66,8 +66,3 @@ VehicleListProxy.prototype = {
   
   window.VehicleList = VehicleListProxy;
 })();
-
-
-
-
-
