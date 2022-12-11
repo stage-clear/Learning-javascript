@@ -1,5 +1,5 @@
 # Decorator
-
+## 新機能でコンストラクタを装飾
 ```js
 function vehicle(vehicleType) {
   this.vehicleType = vehicleType || 'car';
@@ -30,6 +30,7 @@ let secondInstance = new vehicle('car');
 console.log(secondInstance);
 ```
 
+## 複数のデコレータでオブジェクトを装飾
 ```js
 // Implementation: Concrete class
 function MacBook() {
