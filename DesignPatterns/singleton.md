@@ -11,4 +11,5 @@
 - [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/singleton.md)
 - [Design Patterns Game](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/designpatternsgame.com/singleton.md)
 - [dofactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/dofactory.com/singleton.md)
+- [sitepoint](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/sitepoint.com/singleton.md)
 - [ClassA](https://gist.github.com/kesuiket/ca71ffa7ea119676067144d42ac757e8)
