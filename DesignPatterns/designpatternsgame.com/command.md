@@ -109,7 +109,7 @@ Turbine.prototype.on = function () {
  
  function SpeedUpInstruction (turbine) {
    this.turbine = turbine;
- *
+ }
  
  SpeedUpInstruction.prototype.execute = function () {
    this.turbine.speedUp();
