@@ -1,6 +1,6 @@
-# Observer
+# おブザー場
 
-## Overview
+## 概要
 オブザーバーパターンの実装方法には、プッシュとプルの2つがあります。 
 
 - __プッシュメソッド__ - オブザーバーは監視対象オブジェクトをサブスクライブし、監視対象に注目すべき事象が発生した場合にオブザーバーに連絡して知らせます
@@ -12,8 +12,8 @@
 __よく使われるメソッド名__
 |機能|メソッド名|
 |:-|:-|
-|subscribe|`subscribe` `observe` `on`|
-|unsubscribe|`unsubscribe` `unobserve` `off` `remove`|
+|subscribe|`subscribe` `on` `observe`|
+|unsubscribe|`unsubscribe` `off` `remove` `unobserve`|
 |publish|`publish` `broadcast` `emit` `fire`|
 
 ## 実装例
