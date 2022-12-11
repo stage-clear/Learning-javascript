@@ -1,5 +1,7 @@
 # [JavaScript Design Patterns: Proxy](https://www.joezimjs.com/javascript/javascript-design-patterns-proxy/)
 
+## 仮想プロキシ
+> 本当に必要になるまで、大きなオブジェクトのインスタンス化を遅らせる
 ```js
 var VehicleListProxy = function () {
   this.vehicleList = null;
@@ -19,6 +21,8 @@ VehicleListProxy.prototype = {
 };
 ```
 
+## リモートプロキシ
+> リモートプロキシは、仮想プロキシと基本的に同じですが、オリジナルオブジェクトのインスタンス化を遅延させるのではなく、オリジナルオブジェクトはインターネット上のリモートの場所に既に存在しています
 ```js
 var VehicleListProxy = function () {
   this.url = 'http://www.welistallcarmodels.com';
@@ -32,6 +36,7 @@ VehicleListProxy.prototype = {
 };
 ```
 
+## オリジナルオブジェクトに対するアクセス制御
 ```js
 (function () {
   var VehicleList = ...
