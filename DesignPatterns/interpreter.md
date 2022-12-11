@@ -1,4 +1,4 @@
-# Interpteter
+# インタープリター
 
 ## 実装例
 - [dofactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/dofactory.com/interpreter.md)
