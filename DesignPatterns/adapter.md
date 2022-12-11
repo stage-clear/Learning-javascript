@@ -33,4 +33,6 @@ var AjaxLoggerAdapter = {
 window.console = AjaxLoggerAdapter;
 ```
 
+- [DoFactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/dofactory.com/adapter.md)
+
 ## Link
