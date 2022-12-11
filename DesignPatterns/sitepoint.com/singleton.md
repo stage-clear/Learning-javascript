@@ -11,6 +11,14 @@ class UserStore {
     
     return UserStore.instance
   }
+  
+  add (item) {
+    this._data.push(item)
+  }
+  
+  get (id) {
+    return this._data.find(d => d.id ===id)
+  }
 }
 
 const instance = new UserStore()
