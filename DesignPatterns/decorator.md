@@ -7,6 +7,8 @@
 - [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/decorator.md)
 - [JavaScript pattens](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Patterns/decorator.md)
 - [JavaScript Design Patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Design-Patterns/decorator.md)
+- [DoFactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/dofactory.com/decorator.md)
+- [Design Patterns Game](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/designpatternsgame.com/decorator.md)
 
 ## Links
 - [Learning JavaScript: decorator](https://github.com/stage-clear/Learning-javascript/blob/master/Books/978-4-87311-618-1/02/14.md)
