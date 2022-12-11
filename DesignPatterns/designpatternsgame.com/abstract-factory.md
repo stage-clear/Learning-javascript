@@ -1,4 +1,4 @@
-# [Abstract factory]()
+# [Abstract Factory](https://designpatternsgame.com/patterns/abstract_factory)
 
 ```js
 // ES6
