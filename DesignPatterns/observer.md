@@ -20,4 +20,5 @@ __よく使われるメソッド名__
 - [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/observer.md)
 - [JavaScript Design Patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Design-Patterns/observer.md)
 - [JavaScript Patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Patterns/observer.md)
+- [Design Patterns Game](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/designpatternsgame.com/observer.md)
 - [sitepoint.com](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/sitepoint.com/observer.md)
