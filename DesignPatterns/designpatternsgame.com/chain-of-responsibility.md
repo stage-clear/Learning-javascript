@@ -1,4 +1,10 @@
 # [Chain of responsibility](https://designpatternsgame.com/patterns/chain_of_responsibility)
+## 定義
+複数のオブジェクトにリクエストを処理する機会を与えることで、 リクエストの送信者と受信者の結合を避けることができます。受信側のオブジェクトをチェーン化し、あるオブジェクトが処理するまでリクエストをチェーンに沿って渡します。
+
+## こんなときに使う...
+...複数のオブジェクトがリクエストを処理することができ、その情報が 実行時に分かっている場合。
+
 ```js
 class ShoppingCard {
   cunstructor () {
