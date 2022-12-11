@@ -6,3 +6,4 @@
 - [JavaScript patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Patterns/facade.md)
 - [DoFactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/dofactory.com/facade.md)
 - [Design Patterns Game](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/designpatternsgame.com/facade.md)
+- [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/facade.md)
