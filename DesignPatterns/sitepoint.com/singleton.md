@@ -2,13 +2,19 @@
 
 ## 実装例
 ```js
-const _data = []
-
-const UserStore = {
-  add: item => _data.push(item),
-  get: id => _data.find(d => d.id === id)
+class UserStore {
+  constructor () {
+    if (!UserStore.instance) {
+      this._data = []
+      UserStore.instance = this
+    }
+    
+    return UserStore.instance
+  }
 }
 
-Object.freeze(UserStore)
-export default UserStore
+const instance = new UserStore()
+Object.freeze(instance)
+
+export default instance
 ```
