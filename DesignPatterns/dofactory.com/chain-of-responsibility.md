@@ -14,9 +14,7 @@ Request.prototype = {
     return this;
   }
 }
-```
 
-```js
 function run () {
   var request = new Request(378);
   
