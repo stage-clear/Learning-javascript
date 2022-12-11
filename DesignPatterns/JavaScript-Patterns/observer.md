@@ -1,7 +1,7 @@
 # Observer
 既存のオブジェクトにオブサーバーの機能をミックスインする
 
-## 実装例
+## 例その１: 雑誌の購読
 
 ```js
 var publisher = {
@@ -53,30 +53,30 @@ function makePublisher (o) {
 }
 ```
 
-### 2
+### 例) 発行者 paper を実装
 ```js
 // paper オブジェクトは、日刊と月刊の発行を提供します
-let paper = {
-  daily() {
+var paper = {
+  daily: function () {
     this.publish('big news today');
   },
-  monthly() {
+  monthly: function () {
     this.publish('interesting analysis', 'monthly');
   }
 };
 
-// paper will be became "Publisher".
+// paperを発行者にします
 makePublisher(paper);
 ```
 
-### 3
+### 購読者 joe
 ```js
 // Jos is "Subscriber"" 
-let joe = {
-  drinkCoffee(paper) {
+var joe = {
+  drinkCoffee: function (paper) {
     console.log('Just read ' + paper);
   },
-  sundayPreNap(monthly) {
+  sundayPreNap: function (monthly) {
     console.log('About to fall asleep reading this ' + monthly);
   }
 };
@@ -93,16 +93,110 @@ paper.monthly();
 
 // joe を発行者にする
 makePublisher(joe);
-joe.tweet = function(msg) {
+joe.tweet = function (msg) {
   this.publish(msg);
 };
 
 // paper が　joe を購読する
-paper.readTweets = function(tweet) {
+paper.readTweets = function (tweet) {
   alert('Call big meeting! Someone ' + tweet); 
 };
 joe.subscribe(paper.readTweets);
 
 // test
 joe.tweet('hated the paper today');
+```
+
+
+## 例その２: キープレスゲーム
+```js
+function player(name, key) {
+  this.points = 0
+  this.name = name
+  this.key = key
+  this.fire('newplayer', this)
+}
+
+Player.prototype.play = function() {
+  this.points += 1
+  this.fire('play', this)
+}
+
+const scoreboard = {
+  element: document.getElementById('result'),
+  update(score) {
+    let i 
+    let msg = ''
+    
+    for (i in score) {
+      msg += '<p><strong>'+ i +'</strong>:'
+      msg += score[i]
+      msg + = '<\/p>'
+    }
+  }
+}
+
+const game = {
+  keys: {},
+  
+  addPlayer(player) {
+    const key = player.key.toString().charCodeAt(0)
+    this.keys[key] = player
+  },
+  
+  handleKeypress(e) {
+    e = e || window.event
+    if (game.keys[e.which]) {
+      game.keys[e.which].play()
+    }
+  },
+  
+  handlePlay() {
+    let i
+    let players = this.keys
+    let score = {}
+    
+    for (i in players) {
+      if (players.hasOwnProperty(i)) {
+        score[players[i].game] = players[i].points
+      }
+    }
+    
+    this.fire('scorechange', score)
+  }
+}
+
+// 発行設定
+makePublisher(Player.prototype)
+makePublisher(game)
+
+// 購読設定
+Player.prototype.on('newPlayer', 'addPlayer', game)
+Player.prototype.on('play', 'handlePlay', game)
+game.on('scorechange', scoreboard.update, scoreboard)
+window.onkeypress = game.handleKeypress
+
+// Player
+let playername
+let key
+
+// Create a player by manual input
+which(1) {
+  playername = prompt('Add Player (Name)')
+  if (!playername) {
+    break
+  }
+
+  while(1) {
+    key = prompt('Key for ' + playername + '?')
+    if (key) {
+      break
+    }
+  }
+
+  new Player(playername, key)
+}
+
+// Create a player by auto
+new Player('John', 'n')
 ```
