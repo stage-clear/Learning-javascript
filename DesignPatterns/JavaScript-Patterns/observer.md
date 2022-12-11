@@ -4,33 +4,29 @@
 ## 実装例
 
 ```js
-const publisher = {
+var publisher = {
   subscribers: {
-    any: [] // イベントの型: 購読者の配列
+    any: []
   },
-
-  subscribe(fn, type) {
+  subscribe: function (fn, type) {
     type = type || 'any';
     if (typeof this.subscribers[type] === 'undefined') {
       this.subscribers[type] = [];
     }
     this.subscribers[type].push(fn);
   },
-
-  unsubscribe(fn, type) {
+  unsibscribe: function (fn, type) {
     this.visitSubscribers('unsubscribe', fn, type);
   },
-
-  publish(publication, type) {
+  publish: function (publication, type) {
     this.visitSubscribers('publish', publication, type);
   },
-
-  visitSubscribers(action, arg, type) {
-    let pubtype = type || 'any';
-    let subscribers = this.subscribers[pubtype];
-    let i;
-    let max = subscribers.length;
-
+  visitSubscribers: function (action, arg, type) {
+    var pubtype = type || 'any';
+    var subscribers = this.subscribers[pubtype];
+    var i
+    var max = subscribers.length;
+    
     for (i = 0; i < max; i += 1) {
       if (action === 'publish') {
         subscribers[i](arg);
@@ -42,10 +38,12 @@ const publisher = {
     }
   }
 };
+```
 
-// o に publisher のプロパティを継承します
-function makePublisher(o) {
-  let i ;
+```js
+// 次の関数は汎用のメソッドをコピーして、与えられたオブジェクトを発行者にします。
+function makePublisher (o) {
+  var i;
   for (i in publisher) {
     if (publisher.hasOwnProperty(i) && typeof publisher[i] === 'function') {
       o[i] = publisher[i];
