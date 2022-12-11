@@ -1,5 +1,5 @@
 # [JavaScript Design Patterns: Composite](https://www.joezimjs.com/javascript/javascript-design-patterns-composite/)
-- [デモページ](https://www.joezimjs.com/composite-pattern-demo-page/)
+コンポジットとリーフは同一のインターフェイスを持たなければならない
 
 ```js
 var GalleryComposite = function (heading, id) {
@@ -107,3 +107,4 @@ container.add(gallery2);
 container.getElement().appendTo('body');
 container.show();
 ```
+- [デモページ](https://www.joezimjs.com/composite-pattern-demo-page/)
