@@ -21,7 +21,12 @@ Car.prototype = {
 ```
 
 ```js
+// Implementation: Abstract class
+// これは抽象化クラスとなるのでクラス自体はインスタンス化しませんが
+// 本格的なデコレータを作成するためにサブクラス化する必要があります
 var CarDecorator = function (car) {
+  // `CarDecorator` コンストラクターは `Car` と同じ
+  // インターフェイスを実装するオブジェクトを取ります
   this.car = car;
 };
 
