@@ -5,7 +5,6 @@
 
 - [Singleton Desing Pattern](https://sourcemaking.com/design_patterns/singleton)
 
-## 例1) "JavaScript Patterns" での実装
 ## 実装例
 - [JavaScript Patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Patterns/singleton.md)
 - [JavaScript Design Patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Design-Patterns/singleton.md)
