@@ -1,7 +1,7 @@
 # Singleton
 
 ## 実装例
-__静的プロパティにインスタンスをキャッシュする__
+### 静的プロパティにインスタンスをキャッシュする
 
 ```js
 function Universe() {
@@ -26,7 +26,7 @@ var uni2 = new Universe();
 uni1 === uni2 // true
 ```
 
-__クロージャにインスタンスをキャッシュする__
+### クロージャにインスタンスをキャッシュする
 
 ```js
 function Universe() {
@@ -53,7 +53,7 @@ uni1 === uni2 // true
 
 ```js
 function Universe() {
-  // chaced instance
+  // chached instance
   var instance = this;
 
   // rewrite the constructor
