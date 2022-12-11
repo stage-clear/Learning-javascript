@@ -1,3 +1,5 @@
+# [Abstract factory]()
+
 ```js
 // ES6
 function droidProducer (kind) {
