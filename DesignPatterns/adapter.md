@@ -5,5 +5,5 @@
 
 - [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/adapter.md)
 - [DoFactory](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/dofactory.com/adapter.md)
+- [Design Patterns Game](https://github.com/stage-clear/Learning-javascript/tree/master/DesignPatterns/designpatternsgame.com)
 
-## Link
