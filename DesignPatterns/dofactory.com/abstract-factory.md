@@ -1,6 +1,6 @@
-/**
- * @see https://www.dofactory.com/javascript/design-patterns/abstract-factory
- */
+# [Abstract Factory](https://www.dofactory.com/javascript/design-patterns/abstract-factory)
+
+```js
 function Employee (name) {
   this.name = name;
   
@@ -41,3 +41,4 @@ function run () {
     persons[i].say();
   }
 }
+```
