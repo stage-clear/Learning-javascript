@@ -1,4 +1,4 @@
-# ステート
+# ステートパターン
 
 ## 実装例
 - [JavaScript Design Patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Design-Patterns/state.md)
