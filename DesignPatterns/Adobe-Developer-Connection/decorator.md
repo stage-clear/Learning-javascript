@@ -5,6 +5,7 @@ var Car = function () {
   console.log('Assemble: build frame, add core parts');
 };
 
+// The decorators will also need to implement this interface
 // デコレーターもこのインターフェースを実装する必要があります
 Car.prototype = {
   start: function () {
