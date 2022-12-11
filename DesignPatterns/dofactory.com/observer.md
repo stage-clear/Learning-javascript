@@ -1,4 +1,4 @@
-# Observer](https://www.dofactory.com/javascript/design-patterns/observer)
+# [Observer](https://www.dofactory.com/javascript/design-patterns/observer)
 ## 定義
 Observerパターンは、オブジェクトがイベントを購読し、イベントが発生したときに通知を受けるという購読モデルを提供します。
 このパターンはJavaScriptを含むイベント駆動型プログラミングの基礎となるものです。
