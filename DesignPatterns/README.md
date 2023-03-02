@@ -10,6 +10,7 @@
 - [モジュール](module.md)
 - [リビーリングモジュール](revealing-module.md)
 - [サブクラス化](subclass.md)
+- [ミックスイン](mixin.md)
 
 |構造|||
 |:-|:-|:-:|
