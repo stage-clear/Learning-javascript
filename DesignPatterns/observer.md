@@ -1,5 +1,6 @@
 # オブザーバー
-![IMG_B68C574D43D4-2](https://user-images.githubusercontent.com/4797793/222316299-f40a7b96-a05b-4e2d-9c69-57853aee89cd.jpeg)
+
+![IMG_4FEDA17B8627-1](https://user-images.githubusercontent.com/4797793/222316585-d58df938-aa04-4a18-9452-b10df4743e3e.jpeg)
 
 ## 概要
 オブザーバーパターンの実装方法には、プッシュとプルの2つがあります。 
@@ -19,6 +20,9 @@ __よく使われるメソッド名__
 
 ## 派生
 - [発行/購読パターン](https://github.com/kesuiket/js-snippets/blob/master/codes/eventEmitter/pubsub.js)
+
+### オブザーバーパターンと発行/購読パターンの違い
+![IMG_B68C574D43D4-2](https://user-images.githubusercontent.com/4797793/222316299-f40a7b96-a05b-4e2d-9c69-57853aee89cd.jpeg)
 
 ## 実装例
 - [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/observer.md)
