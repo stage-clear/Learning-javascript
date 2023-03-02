@@ -1,5 +1,5 @@
 # Mediator
-<img src="https://user-images.githubusercontent.com/4797793/191047407-6aa6f77e-9df6-4a33-b5cd-2eef688c6fb0.jpeg" />
+![IMG_2A4E5F33F77A-1](https://user-images.githubusercontent.com/4797793/222321663-cd043217-573a-44a2-a2e7-12ae1dbc873c.jpeg)
 
 メディエータとは振る舞いのデザインパターンであり、システムのさまざまな部品が相互にコミュニケーションできるように統一インターフェイスを公開するものです。
 
