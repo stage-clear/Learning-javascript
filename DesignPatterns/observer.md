@@ -16,6 +16,9 @@ __よく使われるメソッド名__
 |unsubscribe|`unsubscribe` `off` `remove` `unobserve`|
 |publish|`publish` `broadcast` `emit` `fire`|
 
+## 派生
+- [発行/購読パターン](https://github.com/kesuiket/js-snippets/blob/master/codes/eventEmitter/pubsub.js)
+
 ## 実装例
 - [Adobe Developer Connection](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/Adobe-Developer-Connection/observer.md)
 - [JavaScript Design Patterns](https://github.com/stage-clear/Learning-javascript/blob/master/DesignPatterns/JavaScript-Design-Patterns/observer.md)
