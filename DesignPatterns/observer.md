@@ -1,4 +1,5 @@
 # オブザーバー
+![IMG_B68C574D43D4-2](https://user-images.githubusercontent.com/4797793/222316299-f40a7b96-a05b-4e2d-9c69-57853aee89cd.jpeg)
 
 ## 概要
 オブザーバーパターンの実装方法には、プッシュとプルの2つがあります。 
