@@ -1,4 +1,5 @@
 # コンストラクタパターン
+![IMG_8D0323C130BB-1](https://user-images.githubusercontent.com/4797793/222317009-13241aa1-86b0-442d-a8c0-34b8ae6a5f5d.jpeg)
 
 ```js
 function Car (model, year, miles) {
