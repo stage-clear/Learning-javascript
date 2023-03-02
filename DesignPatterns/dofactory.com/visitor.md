@@ -1,4 +1,4 @@
-# [Visiter](https://www.dofactory.com/javascript/design-patterns/visitor)
+# [Visitor](https://www.dofactory.com/javascript/design-patterns/visitor)
 ## 定義
 Visitorパターンは、オブジェクト自体を変更することなく、オブジェクトのコレクションに新しい操作を定義する。新しいロジックはVisitorと呼ばれる別のオブジェクトに存在する。
 
