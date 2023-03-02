@@ -34,7 +34,7 @@
 |[ステート](state.md)|状態が変わったときにオブジェクトの振る舞いを変える|**`Object`**|
 |[ストラテジー](strategy.md)|クラス内部のアルゴリズムをカプセル化し、アルゴリズムの選択をクラスの実装から独立させる|**`Object`**|
 |[ビジター](visitor.md)|クラスを変更することなく、そのクラスに新たなオペレーションを追加する|**`Object`**|
-
+- [発行/購読パターン](https://github.com/kesuiket/js-snippets/blob/master/codes/eventEmitter/pubsub.js)
 
 ## 参考書
 - [JavaScript Design Patterns - Joe Zim's JavaScript Corner](https://www.joezimjs.com/tag/design-patterns/)
