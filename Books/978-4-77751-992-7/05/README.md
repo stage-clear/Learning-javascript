@@ -32,6 +32,7 @@ function showMultiplyDecimal(numA:number, numB:number, dp:number):string {
   return `${numA}と${numB}をかけると${(numA * numB).toFixed(dp)}`
 }
 ```
+<sup>* dp = decimal places</sup>
 
 ```ts
 // 5-4. トップレベルの処理
