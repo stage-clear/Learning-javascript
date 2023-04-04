@@ -24,3 +24,8 @@
 ## 参考
 - [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
 - [モナド則がちょっと分かった？](https://qiita.com/7shi/items/547b6137d7a3c482fe68)
+
+## 参考書籍
+- [JavaScript で学ぶ関数型プログラミング](Books/978-4-87311-660-0/) :star:
+- [JavaScript関数型プログラミング 複雑性を抑える発想と実践法を学ぶ](Books/978-4-2950-0113-3/)
+- [関数型プログラミングの基礎 JavaScriptを使って学ぶ](Books/978-4-86594-059-6/)
