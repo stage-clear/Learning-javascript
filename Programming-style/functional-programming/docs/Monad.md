@@ -8,6 +8,8 @@
 - 関数の合成をサポートする
 - デフォルト値の提供ロジックを一元化する
 
+[サンプルコード](https://codesandbox.io/s/maybe-monads-g771rw)
+
 ## その他
 
 - [モナド](https://bit.ly/43ex3VT)
