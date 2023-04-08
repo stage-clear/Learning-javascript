@@ -19,6 +19,12 @@
 - [フォールトトレラント](https://bit.ly/3KIvlor)
 - [命令型エラー処理の問題点](docs/try-catch-problems.md)
 
+|クラス|ストリームを出力|セルを出力|値を出力|
+|:-|:-|:-|:-|
+| Stream | `map()`<br>`merge()` / `orElse()`<br>`snapshot()`<br>`filter()`<br>`never` / `new Stream()`| `hold()` | |
+| Cell | `switchS()` | `map()`<br>`lift()`<br>`new Cell(定数)`<br>`switchC()` | `sample()` |
+
+
 ## 関数型プログラミングの JavaScript ライブラリ
 - [Underscore.js](http://underscorejs.org/)
 - [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
