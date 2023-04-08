@@ -11,7 +11,7 @@ _<sup>Monads</sup>_<br>
 そして、モナド型の全てが次に挙げるインターフェースに準拠しなければなりません。
 
 |名前|説明|例|
-|:-|:-|:-:|
+|:-|:-|:-|
 |**型コンストラクタ<sup>\*1</sup>**|モナド型を生成する（型構築子）|コンストラクタ|
 |**ユニット関数**|ある型の値をモナド構造（_Monadic structure_）に挿入する。モナド内部に実装された場合は、`of`関数と呼ぶ|`of` `wrap` `empty`|
 |**バインド関数**|処理をチェーン化する（mapやflatMapとしても知られている）。|`map` `fmap` `flatMap`|
@@ -31,11 +31,11 @@ _<sup>Monads</sup>_<br>
 - `Just(value)`: 定義した値をラッピングするコンテナを表す
 - `Nothing()`: 値を持たないコンテナ、または追加情報の必要がない失敗を表す。Nothingの場合でも、（この場合は存在しない）その値に関数を適用できる
 
-[サンプルコード: Maybe モナド](https://codesandbox.io/s/maybe-monads-g771rw?file=/src/maybe.ts)
+▶️ [サンプルコード: Maybe モナド](https://codesandbox.io/s/maybe-monads-g771rw?file=/src/maybe.ts)
 
 ### Either
 
-[サンプルコード: Either モナド](https://codesandbox.io/s/either-monad-h4f56b?file=/src/either.ts)
+▶️ [サンプルコード: Either モナド](https://codesandbox.io/s/either-monad-h4f56b?file=/src/either.ts)
 
 ## その他
 
