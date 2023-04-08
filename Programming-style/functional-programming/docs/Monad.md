@@ -8,7 +8,11 @@
 - 関数の合成をサポートする
 - デフォルト値の提供ロジックを一元化する
 
-[サンプルコード](https://codesandbox.io/s/maybe-monads-g771rw)
+### Maybeでnullチェックを一元化
+- `Just(value)`: 定義した値をラッピングするコンテナを表す
+- `Nothing()`: 値を持たないコンテナ、または追加情報の必要がない失敗を表す。Nothingの場合でも、（この場合は存在しない）その値に関数を適用できる
+
+[サンプルコード: JustおよびNothingの各サブクラスを作ったMaybeモナド](https://codesandbox.io/s/maybe-monads-g771rw?file=/src/maybe.ts)
 
 ## その他
 
