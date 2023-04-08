@@ -18,7 +18,7 @@
 
 - [フォールトトレラント](https://bit.ly/3KIvlor)
 
-## 関数型プログラミングのライブラリ
+## 関数型プログラミングの JavaScript ライブラリ
 - [Underscore.js](http://underscorejs.org/)
 - [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
 - [lodash.js](https://lodash.com/)
