@@ -16,6 +16,8 @@
 |モナド||
 |恒等関数|`Identity function` <br>入力値をまったく同じ数値に変換して返す|
 
+- [フォールトトレラント](https://bit.ly/3KIvlor)
+
 ## 関数型プログラミングのライブラリ
 - [Underscore.js](http://underscorejs.org/)
 - [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
