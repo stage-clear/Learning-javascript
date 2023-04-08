@@ -33,6 +33,8 @@
 - [Ramda.js](https://ramdajs.com/)
 - [RxJS](https://rxjs.dev/)
 - [bilby.js](https://github.com/puffnfresh/bilby.js)
+- [Fantasy Land](https://github.com/fantasyland/fantasy-land)
+- [Falktale.js](https://github.com/origamitower/folktale)
 
 ## 参考
 - [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
