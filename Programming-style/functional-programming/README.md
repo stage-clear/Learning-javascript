@@ -22,6 +22,9 @@
 - [Underscore.js](http://underscorejs.org/)
 - [underscore-contrib](https://github.com/documentcloud/underscore-contrib)
 - [lodash.js](https://lodash.com/)
+- [Immutable.js](https://immutable-js.com/)
+- [Ramda.js](https://ramdajs.com/)
+- [RxJS](https://rxjs.dev/)
 - [bilby.js](https://github.com/puffnfresh/bilby.js)
 
 ## 参考
