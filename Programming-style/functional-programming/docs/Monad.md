@@ -31,7 +31,10 @@ _<sup>Monads</sup>_<br>
 
 ▶️ [Maybe モナド](https://codesandbox.io/s/maybe-monads-g771rw?file=/src/maybe.ts)
 
-### Either
+### Either モナドを使って失敗から回復する
+
+- `Left(a)`: 起こりうるエラーメッセージを投げる例外オブジェクトを格納
+- `Right(b)`: 成功値を格納
 
 ▶️ [Either モナド](https://codesandbox.io/s/either-monad-h4f56b?file=/src/either.ts)
 
