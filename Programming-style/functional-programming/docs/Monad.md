@@ -43,5 +43,5 @@ _<sup>Monads</sup>_<br>
 ▶️ [IO モナド](https://codesandbox.io/s/io-monad-w9ks7m?file=/src/io.ts)
 
 ## その他
-
+- [JavaScriptのモナド POSTD](https://postd.cc/monads-in-javascript/)
 - [モナド](https://bit.ly/43ex3VT)
