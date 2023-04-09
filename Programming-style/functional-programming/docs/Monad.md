@@ -13,7 +13,7 @@ _<sup>Monads</sup>_<br>
 |名前|説明|例|
 |:-|:-|:-|
 |**型コンストラクタ**|モナド型を生成する（型構築子）|コンストラクタ|
-|**ユニット関数**|ある型の値をモナド構造（_Monadic structure_）に挿入する。モナド内部に実装された場合は、`of`関数と呼ぶ|`of` `wrap` `empty`|
+|**ユニット関数**|ある型の値をモナド構造（_Monadic structure_）に挿入する。モナド内部に実装された場合は、`of`関数と呼ぶ|`of` `wrap` `empty` `pure`|
 |**バインド関数**|処理をチェーン化する（mapやflatMapとしても知られている）。|`map` `fmap` `flatMap`|
 |**ジョイン（結合）処理**|モナド構造のレイヤーを単層に平坦化する。特にモナドを返す関数について複数個合成する際に重要|`join`|
 
@@ -28,6 +28,8 @@ _<sup>Monads</sup>_<br>
 ### Maybe で null チェックを一元化
 - `Just(value)`: 定義した値をラッピングするコンテナを表す
 - `Nothing()`: 値を持たないコンテナ、または追加情報の必要がない失敗を表す。Nothingの場合でも、（この場合は存在しない）その値に関数を適用できる
+
+<sup>* Java8　ではそれぞれ `Some` `None`</sup>
 
 ▶️ [Maybe モナド](https://codesandbox.io/s/maybe-monads-g771rw?file=/src/maybe.ts)
 
