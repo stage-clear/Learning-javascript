@@ -35,6 +35,7 @@
 - [bilby.js](https://github.com/puffnfresh/bilby.js)
 - [Fantasy Land](https://github.com/fantasyland/fantasy-land)
 - [Falktale.js](https://github.com/origamitower/folktale)
+- [sodium (haskell)](https://hackage.haskell.org/package/sodium)
 
 ## 参考
 - [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
