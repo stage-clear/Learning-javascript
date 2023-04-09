@@ -44,4 +44,5 @@ _<sup>Monads</sup>_<br>
 
 ## その他
 - [JavaScriptのモナド POSTD](https://postd.cc/monads-in-javascript/)
+- [モナド則](https://www.sampou.org/haskell/a-a-monads/html/laws.html)
 - [モナド](https://bit.ly/43ex3VT)
