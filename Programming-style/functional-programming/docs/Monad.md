@@ -29,7 +29,7 @@ _<sup>Monads</sup>_<br>
 - `Just(value)`: 定義した値をラッピングするコンテナを表す
 - `Nothing()`: 値を持たないコンテナ、または追加情報の必要がない失敗を表す。Nothingの場合でも、（この場合は存在しない）その値に関数を適用できる
 
-<sup>* Java8　ではそれぞれ `Some` `None`</sup>
+<sup>* Java8ではそれぞれ `Some` `None`</sup>
 
 ▶️ [Maybe モナド](https://codesandbox.io/s/maybe-monads-g771rw?file=/src/maybe.ts)
 
