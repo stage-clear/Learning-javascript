@@ -50,4 +50,5 @@ _<sup>Monads</sup>_<br>
 - [モナド](https://bit.ly/43ex3VT)
 - [有名なモナド](https://zenn.dev/sterashima78/books/9dd0db90a6e532/viewer/3c99f4)
 - [sodium-typescript-example](https://github.com/graforlock/sodium-typescript-examples/tree/petrol-pump/src)
+- [Monad](https://github.com/luijar/functional-programming-js/tree/master/src/model/monad) luijar/functional-programming-js
 - [monet.js](https://github.com/monet/monet.js)
